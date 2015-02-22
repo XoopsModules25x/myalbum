@@ -1,0 +1,68 @@
+TODO:
+
+- thumbnails can be uploaded with main images (3.0 or as another module)
+- category table extension (3.0 or as another module)
+- import & export between myAlbum-P and another modules
+- tar.gz or zip upload
+- vote data manager
+- also search into comments
+- remake redothumbs.php
+- remake batch.php
+- slide show
+- JavaScript animation
+
+- (mymenu) remove preferences from menuitem when he is not an admin.
+
+phppp
+feature request:
+1 group permission for categories and items
+2 featured photos (like digest in forum/articles, judeged by moderators)
+3 watermark 
+4 random display
+
+
+-------------
+by kaper on 2004/8/2 19:24:05
+
+Feature Request
+
+I would like to have some pattern editing features available for automatic modification of title / description. I use IrfanView for preparing my photos to publication. That program has a function of batch renaming. You can compose new name using patterns. I would like MyAlbum to allow creating new name using similar patterns like:
+
+string PATTERN string
+
+The patterns could be like:
+
+### - successive number (of processed photos, with trailing zeros and numbering step as a parameter)
+
+$ - previous text (title / description)
+
+% - original filename
+-------------
+
+=import categories recursively
+
+-------------
+
+=templatize submit.php and editphoto.php
+
+------------ 
+
+=IMAGE TYPES=
+  file system (original)
+  DB stored
+  url (external)
+
+
+=FIELDS=
+
+table_photos:
+ -image type
+ -original filename
+ -stored filename (main&thumb)
+
+table_cat:
+ -weight
+ -depth
+ -description
+ -allowed_ext
+

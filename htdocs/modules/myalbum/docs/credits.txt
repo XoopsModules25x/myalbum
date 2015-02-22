@@ -1,0 +1,23 @@
+Read Me First
+=============
+
+This module has been created originally by GIJoe <gij@peak.ne.jp>
+
+Although myAlbum-P started from a debugging version of daniel's myAlbum 1.1.3 historically,
+codes of the recent version has very little relation to daniel's myAlbum.
+
+However, myAlbum-P uses images from daniel's myAlbum.
+This is the reason why I never eliminate daniel's name and URL from credit or footer.
+
+Thanks to:
+  Daniel Branco (original author)
+  Jan Inge Pettersen (icons)
+  Cinammons (original Japanese language files)
+  Horacio Salazar (Spanish language files)
+  xoobs (traditional&simple Chinese language files)
+  D.J. aka phppp (simple Chinese language files)
+  Olivier (French language files)
+  Leif Madsen (Swedish language files)
+  Oliver Zancul Prado (Portugues language files)
+  Jan Deeben (Nederlands language files)
+  NickeL (Italian language files)

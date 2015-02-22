@@ -1,0 +1,88 @@
+HOW TO INSTALL:
+
+- Unzip in "modules" directory.
+- Configure this module in admin section.
+- Check module environment in the photo album admin section.
+- Create a Categories in the photo album admin section.
+- If you didnot set, chmod 777 your xoops uploads directory.
+- If your server runs "safe_mode on", create photos & thumbs directory manually.
+- Start uploading photos! :)
+
+
+
+
+HOW TO UPGRADE (from older myAlbum-P or myAlbum 1.1.3):
+- Unzip in "modules" directory.
+- Update this module in module administration.
+- Set photos/thumbs directories properly in myAlbum-P's admin.
+  (If you used daniel's myalbum, photos directory may be /modules/myalbum/photos and thumbnails directory may be /modules/myalbum/photos/thumbs)
+- chmod 777 (or 707) photos and photos/thumbs directories (if needed)
+- If you used custom template set, remake myalbum_photo.html and myalbum_photo_in_list.html
+
+Don't forget updating this module !
+
+Since some permissioning system has been changed, you should recheck each group's permissions from "Global Permissions" in myAlbum-P's admin, after updating this module.
+
+
+
+
+
+
+HOW TO use myAlbum-P multiply
+
+copy the directory of modules/myalbum/ into modules/myalbum* entirely.
+(Symbolic linking will not be useful. Because __FILE__ returns true file path.)
+
+The directory names are usable like this:
+
+myalbum0
+myalbum1
+myalbum2
+
+Thus, you can use 4 of myAlbum-P at same time.
+If you want to use more myAlbum-P's as separated modules, use mk_templates.sh and mk_slogo.sh, and edit sql/myalbum*.sql manually.
+
+The important notice: the 1st one should not be older than 2.7.
+If you've already use myAlbum-P 2.6x or older, update it at first.
+
+
+
+HOW TO use imagemanager integration:
+
+There are two ways to integrate XOOPS imagemanager.
+
+1) overwrite imagemanager.php by modules/myalbum/imagemanager.php
+This is the easiest way, but is not smart.
+
+2) add a line into original imagemanager.php like this:
+line 28:
+---------------------------------------------------
+include './mainfile.php';
+include 'modules/myalbum/imagemanager.php';  // add this line
+if (!isset($HTTP_GET_VARS['target']) && !isset($HTTP_POST_VARS['target'])) {
+	exit();
+}
+---------------------------------------------------
+Though this way is a little bit more difficult than overwriting method,
+you can turn on/off myalbum's hook easily.
+
+When you use myAlbum-P with multiple, you can specify the module like this:
+
+include 'modules/myalbum0/imagemanager.php';  // add this line
+
+If you want to use ImageManager Integration as Simplified Attachment Manager, change the preferences of myAlbum-P.
+
+eg) If you want to upload and attach PDFs via ImageManager:
+- Enable ImageManager Integration like described above.
+- set 'jpg|jpeg|gif|png|pdf' in "File extensions can be uploaded"
+- set blank as "MIME Types can be uploaded"
+
+
+
+
+
+enjoy!
+
+
+GIJ=CHECKMATE
+

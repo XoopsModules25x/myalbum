@@ -1,0 +1,407 @@
+2014-01-13 v3.07 RC 4
+- fix: sorting in the category view (walkero/mamba)
+- partial update to PSR-2 (mamba)
+- replacing broder with border (walkero/mamba)
+- replacing $i++ with ++$i (mamba)
+- fixing template (Tampeko/bleekk)
+
+2013-08-08 v3.07 RC 3
+- fix: image is not sized properly (mamba)
+- fix: in PhotoManagement, MyAlbum deletes all pictures, regardless which were selected (mamba)
+- updated to XOOPS Admin GUI (mamba)
+- fix: pagination in front, as well as in Submitted Photos tab (mamba)
+- fix: missing Smarty variables (mamba)
+- fix: blocks when there is no Tag module (mamba)
+- fix: missing variables in blocks (mamba)
+- added: delete icons in photo views (mamba)
+- added: breaks in HTML code for bettel look of categories (edipinho)
+
+2012-06-26 v3.06
+- fixed many bugs (cesag/black_beard)
+
+2012-03-26 v3.05
+ - added /admin/groupperm_global.php file copied from previous version (wishcraft)
+ - changes /viewcat.php line 75-76 alter to fix error reported by HuntNetwork see xoops.org (wishcraft)
+
+2011-12-15 v3.01b
+ - added /docs folder added and documents moved into folder (wishcraft)
+ - added /class/photos.php Class modeler for Photos Table (wishcraft)
+ - added /class/cat.php Class modeler for Category Table (wishcraft)
+ - added /class/text.php Class modeler for Text Table (wishcraft)
+ - added /class/votedata.php Class modeler for Votedata Table (wishcraft)
+ - added /class/comments.php Class modeler for Core XOOPS Comments Table (wishcraft)
+ - added /admin/dashboard.php Dashboard for XOOPS 2.5 GUI (wishcraft)
+ - added /admin/about.php About for XOOPS 2.5 GUI (wishcraft)
+ - added /block/myalbum_block_tag.php Blocks for TAG Module (wishcraft)
+ - added /block/myalbum0_block_tag.php Blocks for TAG Module (wishcraft)
+ - added /block/myalbum1_block_tag.php Blocks for TAG Module (wishcraft)
+ - added /block/myalbum2_block_tag.php Blocks for TAG Module (wishcraft)
+ - added /include/myalbum.forms.php Forms Handling Function PHP File (wishcraft)
+ - added /templates/blocks/myalbum_tag_block_cloud.html TAG module Block Cloud (wishcraft)
+ - added /templates/blocks/myalbum_tag_block_top.html TAG module Block Top Tags (wishcraft)
+ - added /templates/blocks/myalbum0_tag_block_cloud.html TAG module Block Cloud (wishcraft)
+ - added /templates/blocks/myalbum0_tag_block_top.html TAG module Block Top Tags (wishcraft)
+ - added /templates/blocks/myalbum1_tag_block_cloud.html TAG module Block Cloud (wishcraft)
+ - added /templates/blocks/myalbum1_tag_block_top.html TAG module Block Top Tags (wishcraft)
+ - added /templates/blocks/myalbum2_tag_block_cloud.html TAG module Block Cloud (wishcraft)
+ - added /templates/blocks/myalbum2_tag_block_top.html TAG module Block Top Tags (wishcraft)
+ - added /templates/myalbum_cpanel_admission.html Control panel template for admin admission (wishcraft)
+ - added /templates/myalbum_cpanel_batch.html Control panel template for admin batch import (wishcraft)
+ - added /templates/myalbum_cpanel_export.html Control panel template for admin export functions (wishcraft)
+ - added /templates/myalbum_cpanel_import.html Control panel template for admin import functions (wishcraft)
+ - added /templates/myalbum_cpanel_permissions.html Control panel template for admin permssions functions (wishcraft)
+ - added /templates/myalbum0_cpanel_admission.html Control panel template for admin admission (wishcraft)
+ - added /templates/myalbum0_cpanel_batch.html Control panel template for admin batch import (wishcraft)
+ - added /templates/myalbum0_cpanel_export.html Control panel template for admin export functions (wishcraft)
+ - added /templates/myalbum0_cpanel_import.html Control panel template for admin import functions (wishcraft)
+ - added /templates/myalbum0_cpanel_permissions.html Control panel template for admin permssions functions (wishcraft)
+ - added /templates/myalbum1_cpanel_admission.html Control panel template for admin admission (wishcraft)
+ - added /templates/myalbum1_cpanel_batch.html Control panel template for admin batch import (wishcraft)
+ - added /templates/myalbum1_cpanel_export.html Control panel template for admin export functions (wishcraft)
+ - added /templates/myalbum1_cpanel_import.html Control panel template for admin import functions (wishcraft)
+ - added /templates/myalbum1_cpanel_permissions.html Control panel template for admin permssions functions (wishcraft)
+ - added /templates/myalbum2_cpanel_admission.html Control panel template for admin admission (wishcraft)
+ - added /templates/myalbum2_cpanel_batch.html Control panel template for admin batch import (wishcraft)
+ - added /templates/myalbum2_cpanel_export.html Control panel template for admin export functions (wishcraft)
+ - added /templates/myalbum2_cpanel_import.html Control panel template for admin import functions (wishcraft)
+ - added /templates/myalbum2_cpanel_permissions.html Control panel template for admin permssions functions (wishcraft)
+ - added /list.tag.php modified to TAG module (wishcraft)
+ - added /view.tag.php modified to TAG module (wishcraft)
+ - added /rss.php modified to support RSS Feed of Content (wishcraft)
+ - modified /admin/admin_header.php header modified to support XOOPS 2.5 GUI (wishcraft)
+ - modified /admin/admission.php admission modified to support XOOPS 2.5 GUI (wishcraft)
+ - modified /admin/batch.php Batch Import modified to support XOOPS 2.5 GUI (wishcraft)
+ - modified /admin/export.php Export to other myalbum-p modified to support XOOPS 2.5 GUI (wishcraft)
+ - modified /admin/groupperm_global.php Permission handler modified to support XOOPS 2.5 GUI (wishcraft)
+ - modified /admin/import.php Import to other myalbum-p modified to support XOOPS 2.5 GUI (wishcraft)
+ - modified /admin/index.php category handler to other myalbum-p modified to support XOOPS 2.5 GUI (wishcraft)
+ - modified /admin/menu.php admin menu modified to support XOOPS 2.5 GUI (wishcraft)
+ - modified /admin/mygroupperm.php PHp 5.x command calls implemented (wishcraft)
+ - modified /admin/photomanager.php Photo manager handler to other myalbum-p modified to support XOOPS 2.5 GUI (wishcraft)
+ - modified /admin/redothumbs.php Redo Thumbnails handler to other myalbum-p modified to support XOOPS 2.5 GUI (wishcraft)
+ - modified /images/myalbum_slogo.gif Blue Room Icon Generated (wishcraft)
+ - modified /images/myalbum0_slogo.gif Blue Room Icon Generated (wishcraft)
+ - modified /images/myalbum1_slogo.gif Blue Room Icon Generated (wishcraft)
+ - modified /images/myalbum2_slogo.gif Blue Room Icon Generated (wishcraft)
+ - modified /include/assign_globals.php modified to support XOOPS Blue Room & Class Modeler (wishcraft)
+ - modified /include/comment_functions.php modified to support XOOPS Blue Room & Class Modeler (wishcraft)
+ - modified /include/draw_functions.php modified to support XOOPS Blue Room & Class Modeler (wishcraft)
+ - modified /include/get_perms.php modified to support XOOPS Blue Room & Class Modeler (wishcraft)
+ - modified /include/onupdate.inc.php modified to support TAG module and fields (wishcraft)
+ - modified /include/read_configs.php modified to support XOOPS Blue Room & Class Modeler (wishcraft)
+ - modified /language/english/admin.php modified to support XOOPS Blue Room (wishcraft)
+ - modified /language/english/main.php modified to support XOOPS Blue Room (wishcraft)
+ - modified /language/english/modinfo.php modified to support XOOPS Blue Room (wishcraft)
+ - modified /sql/myalbum.sql modified to MySQL 5.x Standard, INNODB Engine & Tag Module Fields (wishcraft)
+ - modified /sql/myalbum0.sql modified to MySQL 5.x Standard, INNODB Engine & Tag Module Fields (wishcraft)
+ - modified /sql/myalbum1.sql modified to MySQL 5.x Standard, INNODB Engine & Tag Module Fields (wishcraft)
+ - modified /sql/myalbum2.sql modified to MySQL 5.x Standard, INNODB Engine & Tag Module Fields (wishcraft)
+ - modified /comment_post.php modified to Blue Room Class Modeler (wishcraft)
+ - modified /editphoto.php modified to Blue Room Class Modeler & SEO (wishcraft)
+ - modified /header.php modified to Blue Room Class Modeler & SEO (wishcraft)
+ - modified /imagemanager.php modified to Blue Room Class Modeler & SEO (wishcraft)
+ - modified /index.php modified to Blue Room Class Modeler & SEO (wishcraft)
+ - modified /photo.php modified to Blue Room Class Modeler & SEO (wishcraft)
+ - modified /ratephoto.php modified to Blue Room Class Modeler & SEO (wishcraft)
+ - modified /submit.php modified to Blue Room Class Modeler & SEO (wishcraft)
+ - modified /topten.php modified to Blue Room Class Modeler & SEO (wishcraft)
+ - modified /viewcat.php modified to Blue Room Class Modeler & SEO (wishcraft)
+ - modified /xoops_version.php modified to Blue Room Class Modeler & SEO (wishcraft)
+
+2004-10-4 v2.84
+ - modified ImageManagerIntegration can treat non-image files (AttachmentManager)
+ - added an option which specifies the default listing order
+ - modified that img tags have not only alt but also title property
+ - added delete button on admin's admission (thx karuna)
+ - fixed a bug rendering options for categories (thx Tom_G3X)
+ - added italian language (thx NickeL)
+ - updated schinese language (thx phppp)
+
+2004-7-31 v2.83
+ - added photo columns into each blocks (thx rocket98)
+ - fixed default templates not to display posting icon to non-priv-users (thx rocket98)
+ - fixed adding meta headers into submit.php called by IMI (thx phppp)
+ - fixed myalbum.textsanitizer to separated some codes into langs (thx phppp)
+ - modified non-image files can be shown in random block (thx okatti)
+ - updated myblocksadmin into 0.07
+ - updated schinese language (thx phppp)
+
+2004-7-8 v2.82
+ - fixed a bug in listing categories (thx cradeg)
+
+2004-7-5 v2.81
+ - fixed looping check routine (thx boufa)
+ - fixed treating with ghost categories (thx cradeg & boufa)
+ - eliminated some codes using buggy xoops_substr() (thx namhil & boufa)
+ - added mbstring routine for some environment (thx Marijuana)
+ - fixed some links not ended '/' (thx Marijuana)
+ - added some global permissions on intall (thx Marijuana)
+ - updated swedish language (thx Leif Madsen)
+
+2004-6-25 v2.80
+ - remade the default design using crystal icons. (thx to all of icon authors)
+ - added class MyAlbumTextSanitizer extends MyTextSanitizer
+ - added tag [siteimg]
+ - added tag [summary][/summary] only text inside this tag will be displayed in summary view
+ - applied with Windows environment (If you want to use Windows Server with ImageMagick, try blank as the path of ImageMagick)
+ - added a mode ImageManager Integration outputs [siteimg] tags
+ - updated myblocksadmin & mymenu
+ - changed names of functions using prefix "myalbum_" (eg. applied the problem of redeclaring convertorderbyin() )
+ - fixed some SQL injection vulnerablities
+ - and many other slight bugs are patched
+
+2004-5-25 v2.75b
+ - fixed import.php from myAlbum-P (thx okatti)
+
+2004-5-22 v2.75a
+ - fixed a fatal bug which user's posts is cleared when he submit (thx sfdb).
+ -- 2.73 , 2.74 and 2.75 have this problem.
+
+2004-5-21 v2.75
+ - fixed uid don't specified in order link (thx bordacs)
+ - modified icon gifs larger
+ - eliminate 'PHP_SELF'
+
+2004-5-19 v2.74
+ - added middle size calculation in photo.php (thx ellecat)
+ - fixed wrong links in photo.php (thx sfdb, efla)
+ - fixed a bug in specifying date of last modified
+ - changed myalbum_slogo.gif using font 04b_03b (thx Herko & Y.Kishino)
+ - changed logo.gif like mydownloads (thx LARABIE FONTS)
+
+2004-5-17 v2.73
+ - added batch update into photo manager (thx efla)
+ - added a drop-down box allowing him a direct access to any categories or/and sub-categories. (thx efla)
+ - fixed a bug category selection is not stored in preview. (thx Elleomea)
+ - fixed a bug of catview.php in table view (thx Snoopy)
+
+2004-5-13 v2.72a modification about a compatibility with PHP Accelerator
+ - the order of templates is changed back to the same as 2.6
+ - modified category should be selected (thx sfdb)
+ - modified putting some space between 2 lines of thumbs in the table view (thx efla)
+ - modified "mymenu" can be also displayed in preferences
+
+2004-5-7 v2.72 some modifications
+ - modified treating files other than images
+ - modified redo thumbnails
+ - modified preview
+
+2004-5-7 v2.71 bug fixed
+ - fixed a problem which caps extensions treated as not image files
+
+2004-5-5 v2.70 release
+ - added page navigation into recent list of top page
+ - added limitation of photos in block displaying
+ - added category's name ($photo.cat_title) into template myalbum*_photo_in_list.html
+ - added term for rotation of random image
+ - added import from imagemanager
+ - added export to imagemanager
+ - added a top menu for admin ("mymenu")
+ - remade category's admin (renamed as index.php)
+ - allowed to upload another type of files (swf,avi etc.)
+  - For such implementations, I use the icons of filemanager 3.0
+   - thx to the author Jan Inge Pettersen(Xend) http://www.xendtech.com/
+
+2004-4-5 v2.70 beta 03
+ - use myuploader.php instead of class/uploader.php in XOOPS core.
+   (Security reason)
+ - added import from another myAlbum-P modules.
+ - navigation at bottom as well (thx mariuss)
+ - New language
+  - Nederlands (thx Jan Deeben)
+
+2004-3-9 v2.70 beta 02
+ - fixed typo in xoops_version.php and notification.inc.php
+ - fixed typo in templates for duplicated modules
+ - added links each categories view from submit or edit
+ - not only text but also photo is previewable (submit)
+ - myblocksadmin improved a little
+ - Updated swedish (thx Leif Madsen)
+
+2004-3-4 v2.70 beta 01
+ - modified as "Duplicatable Module"
+ - rename .htaccess into .htaccess.dist for some environment.
+   (If you want more secure, rename it into .htaccess manually)
+ - Updated spanish (thx ColdBeer)
+ - short tag in language/*/admin.php fixed (thx magu)
+
+2004-2-29 v2.64 (some requested features implemented)
+ - redirect to viewcat.php of specified category after photo submission (thx karuna)
+ - set the filename as subject when subject is not specified (thx mariuss)
+ - modified into much safer codes which prevent from crackers (thx JM2)
+ - preview added
+ - myblocksadmin updated to 0.04
+ - changed like that uploading photo is not necessary
+ - use original images as thumbnails when the images is small enough
+ - New language
+  - Portuguese (thx Oliver Zancul Prado)
+
+2004-2-12 v2.63 (small fix)
+ - fixed bug that registered users (not admin) can't edit photo's description
+
+2004-1-30 v2.62 (small fixes)
+ - fixed typo in viewcat.php (thx pen)
+ - move 'template_main' above include(XOOPS_ROOT_PATH.'/header.php')
+
+2004-1-30 v2.61 (small fixes)
+ - fixed typo in myalbum_imagemanager.html rxcoder -> xcoder fixed (thx Olorin)
+ - feature changed not to close imagemanager after [img] added (thx Olorin)
+ - sort by date desc added (thx Collo)
+ - pagenav bug fixed (thx Collo)
+
+2004-1-28 v2.60 release
+ - imagemanager integrated with XOOPS core added
+ - optimization for table view
+ - Updated swedish (thx Leif Madsen)
+
+2004-1-27 v2.60beta01
+ - almost of front ends have been rewritten to use template
+ - selectable from two views of viewcat.php (list & table)
+ - global group permission added (add,edit,delete,rateview,ratevote)
+ - notifications added (new photos in global and categories)
+ - some improvement for admin
+ - some fix
+
+2003-12-31 v2.50beta04
+ - New language
+  - Swedish (thx Leif Madsen)
+ - width specification added when big thumbs
+
+2003-12-18 v2.50beta03
+ - myblocksadmin is replaced to 0.03
+   (compatibility trouble before XOOPS 2.0.3)
+
+2003-12-3 v2.50beta02
+ - Updated tchinese (thx xoobs)
+ - myblocksadmin added
+ - two blocks added
+
+2003-11-25 v2.50beta01 (Major version up)
+ - better work with GD
+ - adding "forceGD2 mode"
+ - supporting NetPBM
+ - add a preference for rules of creating thumbnails
+ - rewrite all of blocks (using templates etc..)
+ - rewrite redo thumnails
+ - rewrite batch register
+ - selectable uname() or name()
+ - remove all of is_executable()
+ - and much more ...
+
+2003-10-21 v2.05 (Adding a language file)
+ - New language
+  - French
+ - Added some language constants into the tails of all language files.
+
+2003-10-8 v2.04 (Adjustment for some environment)
+ - don't mkdir photos & thumbs when safe_mode is on.
+
+2003-9-23 v2.03 (Adding some checks for begginers)
+ - add environment checks into 'module check'.
+ - add some checks into 'submit.php'.
+ - default directory for photos and thumbs has moved under /uploads
+
+2003-9-16 v2.02 (fixes)
+ - fixed my misunderstanding with feature for seaching.
+ - when click a photo in photo.php, it opens new window. (for printing etc.)
+
+2003-9-13 v2.01 (Compatibility fixes)
+ - Remove $smarty.const.xxx for XOOPS older than 2.0.2
+ - Restore table myalbum_comments for older myalbum user.
+
+2003-9-5 v2.0.0 Release
+ - The first release version.
+ - Fixed slightly bugs in displaying.
+
+2003-8-30 v2.0.0pre10
+ - New language
+  - traditional Chinese
+  - simple Chinese      (thx xoobs)
+
+2003-8-29 v2.0.0pre09
+ - Fixed many bugs of treating comments
+ - Templatize photos listing (Don't forget updating this module!)
+
+2003-8-28 v2.0.0pre08
+ - Add check code for the directory path of 'batch upload'
+ - Add 'move category' on photo manager
+ - New language
+  - Spanish  (thx Horacio Salazar)
+
+2003-8-26 v2.0.0pre07
+ - Fixed a bug for updating a photo.
+ - Add 'update users posts' feature.
+
+2003-8-26 v2.0.0pre06
+ - Fixed a miss type of ratephoto.php  (thx HowardGee)
+
+2003-8-21 v2.0.0pre05
+ - Implement 'Check module' for admin
+ - Implement 'Photo Manager'
+ - fixed res_x, res_y recorded wrong degree.
+ - 'make thumbs' option turns off in default.
+
+2003-8-20 v2.0.0pre04
+ - Fatal error fixed. (Normal User can't view photos properly)
+ - Change upload class from older upload.class to Xoops2 uploader class
+
+2003-8-19 v2.0.0pre03
+ - prepare to 'module duplication' (not yet)
+ - can change photo or thumbs directory (like /uploads/myalbum/)
+ - fixes about Category & Photo deletion
+ - resize or rotation main photos (Only ImageMagick)
+ - modify code for making thumbs by GD. (for PHP bundled GD2)
+ - and many more...
+
+2003-8-17 v2.0.0pre02
+ - fixes about displaying Categories
+
+2003-8-13 v2.0.0pre01 GIJ's first beta release
+
+
+
+---------------
+
+21/3/2003 v1.1.0 (beta)
+ - Xoops 2.0 support
+
+19/3/2003 v1.0.2
+ - small fixes
+
+1/3/2003 v1.0.1
+ - Better thumbs (gd 2.0)
+ - My Photos (optional member edit/delete photos)
+ - redo thumbs
+ - All language tags changed to _ALBM_*
+ - New Languages (Need credits)
+  - Portuguesept
+  - French
+  - Italian
+  - Japanese
+  - Schinese
+
+4/7/2002 v1.0.0
+ - First public release.
+
+30/6/2002 v0.9.5
+ - 2nd RC.
+ - Updated to RC 3.0.3
+
+30/6/2002 v0.9.4
+ - Language errors in Block.
+
+30/6/2002 v0.9.3
+ - Batch upload uppercased files.
+
+29/6/2002 v0.9.3
+ - /class/upload.class.php broken from RC3 -> RC3.0.2.
+ - Now only works on RC3.0.2.
+
+27/6/2002 v0.9.2
+ - misc bugs.
+
+27/6/2002 v0.9.1
+ - misc bugs.
+
+26/6/2002 v0.9.0
+ - 1st non public release candidate.
