@@ -17,6 +17,3 @@ function b_sitemap_'.$mydirname.'(){
 }
 
 ' ) ;
-
-
-?>

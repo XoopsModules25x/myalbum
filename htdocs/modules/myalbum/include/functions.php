@@ -325,7 +325,6 @@ function myalbum_create_thumbs_by_imagick($src_path, $node, $ext)
     return 1;
 }
 
-
 // Creating Thumbnail by NetPBM
 function myalbum_create_thumbs_by_netpbm($src_path, $node, $ext)
 {
@@ -511,7 +510,6 @@ function myalbum_modify_photo_by_gd($src_path, $dst_path)
     }
 }
 
-
 // Modifying Original Photo by ImageMagick
 function myalbum_modify_photo_by_imagick($src_path, $dst_path)
 {
@@ -652,7 +650,6 @@ function myalbum_modify_photo_by_netpbm($src_path, $dst_path)
         return 1;
     }
 }
-
 
 // Clear templorary files
 function myalbum_clear_tmp_files($dir_path, $prefix = 'tmp_')

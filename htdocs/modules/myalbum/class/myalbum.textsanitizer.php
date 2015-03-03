@@ -86,7 +86,6 @@ if (!class_exists('MyAlbumTextSanitizer')) {
                     return $text; */
         }
 
-
         /**
          * Replace some appendix codes with their equivalent HTML formatting
          *

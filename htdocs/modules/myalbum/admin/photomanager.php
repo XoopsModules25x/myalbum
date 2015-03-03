@@ -155,7 +155,6 @@ while (list($uid, $uname) = $xoopsDB->fetchRow($urs)) {
     $user_options .= "<option value='$uid'>" . htmlspecialchars($uname, ENT_QUOTES) . "</option>\n";
 }
 
-
 // Start of outputting
 xoops_cp_header();
 $indexAdmin = new ModuleAdmin();

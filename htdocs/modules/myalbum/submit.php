@@ -257,7 +257,6 @@ if (!empty($_POST['submit'])) {
     exit;
 }
 
-
 // Editing Display
 
 if ($caller == 'imagemanager') {
