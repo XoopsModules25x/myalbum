@@ -169,7 +169,6 @@ function myalbum_get_array_for_photo_assign($photo, $summary = false)
     );
 }
 
-
 // Get photo's array to assign into template (light version)
 function myalbum_get_array_for_photo_assign_light($photo, $summary = false)
 {
@@ -288,7 +287,6 @@ function myalbum_get_sub_categories($parent_id, $cattree)
 
     return $ret;
 }
-
 
 // get attributes of <img> for preview image
 function myalbum_get_img_attribs_for_preview($preview_name)

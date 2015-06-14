@@ -193,7 +193,6 @@ if (isset($myalbum_catonsubmenu) && $myalbum_catonsubmenu) {
     }
 }
 
-
 // Config
 xoops_load('XoopsEditorHandler');
 $editor_handler = XoopsEditorHandler::getInstance();

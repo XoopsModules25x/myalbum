@@ -114,8 +114,8 @@ class MyXoopsMediaUploader
     /**
      * Fetch the uploaded file
      *
-     * @param  string $media_name Name of the file field
-     * @param  int    $index      Index of the file (if more than one uploaded under that name)
+     * @param string $media_name Name of the file field
+     * @param int    $index      Index of the file (if more than one uploaded under that name)
      *
      * @return bool
      **/

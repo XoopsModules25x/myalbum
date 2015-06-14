@@ -1,7 +1,7 @@
 <?php
 /*
  You may not change or alter any portion of this comment or credits
- of supporting developers from this source code or any supporting source code 
+ of supporting developers from this source code or any supporting source code
  which is considered copyrighted (c) material of the original comment or credit authors.
  
  This program is distributed in the hope that it will be useful,
@@ -34,7 +34,7 @@ if (!defined('XOOPS_ROOT_PATH')) { exit(); }
  * @var        array    $items    associative array of items: [modid][catid][itemid]
  *
  * @return    boolean
- * 
+ *
  */
 function myalbum2_tag_iteminfo(&$items)
 {
@@ -58,7 +58,7 @@ function myalbum2_tag_iteminfo(&$items)
     foreach (array_keys($items) as $cat_id) {
         foreach (array_keys($items[$cat_id]) as $item_id) {
             $item_obj =& $items_obj[$item_id];
-			$text = $text_handler->get($item_id);
+            $text = $text_handler->get($item_id);
             $items[$cat_id][$item_id] = array(
                 "title"     => $item_obj->getVar("title"),
                 "uid"       => $item_obj->getVar("submitter"),
@@ -69,14 +69,14 @@ function myalbum2_tag_iteminfo(&$items)
             );
         }
     }
-    unset($items_obj);    
+    unset($items_obj);
 }
 
 /**
  * Remove orphan tag-item links
  *
  * @return    boolean
- * 
+ *
  */
 function myalbum2_tag_synchronization($mid)
 {
@@ -109,4 +109,3 @@ function myalbum2_tag_synchronization($mid)
         //xoops_error($link_handler->db->error());
     }
 }
-?>
