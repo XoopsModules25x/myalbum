@@ -1,11 +1,22 @@
-2014-01-13 v3.07 RC 4
+3.07 RC 5            NOT RELEASED
+=================================
+- add category sort (chaoos/bleekk)
+- replace intval() with (int) (mamba)
+- add weight to category (mamba)
+- move images to /assets (mamba)
+- rename templates to .tpl (mamba)
+- more PSR-2 (mamba)
+
+3.07 RC 4               2014-01-13
+=================================
 - fix: sorting in the category view (walkero/mamba)
 - partial update to PSR-2 (mamba)
 - replacing broder with border (walkero/mamba)
 - replacing $i++ with ++$i (mamba)
 - fixing template (Tampeko/bleekk)
 
-2013-08-08 v3.07 RC 3
+3.07 RC 3               2013-08-08
+=================================
 - fix: image is not sized properly (mamba)
 - fix: in PhotoManagement, MyAlbum deletes all pictures, regardless which were selected (mamba)
 - updated to XOOPS Admin GUI (mamba)
@@ -16,14 +27,17 @@
 - added: delete icons in photo views (mamba)
 - added: breaks in HTML code for bettel look of categories (edipinho)
 
-2012-06-26 v3.06
+3.06                2012-06-26
+=================================
 - fixed many bugs (cesag/black_beard)
 
-2012-03-26 v3.05
+3.05                2012-03-26
+=================================
  - added /admin/groupperm_global.php file copied from previous version (wishcraft)
  - changes /viewcat.php line 75-76 alter to fix error reported by HuntNetwork see xoops.org (wishcraft)
 
-2011-12-15 v3.01b
+3.01b               2011-12-15
+=================================
  - added /docs folder added and documents moved into folder (wishcraft)
  - added /class/photos.php Class modeler for Photos Table (wishcraft)
  - added /class/cat.php Class modeler for Category Table (wishcraft)
@@ -108,7 +122,8 @@
  - modified /viewcat.php modified to Blue Room Class Modeler & SEO (wishcraft)
  - modified /xoops_version.php modified to Blue Room Class Modeler & SEO (wishcraft)
 
-2004-10-4 v2.84
+2.84                2004-10-4
+=================================
  - modified ImageManagerIntegration can treat non-image files (AttachmentManager)
  - added an option which specifies the default listing order
  - modified that img tags have not only alt but also title property
@@ -117,7 +132,8 @@
  - added italian language (thx NickeL)
  - updated schinese language (thx phppp)
 
-2004-7-31 v2.83
+2.83                2004-7-31
+=================================
  - added photo columns into each blocks (thx rocket98)
  - fixed default templates not to display posting icon to non-priv-users (thx rocket98)
  - fixed adding meta headers into submit.php called by IMI (thx phppp)
@@ -126,10 +142,12 @@
  - updated myblocksadmin into 0.07
  - updated schinese language (thx phppp)
 
-2004-7-8 v2.82
+2.82                2004-7-8
+=================================
  - fixed a bug in listing categories (thx cradeg)
 
-2004-7-5 v2.81
+2.81                2004-7-5
+=================================
  - fixed looping check routine (thx boufa)
  - fixed treating with ghost categories (thx cradeg & boufa)
  - eliminated some codes using buggy xoops_substr() (thx namhil & boufa)
@@ -138,7 +156,8 @@
  - added some global permissions on intall (thx Marijuana)
  - updated swedish language (thx Leif Madsen)
 
-2004-6-25 v2.80
+2.80                2004-6-25
+=================================
  - remade the default design using crystal icons. (thx to all of icon authors)
  - added class MyAlbumTextSanitizer extends MyTextSanitizer
  - added tag [siteimg]
@@ -150,46 +169,57 @@
  - fixed some SQL injection vulnerablities
  - and many other slight bugs are patched
 
-2004-5-25 v2.75b
+2.75b               2004-5-25
+=================================
  - fixed import.php from myAlbum-P (thx okatti)
 
 2004-5-22 v2.75a
+=================================
  - fixed a fatal bug which user's posts is cleared when he submit (thx sfdb).
  -- 2.73 , 2.74 and 2.75 have this problem.
 
-2004-5-21 v2.75
+2.75                2004-5-21
+=================================
  - fixed uid don't specified in order link (thx bordacs)
  - modified icon gifs larger
  - eliminate 'PHP_SELF'
 
-2004-5-19 v2.74
+2.74                2004-5-19
+=================================
  - added middle size calculation in photo.php (thx ellecat)
  - fixed wrong links in photo.php (thx sfdb, efla)
  - fixed a bug in specifying date of last modified
  - changed myalbum_slogo.gif using font 04b_03b (thx Herko & Y.Kishino)
  - changed logo.gif like mydownloads (thx LARABIE FONTS)
 
-2004-5-17 v2.73
+2.73                2004-5-17
+=================================
  - added batch update into photo manager (thx efla)
  - added a drop-down box allowing him a direct access to any categories or/and sub-categories. (thx efla)
  - fixed a bug category selection is not stored in preview. (thx Elleomea)
  - fixed a bug of catview.php in table view (thx Snoopy)
 
-2004-5-13 v2.72a modification about a compatibility with PHP Accelerator
+2.72a               2004-5-13
+=================================
+modification about a compatibility with PHP Accelerator
+
  - the order of templates is changed back to the same as 2.6
  - modified category should be selected (thx sfdb)
  - modified putting some space between 2 lines of thumbs in the table view (thx efla)
  - modified "mymenu" can be also displayed in preferences
 
-2004-5-7 v2.72 some modifications
+2.72                2004-5-7
+=================================
  - modified treating files other than images
  - modified redo thumbnails
  - modified preview
 
-2004-5-7 v2.71 bug fixed
+2.71                2004-5-7
+=================================
  - fixed a problem which caps extensions treated as not image files
 
 2004-5-5 v2.70 release
+=================================
  - added page navigation into recent list of top page
  - added limitation of photos in block displaying
  - added category's name ($photo.cat_title) into template myalbum*_photo_in_list.html
@@ -202,7 +232,8 @@
   - For such implementations, I use the icons of filemanager 3.0
    - thx to the author Jan Inge Pettersen(Xend) http://www.xendtech.com/
 
-2004-4-5 v2.70 beta 03
+2.70 beta 03         2004-4-5
+=================================
  - use myuploader.php instead of class/uploader.php in XOOPS core.
    (Security reason)
  - added import from another myAlbum-P modules.
@@ -210,7 +241,8 @@
  - New language
   - Nederlands (thx Jan Deeben)
 
-2004-3-9 v2.70 beta 02
+2.70 beta 02            2004-3-9
+=================================
  - fixed typo in xoops_version.php and notification.inc.php
  - fixed typo in templates for duplicated modules
  - added links each categories view from submit or edit
@@ -218,14 +250,16 @@
  - myblocksadmin improved a little
  - Updated swedish (thx Leif Madsen)
 
-2004-3-4 v2.70 beta 01
+2.70 beta 01            2004-3-4
+=================================
  - modified as "Duplicatable Module"
  - rename .htaccess into .htaccess.dist for some environment.
    (If you want more secure, rename it into .htaccess manually)
  - Updated spanish (thx ColdBeer)
  - short tag in language/*/admin.php fixed (thx magu)
 
-2004-2-29 v2.64 (some requested features implemented)
+2.64                    2004-2-29  (some requested features implemented)
+=================================
  - redirect to viewcat.php of specified category after photo submission (thx karuna)
  - set the filename as subject when subject is not specified (thx mariuss)
  - modified into much safer codes which prevent from crackers (thx JM2)
@@ -236,25 +270,30 @@
  - New language
   - Portuguese (thx Oliver Zancul Prado)
 
-2004-2-12 v2.63 (small fix)
+2.63                    2004-2-12  (small fix)
+=================================
  - fixed bug that registered users (not admin) can't edit photo's description
 
-2004-1-30 v2.62 (small fixes)
+2.62                    2004-1-30 (small fixes)
+=================================
  - fixed typo in viewcat.php (thx pen)
  - move 'template_main' above include(XOOPS_ROOT_PATH.'/header.php')
 
-2004-1-30 v2.61 (small fixes)
+2.61                    2004-1-30 (small fixes)
+=================================
  - fixed typo in myalbum_imagemanager.html rxcoder -> xcoder fixed (thx Olorin)
  - feature changed not to close imagemanager after [img] added (thx Olorin)
  - sort by date desc added (thx Collo)
  - pagenav bug fixed (thx Collo)
 
-2004-1-28 v2.60 release
+2.60 release            2004-1-28
+=================================
  - imagemanager integrated with XOOPS core added
  - optimization for table view
  - Updated swedish (thx Leif Madsen)
 
-2004-1-27 v2.60beta01
+2.60 beta01             2004-1-27
+=================================
  - almost of front ends have been rewritten to use template
  - selectable from two views of viewcat.php (list & table)
  - global group permission added (add,edit,delete,rateview,ratevote)
@@ -262,21 +301,25 @@
  - some improvement for admin
  - some fix
 
-2003-12-31 v2.50beta04
+2.50 beta04             2003-12-31
+=================================
  - New language
   - Swedish (thx Leif Madsen)
  - width specification added when big thumbs
 
-2003-12-18 v2.50beta03
+2.50 beta03             2003-12-18
+=================================
  - myblocksadmin is replaced to 0.03
    (compatibility trouble before XOOPS 2.0.3)
 
-2003-12-3 v2.50beta02
+2.50 beta02             2003-12-3
+=================================
  - Updated tchinese (thx xoobs)
  - myblocksadmin added
  - two blocks added
 
-2003-11-25 v2.50beta01 (Major version up)
+2.50 beta01             2003-11-25 (Major version up)
+=================================
  - better work with GD
  - adding "forceGD2 mode"
  - supporting NetPBM
@@ -288,64 +331,78 @@
  - remove all of is_executable()
  - and much more ...
 
-2003-10-21 v2.05 (Adding a language file)
+2.05                    2003-10-21 (Adding a language file)
+=================================
  - New language
   - French
  - Added some language constants into the tails of all language files.
 
-2003-10-8 v2.04 (Adjustment for some environment)
+2.04                    2003-10-8  (Adjustment for some environment)
+=================================
  - don't mkdir photos & thumbs when safe_mode is on.
 
-2003-9-23 v2.03 (Adding some checks for begginers)
+2.03                    2003-9-23 (Adding some checks for begginers)
+=================================
  - add environment checks into 'module check'.
  - add some checks into 'submit.php'.
  - default directory for photos and thumbs has moved under /uploads
 
-2003-9-16 v2.02 (fixes)
+2.02                    2003-9-16 (fixes)
+=================================
  - fixed my misunderstanding with feature for seaching.
  - when click a photo in photo.php, it opens new window. (for printing etc.)
 
-2003-9-13 v2.01 (Compatibility fixes)
+2.01                    2003-9-13 (Compatibility fixes)
+=================================
  - Remove $smarty.const.xxx for XOOPS older than 2.0.2
  - Restore table myalbum_comments for older myalbum user.
 
-2003-9-5 v2.0.0 Release
+2.0.0 Release           2003-9-5
+=================================
  - The first release version.
  - Fixed slightly bugs in displaying.
 
-2003-8-30 v2.0.0pre10
+2.0.0 pre10             2003-8-30
+=================================
  - New language
   - traditional Chinese
   - simple Chinese      (thx xoobs)
 
-2003-8-29 v2.0.0pre09
+2.0.0 pre09             2003-8-29
+=================================
  - Fixed many bugs of treating comments
  - Templatize photos listing (Don't forget updating this module!)
 
-2003-8-28 v2.0.0pre08
+2.0.0 pre08             2003-8-28
+=================================
  - Add check code for the directory path of 'batch upload'
  - Add 'move category' on photo manager
  - New language
   - Spanish  (thx Horacio Salazar)
 
-2003-8-26 v2.0.0pre07
+2.0.0 pre07             2003-8-26
+=================================
  - Fixed a bug for updating a photo.
  - Add 'update users posts' feature.
 
 2003-8-26 v2.0.0pre06
+=================================
  - Fixed a miss type of ratephoto.php  (thx HowardGee)
 
-2003-8-21 v2.0.0pre05
+2.0.0 pre05             2003-8-21
+=================================
  - Implement 'Check module' for admin
  - Implement 'Photo Manager'
  - fixed res_x, res_y recorded wrong degree.
  - 'make thumbs' option turns off in default.
 
-2003-8-20 v2.0.0pre04
+2.0.0 pre04             2003-8-20
+=================================
  - Fatal error fixed. (Normal User can't view photos properly)
  - Change upload class from older upload.class to Xoops2 uploader class
 
-2003-8-19 v2.0.0pre03
+2.0.0 pre03             2003-8-19
+=================================
  - prepare to 'module duplication' (not yet)
  - can change photo or thumbs directory (like /uploads/myalbum/)
  - fixes about Category & Photo deletion
@@ -353,22 +410,26 @@
  - modify code for making thumbs by GD. (for PHP bundled GD2)
  - and many more...
 
-2003-8-17 v2.0.0pre02
+2.0.0 pre02             2003-8-17
+=================================
  - fixes about displaying Categories
 
-2003-8-13 v2.0.0pre01 GIJ's first beta release
-
+2.0.0 pre01             2003-8-13 GIJ's first beta release
+=================================
 
 
 ---------------
 
-21/3/2003 v1.1.0 (beta)
+1.1.0 (beta)            21/3/2003
+=================================
  - Xoops 2.0 support
 
-19/3/2003 v1.0.2
+1.0.2                   19/3/2003
+=================================
  - small fixes
 
-1/3/2003 v1.0.1
+1.0.1                   1/3/2003
+=================================
  - Better thumbs (gd 2.0)
  - My Photos (optional member edit/delete photos)
  - redo thumbs
@@ -380,28 +441,36 @@
   - Japanese
   - Schinese
 
-4/7/2002 v1.0.0
+1.0.0                   4/7/2002
+=================================
  - First public release.
 
-30/6/2002 v0.9.5
+0.9.5                   30/6/2002
+=================================
  - 2nd RC.
  - Updated to RC 3.0.3
 
-30/6/2002 v0.9.4
+0.9.4                   30/6/2002
+=================================
  - Language errors in Block.
 
-30/6/2002 v0.9.3
+0.9.3                   30/6/2002
+=================================
  - Batch upload uppercased files.
 
-29/6/2002 v0.9.3
+0.9.3                   29/6/2002
+=================================
  - /class/upload.class.php broken from RC3 -> RC3.0.2.
  - Now only works on RC3.0.2.
 
-27/6/2002 v0.9.2
+0.9.2                   27/6/2002
+=================================
  - misc bugs.
 
-27/6/2002 v0.9.1
+0.9.1                   27/6/2002
+=================================
  - misc bugs.
 
-26/6/2002 v0.9.0
+0.9.0               26/6/2002
+=================================
  - 1st non public release candidate.

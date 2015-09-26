@@ -27,9 +27,9 @@
 include '../../mainfile.php';
 include 'include/read_configs.php';
 
-$lid = empty($_GET['com_itemid']) ? 0 : intval($_GET['com_itemid']);
+$lid = empty($_GET['com_itemid']) ? 0 : (int)($_GET['com_itemid']);
 if ($lid > 0) {
-    $photos_handler = xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
+    $photos_handler =& xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
     $photo          = $photos_handler->get($lid);
     $com_replytitle = $photo->getVar('title');
 

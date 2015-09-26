@@ -3,10 +3,10 @@
 //                XOOPS - PHP Content Management System                      //
 //                       <http://www.xoops.org/>                             //
 // ------------------------------------------------------------------------- //
-// Based on:								     //
-// myPHPNUKE Web Portal System - http://myphpnuke.com/	  		     //
-// PHP-NUKE Web Portal System - http://phpnuke.org/	  		     //
-// Thatware - http://thatware.org/					     //
+// Based on:                                     //
+// myPHPNUKE Web Portal System - http://myphpnuke.com/               //
+// PHP-NUKE Web Portal System - http://phpnuke.org/              //
+// Thatware - http://thatware.org/                       //
 // ------------------------------------------------------------------------- //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -22,9 +22,9 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 // ------------------------------------------------------------------------- //
-include(dirname(dirname(dirname(__FILE__))) . "/mainfile.php");
+include(dirname(dirname(__DIR__)) . "/mainfile.php");
 
-$GLOBALS['mydirname'] = basename(dirname(__FILE__));
+$GLOBALS['mydirname'] = basename(__DIR__);
 include(XOOPS_ROOT_PATH . "/modules/$mydirname/include/read_configs.php");
 include(XOOPS_ROOT_PATH . "/modules/$mydirname/include/get_perms.php");
 include_once(XOOPS_ROOT_PATH . "/modules/$mydirname/include/functions.php");
@@ -33,8 +33,8 @@ include_once(XOOPS_ROOT_PATH . "/modules/$mydirname/class/myuploader.php");
 
 $GLOBALS['myts'] = MyTextSanitizer::getInstance();
 
-$module_handler                 = xoops_gethandler('module');
-$config_handler                 = xoops_gethandler('config');
+$module_handler                 =& xoops_gethandler('module');
+$config_handler                 =& xoops_gethandler('config');
 $GLOBALS['myalbumModule']       = $module_handler->getByDirname($GLOBALS['mydirname']);
 $GLOBALS['myalbumModuleConfig'] = $config_handler->getConfigList($GLOBALS['myalbumModule']->getVar('mid'));
 $GLOBALS['myalbum_mid']         = $GLOBALS['myalbumModule']->getVar('mid');
@@ -50,7 +50,7 @@ xoops_load('xoopsformloader');
 include_once $GLOBALS['xoops']->path('class' . DS . 'xoopsmailer.php');
 include_once $GLOBALS['xoops']->path('class' . DS . 'tree.php');
 
-$cat_handler        = xoops_getmodulehandler('cat');
+$cat_handler        =& xoops_getmodulehandler('cat');
 $cats               = $cat_handler->getObjects(null, true);
 $GLOBALS['cattree'] = new XoopsObjectTree($cats, 'cid', 'pid', 0);
 

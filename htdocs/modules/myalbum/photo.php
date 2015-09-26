@@ -7,8 +7,8 @@ $catpath = '';
 include 'header.php';
 
 // GET variables
-$lid = empty($_GET['lid']) ? 0 : intval($_GET['lid']);
-$cid = empty($_GET['cid']) ? 0 : intval($_GET['cid']);
+$lid = empty($_GET['lid']) ? 0 : (int)($_GET['lid']);
+$cid = empty($_GET['cid']) ? 0 : (int)($_GET['cid']);
 
 if (isset($_GET['op'])) {
     $op = $_GET['op'];
@@ -18,10 +18,13 @@ if (isset($_GET['op'])) {
 
 // Switch operations
 
+/**
+ * @param $lid
+ */
 function deleteImage($lid)
 {
     global $global_perms;
-    $photos_handler = xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
+    $photos_handler =& xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
     $photo_obj      = $photos_handler->get($lid);
 
     if (!($global_perms & GPERM_DELETABLE)) {
@@ -53,8 +56,8 @@ switch ($op) {
 
         myalbum_updaterating($lid);
 
-        $photos_handler = xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
-        $cat_handler    = xoops_getmodulehandler('cat', $GLOBALS['mydirname']);
+        $photos_handler =& xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
+        $cat_handler    =& xoops_getmodulehandler('cat', $GLOBALS['mydirname']);
 
         if (!is_object($photo_obj = $photos_handler->get($lid))) {
             redirect_header("index.php", 2, _ALBM_NOMATCH);
@@ -69,7 +72,7 @@ switch ($op) {
 
         $cat = $cat_handler->get($photo_obj->getVar('cid'));
 
-        $xoopsOption['template_main'] = "{$mydirname}_photo.html";
+        $xoopsOption['template_main'] = "{$mydirname}_photo.tpl";
         include($GLOBALS['xoops']->path("header.php"));
 
         if ($global_perms & GPERM_INSERTABLE) {
@@ -86,17 +89,17 @@ switch ($op) {
             exit;
         }
 
-// update hit count
+        // update hit count
         $photo_obj->increaseHits(1);
 
         $photo = myalbum_get_array_for_photo_assign($photo_obj);
 
-// Middle size calculation
+        // Middle size calculation
         $photo['width_height'] = '';
         $res_x                 = $photo_obj->getVar('res_x');
         $res_y                 = $photo_obj->getVar('res_y');
         list($max_w, $max_h) = explode('x', $myalbum_middlepixel);
-//if ( ! empty( $max_w ) && ! empty( $p['res_x'] ) ) {
+        //if ( ! empty( $max_w ) && ! empty( $p['res_x'] ) ) {
         if (!empty($max_w) && !empty($res_x)) {
             if (empty($max_h)) {
                 $max_h = $max_w;
@@ -114,42 +117,39 @@ switch ($op) {
 
         $GLOBALS['xoopsTpl']->assign_by_ref('photo', $photo);
 
-// Category Information
+        // Category Information
 
         $GLOBALS['xoopsTpl']->assign('category_id', $cid);
         $cids = $GLOBALS['cattree']->getAllChild($cid);
         if (!empty($cids)) {
             foreach ($cids as $index => $child) {
-                $catpath .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . intval($GLOBALS['myalbum_perpage'])
-                    . '&cid=' . $child->getVar('cid') . "' >" . $child->getVar('title') . '</a> ' . ($index < sizeof($cids) ? '>>' : '');
+                $catpath .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . (int)($GLOBALS['myalbum_perpage']) . '&cid=' . $child->getVar('cid') . "' >" . $child->getVar('title') . '</a> ' . ($index < count($cids) ? '>>' : '');
             }
         } else {
             $cat = $cat_handler->get($photo_obj->getVar('cid'));
-            $catpath
-                .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . intval($GLOBALS['myalbum_perpage']) . '&cid='
-                . $cat->getVar('cid') . "' >" . $cat->getVar('title') . '</a>';
+            $catpath .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . (int)($GLOBALS['myalbum_perpage']) . '&cid=' . $cat->getVar('cid') . "' >" . $cat->getVar('title') . '</a>';
         }
-        $catpath = str_replace(">>", " <span class='fg2'>&raquo;&raquo;</span> ", $catpath);
-        $sub_title = preg_replace("/\'\>/", "'><img src='$mod_url/images/folder16.gif' alt='' />", $catpath);
+        $catpath   = str_replace(">>", " <span class='fg2'>&raquo;&raquo;</span> ", $catpath);
+        $sub_title = preg_replace("/\'\>/", "'><img src='$mod_url/assets/images/folder16.gif' alt='' />", $catpath);
         $sub_title = preg_replace("/^(.+)folder16/", '$1folder_open', $sub_title);
         $GLOBALS['xoopsTpl']->assign('album_sub_title', $sub_title);
 
-// Orders
+        // Orders
         include(XOOPS_ROOT_PATH . "/modules/$mydirname/include/photo_orders.php");
-    if (isset($_GET['orderby']) && isset($myalbum_orders[$_GET['orderby']])) {
-        $orderby = $_GET['orderby'];
-    } else {
-        if (isset($myalbum_orders[$myalbum_defaultorder])) {
-            $orderby = $myalbum_defaultorder;
+        if (isset($_GET['orderby']) && isset($myalbum_orders[$_GET['orderby']])) {
+            $orderby = $_GET['orderby'];
         } else {
-            $orderby = 'lidA';
+            if (isset($myalbum_orders[$myalbum_defaultorder])) {
+                $orderby = $myalbum_defaultorder;
+            } else {
+                $orderby = 'lidA';
+            }
         }
-    }
 
         $criteria = new CriteriaCompo(new Criteria('`status`', '0', '>'));
         $criteria->add(new Criteria('cid', $photo_obj->getVar('cid')));
         $criteria->setOrder($myalbum_orders[$orderby][0]);
-// create category navigation
+        // create category navigation
         $ids = array();
         foreach ($photos_handler->getObjects($criteria, true) as $id => $pht) {
             $ids[] = $id;
@@ -163,7 +163,6 @@ switch ($op) {
             if ($ids[0] != $lid) {
                 $photo_nav .= "<a href='photo.php?lid=" . $ids[0] . "'><b>[&lt; </b></a>&nbsp;&nbsp;";
                 $photo_nav .= "<a href='photo.php?lid=" . $ids[$pos - 1] . "'><b>" . _ALBM_PREVIOUS . "</b></a>&nbsp;&nbsp;";
-
             }
 
             $nwin = 7;
@@ -197,12 +196,9 @@ switch ($op) {
         }
 
         $GLOBALS['xoopsTpl']->assign('photo_nav', $photo_nav);
-        $GLOBALS['xoopsTpl']->assign(
-            'xoops_pagetitle',
-            $photo_obj->getVar('title') . ' : ' . $cat->getVar('title') . ' : ' . $GLOBALS['xoopsModule']->getVar('name')
-        );
+        $GLOBALS['xoopsTpl']->assign('xoops_pagetitle', $photo_obj->getVar('title') . ' : ' . $cat->getVar('title') . ' : ' . $GLOBALS['xoopsModule']->getVar('name'));
 
-// comments
+        // comments
 
         include XOOPS_ROOT_PATH . '/include/comment_view.php';
 

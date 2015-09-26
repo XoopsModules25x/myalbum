@@ -1,5 +1,5 @@
 <?php
-include_once 'admin_header.php';
+include_once  __DIR__ . '/admin_header.php';
 include_once 'mygrouppermform.php';
 
 xoops_loadLanguage('admin', 'system');
@@ -22,7 +22,7 @@ if (isset($result_str)) {
     $GLOBALS['xoopsTpl']->assign('result_str', $result_str);
 }
 
-$GLOBALS['xoopsTpl']->display('db:' . $GLOBALS['mydirname'] . '_cpanel_permissions.html');
+$GLOBALS['xoopsTpl']->display('db:' . $GLOBALS['mydirname'] . '_cpanel_permissions.tpl');
 
-//	myalbum_footer_adminMenu();
-include_once 'admin_footer.php';
+//  myalbum_footer_adminMenu();
+include_once  __DIR__ . '/admin_footer.php';

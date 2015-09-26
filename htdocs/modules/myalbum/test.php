@@ -1,6 +1,6 @@
 <?php
 $global_perms = 0;
-for ($n=0; $n<270; $n++) {
+for ($n = 0; $n < 270; ++$n) {
     echo $global_perms;
     if ($GLOBALS['global_perms'] & 1) {
         echo 'sa marche<br />';
@@ -9,5 +9,5 @@ for ($n=0; $n<270; $n++) {
     } else {
         echo 'plan 3<br />';
     }
-    $global_perms++;
+    ++$global_perms;
 }

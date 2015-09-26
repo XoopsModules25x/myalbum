@@ -6,10 +6,10 @@
 
 include 'header.php';
 
-$lid = empty($_GET['lid']) ? 0 : intval($_GET['lid']);
+$lid = empty($_GET['lid']) ? 0 : (int)($_GET['lid']);
 
-$photos_handler = xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
-$text_handler   = xoops_getmodulehandler('text', $GLOBALS['mydirname']);
+$photos_handler =& xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
+$text_handler   =& xoops_getmodulehandler('text', $GLOBALS['mydirname']);
 if (!$photo_obj = $photos_handler->get($lid)) {
     redirect_header("index.php", 2, _ALBM_NOMATCH);
     exit;
@@ -28,7 +28,6 @@ if ($global_perms & GPERM_EDITABLE) {
 
 // Do Delete
 if (!empty($_POST['do_delete'])) {
-
     if (!($global_perms & GPERM_DELETABLE)) {
         redirect_header($mod_url, 3, _NOPERM);
         exit;
@@ -52,7 +51,6 @@ if (!empty($_POST['do_delete'])) {
 
 // Confirm Delete
 if (!empty($_POST['conf_delete'])) {
-
     if (!($global_perms & GPERM_DELETABLE)) {
         redirect_header($mod_url, 3, _NOPERM);
         exit;
@@ -93,12 +91,12 @@ if (!empty($_POST['submit'])) {
     if (empty($_POST['submitter'])) {
         $submitter = $my_uid;
     } else {
-        $submitter = intval($_POST['submitter']);
+        $submitter = (int)($_POST['submitter']);
     }
 
     // status change
     if ($isadmin) {
-        $valid = empty($_POST['valid']) ? 0 : intval($_POST['valid']);
+        $valid = empty($_POST['valid']) ? 0 : (int)($_POST['valid']);
         if (empty($_POST['old_status'])) {
             if ($valid == 0) {
                 $valid = null;
@@ -116,30 +114,21 @@ if (!empty($_POST['submit'])) {
         $valid = 2;
     }
 
-    $cid = empty($_POST['cid']) ? 0 : intval($_POST['cid']);
+    $cid = empty($_POST['cid']) ? 0 : (int)($_POST['cid']);
 
     // Check if upload file name specified
     $field = $_POST["xoops_upload_file"][0];
-    if (empty($field) || $field == "") {
+    if (empty($field) || $field === "") {
         die("UPLOAD error: file name not specified");
     }
     $field = $_POST['xoops_upload_file'][0];
 
     // Check if file uploaded
-    if ($_FILES[$field]['tmp_name'] != "" && $_FILES[$field]['tmp_name'] != "none") {
+    if ($_FILES[$field]['tmp_name'] !== "" && $_FILES[$field]['tmp_name'] !== "none") {
         if ($GLOBALS['myalbumModuleConfig']['myalbum_canresize']) {
-            $uploader = new MyXoopsMediaUploader($GLOBALS['photos_dir'], explode(
-                '|',
-                $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']
-            ), $GLOBALS['myalbumModuleConfig']['myalbum_fsize'], null, null, explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedexts']));
+            $uploader = new MyXoopsMediaUploader($GLOBALS['photos_dir'], explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']), $GLOBALS['myalbumModuleConfig']['myalbum_fsize'], null, null, explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedexts']));
         } else {
-            $uploader = new MyXoopsMediaUploader($GLOBALS['photos_dir'], explode(
-                '|',
-                $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']
-            ), $GLOBALS['myalbumModuleConfig']['myalbum_fsize'], $GLOBALS['myalbumModuleConfig']['myalbum_width'], $GLOBALS['myalbumModuleConfig']['myalbum_height'], explode(
-                '|',
-                $GLOBALS['myalbumModuleConfig']['myalbum_allowedexts']
-            ));
+            $uploader = new MyXoopsMediaUploader($GLOBALS['photos_dir'], explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']), $GLOBALS['myalbumModuleConfig']['myalbum_fsize'], $GLOBALS['myalbumModuleConfig']['myalbum_width'], $GLOBALS['myalbumModuleConfig']['myalbum_height'], explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedexts']));
         }
 
         $uploader->setPrefix('tmp_');
@@ -162,7 +151,7 @@ if (!empty($_POST['submit'])) {
             $ext       = substr(strrchr($tmp_name, '.'), 1);
 
             myalbum_modify_photo($GLOBALS['photos_dir'] . "/$tmp_name", $GLOBALS['photos_dir'] . "/$lid.$ext");
-            $dim = GetImageSize($GLOBALS['photos_dir'] . "/$lid.$ext");
+            $dim = getimagesize($GLOBALS['photos_dir'] . "/$lid.$ext");
             if (!$dim) {
                 $dim = array(0, 0);
             }
@@ -189,16 +178,15 @@ if (!empty($_POST['submit'])) {
         }
         $title     = $GLOBALS['myts']->stripSlashesGPC($_POST["title"]);
         $desc_text = $GLOBALS['myts']->stripSlashesGPC($_POST["desc_text"]);
-        $cid       = intval($_POST['cid']);
+        $cid       = (int)($_POST['cid']);
         $ext       = $_POST['ext'];
         if ($GLOBALS['myalbumModuleConfig']['tag']) {
-            $tag_handler = xoops_getmodulehandler('tag', 'tag');
+            $tag_handler =& xoops_getmodulehandler('tag', 'tag');
             $tag_handler->updateByItem($_POST["tags"], $lid, $GLOBALS['myalbumModule']->getVar("dirname"), $cid);
         }
         myalbum_update_photo($lid, $cid, $title, $desc_text, $valid);
         exit;
     }
-
 }
 if (!strpos($photo_obj->getEditURL(), $_SERVER['REQUEST_URI'])) {
     header("HTTP/1.1 301 Moved Permanently");
@@ -217,7 +205,7 @@ include 'include/assign_globals.php';
 $tpl->assign($myalbum_assign_globals);
 $tpl->assign('photo', $photo_for_tpl);
 echo "<table class='outer' style='width:100%;'>";
-$tpl->display("db:{$mydirname}_photo_in_list.html");
+$tpl->display("db:{$mydirname}_photo_in_list.tpl");
 echo "</table>\n";
 
 // Show the form
@@ -228,8 +216,7 @@ $title_text = new XoopsFormText(_ALBM_PHOTOTITLE, "title", 50, 255, $photo_obj->
 
 $cat_select = new XoopsFormLabel('', $GLOBALS['cattree']->makeSelBox('cid', 'title', '-', $photo_obj->getVar('cid')));
 
-$cat_link = new XoopsFormLabel("<a href='javascript:location.href=\"" . XOOPS_URL . "/modules/" . $mydirname
-    . "/viewcat.php?cid=\"+document.uploadphoto.cid.value;'>" . _GO . "</a>");
+$cat_link = new XoopsFormLabel("<a href='javascript:location.href=\"" . XOOPS_URL . "/modules/" . $mydirname . "/viewcat.php?cid=\"+document.uploadphoto.cid.value;'>" . _GO . "</a>");
 $cat_tray = new XoopsFormElementTray(_ALBM_PHOTOCAT, '&nbsp;');
 $cat_tray->addElement($cat_select);
 $cat_tray->addElement($cat_link);
@@ -251,18 +238,9 @@ $file_form->setExtra("size='70'");
 if ($myalbum_canrotate) {
     $rotate_radio = new XoopsFormRadio(_ALBM_RADIO_ROTATETITLE, 'rotate', 'rot0');
     $rotate_radio->addOption('rot0', _ALBM_RADIO_ROTATE0 . " &nbsp; ");
-    $rotate_radio->addOption(
-        'rot90',
-        "<img src='images/icon_rotate90.gif' alt='" . _ALBM_RADIO_ROTATE90 . "' title='" . _ALBM_RADIO_ROTATE90 . "' /> &nbsp; "
-    );
-    $rotate_radio->addOption(
-        'rot180',
-        "<img src='images/icon_rotate180.gif' alt='" . _ALBM_RADIO_ROTATE180 . "' title='" . _ALBM_RADIO_ROTATE180 . "' /> &nbsp; "
-    );
-    $rotate_radio->addOption(
-        'rot270',
-        "<img src='images/icon_rotate270.gif' alt='" . _ALBM_RADIO_ROTATE270 . "' title='" . _ALBM_RADIO_ROTATE270 . "' /> &nbsp; "
-    );
+    $rotate_radio->addOption('rot90', "<img src='assets/images/icon_rotate90.gif' alt='" . _ALBM_RADIO_ROTATE90 . "' title='" . _ALBM_RADIO_ROTATE90 . "' /> &nbsp; ");
+    $rotate_radio->addOption('rot180', "<img src='assets/images/icon_rotate180.gif' alt='" . _ALBM_RADIO_ROTATE180 . "' title='" . _ALBM_RADIO_ROTATE180 . "' /> &nbsp; ");
+    $rotate_radio->addOption('rot270', "<img src='assets/images/icon_rotate270.gif' alt='" . _ALBM_RADIO_ROTATE270 . "' title='" . _ALBM_RADIO_ROTATE270 . "' /> &nbsp; ");
 }
 
 $op_hidden      = new XoopsFormHidden("op", "submit");

@@ -4,18 +4,18 @@
 //                        <http://www.peak.ne.jp/>                           //
 // ------------------------------------------------------------------------- //
 
-include 'admin_header.php';
+include  __DIR__ . '/admin_header.php';
 
 // get and check $_POST['size']
-$start = isset($_POST['start']) ? intval($_POST['start']) : 0;
-$size  = isset($_POST['size']) ? intval($_POST['size']) : 10;
+$start = isset($_POST['start']) ? (int)($_POST['start']) : 0;
+$size  = isset($_POST['size']) ? (int)($_POST['size']) : 10;
 if ($size <= 0 || $size > 10000) {
     $size = 10;
 }
 
-$forceredo = isset($_POST['forceredo']) ? intval($_POST['forceredo']) : false;
-$removerec = isset($_POST['removerec']) ? intval($_POST['removerec']) : false;
-$resize    = isset($_POST['resize']) ? intval($_POST['resize']) : false;
+$forceredo = isset($_POST['forceredo']) ? (int)($_POST['forceredo']) : false;
+$removerec = isset($_POST['removerec']) ? (int)($_POST['removerec']) : false;
+$resize    = isset($_POST['resize']) ? (int)($_POST['resize']) : false;
 
 // get flag of safe_mode
 $safe_mode_flag = ini_get("safe_mode");
@@ -51,12 +51,10 @@ if ($myalbum_makethumb && !is_dir($thumbs_dir)) {
 if (!empty($_POST['submit'])) {
     ob_start();
 
-    $result = $xoopsDB->query(
-        "SELECT lid , ext , res_x , res_y FROM " . $GLOBALS['xoopsDB']->prefix($table_photos) . " ORDER BY lid LIMIT $start , $size"
-    ) or die("DB Error");
+    $result = $xoopsDB->query("SELECT lid , ext , res_x , res_y FROM " . $GLOBALS['xoopsDB']->prefix($table_photos) . " ORDER BY lid LIMIT $start , $size") or die("DB Error");
     $record_counter = 0;
     while (list($lid, $ext, $w, $h) = $xoopsDB->fetchRow($result)) {
-        $record_counter++;
+        ++$record_counter;
         echo ($record_counter + $start - 1) . ") ";
         printf(_AM_FMT_CHECKING, "$lid.$ext");
 
@@ -100,8 +98,7 @@ if (!empty($_POST['submit'])) {
 
         // Check and repair record of the photo if necessary
         if ($true_w != $w || $true_h != $h) {
-            $xoopsDB->query("UPDATE " . $GLOBALS['xoopsDB']->prefix($table_photos) . " SET res_x=$true_w, res_y=$true_h WHERE lid=$lid")
-            or die("DB error: UPDATE photo table.");
+            $xoopsDB->query("UPDATE " . $GLOBALS['xoopsDB']->prefix($table_photos) . " SET res_x=$true_w, res_y=$true_h WHERE lid=$lid") or die("DB error: UPDATE photo table.");
             echo _AM_MB_SIZEREPAIRED . " &nbsp; ";
         }
 
@@ -123,16 +120,16 @@ if (!empty($_POST['submit'])) {
         }
 
         switch ($retcode) {
-            case 0 :
+            case 0:
                 echo _AM_MB_FAILEDREADING . "<br />\n";
                 break;
-            case 1 :
+            case 1:
                 echo _AM_MB_CREATEDTHUMBS . "<br />\n";
                 break;
-            case 2 :
+            case 2:
                 echo _AM_MB_BIGTHUMBS . "<br />\n";
                 break;
-            case 3 :
+            case 3:
                 echo _AM_MB_SKIPPED . "<br />\n";
                 break;
         }
@@ -147,12 +144,11 @@ if (!empty($_POST['submit'])) {
 $form = new XoopsThemeForm(_AM_FORM_RECORDMAINTENANCE, "batchupload", "redothumbs.php");
 $form->setExtra("enctype='multipart/form-data'");
 
-$start_text = new XoopsFormText(_AM_TEXT_RECORDFORSTARTING, "start", 20, 20, $start);
-$size_text = new XoopsFormText(_AM_TEXT_NUMBERATATIME . "<br /><br /><span style='font-weight:normal'>" . _AM_LABEL_DESCNUMBERATATIME
-    . "</span>", "size", 20, 20, $size);
+$start_text      = new XoopsFormText(_AM_TEXT_RECORDFORSTARTING, "start", 20, 20, $start);
+$size_text       = new XoopsFormText(_AM_TEXT_NUMBERATATIME . "<br /><br /><span style='font-weight:normal'>" . _AM_LABEL_DESCNUMBERATATIME . "</span>", "size", 20, 20, $size);
 $forceredo_radio = new XoopsFormRadioYN(_AM_RADIO_FORCEREDO, 'forceredo', $forceredo);
 $removerec_radio = new XoopsFormRadioYN(_AM_RADIO_REMOVEREC, 'removerec', $removerec);
-$resize_radio = new XoopsFormRadioYN(_AM_RADIO_RESIZE . " ({$myalbum_width}x{$myalbum_height})", 'resize', $resize);
+$resize_radio    = new XoopsFormRadioYN(_AM_RADIO_RESIZE . " ({$myalbum_width}x{$myalbum_height})", 'resize', $resize);
 
 if (isset($record_counter) && $record_counter < $size) {
     $submit_button = new XoopsFormLabel("", _AM_MB_FINISHED . " &nbsp; <a href='redothumbs.php'>" . _AM_LINK_RESTART . "</a>");
@@ -187,5 +183,5 @@ if (isset($result_str)) {
     echo $result_str;
 }
 
-//	myalbum_footer_adminMenu();
-include_once 'admin_footer.php';
+//  myalbum_footer_adminMenu();
+include_once  __DIR__ . '/admin_footer.php';

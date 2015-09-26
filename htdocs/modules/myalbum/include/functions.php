@@ -14,18 +14,18 @@ include_once 'myalbum.forms.php';
 function myalbum_adminMenu ($page, $currentoption = 0)
 {
     $GLOBALS['mydirname'] = basename( dirname( dirname( __FILE__ ) ) ) ;
-    $module_handler = xoops_gethandler('module');
+    $module_handler =& xoops_gethandler('module');
     $GLOBALS['myalbumModule'] = $module_handler->getByDirname($GLOBALS['mydirname']);
       // Nice buttons styles
     echo "
         <style type='text/css'>
-        #form {float:left; width:100%; background: #e7e7e7 url('" . XOOPS_URL . "/modules/".$GLOBALS['myalbumModule']->getVar('dirname')."/images/bg.gif') repeat-x left bottom; font-size:93%; line-height:normal; border-bottom: 1px solid black; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;}
+        #form {float:left; width:100%; background: #e7e7e7 url('" . XOOPS_URL . "/modules/".$GLOBALS['myalbumModule']->getVar('dirname')."/assets/images/bg.gif') repeat-x left bottom; font-size:93%; line-height:normal; border-bottom: 1px solid black; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;}
              #buttontop { float:left; width:100%; background: #e7e7e7; font-size:93%; line-height:normal; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black; margin: 0; }
-        #buttonbar { float:left; width:100%; background: #e7e7e7 url('" . XOOPS_URL . "/modules/".$GLOBALS['myalbumModule']->getVar('dirname')."/images/bg.gif') repeat-x left bottom; font-size:93%; line-height:normal; border-left: 1px solid black; border-right: 1px solid black; margin-bottom: 0px; border-bottom: 1px solid black; }
+        #buttonbar { float:left; width:100%; background: #e7e7e7 url('" . XOOPS_URL . "/modules/".$GLOBALS['myalbumModule']->getVar('dirname')."/assets/images/bg.gif') repeat-x left bottom; font-size:93%; line-height:normal; border-left: 1px solid black; border-right: 1px solid black; margin-bottom: 0px; border-bottom: 1px solid black; }
         #buttonbar ul { margin:0; margin-top: 15px; padding:10px 10px 0; list-style:none; }
           #buttonbar li { display:inline; margin:0; padding:0; }
-          #buttonbar a { float:left; background:url('" . XOOPS_URL . "/modules/".$GLOBALS['myalbumModule']->getVar('dirname')."/images/left_both.gif') no-repeat left top; margin:0; padding:0 0 0 9px;  text-decoration:none; }
-          #buttonbar a span { float:left; display:block; background:url('" . XOOPS_URL . "/modules/".$GLOBALS['myalbumModule']->getVar('dirname')."/images/right_both.gif') no-repeat right top; padding:5px 15px 4px 6px; font-weight:bold; color:#765; }
+          #buttonbar a { float:left; background:url('" . XOOPS_URL . "/modules/".$GLOBALS['myalbumModule']->getVar('dirname')."/assets/images/left_both.gif') no-repeat left top; margin:0; padding:0 0 0 9px;  text-decoration:none; }
+          #buttonbar a span { float:left; display:block; background:url('" . XOOPS_URL . "/modules/".$GLOBALS['myalbumModule']->getVar('dirname')."/assets/images/right_both.gif') no-repeat right top; padding:5px 15px 4px 6px; font-weight:bold; color:#765; }
           // Commented Backslash Hack hides rule from IE5-Mac \
           #buttonbar a span {float:none;}
           // End IE5-Mac hack
@@ -72,13 +72,15 @@ function myalbum_footer_adminMenu()
 }
 */
 
+/**
+ * @param $cols
+ * @return string
+ */
 function mysql_get_sql_set($cols)
 {
-
     $ret = "";
 
     foreach ($cols as $col => $types) {
-
         list($field, $lang, $essential) = explode(':', $types);
 
         // Undefined col is regarded as ''
@@ -91,13 +93,13 @@ function mysql_get_sql_set($cols)
 
         // Language
         switch ($lang) {
-            case 'N' : // Number (remove ,)
+            case 'N': // Number (remove ,)
                 $data = str_replace(",", "", $data);
                 break;
-            case 'J' : // Japanese
+            case 'J': // Japanese
                 $data = mb_convert_kana($data, "KV");
                 break;
-            case 'E' : // English
+            case 'E': // English
                 // $data = mb_convert_kana( $data , "as" ) ;
                 $data = $data;
                 break;
@@ -105,19 +107,19 @@ function mysql_get_sql_set($cols)
 
         // DataType
         switch ($field) {
-            case 'A' : // textarea
+            case 'A': // textarea
                 $data = addslashes($data);
                 $ret .= "$col='$data',";
                 break;
-            case 'I' : // integer
-                $data = intval($data);
+            case 'I': // integer
+                $data = (int)($data);
                 $ret .= "$col='$data',";
                 break;
-            case 'F' : // float
-                $data = doubleval($data);
+            case 'F': // float
+                $data = (float)($data);
                 $ret .= "$col='$data',";
                 break;
-            default : // varchar (default)
+            default: // varchar (default)
                 if ($field < 1) {
                     $field = 255;
                 }
@@ -135,30 +137,35 @@ function mysql_get_sql_set($cols)
     return $ret;
 }
 
+/**
+ * @param $width
+ * @param $height
+ * @return array
+ */
 function myalbum_get_thumbnail_wh($width, $height)
 {
     global $myalbum_thumbsize, $myalbum_thumbrule;
 
     switch ($myalbum_thumbrule) {
-        case 'w' :
+        case 'w':
             $new_w = $myalbum_thumbsize;
             $scale = $width / $new_w;
-            $new_h = intval(round($height / $scale));
+            $new_h = (int)(round($height / $scale));
             break;
-        case 'h' :
+        case 'h':
             $new_h = $myalbum_thumbsize;
             $scale = $height / $new_h;
-            $new_w = intval(round($width / $scale));
+            $new_w = (int)(round($width / $scale));
             break;
-        case 'b' :
+        case 'b':
             if ($width > $height) {
                 $new_w = $myalbum_thumbsize;
                 $scale = $width / $new_w;
-                $new_h = intval(round($height / $scale));
+                $new_h = (int)(round($height / $scale));
             } else {
                 $new_h = $myalbum_thumbsize;
                 $scale = $height / $new_h;
-                $new_w = intval(round($width / $scale));
+                $new_w = (int)(round($width / $scale));
             }
             break;
         default :
@@ -177,6 +184,12 @@ function myalbum_get_thumbnail_wh($width, $height)
 //   2 : copied
 //   3 : skipped
 //   4 : icon gif (not normal exts)
+/**
+ * @param $src_path
+ * @param $node
+ * @param $ext
+ * @return int
+ */
 function myalbum_create_thumb($src_path, $node, $ext)
 {
     global $myalbum_imagingpipe, $myalbum_makethumb, $myalbum_normal_exts;
@@ -195,22 +208,34 @@ function myalbum_create_thumb($src_path, $node, $ext)
 }
 
 // Copy Thumbnail from directory of icons
+/**
+ * @param $src_path
+ * @param $node
+ * @param $ext
+ * @return int
+ */
 function myalbum_copy_thumbs_from_icons($src_path, $node, $ext)
 {
     global $mod_path, $thumbs_dir;
 
     @unlink("$thumbs_dir/$node.gif");
-    if (file_exists("$mod_path/icons/$ext.gif")) {
-        $copy_success = copy("$mod_path/icons/$ext.gif", "$thumbs_dir/$node.gif");
+    if (file_exists("$mod_path/assets/images/icons/$ext.gif")) {
+        $copy_success = copy("$mod_path/assets/images/icons/$ext.gif", "$thumbs_dir/$node.gif");
     }
     if (empty($copy_success)) {
-        @copy("$mod_path/icons/default.gif", "$thumbs_dir/$node.gif");
+        @copy("$mod_path/assets/images/icons/default.gif", "$thumbs_dir/$node.gif");
     }
 
     return 4;
 }
 
 // Creating Thumbnail by GD
+/**
+ * @param $src_path
+ * @param $node
+ * @param $ext
+ * @return int
+ */
 function myalbum_create_thumbs_by_gd($src_path, $node, $ext)
 {
     global $myalbum_forcegd2, $thumbs_dir;
@@ -229,20 +254,20 @@ function myalbum_create_thumbs_by_gd($src_path, $node, $ext)
     @unlink("$thumbs_dir/$node.$ext");
     list($width, $height, $type) = getimagesize($src_path);
     switch ($type) {
-        case 1 :
+        case 1:
             // GIF (skip)
             @copy($src_path, "$thumbs_dir/$node.$ext");
 
             return 2;
-        case 2 :
+        case 2:
             // JPEG
             $src_img = imagecreatefromjpeg($src_path);
             break;
-        case 3 :
+        case 3:
             // PNG
             $src_img = imagecreatefrompng($src_path);
             break;
-        default :
+        default:
             @copy($src_path, "$thumbs_dir/$node.$ext");
 
             return 2;
@@ -289,12 +314,18 @@ function myalbum_create_thumbs_by_gd($src_path, $node, $ext)
 }
 
 // Creating Thumbnail by ImageMagick
+/**
+ * @param $src_path
+ * @param $node
+ * @param $ext
+ * @return int
+ */
 function myalbum_create_thumbs_by_imagick($src_path, $node, $ext)
 {
     global $myalbum_imagickpath, $thumbs_dir;
 
     // Check the path to binaries of imaging packages
-    if (trim($myalbum_imagickpath) != '' && substr($myalbum_imagickpath, -1) != DIRECTORY_SEPARATOR) {
+    if (trim($myalbum_imagickpath) !== '' && substr($myalbum_imagickpath, -1) !== DIRECTORY_SEPARATOR) {
         $myalbum_imagickpath .= DIRECTORY_SEPARATOR;
     }
 
@@ -326,12 +357,18 @@ function myalbum_create_thumbs_by_imagick($src_path, $node, $ext)
 }
 
 // Creating Thumbnail by NetPBM
+/**
+ * @param $src_path
+ * @param $node
+ * @param $ext
+ * @return int
+ */
 function myalbum_create_thumbs_by_netpbm($src_path, $node, $ext)
 {
     global $myalbum_netpbmpath, $thumbs_dir;
 
     // Check the path to binaries of imaging packages
-    if (trim($myalbum_netpbmpath) != '' && substr($myalbum_netpbmpath, -1) != DIRECTORY_SEPARATOR) {
+    if (trim($myalbum_netpbmpath) !== '' && substr($myalbum_netpbmpath, -1) !== DIRECTORY_SEPARATOR) {
         $myalbum_netpbmpath .= DIRECTORY_SEPARATOR;
     }
 
@@ -341,22 +378,22 @@ function myalbum_create_thumbs_by_netpbm($src_path, $node, $ext)
     @unlink("$thumbs_dir/$node.$ext");
     list($width, $height, $type) = getimagesize($src_path);
     switch ($type) {
-        case 1 :
+        case 1:
             // GIF
             $pipe0 = "{$myalbum_netpbmpath}giftopnm";
             $pipe2 = "{$myalbum_netpbmpath}ppmquant 256 | {$myalbum_netpbmpath}ppmtogif";
             break;
-        case 2 :
+        case 2:
             // JPEG
             $pipe0 = "{$myalbum_netpbmpath}jpegtopnm";
             $pipe2 = "{$myalbum_netpbmpath}pnmtojpeg";
             break;
-        case 3 :
+        case 3:
             // PNG
             $pipe0 = "{$myalbum_netpbmpath}pngtopnm";
             $pipe2 = "{$myalbum_netpbmpath}pnmtopng";
             break;
-        default :
+        default:
             @copy($src_path, "$thumbs_dir/$node.$ext");
 
             return 2;
@@ -386,6 +423,10 @@ function myalbum_create_thumbs_by_netpbm($src_path, $node, $ext)
 }
 
 // modifyPhoto Wrapper
+/**
+ * @param $src_path
+ * @param $dst_path
+ */
 function myalbum_modify_photo($src_path, $dst_path)
 {
     global $myalbum_imagingpipe, $myalbum_forcegd2, $myalbum_normal_exts;
@@ -410,6 +451,11 @@ function myalbum_modify_photo($src_path, $dst_path)
 }
 
 // Modifying Original Photo by GD
+/**
+ * @param $src_path
+ * @param $dst_path
+ * @return int
+ */
 function myalbum_modify_photo_by_gd($src_path, $dst_path)
 {
     global $myalbum_width, $myalbum_height;
@@ -421,20 +467,20 @@ function myalbum_modify_photo_by_gd($src_path, $dst_path)
     list($width, $height, $type) = getimagesize($src_path);
 
     switch ($type) {
-        case 1 :
+        case 1:
             // GIF
             @rename($src_path, $dst_path);
 
             return 2;
-        case 2 :
+        case 2:
             // JPEG
             $src_img = imagecreatefromjpeg($src_path);
             break;
-        case 3 :
+        case 3:
             // PNG
             $src_img = imagecreatefrompng($src_path);
             break;
-        default :
+        default:
             @rename($src_path, $dst_path);
 
             return 2;
@@ -444,11 +490,11 @@ function myalbum_modify_photo_by_gd($src_path, $dst_path)
         if ($width / $myalbum_width > $height / $myalbum_height) {
             $new_w = $myalbum_width;
             $scale = $width / $new_w;
-            $new_h = intval(round($height / $scale));
+            $new_h = (int)(round($height / $scale));
         } else {
             $new_h = $myalbum_height;
             $scale = $height / $new_h;
-            $new_w = intval(round($width / $scale));
+            $new_w = (int)(round($width / $scale));
         }
         $dst_img = imagecreatetruecolor($new_w, $new_h);
         imagecopyresampled($dst_img, $src_img, 0, 0, 0, 0, $new_w, $new_h, $width, $height);
@@ -511,12 +557,17 @@ function myalbum_modify_photo_by_gd($src_path, $dst_path)
 }
 
 // Modifying Original Photo by ImageMagick
+/**
+ * @param $src_path
+ * @param $dst_path
+ * @return int
+ */
 function myalbum_modify_photo_by_imagick($src_path, $dst_path)
 {
     global $myalbum_width, $myalbum_height, $myalbum_imagickpath;
 
     // Check the path to binaries of imaging packages
-    if (trim($myalbum_imagickpath) != '' && substr($myalbum_imagickpath, -1) != DIRECTORY_SEPARATOR) {
+    if (trim($myalbum_imagickpath) !== '' && substr($myalbum_imagickpath, -1) !== DIRECTORY_SEPARATOR) {
         $myalbum_imagickpath .= DIRECTORY_SEPARATOR;
     }
 
@@ -548,7 +599,7 @@ function myalbum_modify_photo_by_imagick($src_path, $dst_path)
     }
 
     // Do Modify and check success
-    if ($option != "") {
+    if ($option !== "") {
         exec("{$myalbum_imagickpath}convert $option $src_path $dst_path");
     }
 
@@ -565,12 +616,17 @@ function myalbum_modify_photo_by_imagick($src_path, $dst_path)
 }
 
 // Modifying Original Photo by NetPBM
+/**
+ * @param $src_path
+ * @param $dst_path
+ * @return int
+ */
 function myalbum_modify_photo_by_netpbm($src_path, $dst_path)
 {
     global $myalbum_width, $myalbum_height, $myalbum_netpbmpath;
 
     // Check the path to binaries of imaging packages
-    if (trim($myalbum_netpbmpath) != '' && substr($myalbum_netpbmpath, -1) != DIRECTORY_SEPARATOR) {
+    if (trim($myalbum_netpbmpath) !== '' && substr($myalbum_netpbmpath, -1) !== DIRECTORY_SEPARATOR) {
         $myalbum_netpbmpath .= DIRECTORY_SEPARATOR;
     }
 
@@ -582,22 +638,22 @@ function myalbum_modify_photo_by_netpbm($src_path, $dst_path)
 
     $pipe1 = '';
     switch ($type) {
-        case 1 :
+        case 1:
             // GIF
             $pipe0 = "{$myalbum_netpbmpath}giftopnm";
             $pipe2 = "{$myalbum_netpbmpath}ppmquant 256 | {$myalbum_netpbmpath}ppmtogif";
             break;
-        case 2 :
+        case 2:
             // JPEG
             $pipe0 = "{$myalbum_netpbmpath}jpegtopnm";
             $pipe2 = "{$myalbum_netpbmpath}pnmtojpeg";
             break;
-        case 3 :
+        case 3:
             // PNG
             $pipe0 = "{$myalbum_netpbmpath}pngtopnm";
             $pipe2 = "{$myalbum_netpbmpath}pnmtopng";
             break;
-        default :
+        default:
             @rename($src_path, $dst_path);
 
             return 2;
@@ -607,28 +663,28 @@ function myalbum_modify_photo_by_netpbm($src_path, $dst_path)
         if ($width / $myalbum_width > $height / $myalbum_height) {
             $new_w = $myalbum_width;
             $scale = $width / $new_w;
-            $new_h = intval(round($height / $scale));
+            $new_h = (int)(round($height / $scale));
         } else {
             $new_h = $myalbum_height;
             $scale = $height / $new_h;
-            $new_w = intval(round($width / $scale));
+            $new_w = (int)(round($width / $scale));
         }
         $pipe1 .= "{$myalbum_netpbmpath}pnmscale -xysize $new_w $new_h |";
     }
 
     if (isset($_POST['rotate'])) {
         switch ($_POST['rotate']) {
-            case 'rot270' :
+            case 'rot270':
                 $pipe1 .= "{$myalbum_netpbmpath}pnmflip -r90 |";
                 break;
-            case 'rot180' :
+            case 'rot180':
                 $pipe1 .= "{$myalbum_netpbmpath}pnmflip -r180 |";
                 break;
-            case 'rot90' :
+            case 'rot90':
                 $pipe1 .= "{$myalbum_netpbmpath}pnmflip -r270 |";
                 break;
             default :
-            case 'rot0' :
+            case 'rot0':
                 break;
         }
     }
@@ -652,6 +708,11 @@ function myalbum_modify_photo_by_netpbm($src_path, $dst_path)
 }
 
 // Clear templorary files
+/**
+ * @param        $dir_path
+ * @param string $prefix
+ * @return int
+ */
 function myalbum_clear_tmp_files($dir_path, $prefix = 'tmp_')
 {
     // return if directory can't be opened
@@ -664,7 +725,7 @@ function myalbum_clear_tmp_files($dir_path, $prefix = 'tmp_')
     while (($file = readdir($dir)) !== false) {
         if (strncmp($file, $prefix, $prefix_len) === 0) {
             if (@unlink("$dir_path/$file")) {
-                $ret++;
+                ++$ret;
             }
         }
     }
@@ -674,9 +735,12 @@ function myalbum_clear_tmp_files($dir_path, $prefix = 'tmp_')
 }
 
 //updates rating data in itemtable for a given item
+/**
+ * @param $lid
+ */
 function myalbum_updaterating($lid)
 {
-    $votedata_handler = xoops_getmodulehandler('votedata', $GLOBALS['mydirname']);
+    $votedata_handler =& xoops_getmodulehandler('votedata', $GLOBALS['mydirname']);
     $criteria         = new CriteriaCompo(new Criteria('`lid`', $lid));
     $votes            = $votedata_handler->getObjects($criteria, true);
     $votesDB          = $votedata_handler->getCount($criteria);
@@ -689,42 +753,65 @@ function myalbum_updaterating($lid)
     } else {
         $finalrating = 0;
     }
-    $photos_handler = xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
+    $photos_handler =& xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
     $photo          = $photos_handler->get($lid);
     $photo->setVar('rating', $finalrating);
     $photos_handler->insert($photo, true) or die("Error: DB update rating.");
 }
 
 // Returns the number of photos included in a Category
-function myalbum_get_photo_small_sum_from_cat($cid, $criteria = null)
+/**
+ * @param               $cid
+ * @param Criteria|null $criteria
+ * @return mixed
+ */
+function myalbum_get_photo_small_sum_from_cat($cid, Criteria $criteria = null)
 {
     if (is_object($criteria)) {
         $criteria = new CriteriaCompo($criteria);
     }
     $criteria->add(new Criteria('`cid`', $cid));
-    $photo_handler = xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
+    $photo_handler =& xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
 
     return $photo_handler->getCount($criteria);
 }
 
 // Returns the number of whole photos included in a Category
+/**
+ * @param      $cids
+ * @param null $criteria
+ * @return mixed
+ */
 function myalbum_get_photo_total_sum_from_cats($cids, $criteria = null)
 {
     if (is_object($criteria)) {
         $criteria = new CriteriaCompo($criteria);
     }
     $criteria->add(new Criteria('`cid`', '(' . implode(',', $cids) . ',0)', "IN"));
-    $photo_handler = xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
+
+
+
+    $photo_handler =& xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
 
     return $photo_handler->getCount($criteria);
 }
 
 // Update a photo
+/**
+ * @param        $lid
+ * @param        $cid
+ * @param        $title
+ * @param        $desc
+ * @param null   $valid
+ * @param string $ext
+ * @param string $x
+ * @param string $y
+ */
 function myalbum_update_photo($lid, $cid, $title, $desc, $valid = null, $ext = "", $x = "", $y = "")
 {
-    $cat_handler    = xoops_getmodulehandler('cat', $GLOBALS['mydirname']);
-    $photos_handler = xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
-    $text_handler   = xoops_getmodulehandler('text', $GLOBALS['mydirname']);
+    $cat_handler    =& xoops_getmodulehandler('cat', $GLOBALS['mydirname']);
+    $photos_handler =& xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
+    $text_handler   =& xoops_getmodulehandler('text', $GLOBALS['mydirname']);
     $photo          = $photos_handler->get($lid);
     $text           = $text_handler->get($lid);
     $cat            = $cat_handler->get($cid);
@@ -741,29 +828,26 @@ function myalbum_update_photo($lid, $cid, $title, $desc, $valid = null, $ext = "
             // Category Notification
 
             $cat_title = $cat->getVar('title');
-            $notification_handler->triggerEvent(
-                'category',
-                $cid,
-                'new_photo',
-                array('PHOTO_TITLE' => $title, 'CATEGORY_TITLE' => $cat_title, 'PHOTO_URI' => $photo->getURL())
-            );
+            $notification_handler->triggerEvent('category', $cid, 'new_photo', array('PHOTO_TITLE'    => $title,
+                                                                                     'CATEGORY_TITLE' => $cat_title,
+                                                                                     'PHOTO_URI'      => $photo->getURL()));
         }
     }
 
     $photo->setVar('cid', $cid);
     $photo->setVar('title', $title);
 
-    if ($ext != '') {
+    if ($ext !== '') {
         $photo->setVar('ext', $ext);
     }
-    if ($x != '') {
+    if ($x !== '') {
         $photo->setVar('res_x', $x);
     }
-    if ($y != '') {
+    if ($y !== '') {
         $photo->setVar('res_y', $y);
     }
 
-    $cid = empty($_POST['cid']) ? 0 : intval($_POST['cid']);
+    $cid = empty($_POST['cid']) ? 0 : (int)($_POST['cid']);
 
     if ($photos_handler->insert($photo, true)) {
         $text->setVar('description', $desc);
@@ -775,9 +859,12 @@ function myalbum_update_photo($lid, $cid, $title, $desc, $valid = null, $ext = "
 }
 
 // Delete photos hit by the $whr clause
+/**
+ * @param null $criteria
+ */
 function myalbum_delete_photos($criteria = null)
 {
-    $photos_handler = xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
+    $photos_handler =& xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
     $photos         = $photos_handler->getObjects($criteria);
     foreach ($photos as $lid => $photo) {
         $photos_handler->delete($photo);
@@ -797,6 +884,15 @@ function myalbum_closetable()
 }
 
 // returns extracted string for options from table with xoops tree
+/**
+ * @param string $order
+ * @param int    $preset
+ * @param string $prefix
+ * @param null   $none
+ * @param null   $table_name_cat
+ * @param null   $table_name_photos
+ * @return string
+ */
 function myalbum_get_cat_options($order = 'title', $preset = 0, $prefix = '--', $none = null, $table_name_cat = null, $table_name_photos = null)
 {
     if (empty($table_name_cat)) {
@@ -808,26 +904,23 @@ function myalbum_get_cat_options($order = 'title', $preset = 0, $prefix = '--', 
 
     $cats[0] = array('cid' => 0, 'pid' => -1, 'next_key' => -1, 'depth' => 0, 'title' => '', 'num' => 0);
 
-    $rs = $GLOBALS['xoopsDB']->query(
-        "SELECT c.title,c.cid,c.pid,COUNT(p.lid) AS num FROM $table_name_cat c LEFT JOIN $table_name_photos p ON c.cid=p.cid GROUP BY c.cid ORDER BY pid ASC,$order DESC"
-    );
+    $rs = $GLOBALS['xoopsDB']->query("SELECT c.title,c.cid,c.pid,COUNT(p.lid) AS num FROM $table_name_cat c LEFT JOIN $table_name_photos p ON c.cid=p.cid GROUP BY c.cid ORDER BY pid ASC,$order DESC");
 
     $key = 1;
     while (list($title, $cid, $pid, $num) = $GLOBALS['xoopsDB']->fetchRow($rs)) {
         $cats[$key] = array(
-            'cid'      => intval($cid),
-            'pid'      => intval($pid),
+            'cid'      => (int)($cid),
+            'pid'      => (int)($pid),
             'next_key' => $key + 1,
             'depth'    => 0,
             'title'    => $GLOBALS['myts']->htmlSpecialChars($title),
-            'num'      => intval($num)
-        );
-        $key++;
+            'num'      => (int)($num));
+        ++$key;
     }
     $sizeofcats = $key;
 
     $loop_check_for_key = 1024;
-    for ($key = 1; $key < $sizeofcats; $key++) {
+    for ($key = 1; $key < $sizeofcats; ++$key) {
         $cat    =& $cats[$key];
         $target =& $cats[0];
         if (--$loop_check_for_key < 0) {
@@ -850,7 +943,7 @@ function myalbum_get_cat_options($order = 'title', $preset = 0, $prefix = '--', 
             } elseif ($target['next_key'] < 0) {
                 $cat_backup = $cat;
                 array_splice($cats, $key, 1);
-                array_push($cats, $cat_backup);
+                $cats[] = $cat_backup;
                 --$key;
                 break;
             }
@@ -864,7 +957,7 @@ function myalbum_get_cat_options($order = 'title', $preset = 0, $prefix = '--', 
         $ret = '';
     }
     $cat =& $cats[0];
-    for ($weight = 1; $weight < $sizeofcats; $weight++) {
+    for ($weight = 1; $weight < $sizeofcats; ++$weight) {
         $cat      =& $cats[$cat['next_key']];
         $pref     = str_repeat($prefix, $cat['depth'] - 1);
         $selected = $preset == $cat['cid'] ? "selected='selected'" : '';
@@ -874,12 +967,16 @@ function myalbum_get_cat_options($order = 'title', $preset = 0, $prefix = '--', 
     return $ret;
 }
 
+/**
+ * @param $html
+ * @return string
+ */
 function extractSummary($html)
 {
     $html = $GLOBALS['myts']->displayTarea($html, 1, 1, 1, 1, 1, 1, 1);
     $ret  = '';
     $i    = 0;
-    if ($html != "") {
+    if ($html !== "") {
         if ($i < 4) {
             foreach (explode('.', strip_tags($html)) as $raw) {
                 if ($i < 4) {
@@ -906,7 +1003,7 @@ function extractSummary($html)
                 }
             }
         } else {
-            continue;
+//            continue;
         }
     }
 

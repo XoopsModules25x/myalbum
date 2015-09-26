@@ -1,26 +1,29 @@
 <?php
 
 if (!defined('MYALBUM_BLOCK_TOPHITS_INCLUDED')) {
-
     define('MYALBUM_BLOCK_TOPHITS_INCLUDED', 1);
 
+    /**
+     * @param $options
+     * @return array
+     */
     function b_myalbum_tophits_show($options)
     {
         global $xoopsDB, $table_photos, $mod_url, $myalbum_normal_exts, $myts;
 
         // For myAlbum-P < 2.70
         if (strncmp($options[0], 'myalbum', 7) != 0) {
-            $title_max_length = intval($options[1]);
-            $photos_num       = intval($options[0]);
+            $title_max_length = (int)($options[1]);
+            $photos_num       = (int)($options[0]);
             $mydirname        = 'myalbum';
         } else {
-            $title_max_length = intval($options[2]);
-            $photos_num       = intval($options[1]);
+            $title_max_length = (int)($options[2]);
+            $photos_num       = (int)($options[1]);
             $mydirname        = $options[0];
         }
-        $cat_limitation      = empty($options[3]) ? 0 : intval($options[3]);
+        $cat_limitation      = empty($options[3]) ? 0 : (int)($options[3]);
         $cat_limit_recursive = empty($options[4]) ? 0 : 1;
-        $cols                = empty($options[6]) ? 1 : intval($options[6]);
+        $cols                = empty($options[6]) ? 1 : (int)($options[6]);
 
         include(XOOPS_ROOT_PATH . "/modules/$mydirname/include/read_configs.php");
 
@@ -44,12 +47,7 @@ if (!defined('MYALBUM_BLOCK_TOPHITS_INCLUDED')) {
 
         $block           = array();
         $GLOBALS['myts'] = MyTextSanitizer::getInstance();
-        $result          = $xoopsDB->query(
-            "SELECT lid , cid , title , ext , res_x , res_y , submitter , status , date AS unixtime , hits , rating , votes , comments FROM "
-            . $xoopsDB->prefix($table_photos) . " WHERE status>0 AND $whr_cat ORDER BY hits DESC",
-            $photos_num,
-            0
-        );
+        $result          = $xoopsDB->query("SELECT lid , cid , title , ext , res_x , res_y , submitter , status , date AS unixtime , hits , rating , votes , comments FROM " . $xoopsDB->prefix($table_photos) . " WHERE status>0 AND $whr_cat ORDER BY hits DESC", $photos_num, 0);
 
         $count = 1;
         while ($photo = $xoopsDB->fetchArray($result)) {
@@ -69,8 +67,7 @@ if (!defined('MYALBUM_BLOCK_TOPHITS_INCLUDED')) {
                 $width_spec = "width='$myalbum_thumbsize'";
                 if ($myalbum_makethumb) {
                     list($width, $height, $type) = getimagesize("$thumbs_dir/{$photo['lid']}.{$photo['ext']}");
-                    if ($width <= $myalbum_thumbsize) // if thumb images was made, 'width' and 'height' will not set.
-                    {
+                    if ($width <= $myalbum_thumbsize) { // if thumb images was made, 'width' and 'height' will not set.
                         $width_spec = '';
                     }
                 }
@@ -80,7 +77,7 @@ if (!defined('MYALBUM_BLOCK_TOPHITS_INCLUDED')) {
                 $photo['width_spec'] = '';
             }
 
-            $block['photo'][$count++] = $photo;
+            $block['photo'][++$count] = $photo;
         }
         $block['mod_url'] = $mod_url;
         $block['cols']    = $cols;
@@ -88,23 +85,27 @@ if (!defined('MYALBUM_BLOCK_TOPHITS_INCLUDED')) {
         return $block;
     }
 
+    /**
+     * @param $options
+     * @return string
+     */
     function b_myalbum_tophits_edit($options)
     {
         global $xoopsDB;
 
         // For myAlbum-P < 2.70
         if (strncmp($options[0], 'myalbum', 7) != 0) {
-            $title_max_length = intval($options[1]);
-            $photos_num       = intval($options[0]);
+            $title_max_length = (int)($options[1]);
+            $photos_num       = (int)($options[0]);
             $mydirname        = 'myalbum';
         } else {
-            $title_max_length = intval($options[2]);
-            $photos_num       = intval($options[1]);
+            $title_max_length = (int)($options[2]);
+            $photos_num       = (int)($options[1]);
             $mydirname        = $options[0];
         }
-        $cat_limitation      = empty($options[3]) ? 0 : intval($options[3]);
+        $cat_limitation      = empty($options[3]) ? 0 : (int)($options[3]);
         $cat_limit_recursive = empty($options[4]) ? 0 : 1;
-        $cols                = empty($options[6]) ? 1 : intval($options[6]);
+        $cols                = empty($options[6]) ? 1 : (int)($options[6]);
 
         include_once(XOOPS_ROOT_PATH . "/class/xoopstree.php");
         $cattree = new XoopsTree($xoopsDB->prefix("{$mydirname}_cat"), "cid", "pid");
@@ -133,5 +134,4 @@ if (!defined('MYALBUM_BLOCK_TOPHITS_INCLUDED')) {
         <br />
         \n";
     }
-
 }

@@ -4,15 +4,15 @@
 //                        <http://www.peak.ne.jp/>                           //
 // ------------------------------------------------------------------------- //
 
-include 'admin_header.php';
+include  __DIR__ . '/admin_header.php';
 
 // GPCS vars
-$GLOBALS['submitter'] = empty($_POST['submitter']) ? $my_uid : intval($_POST['submitter']);
+$GLOBALS['submitter'] = empty($_POST['submitter']) ? $my_uid : (int)($_POST['submitter']);
 if (isset($_POST['cid'])) {
-    $cid = intval($_POST['cid']);
+    $cid = (int)($_POST['cid']);
 } else {
     if (isset($_GET['cid'])) {
-        $cid = intval($_GET['cid']);
+        $cid = (int)($_GET['cid']);
     } else {
         $cid = 0;
     }
@@ -27,7 +27,7 @@ if (!$isadmin) {
     exit;
 }
 
-$catHandler = xoops_getmodulehandler('cat');
+$catHandler =& xoops_getmodulehandler('cat');
 // check Categories exist
 $count = $catHandler->getCount();
 if ($count < 1) {
@@ -35,16 +35,16 @@ if ($count < 1) {
     exit();
 }
 
-$photosHandler = xoops_getmodulehandler('photos');
-$textHandler   = xoops_getmodulehandler('text');
+$photosHandler =& xoops_getmodulehandler('photos');
+$textHandler   =& xoops_getmodulehandler('text');
 
-if (isset($_POST['submit']) && $_POST['submit'] != "") {
+if (isset($_POST['submit']) && $_POST['submit'] !== "") {
     ob_start();
 
     // Check Directory
     $dir = $GLOBALS['myts']->stripSlashesGPC($_POST['dir']);
     if (empty($dir) || !is_dir($dir)) {
-        if (ord($dir) != 0x2f) {
+        if (ord($dir) !== 0x2f) {
             $dir = "/$dir";
         }
         $prefix = XOOPS_ROOT_PATH;
@@ -60,7 +60,7 @@ if (isset($_POST['submit']) && $_POST['submit'] != "") {
             exit;
         }
     }
-    if (substr($dir, -1) == '/') {
+    if (substr($dir, -1) === '/') {
         $dir = substr($dir, 0, -1);
     }
 
@@ -81,7 +81,7 @@ if (isset($_POST['submit']) && $_POST['submit'] != "") {
     while ($file_name = readdir($dir_h)) {
 
         // Skip '.' , '..' and hidden file
-        if (substr($file_name, 0, 1) == '.') {
+        if (substr($file_name, 0, 1) === '.') {
             continue;
         }
 
@@ -117,7 +117,7 @@ if (isset($_POST['submit']) && $_POST['submit'] != "") {
                 echo _AM_MB_FINISHED . "<br />\n";
             }
 
-            $filecount++;
+            ++$filecount;
         }
     }
     closedir($dir_h);
@@ -145,8 +145,8 @@ if (isset($result_str)) {
     $GLOBALS['xoopsTpl']->assign('result_str', $result_str);
 }
 
-$GLOBALS['xoopsTpl']->display('db:' . $GLOBALS['mydirname'] . '_cpanel_batch.html');
+$GLOBALS['xoopsTpl']->display('db:' . $GLOBALS['mydirname'] . '_cpanel_batch.tpl');
 
 // check $GLOBALS['myalbumModule']
-//	myalbum_footer_adminMenu();
-include_once 'admin_footer.php';
+//  myalbum_footer_adminMenu();
+include_once  __DIR__ . '/admin_footer.php';

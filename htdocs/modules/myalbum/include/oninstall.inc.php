@@ -11,14 +11,14 @@ eval('
 function xoops_module_install_' . $mydirname . '( $module )
 {
     $modid = $module->getVar("mid") ;
-    $gperm_handler = xoops_gethandler("groupperm");
+    $gperm_handler =& xoops_gethandler("groupperm");
 
     $global_perms_array = array(
         GPERM_INSERTABLE => _ALBM_GPERM_G_INSERTABLE ,
         GPERM_SUPERINSERT | GPERM_INSERTABLE => _ALBM_GPERM_G_SUPERINSERT ,
-//		GPERM_EDITABLE => _ALBM_GPERM_G_EDITABLE ,
+//      GPERM_EDITABLE => _ALBM_GPERM_G_EDITABLE ,
         GPERM_SUPEREDIT | GPERM_EDITABLE => _ALBM_GPERM_G_SUPEREDIT ,
-//		GPERM_DELETABLE => _ALBM_GPERM_G_DELETABLE ,
+//      GPERM_DELETABLE => _ALBM_GPERM_G_DELETABLE ,
         GPERM_SUPERDELETE | GPERM_DELETABLE => _ALBM_GPERM_G_SUPERDELETE ,
         GPERM_RATEVIEW => _ALBM_GPERM_G_RATEVIEW ,
         GPERM_RATEVOTE | GPERM_RATEVIEW => _ALBM_GPERM_G_RATEVOTE

@@ -4,7 +4,7 @@ if (!defined('XOOPS_ROOT_PATH')) {
     exit;
 }
 
-$mydirname = basename(dirname(dirname(__FILE__)));
+$mydirname = basename(dirname(__DIR__));
 
 eval('
 
@@ -15,7 +15,10 @@ function b_waiting_' . $mydirname . '(){
 ');
 
 if (!function_exists('b_waiting_myalbum_base')) {
-
+    /**
+     * @param $mydirname
+     * @return array
+     */
     function b_waiting_myalbum_base($mydirname)
     {
         $xoopsDB =& XoopsDatabaseFactory::getDatabaseConnection();
@@ -25,7 +28,7 @@ if (!function_exists('b_waiting_myalbum_base')) {
         if (!preg_match('/^(\D+)(\d*)$/', $mydirname, $regs)) {
             echo("invalid dirname: " . htmlspecialchars($mydirname));
         }
-        $mydirnumber = $regs[2] === '' ? '' : intval($regs[2]);
+        $mydirnumber = $regs[2] === '' ? '' : (int)($regs[2]);
 
         $result = $xoopsDB->query("SELECT COUNT(*) FROM " . $xoopsDB->prefix("myalbum{$mydirnumber}_photos") . " WHERE status=0");
         if ($result) {
@@ -36,5 +39,4 @@ if (!function_exists('b_waiting_myalbum_base')) {
 
         return $block;
     }
-
 }

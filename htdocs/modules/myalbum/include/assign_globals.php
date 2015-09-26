@@ -29,5 +29,4 @@ $GLOBALS['myalbum_assign_globals'] = array(
     'thumbsize'            => $myalbum_thumbsize,
     'colsoftableview'      => $myalbum_colsoftableview,
     'canrateview'          => $GLOBALS['global_perms'] & GPERM_RATEVIEW,
-    'canratevote'          => $GLOBALS['global_perms'] & GPERM_RATEVOTE
-);
+    'canratevote'          => $GLOBALS['global_perms'] & GPERM_RATEVOTE);

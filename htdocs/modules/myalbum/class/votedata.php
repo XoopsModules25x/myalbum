@@ -4,7 +4,7 @@ if (!defined('XOOPS_ROOT_PATH')) {
     exit();
 }
 
-include (dirname(dirname(__FILE__))) . '/include/read_configs.php';
+include (dirname(__DIR__)) . '/include/read_configs.php';
 
 /**
  * Class for Blue Room Xcenter
@@ -15,8 +15,11 @@ include (dirname(dirname(__FILE__))) . '/include/read_configs.php';
  */
 class MyalbumVotedata extends XoopsObject
 {
-
-    function __construct($id = null)
+    /**
+     * MyalbumVotedata constructor.
+     * @param null $id
+     */
+    public function __construct($id = null)
     {
         $this->initVar('ratingid', XOBJ_DTYPE_INT, null, false);
         $this->initVar('lid', XOBJ_DTYPE_INT, null, false);
@@ -25,7 +28,6 @@ class MyalbumVotedata extends XoopsObject
         $this->initVar('ratinghostname', XOBJ_DTYPE_INT, null, false);
         $this->initVar('ratingtimestamp', XOBJ_DTYPE_INT, null, false);
     }
-
 }
 
 /**
@@ -38,32 +40,57 @@ class MyalbumVotedata extends XoopsObject
  */
 class MyalbumVotedataHandler extends XoopsPersistableObjectHandler
 {
-    function __construct(&$db)
+    /**
+     * MyalbumVotedataHandler constructor.
+     * @param null|object $db
+     */
+    public function __construct(&$db)
     {
         $this->db = $db;
         parent::__construct($db, $GLOBALS['table_votedata'], 'MyalbumVotedata', "ratingid", "lid");
     }
 }
 
+/**
+ * Class Myalbum0VotedataHandler
+ */
 class Myalbum0VotedataHandler extends MyalbumVotedataHandler
 {
-    function __construct(&$db)
+    /**
+     * Myalbum0VotedataHandler constructor.
+     * @param null|object $db
+     */
+    public function __construct(&$db)
     {
         parent::__construct($db);
     }
 }
 
+/**
+ * Class Myalbum1VotedataHandler
+ */
 class Myalbum1VotedataHandler extends MyalbumVotedataHandler
 {
-    function __construct(&$db)
+    /**
+     * Myalbum1VotedataHandler constructor.
+     * @param null|object $db
+     */
+    public function __construct(&$db)
     {
         parent::__construct($db);
     }
 }
 
+/**
+ * Class Myalbum2VotedataHandler
+ */
 class Myalbum2VotedataHandler extends MyalbumVotedataHandler
 {
-    function __construct(&$db)
+    /**
+     * Myalbum2VotedataHandler constructor.
+     * @param null|object $db
+     */
+    public function __construct(&$db)
     {
         parent::__construct($db);
     }

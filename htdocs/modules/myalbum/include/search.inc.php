@@ -4,14 +4,21 @@ if (!defined('XOOPS_ROOT_PATH')) {
     exit;
 }
 
+/**
+ * @param $keywords
+ * @param $andor
+ * @param $limit
+ * @param $offset
+ * @param $userid
+ * @return array
+ */
 function myalbum_search($keywords, $andor, $limit, $offset, $userid)
 {
     global $xoopsDB;
-    $mydirname = basename(dirname(dirname(__FILE__)));
+    $mydirname = basename(dirname(__DIR__));
     include(XOOPS_ROOT_PATH . '/modules/' . $mydirname . '/include/read_configs.php');
 
-    $sql = "SELECT l.lid,l.cid,l.title,l.submitter,l.date,t.description FROM " . $xoopsDB->prefix($mydirname . '_photos') . " l LEFT JOIN "
-        . $xoopsDB->prefix($mydirname . '_text') . " t ON t.lid=l.lid WHERE status>0";
+    $sql = "SELECT l.lid,l.cid,l.title,l.submitter,l.date,t.description FROM " . $xoopsDB->prefix($mydirname . '_photos') . " l LEFT JOIN " . $xoopsDB->prefix($mydirname . '_text') . " t ON t.lid=l.lid WHERE status>0";
 
     if ($userid > 0) {
         $sql .= " AND l.submitter=" . $userid . " ";
@@ -40,20 +47,20 @@ function myalbum_search($keywords, $andor, $limit, $offset, $userid)
         $whr .= ")";
     }
 
-    $sql = "$sql $whr ORDER BY l.date DESC";
+    $sql    = "$sql $whr ORDER BY l.date DESC";
     $result = $xoopsDB->query($sql, $limit, $offset);
-    $ret = array();
+    $ret    = array();
     while ($myrow = $xoopsDB->fetchArray($result)) {
         $ret[] = array(
             "image" => "images/pict.gif",
             "link"  => "photo.php?lid=" . $myrow["lid"],
             "title" => $myrow["title"],
             "time"  => $myrow["date"],
-            "uid"   => $myrow["submitter"]
-        );
+            "uid"   => $myrow["submitter"]);
     }
 
     return $ret;
 }
 
 //' ) ;
+

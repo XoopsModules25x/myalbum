@@ -1,27 +1,30 @@
 <?php
 
 if (!defined('MYALBUM_BLOCK_RPHOTO_INCLUDED')) {
-
     define('MYALBUM_BLOCK_RPHOTO_INCLUDED', 1);
 
+    /**
+     * @param $options
+     * @return array
+     */
     function b_myalbum_rphoto_show($options)
     {
         global $xoopsDB, $mod_url, $table_photos, $myalbum_normal_exts;
 
         // For myAlbum-P < 2.70
         if (strncmp($options[0], 'myalbum', 7) != 0) {
-            $photos_num = intval($options[1]);
-            $box_size   = intval($options[0]);
+            $photos_num = (int)($options[1]);
+            $box_size   = (int)($options[0]);
             $mydirname  = 'myalbum';
         } else {
-            $photos_num = intval($options[2]);
-            $box_size   = intval($options[1]);
+            $photos_num = (int)($options[2]);
+            $box_size   = (int)($options[1]);
             $mydirname  = $options[0];
         }
-        $cat_limitation      = empty($options[3]) ? 0 : intval($options[3]);
+        $cat_limitation      = empty($options[3]) ? 0 : (int)($options[3]);
         $cat_limit_recursive = empty($options[4]) ? 0 : 1;
-        $cycle               = empty($options[5]) ? 60 : intval($options[5]);
-        $cols                = empty($options[6]) ? 1 : intval($options[6]);
+        $cycle               = empty($options[5]) ? 60 : (int)($options[5]);
+        $cols                = empty($options[6]) ? 1 : (int)($options[6]);
 
         include(XOOPS_ROOT_PATH . "/modules/$mydirname/include/read_configs.php");
 
@@ -57,10 +60,7 @@ if (!defined('MYALBUM_BLOCK_RPHOTO_INCLUDED')) {
         }
 
         if ($numrows <= $photos_num) {
-            $result = $xoopsDB->query(
-                "SELECT lid , cid , title , ext , res_x , res_y , submitter , status , date AS unixtime , hits , rating , votes , comments FROM "
-                . $xoopsDB->prefix($table_photos) . " WHERE status>0 AND $whr_cat AND $whr_ext"
-            );
+            $result = $xoopsDB->query("SELECT lid , cid , title , ext , res_x , res_y , submitter , status , date AS unixtime , hits , rating , votes , comments FROM " . $xoopsDB->prefix($table_photos) . " WHERE status>0 AND $whr_cat AND $whr_ext");
         } else {
             $result   = $xoopsDB->query("SELECT lid FROM " . $xoopsDB->prefix($table_photos) . " WHERE status>0 AND $whr_cat AND $whr_ext");
             $lids     = array();
@@ -68,7 +68,7 @@ if (!defined('MYALBUM_BLOCK_RPHOTO_INCLUDED')) {
             while (list($lid) = $xoopsDB->fetchRow($result)) {
                 $lids[] = $lid;
             }
-            srand(intval(time() / $cycle) * $cycle);
+            mt_srand((int)(time() / $cycle) * $cycle);
             $sel_lids = array_rand($lids, $photos_num);
             if (is_array($sel_lids)) {
                 $whr_lid = '';
@@ -79,10 +79,7 @@ if (!defined('MYALBUM_BLOCK_RPHOTO_INCLUDED')) {
             } else {
                 $whr_lid = $lids[$sel_lids];
             }
-            $result = $xoopsDB->query(
-                "SELECT lid , cid , title , ext , res_x , res_y , submitter , status , date AS unixtime , hits , rating , votes , comments FROM "
-                . $xoopsDB->prefix($table_photos) . " WHERE status>0 AND lid IN ($whr_lid)"
-            );
+            $result = $xoopsDB->query("SELECT lid , cid , title , ext , res_x , res_y , submitter , status , date AS unixtime , hits , rating , votes , comments FROM " . $xoopsDB->prefix($table_photos) . " WHERE status>0 AND lid IN ($whr_lid)");
         }
 
         $count = 1;
@@ -121,24 +118,28 @@ if (!defined('MYALBUM_BLOCK_RPHOTO_INCLUDED')) {
         return $block;
     }
 
+    /**
+     * @param $options
+     * @return string
+     */
     function b_myalbum_rphoto_edit($options)
     {
         global $xoopsDB;
 
         // For myAlbum-P < 2.70
         if (strncmp($options[0], 'myalbum', 7) != 0) {
-            $photos_num = intval($options[1]);
-            $box_size   = intval($options[0]);
+            $photos_num = (int)($options[1]);
+            $box_size   = (int)($options[0]);
             $mydirname  = 'myalbum';
         } else {
-            $photos_num = intval($options[2]);
-            $box_size   = intval($options[1]);
+            $photos_num = (int)($options[2]);
+            $box_size   = (int)($options[1]);
             $mydirname  = $options[0];
         }
-        $cat_limitation      = empty($options[3]) ? 0 : intval($options[3]);
+        $cat_limitation      = empty($options[3]) ? 0 : (int)($options[3]);
         $cat_limit_recursive = empty($options[4]) ? 0 : 1;
-        $cycle               = empty($options[5]) ? 60 : intval($options[5]);
-        $cols                = empty($options[6]) ? 1 : intval($options[6]);
+        $cycle               = empty($options[5]) ? 60 : (int)($options[5]);
+        $cols                = empty($options[6]) ? 1 : (int)($options[6]);
 
         include_once(XOOPS_ROOT_PATH . "/class/xoopstree.php");
         $cattree = new XoopsTree($xoopsDB->prefix("{$mydirname}_cat"), "cid", "pid");
@@ -148,8 +149,7 @@ if (!defined('MYALBUM_BLOCK_RPHOTO_INCLUDED')) {
         $catselbox = ob_get_contents();
         ob_end_clean();
 
-        $form
-            = "
+        $form = "
         " . _ALBM_TEXT_BLOCK_WIDTH . "&nbsp;
         <input type='hidden' name='options[0]' value='{$mydirname}' />
         <input type='text' size='6' name='options[1]' value='$box_size' style='text-align:right;' />&nbsp;pixel " . _ALBM_TEXT_BLOCK_WIDTH_NOTES . "
@@ -172,5 +172,4 @@ if (!defined('MYALBUM_BLOCK_RPHOTO_INCLUDED')) {
 
         return $form;
     }
-
 }
