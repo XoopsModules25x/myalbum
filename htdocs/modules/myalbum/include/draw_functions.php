@@ -241,6 +241,8 @@ function myalbum_get_sub_categories($parent_id, $cattree)
     $ret      = array();
     $criteria = new Criteria('`status`', '0', '>');
     $criterib = new Criteria('`pid`', $parent_id, '=');
+    $criterib->setSort('cid');
+    $criterib->setOrder('DESC');
 
     $cat_handler = xoops_getmodulehandler('cat', $GLOBALS['mydirname']);
 
