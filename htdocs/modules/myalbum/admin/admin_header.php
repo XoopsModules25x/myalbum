@@ -34,14 +34,10 @@ $cat_handler        =& xoops_getmodulehandler('cat');
 $cats               = $cat_handler->getObjects(null, true);
 $GLOBALS['cattree'] = new XoopsObjectTree($cats, 'cid', 'pid', 0);
 
-if (file_exists($GLOBALS['xoops']->path('/Frameworks/moduleclasses/moduleadmin/moduleadmin.php'))) {
-    include_once $GLOBALS['xoops']->path('/Frameworks/moduleclasses/moduleadmin/moduleadmin.php');
-} else {
-    echo xoops_error("Error: You don't use the Frameworks \"admin module\". Please install this Frameworks");
-}
+include_once $GLOBALS['xoops']->path('/Frameworks/moduleclasses/moduleadmin/moduleadmin.php');
 
-$GLOBALS['myalbumImageIcon']  = XOOPS_URL . '/' . $GLOBALS['myalbumModule']->getInfo('icons16');
-$GLOBALS['myalbumImageAdmin'] = XOOPS_URL . '/' . $GLOBALS['myalbumModule']->getInfo('icons32');
+$GLOBALS['myalbumImageIcon']  = XOOPS_URL . '/' . $GLOBALS['myalbumModule']->getInfo('modicons16');
+$GLOBALS['myalbumImageAdmin'] = XOOPS_URL . '/' . $GLOBALS['myalbumModule']->getInfo('modicons32');
 
 if ($GLOBALS['xoopsUser']) {
     $moduleperm_handler =& xoops_gethandler('groupperm');
@@ -58,8 +54,8 @@ xoops_loadLanguage('user');
 xoops_loadLanguage('admin', $mydirname);
 xoops_loadLanguage('main', $mydirname);
 
-$pathIcon16      = '../' . $xoopsModule->getInfo('icons16');
-$pathIcon32      = '../' . $xoopsModule->getInfo('icons32');
+$pathIcon16      = '../../' . $xoopsModule->getInfo('sysicons16');
+$pathIcon32      = '../../' . $xoopsModule->getInfo('sysicons32');
 $pathModuleAdmin = $xoopsModule->getInfo('dirmoduleadmin');
 
 if (!isset($GLOBALS['xoopsTpl']) || !is_object($GLOBALS['xoopsTpl'])) {

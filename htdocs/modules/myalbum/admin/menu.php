@@ -11,7 +11,7 @@ include_once $path . '/mainfile.php';
 $dirname         = basename(dirname(__DIR__));
 $module_handler  =& xoops_gethandler('module');
 $module          = $module_handler->getByDirname($dirname);
-$pathIcon32      = $module->getInfo('icons32');
+$pathIcon32     = '../../' . $module->getInfo('sysicons32');
 $pathModuleAdmin = $module->getInfo('dirmoduleadmin');
 $pathLanguage    = $path . $pathModuleAdmin;
 

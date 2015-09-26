@@ -1,4 +1,4 @@
-3.07 RC 5            NOT RELEASED
+3.08 Beta 1            NOT RELEASED
 =================================
 - add category sort (chaoos/bleekk)
 - replace intval() with (int) (mamba)

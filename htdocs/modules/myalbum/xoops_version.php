@@ -25,145 +25,171 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
-if (!defined('XOOPS_ROOT_PATH')) {
-    die('XOOPS root path not defined');
-}
+//defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
-$mydirname = basename(__DIR__);
-if (preg_match('/^myalbum(\d*)$/', $mydirname, $regs)) {
+$moduleDirName = basename(__DIR__);
+
+if (preg_match('/^myalbum(\d*)$/', $moduleDirName, $regs)) {
     $myalbum_number = $regs[1];
 } else {
-    echo "invalid dirname of myalbum: " . htmlspecialchars($mydirname);
+    echo "invalid dirname of myalbum: " . htmlspecialchars($moduleDirName);
 }
-$_SESSION['myalbum_mydirname'] = $mydirname;
+$_SESSION['myalbum_mydirname'] = $moduleDirName;
 
-$modversion['name']        = _ALBM_MYALBUM_NAME . $myalbum_number;
-$modversion['version']     = 3.07;
-$modversion['description'] = _ALBM_MYALBUM_DESC;
-$modversion['author']      = 'GIJoe, http://xoops.peak.ne.jp<br />Updates: Wishcraft=Simon Roberts, montuy337513 alias black_beard';
-$modversion['credits']     = "Original: Daniel Branco<br />(http://bluetopia.homeip.net)<br />Kazumi Ono<br />(http://www.mywebaddons.com/)<br />Wishcraft=Simon Roberts<br />Chronolabs Co-op.(http://www.chronolabs.coop/)<br />The XOOPS Project, Chronolabs Co-op - http://www.chronolabs.coop/";
-$modversion['help']        = 'page=help';
-$modversion['license']     = 'GNU GPL 2.0 or later';
-$modversion['license_url'] = 'www.gnu.org/licenses/gpl-2.0.html';
-$modversion['official']    = 0;
-$modversion['image']       = "assets/images/{$mydirname}_slogo.gif";
-$modversion['dirname']     = $mydirname;
-$modversion['website']     = '';
+// ------------------- Informations ------------------- //
+$modversion = array(
+    'name'                => _ALBM_MYALBUM_NAME . $myalbum_number,
+    'description'         => _ALBM_MYALBUM_DESC,
+    'official'            => 0, //1 indicates supported by XOOPS Dev Team, 0 means 3rd party supported
+    'author'              => 'GIJoe, http://xoops.peak.ne.jp<br />Updates: Wishcraft=Simon Roberts, montuy337513 alias black_beard',
+    'credits'             => "Original: Daniel Branco<br />(http://bluetopia.homeip.net)<br />Kazumi Ono<br />(http://www.mywebaddons.com/)<br />Wishcraft=Simon Roberts<br />Chronolabs Co-op.(http://www.chronolabs.coop/)<br />The XOOPS Project, Chronolabs Co-op - http://www.chronolabs.coop/",
+    'author_mail'         => '',
+    'author_website_url'  => 'http://xoops.org',
+    'author_website_name' => 'XOOPS',
+    'license'             => 'GPL 2.0 or later',
+    'license_url'         => 'www.gnu.org/licenses/gpl-2.0.html/',
+    'help'                => 'page=help',
+    //
+    'release_info'        => 'Changelog',
+    'release_file'        => XOOPS_URL . "/modules/$moduleDirName/docs/changelog file",
+    //
+    'manual'              => 'link to manual file',
+    'manual_file'         => XOOPS_URL . "/modules/$moduleDirName/docs/install.txt",
+    'min_php'             => '5.3.7',
+    'min_xoops'           => '2.5.7.1',
+    'min_admin'           => '1.1',
+    'min_db'              => array('mysql' => '5.0.7', 'mysqli' => '5.0.7'),
+    // images
+    'image'               => "assets/images/{$moduleDirName}_slogo.gif", //'assets/images/module_logo.png',
+//    'iconsmall'           => 'assets/images/iconsmall.png',
+//    'iconbig'             => 'assets/images/iconbig.png',
+    'dirname'             => $moduleDirName,
+    //Frameworks
+    'dirmoduleadmin'      => 'Frameworks/moduleclasses/moduleadmin',
+    'sysicons16'          => 'Frameworks/moduleclasses/icons/16',
+    'sysicons32'          => 'Frameworks/moduleclasses/icons/32',
+    // Local path icons
+    'modicons16'          => 'assets/images/icons/16',
+    'modicons32'          => 'assets/images/icons/32',
+    //About
+    'version'             => 3.08,
+    'module_status'       => 'Beta 1',
+    'release_date'        => '2015/09/23', //yyyy/mm/dd
+    //    'release'             => '2015-04-04',
+    'demo_site_url'       => 'http://www.xoops.org',
+    'demo_site_name'      => 'XOOPS Demo Site',
+    'support_url'         => 'http://xoops.org/modules/newbb',
+    'submit_bug'          => 'http://xoops.org/modules/newbb/viewforum.php?forum=28',
+    'submit_feature'      => 'http://xoops.org/modules/newbb/viewforum.php?forum=30',
+    'support_name'        => 'XOOPS Support Forum',
+    'module_website_url'  => 'www.xoops.org',
+    'module_website_name' => 'XOOPS Project',
+    // Admin system menu
+    'system_menu'         => 1,
+    // Admin menu
+    'hasAdmin'            => 1,
+    'adminindex'          => 'admin/index.php',
+    'adminmenu'           => 'admin/menu.php',
+    // Main menu
+    'hasMain'             => 1,
+    //Search & Comments
+    //    'hasSearch'           => 1,
+    //    'search'              => array(
+    //        'file'   => 'include/search.inc.php',
+    //        'func'   => 'XXXX_search'),
+    //    'hasComments'         => 1,
+    //    'comments'              => array(
+    //        'pageName'   => 'index.php',
+    //        'itemName'   => 'id'),
 
-$modversion['dirmoduleadmin'] = '/Frameworks/moduleclasses/moduleadmin';
-$modversion['icons16']        = '../../Frameworks/moduleclasses/icons/16';
-$modversion['icons32']        = '../../Frameworks/moduleclasses/icons/32';
-//about
-$modversion['release_date']        = '2015/09/23';
-$modversion['module_website_url']  = 'www.xoops.org';
-$modversion['module_website_name'] = 'XOOPS';
-$modversion['module_status']       = 'RC 5';
-$modversion['min_php']             = '5.3.7';
-$modversion['min_xoops']           = '2.5.6';
-$modversion['min_admin']           = '1.1';
-$modversion['min_db']              = array(
-    'mysql'  => '5.0.7',
-    'mysqli' => '5.0.7');
+    // Install/Update
+    'onInstall'           => 'include/oninstall.php',
+    'onUpdate'            => 'include/onupdate.php'
+    //  'onUninstall'         => 'include/onuninstall.php'
 
-//$modversion['release_info'] = "RC3";
-$modversion['release_file'] = XOOPS_URL . "/modules/{$mydirname}/docs/changelog.txt";
-//$modversion['release_date'] = "2012/06/26";
+);
 
-$modversion['author_realname']        = 'GIJoe';
-$modversion['author_website_url']     = 'http://xoops.peak.ne.jp';
-$modversion['author_website_name']    = 'PEAK';
-$modversion['author_email']           = '';
-$modversion['demo_site_url']          = '';
-$modversion['demo_site_name']         = '';
-$modversion['support_site_url']       = 'http://xoops.org';
-$modversion['support_site_name']      = 'XOOPS';
-$modversion['submit_bug']             = 'http://xoops.org/modules/newbb/viewforum.php?forum=28';
-$modversion['submit_feature']         = 'http://xoops.org/modules/newbb/viewforum.php?forum=30';
-$modversion['usenet_group']           = '';
-$modversion['maillist_announcements'] = '';
-$modversion['maillist_bugs']          = '';
-$modversion['maillist_features']      = '';
+
+//$modversion['author_realname']        = 'GIJoe';
+//$modversion['author_website_url']     = 'http://xoops.peak.ne.jp';
+//$modversion['author_website_name']    = 'PEAK';
+
 
 // Sql file (must contain sql generated by phpMyAdmin or phpPgAdmin)
 // All tables should not have any prefix!
-$modversion['sqlfile']['mysql'] = "sql/{$mydirname}.sql";
+$modversion['sqlfile']['mysql'] = "sql/{$moduleDirName}.sql";
 //$modversion['sqlfile']['postgresql'] = "sql/pgsql.sql";
 
 // Tables created by sql file (without prefix!)
-$modversion['tables'][0] = "{$mydirname}_cat";
-$modversion['tables'][1] = "{$mydirname}_photos";
-$modversion['tables'][2] = "{$mydirname}_text";
-$modversion['tables'][3] = "{$mydirname}_votedata";
+$modversion['tables'][0] = "{$moduleDirName}_cat";
+$modversion['tables'][1] = "{$moduleDirName}_photos";
+$modversion['tables'][2] = "{$moduleDirName}_text";
+$modversion['tables'][3] = "{$moduleDirName}_votedata";
 
-// Admin things
-$modversion['hasAdmin']    = 1;
-$modversion['system_menu'] = 1;
-$modversion['adminindex']  = 'admin/index.php';
-$modversion['adminmenu']   = 'admin/menu.php';
 
 // ------------------- Blocks ------------------- //
 $modversion['blocks'][] = array(
-    'file'        => $mydirname . '_rphoto.php',
+    'file'        => $moduleDirName . '_rphoto.php',
     'name'        => _ALBM_BNAME_RANDOM . $myalbum_number,
     'description' => 'Shows a random photo',
     'show_func'   => 'b_myalbum_rphoto_show',
     'edit_func'   => 'b_myalbum_rphoto_edit',
-    'options'     => $mydirname . '|140|1||1|60|1',
-    'template'    => $mydirname . '_block_rphoto.tpl',);
+    'options'     => $moduleDirName . '|140|1||1|60|1',
+    'template'    => $moduleDirName . '_block_rphoto.tpl',);
 
 $modversion['blocks'][] = array(
-    'file'        => $mydirname . '_topnews.php',
+    'file'        => $moduleDirName . '_topnews.php',
     'name'        => _ALBM_BNAME_RECENT . $myalbum_number,
     'description' => 'Shows recently added photos',
     'show_func'   => 'b_myalbum_topnews_show',
     'edit_func'   => 'b_myalbum_topnews_edit',
-    'options'     => $mydirname . '|10|20||1||1',
-    'template'    => $mydirname . '_block_topnews.tpl',);
+    'options'     => $moduleDirName . '|10|20||1||1',
+    'template'    => $moduleDirName . '_block_topnews.tpl',);
 
 $modversion['blocks'][] = array(
-    'file'        => $mydirname . '_tophits.php',
+    'file'        => $moduleDirName . '_tophits.php',
     'name'        => _ALBM_BNAME_HITS . $myalbum_number,
     'description' => 'Shows most viewed photos',
     'show_func'   => 'b_myalbum_tophits_show',
     'edit_func'   => 'b_myalbum_tophits_edit',
-    'options'     => $mydirname . '|10|20||1||1',
-    'template'    => $mydirname . '_block_tophits.tpl',);
+    'options'     => $moduleDirName . '|10|20||1||1',
+    'template'    => $moduleDirName . '_block_tophits.tpl',);
 
 $modversion['blocks'][] = array(
-    'file'        => $mydirname . '_topnews.php',
+    'file'        => $moduleDirName . '_topnews.php',
     'name'        => _ALBM_BNAME_RECENT_P . $myalbum_number,
     'description' => 'Shows recently added photos',
     'show_func'   => 'b_myalbum_topnews_show',
     'edit_func'   => 'b_myalbum_topnews_edit',
-    'options'     => $mydirname . '|5|20||1||1',
-    'template'    => $mydirname . '_block_topnews_p.tpl',);
+    'options'     => $moduleDirName . '|5|20||1||1',
+    'template'    => $moduleDirName . '_block_topnews_p.tpl',);
 
 $modversion['blocks'][] = array(
-    'file'        => $mydirname . '_tophits.php',
+    'file'        => $moduleDirName . '_tophits.php',
     'name'        => _ALBM_BNAME_HITS_P . $myalbum_number,
     'description' => 'Shows most viewed photos',
     'show_func'   => 'b_myalbum_tophits_show',
     'edit_func'   => 'b_myalbum_tophits_edit',
-    'options'     => $mydirname . '|5|20||1||1',
-    'template'    => $mydirname . '_block_tophits_p.tpl',);
+    'options'     => $moduleDirName . '|5|20||1||1',
+    'template'    => $moduleDirName . '_block_tophits_p.tpl',);
 
 $modversion['blocks'][] = array(
-    'file'        => $mydirname . '_block_tag.php',
+    'file'        => $moduleDirName . '_block_tag.php',
     'name'        => $modversion['name'] . ' Tag Cloud',
     'description' => 'Show tag cloud',
-    'show_func'   => $mydirname . '_tag_block_cloud_show',
-    'edit_func'   => $mydirname . '_tag_block_cloud_edit',
+    'show_func'   => $moduleDirName . '_tag_block_cloud_show',
+    'edit_func'   => $moduleDirName . '_tag_block_cloud_edit',
     'options'     => '100|0|150|80',
-    'template'    => $mydirname . '_tag_block_cloud.tpl',);
+    'template'    => $moduleDirName . '_tag_block_cloud.tpl',);
 
 $modversion['blocks'][] = array(
-    'file'        => $mydirname . '_block_tag.php',
+    'file'        => $moduleDirName . '_block_tag.php',
     'name'        => $modversion['name'] . ' Top Tags',
     'description' => 'Show top tags',
-    'show_func'   => $mydirname . '_tag_block_top_show',
-    'edit_func'   => $mydirname . '_tag_block_top_edit',
+    'show_func'   => $moduleDirName . '_tag_block_top_show',
+    'edit_func'   => $moduleDirName . '_tag_block_top_edit',
     'options'     => '50|30|c',
-    'template'    => $mydirname . '_tag_block_top.tpl',);
+    'template'    => $moduleDirName . '_tag_block_top.tpl',);
 
 // Menu
 $modversion['hasMain'] = 1;
@@ -217,7 +243,7 @@ $modversion['config'][] = array(
     'description' => '_ALBM_CFG_DESCPHOTOSPATH',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
-    'default'     => "/uploads/{$mydirname}/photos{$myalbum_number}",
+    'default'     => "/uploads/{$moduleDirName}/photos{$myalbum_number}",
     'options'     => array());
 $modversion['config'][] = array(
     'name'        => 'myalbum_thumbspath',
@@ -225,7 +251,7 @@ $modversion['config'][] = array(
     'description' => '_ALBM_CFG_DESCTHUMBSPATH',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
-    'default'     => "/uploads/{$mydirname}/thumbs{$myalbum_number}",
+    'default'     => "/uploads/{$moduleDirName}/thumbs{$myalbum_number}",
     'options'     => array());
 $modversion['config'][] = array(
     'name'        => 'myalbum_imagingpipe',
@@ -486,7 +512,7 @@ $modversion['config'][] = array(
 // Search
 $modversion['hasSearch']      = 1;
 $modversion['search']['file'] = "include/search.inc.php";
-$modversion['search']['func'] = "{$mydirname}_search";
+$modversion['search']['func'] = "{$moduleDirName}_search";
 
 // Comments
 $modversion['hasComments']          = 1;
@@ -500,23 +526,23 @@ $modversion['comments']['callback']['update']  = 'myalbum_comments_update';
 // ------------------- Templates ------------------- //
 
 $modversion['templates'] = array(
-    array('file' => $mydirname . '_photo.tpl', 'description' => ''),
-    array('file' => $mydirname . '_viewcat_list.tpl', 'description' => ''),
-    array('file' => $mydirname . '_viewcat_table.tpl', 'description' => ''),
-    array('file' => $mydirname . '_index.tpl', 'description' => ''),
-    array('file' => $mydirname . '_ratephoto.tpl', 'description' => ''),
-    array('file' => $mydirname . '_topten.tpl', 'description' => ''),
-    array('file' => $mydirname . '_photo_in_list.tpl', 'description' => ''),
-    array('file' => $mydirname . '_header.tpl', 'description' => ''),
-    array('file' => $mydirname . '_footer.tpl', 'description' => ''),
-    array('file' => $mydirname . '_categories.tpl', 'description' => ''),
-    array('file' => $mydirname . '_imagemanager.tpl', 'description' => ''),
-    array('file' => $mydirname . '_cpanel_admission.tpl', 'description' => ''),
-    array('file' => $mydirname . '_cpanel_batch.tpl', 'description' => ''),
-    array('file' => $mydirname . '_cpanel_export.tpl', 'description' => ''),
-    array('file' => $mydirname . '_cpanel_import.tpl', 'description' => ''),
-    array('file' => $mydirname . '_cpanel_permissions.tpl', 'description' => ''),
-    array('file' => $mydirname . '_rss.tpl', 'description' => ''));
+    array('file' => $moduleDirName . '_photo.tpl', 'description' => ''),
+    array('file' => $moduleDirName . '_viewcat_list.tpl', 'description' => ''),
+    array('file' => $moduleDirName . '_viewcat_table.tpl', 'description' => ''),
+    array('file' => $moduleDirName . '_index.tpl', 'description' => ''),
+    array('file' => $moduleDirName . '_ratephoto.tpl', 'description' => ''),
+    array('file' => $moduleDirName . '_topten.tpl', 'description' => ''),
+    array('file' => $moduleDirName . '_photo_in_list.tpl', 'description' => ''),
+    array('file' => $moduleDirName . '_header.tpl', 'description' => ''),
+    array('file' => $moduleDirName . '_footer.tpl', 'description' => ''),
+    array('file' => $moduleDirName . '_categories.tpl', 'description' => ''),
+    array('file' => $moduleDirName . '_imagemanager.tpl', 'description' => ''),
+    array('file' => $moduleDirName . '_cpanel_admission.tpl', 'description' => ''),
+    array('file' => $moduleDirName . '_cpanel_batch.tpl', 'description' => ''),
+    array('file' => $moduleDirName . '_cpanel_export.tpl', 'description' => ''),
+    array('file' => $moduleDirName . '_cpanel_import.tpl', 'description' => ''),
+    array('file' => $moduleDirName . '_cpanel_permissions.tpl', 'description' => ''),
+    array('file' => $moduleDirName . '_rss.tpl', 'description' => ''));
 
 
 //Install
@@ -526,7 +552,7 @@ $modversion['onUpdate']  = "include/onupdate.inc.php";
 // Notification
 $modversion['hasNotification']             = 1;
 $modversion['notification']['lookup_file'] = 'include/notification.inc.php';
-$modversion['notification']['lookup_func'] = $mydirname . '_notify_iteminfo';
+$modversion['notification']['lookup_func'] = $moduleDirName . '_notify_iteminfo';
 
 $modversion['notification']['category'][] = array(
     'name'           => 'global',
