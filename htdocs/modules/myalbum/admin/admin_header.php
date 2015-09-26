@@ -1,4 +1,6 @@
 <?php
+
+$moduleDirName = basename(dirname(__DIR__));
 require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 require_once dirname(__DIR__) . '/include/functions.php';
@@ -34,7 +36,8 @@ $cat_handler        =& xoops_getmodulehandler('cat');
 $cats               = $cat_handler->getObjects(null, true);
 $GLOBALS['cattree'] = new XoopsObjectTree($cats, 'cid', 'pid', 0);
 
-include_once $GLOBALS['xoops']->path('/Frameworks/moduleclasses/moduleadmin/moduleadmin.php');
+$xoopsModuleAdminPath = $GLOBALS['xoops']->path('www/' . $GLOBALS['xoopsModule']->getInfo('dirmoduleadmin'));
+require_once $xoopsModuleAdminPath . '/moduleadmin.php';
 
 $GLOBALS['myalbumImageIcon']  = XOOPS_URL . '/' . $GLOBALS['myalbumModule']->getInfo('modicons16');
 $GLOBALS['myalbumImageAdmin'] = XOOPS_URL . '/' . $GLOBALS['myalbumModule']->getInfo('modicons32');
@@ -51,12 +54,12 @@ if ($GLOBALS['xoopsUser']) {
 }
 
 xoops_loadLanguage('user');
-xoops_loadLanguage('admin', $mydirname);
-xoops_loadLanguage('main', $mydirname);
+xoops_loadLanguage('admin', $moduleDirName);
+xoops_loadLanguage('main', $moduleDirName);
 
-$pathIcon16      = '../../' . $xoopsModule->getInfo('sysicons16');
-$pathIcon32      = '../../' . $xoopsModule->getInfo('sysicons32');
-$pathModuleAdmin = $xoopsModule->getInfo('dirmoduleadmin');
+$pathIcon16      = $GLOBALS['xoops']->url('www/' . $GLOBALS['xoopsModule']->getInfo('sysicons16'));
+$pathIcon32      = $GLOBALS['xoops']->url('www/' . $GLOBALS['xoopsModule']->getInfo('sysicons32'));
+
 
 if (!isset($GLOBALS['xoopsTpl']) || !is_object($GLOBALS['xoopsTpl'])) {
     include_once(XOOPS_ROOT_PATH . "/class/template.php");
