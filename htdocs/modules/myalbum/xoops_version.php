@@ -55,8 +55,8 @@ $modversion = array(
     //
     'manual'              => 'link to manual file',
     'manual_file'         => XOOPS_URL . "/modules/$moduleDirName/docs/install.txt",
-    'min_php'             => '5.3.7',
-    'min_xoops'           => '2.5.7.1',
+    'min_php'             => '5.5',
+    'min_xoops'           => '2.5.7.2',
     'min_admin'           => '1.1',
     'min_db'              => array('mysql' => '5.0.7', 'mysqli' => '5.0.7'),
     // images
