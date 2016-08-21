@@ -4,29 +4,29 @@
 //                        <http://www.peak.ne.jp/>                           //
 // ------------------------------------------------------------------------- //
 include 'admin_header.php';
-include_once XOOPS_ROOT_PATH . '/modules/system/constants.php';
+include_once(XOOPS_ROOT_PATH . '/modules/system/constants.php');
 
 // To imagemanager
 if (!empty($_POST['imagemanager_export']) && !empty($_POST['imgcat_id']) && !empty($_POST['cid'])) {
 
     // authority check
-    $sysperm_handler =& xoops_getHandler('groupperm');
+    $sysperm_handler =& xoops_gethandler('groupperm');
     if (!$sysperm_handler->checkRight('system_admin', XOOPS_SYSTEM_IMAGE, $xoopsUser->getGroups())) {
         exit;
     }
 
     // anti-CSRF
     if (!xoops_refcheck()) {
-        die('XOOPS_URL is not included in your REFERER');
+        die("XOOPS_URL is not included in your REFERER");
     }
 
     // get dst information
-    $dst_cid          = (int)$_POST['imgcat_id'];
-    $dst_table_photos = $xoopsDB->prefix('image');
-    $dst_table_cat    = $xoopsDB->prefix('imagecategory');
+    $dst_cid          = intval($_POST['imgcat_id']);
+    $dst_table_photos = $xoopsDB->prefix("image");
+    $dst_table_cat    = $xoopsDB->prefix("imagecategory");
 
     // get src information
-    $src_cid          = (int)$_POST['cid'];
+    $src_cid          = intval($_POST['cid']);
     $src_table_photos = $xoopsDB->prefix($table_photos);
     $src_table_cat    = $xoopsDB->prefix($table_cat);
 
@@ -46,8 +46,8 @@ if (!empty($_POST['imagemanager_export']) && !empty($_POST['imgcat_id']) && !emp
         $dst_file = XOOPS_UPLOAD_PATH . "/{$dst_node}.{$ext}";
         $src_file = empty($_POST['use_thumb']) ? "$photos_dir/{$lid}.{$ext}" : "$thumbs_dir/{$lid}.{$ext}";
 
-        if ($imgcat_storetype === 'db') {
-            $fp = fopen($src_file, 'rb');
+        if ($imgcat_storetype == 'db') {
+            $fp = fopen($src_file, "rb");
             if ($fp == false) {
                 continue;
             }
@@ -65,10 +65,10 @@ if (!empty($_POST['imagemanager_export']) && !empty($_POST['imgcat_id']) && !emp
         $xoopsDB->query(
             "INSERT INTO $dst_table_photos SET image_name='{$dst_node}.{$ext}',image_nicename='" . addslashes($title)
             . "',image_created='$date',image_mimetype='{$mime_types[$ext]}',image_display='$image_display',imgcat_id='$dst_cid'"
-        ) or die('DB error: INSERT image table');
+        ) or die("DB error: INSERT image table");
         if ($body) {
             $image_id = $xoopsDB->getInsertId();
-            $xoopsDB->query('INSERT INTO ' . $xoopsDB->prefix('imagebody') . " SET image_id='$image_id',image_body='$body'");
+            $xoopsDB->query("INSERT INTO " . $xoopsDB->prefix("imagebody") . " SET image_id='$image_id',image_body='$body'");
         }
 
         $export_count++;
@@ -82,7 +82,7 @@ if (!empty($_POST['imagemanager_export']) && !empty($_POST['imgcat_id']) && !emp
 // Form Part
 //
 
-$sysperm_handler =& xoops_getHandler('groupperm');
+$sysperm_handler =& xoops_gethandler('groupperm');
 if ($sysperm_handler->checkRight('system_admin', XOOPS_SYSTEM_IMAGE, $xoopsUser->getGroups())) {
     xoops_cp_header();
     $indexAdmin = new ModuleAdmin();

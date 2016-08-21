@@ -6,46 +6,46 @@
 
 include 'admin_header.php';
 
-$catHandler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
-$photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+$catHandler    = xoops_getmodulehandler('cat', $GLOBALS['mydirname']);
+$photosHandler = xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
 global $pathIcon16;
 
 // GPCS vars
 $action = isset($_POST['action']) ? $_POST['action'] : '';
 $disp   = isset($_GET['disp']) ? $_GET['disp'] : '';
-$cid    = isset($_GET['cid']) ? (int)$_GET['cid'] : 0;
+$cid    = isset($_GET['cid']) ? intval($_GET['cid']) : 0;
 
-if ($action === 'insert') {
+if ($action == "insert") {
 
     // anti-CSRF (Double Check)
     if (!xoopsSecurity::checkReferer()) {
-        die('XOOPS_URL is not included in your REFERER');
+        die("XOOPS_URL is not included in your REFERER");
     }
 
     // newly insert
-    $sql  = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix($table_cat) . ' SET ';
-    $cols = array('pid' => 'I:N:0', 'title' => '50:E:1', 'imgurl' => '150:E:0');
+    $sql  = "INSERT INTO " . $GLOBALS['xoopsDB']->prefix($table_cat) . " SET ";
+    $cols = array("pid" => "I:N:0", "title" => "50:E:1", "imgurl" => "150:E:0");
     $sql .= mysql_get_sql_set($cols);
-    $GLOBALS['xoopsDB']->query($sql) or die('DB Error: insert category');
+    $GLOBALS['xoopsDB']->query($sql) or die("DB Error: insert category");
 
     // Check if cid == pid
     $cid = $GLOBALS['xoopsDB']->getInsertId();
-    if ($cid == (int)$_POST['pid']) {
-        $GLOBALS['xoopsDB']->query('UPDATE ' . $GLOBALS['xoopsDB']->prefix($table_cat) . " SET pid='0' WHERE cid='$cid'");
+    if ($cid == intval($_POST['pid'])) {
+        $GLOBALS['xoopsDB']->query("UPDATE " . $GLOBALS['xoopsDB']->prefix($table_cat) . " SET pid='0' WHERE cid='$cid'");
     }
 
-    redirect_header('main.php', 1, _AM_CAT_INSERTED);
+    redirect_header("main.php", 1, _AM_CAT_INSERTED);
     exit;
 
-} elseif ($action === 'update' && !empty($_POST['cid'])) {
+} elseif ($action == "update" && !empty($_POST['cid'])) {
 
     // anti-CSRF (Double Check)
     if (!xoopsSecurity::checkReferer()) {
-        die('XOOPS_URL is not included in your REFERER');
+        die("XOOPS_URL is not included in your REFERER");
     }
 
-    $cid = (int)$_POST['cid'];
-    $pid = (int)$_POST['pid'];
+    $cid = intval($_POST['cid']);
+    $pid = intval($_POST['pid']);
 
     // Check if new pid was a child of cid
     if ($pid != 0) {
@@ -54,35 +54,35 @@ if ($action === 'insert') {
         }
         foreach ($children as $child) {
             if ($child == $pid) {
-                die('category looping has occurred');
+                die("category looping has occurred");
             }
         }
     }
 
     // update
-    $sql  = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table_cat) . ' SET ';
-    $cols = array('pid' => 'I:N:0', 'title' => '50:E:1', 'imgurl' => '150:E:0');
+    $sql  = "UPDATE " . $GLOBALS['xoopsDB']->prefix($table_cat) . " SET ";
+    $cols = array("pid" => "I:N:0", "title" => "50:E:1", "imgurl" => "150:E:0");
     $sql .= mysql_get_sql_set($cols) . " WHERE cid='$cid'";
-    $GLOBALS['xoopsDB']->query($sql) or die('DB Error: update category');
-    redirect_header('main.php', 1, _AM_CAT_UPDATED);
+    $GLOBALS['xoopsDB']->query($sql) or die("DB Error: update category");
+    redirect_header("main.php", 1, _AM_CAT_UPDATED);
     exit;
 
 } elseif (!empty($_POST['delcat'])) {
 
     // anti-CSRF (Double Check)
     if (!xoopsSecurity::checkReferer()) {
-        die('XOOPS_URL is not included in your REFERER');
+        die("XOOPS_URL is not included in your REFERER");
     }
 
     // Delete
-    $cid = (int)$_POST['delcat'];
+    $cid = intval($_POST['delcat']);
 
     $children[0] = 0;
     //get all categories under the specified category
     foreach ($GLOBALS['cattree']->getAllChild($cid) as $child) {
         $children[$child->getVar('cid')] = $child->getVar('cid');
     }
-    $whr = 'cid IN (';
+    $whr = "cid IN (";
     foreach ($children as $child) {
         $whr .= "$child,";
         xoops_notification_deletebyitem($myalbum_mid, 'category', $child);
@@ -91,7 +91,7 @@ if ($action === 'insert') {
     xoops_notification_deletebyitem($myalbum_mid, 'category', $cid);
     $criteria = new Criteria('`cid`', '(' . implode(',', $children) . ')', 'IN');
     myalbum_delete_photos($criteria);
-    $GLOBALS['xoopsDB']->query('DELETE FROM ' . $GLOBALS['xoopsDB']->prefix($table_cat) . " WHERE $whr") or die('DB error: DELETE cat table');
+    $GLOBALS['xoopsDB']->query("DELETE FROM " . $GLOBALS['xoopsDB']->prefix($table_cat) . " WHERE $whr") or die("DB error: DELETE cat table");
     redirect_header('main.php', 2, _ALBM_CATDELETED);
     exit;
 
@@ -113,15 +113,15 @@ if (!is_object($xoopsModule)) {
 $indexAdmin = new ModuleAdmin();
 echo $indexAdmin->addNavigation('main.php');
 
-if ($disp === 'edit' && $cid > 0) {
+if ($disp == "edit" && $cid > 0) {
 
     // Editing
-    $sql       = 'SELECT cid,pid,title,imgurl FROM ' . $GLOBALS['xoopsDB']->prefix($table_cat) . " WHERE cid='$cid'";
+    $sql       = "SELECT cid,pid,title,imgurl FROM " . $GLOBALS['xoopsDB']->prefix($table_cat) . " WHERE cid='$cid'";
     $crs       = $GLOBALS['xoopsDB']->query($sql);
     $cat_array = $GLOBALS['xoopsDB']->fetchArray($crs);
     echo myalbum_admin_form_display_edit($cat_array, _AM_CAT_MENU_EDIT, 'update');
 
-} elseif ($disp === 'new') {
+} elseif ($disp == "new") {
 
     // New
     $cat_array = array('cid' => 0, 'pid' => $cid, 'title' => '', 'imgurl' => 'http://');
@@ -137,7 +137,7 @@ if ($disp === 'edit' && $cid > 0) {
     }
     $criteria = new CriteriaCompo(new Criteria('`pid`', '(' . implode(',', $live_cids) . ')', 'NOT IN'));
     if ($catHandler->getCount($criteria) != false) {
-        $GLOBALS['xoopsDB']->queryF('UPDATE ' . $GLOBALS['xoopsDB']->prefix($table_cat) . " SET pid='0' " . $criteria->renderWhere());
+        $GLOBALS['xoopsDB']->queryF("UPDATE " . $GLOBALS['xoopsDB']->prefix($table_cat) . " SET pid='0' " . $criteria->renderWhere());
         redirect_header('dashboard.php', 0, 'A Ghost Category found.');
         exit;
     }
@@ -158,26 +158,26 @@ if ($disp === 'edit' && $cid > 0) {
     <input type='hidden' name='delcat' value='' />
     <table width='75%' class='outer' cellpadding='4' cellspacing='1'>
       <tr valign='middle'>
-        <th>" . _AM_CAT_TH_TITLE . '</th>
-        <th>' . _AM_CAT_TH_PHOTOS . '</th>
-        <th>' . _AM_CAT_TH_OPERATION . "</th>
-        <th nowrap='nowrap'>" . _AM_CAT_TH_IMAGE . '</th>
+        <th>" . _AM_CAT_TH_TITLE . "</th>
+        <th>" . _AM_CAT_TH_PHOTOS . "</th>
+        <th>" . _AM_CAT_TH_OPERATION . "</th>
+        <th nowrap='nowrap'>" . _AM_CAT_TH_IMAGE . "</th>
       </tr>
-    ';
+    ";
 
     // TD
     $oddeven = 'odd';
     if (isset($cat_tree_array)) {
         foreach ($cat_tree_array as $cid => $cat_node) {
-            $oddeven = $oddeven === 'odd' ? 'even' : 'odd';
+            $oddeven = $oddeven == 'odd' ? 'even' : 'odd';
             extract($cat_node);
             $prefix      = '';
             $prefix      = str_repeat('&nbsp;--', $catHandler->prefixDepth($cid, 0));
-            $cid         = (int)$cid;
+            $cid         = intval($cid);
             $del_confirm = 'confirm("' . sprintf(_AM_CAT_FMT_CATDELCONFIRM, $title) . '")';
             $criteria    = new Criteria('`cid`', $cid);
             $photos_num  = $photosHandler->getCount($criteria);
-            if ($imgurl && $imgurl !== 'http://') {
+            if ($imgurl && $imgurl != 'http://') {
                 $imgsrc4show = $GLOBALS['myts']->htmlSpecialChars($imgurl);
             } else {
                 $imgsrc4show = '../images/pixel_trans.gif';

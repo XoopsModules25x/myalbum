@@ -1,11 +1,11 @@
 <?php
 if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($xoopsModule->mid())) {
-    exit('Access Denied');
+    exit("Access Denied");
 }
 include_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
-include XOOPS_ROOT_PATH . '/modules/system/admin/blocksadmin/blocksadmin.php';
+include XOOPS_ROOT_PATH . "/modules/system/admin/blocksadmin/blocksadmin.php";
 
-$op = 'list';
+$op = "list";
 if (isset($HTTP_POST_VARS)) {
     foreach ($HTTP_POST_VARS as $k => $v) {
         $$k = $v;
@@ -13,11 +13,11 @@ if (isset($HTTP_POST_VARS)) {
 }
 
 if (isset($HTTP_GET_VARS['op'])) {
-    if ($HTTP_GET_VARS['op'] === 'edit' || $HTTP_GET_VARS['op'] === 'delete' || $HTTP_GET_VARS['op'] === 'delete_ok' || $HTTP_GET_VARS['op'] === 'clone'
-        || $HTTP_GET_VARS['op'] === 'previewpopup'
+    if ($HTTP_GET_VARS['op'] == "edit" || $HTTP_GET_VARS['op'] == "delete" || $HTTP_GET_VARS['op'] == "delete_ok" || $HTTP_GET_VARS['op'] == "clone"
+        || $HTTP_GET_VARS['op'] == 'previewpopup'
     ) {
         $op  = $HTTP_GET_VARS['op'];
-        $bid = isset($HTTP_GET_VARS['bid']) ? (int)$HTTP_GET_VARS['bid'] : 0;
+        $bid = isset($HTTP_GET_VARS['bid']) ? intval($HTTP_GET_VARS['bid']) : 0;
     }
 }
 
@@ -32,7 +32,7 @@ if (isset($previewblock)) {
         $myblock             = new XoopsBlock($bid);
         $block['name']       = $myblock->getVar('name');
     } else {
-        if ($op === 'save') {
+        if ($op == 'save') {
             $block['form_title'] = _AM_ADDBLOCK;
         } else {
             $block['form_title'] = _AM_CLONEBLOCK;
@@ -65,7 +65,7 @@ if (isset($previewblock)) {
     $block['modules']   =& $bmodule;
     $block['ctype']     = isset($bctype) ? $bctype : $myblock->getVar('c_type');
     $block['is_custom'] = true;
-    $block['cachetime'] = (int)$bcachetime;
+    $block['cachetime'] = intval($bcachetime);
     echo '<a href="admin.php?fct=blocksadmin">' . _AM_BADMIN . '</a>&nbsp;<span style="font-weight:bold;">&raquo;&raquo;</span>&nbsp;'
         . $block['form_title'] . '<br /><br />';
     include XOOPS_ROOT_PATH . '/modules/system/admin/blocksadmin/blockform.php';
@@ -79,7 +79,7 @@ if (isset($previewblock)) {
     exit();
 }
 
-if ($op === 'previewpopup') {
+if ($op == 'previewpopup') {
     $file = str_replace('..', '', XOOPS_CACHE_PATH . '/' . trim($HTTP_GET_VARS['file']));
     if (file_exists($file)) {
         include $file;
@@ -88,14 +88,14 @@ if ($op === 'previewpopup') {
     exit();
 }
 
-if ($op === 'list') {
+if ($op == "list") {
     xoops_cp_header();
     list_blocks();
     xoops_cp_footer();
     exit();
 }
 
-if ($op === 'order') {
+if ($op == "order") {
     foreach (array_keys($bid) as $i) {
         if ($side[$i] < 0) {
             $visible[$i] = 0;
@@ -112,17 +112,17 @@ if ($op === 'order') {
 //		order_block($bid[$i], $weight[$i], $visible[$i], $side[$i]); GIJ
     }
 //	redirect_header("admin.php?fct=blocksadmin",1,_AM_DBUPDATED); GIJ
-    redirect_header('myblocksadmin.php', 1, _AM_DBUPDATED);
+    redirect_header("myblocksadmin.php", 1, _AM_DBUPDATED);
     exit();
 }
 
-if ($op === 'save') {
+if ($op == "save") {
     save_block($bside, $bweight, $bvisible, $btitle, $bcontent, $bctype, $bmodule, $bcachetime, $domains);
     exit();
 }
 
-if ($op === 'update') {
-    $bcachetime = isset($bcachetime) ? (int)$bcachetime : 0;
+if ($op == "update") {
+    $bcachetime = isset($bcachetime) ? intval($bcachetime) : 0;
     $options    = isset($options) ? $options : array();
     $bcontent   = isset($bcontent) ? $bcontent : '';
     $bctype     = isset($bctype) ? $bctype : '';
@@ -142,19 +142,19 @@ if ($op === 'update') {
     redirect_header('myblocksadmin.php', 1, $msg); // GIJ +
 }
 
-if ($op === 'delete_ok') {
+if ($op == "delete_ok") {
     delete_block_ok($bid);
     exit();
 }
 
-if ($op === 'delete') {
+if ($op == "delete") {
     xoops_cp_header();
     delete_block($bid);
     xoops_cp_footer();
     exit();
 }
 
-if ($op === 'edit') {
+if ($op == "edit") {
     xoops_cp_header();
     edit_block($bid);
     xoops_cp_footer();
@@ -194,7 +194,7 @@ function myblocksadmin_update_block($bid, $bside, $bweight, $bvisible, $btitle, 
         $options = implode('|', $options);
         $myblock->setVar('options', $options);
     }
-    if ($myblock->getVar('block_type') === 'C') {
+    if ($myblock->getVar('block_type') == 'C') {
         switch ($bctype) {
             case 'H':
                 $name = _AM_CUSTOMHTML;
@@ -217,10 +217,10 @@ function myblocksadmin_update_block($bid, $bside, $bweight, $bvisible, $btitle, 
     $msg = _AM_DBUPDATED;
     if ($myblock->store() != false) {
         $db  =& XoopsDatabaseFactory::getDatabaseConnection();
-        $sql = sprintf('DELETE FROM %s WHERE block_id = %u', $db->prefix('block_module_link'), $bid);
+        $sql = sprintf("DELETE FROM %s WHERE block_id = %u", $db->prefix('block_module_link'), $bid);
         $db->query($sql);
         foreach ($bmodule as $bmid) {
-            $sql = sprintf('INSERT INTO %s (block_id, module_id) VALUES (%u, %d)', $db->prefix('block_module_link'), $bid, (int)$bmid);
+            $sql = sprintf("INSERT INTO %s (block_id, module_id) VALUES (%u, %d)", $db->prefix('block_module_link'), $bid, intval($bmid));
             $db->query($sql);
         }
         include_once XOOPS_ROOT_PATH . '/class/template.php';

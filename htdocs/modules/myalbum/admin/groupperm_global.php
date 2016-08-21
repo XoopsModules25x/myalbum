@@ -6,7 +6,7 @@ xoops_loadLanguage('admin', 'system');
 
 if (!empty($_POST['submit'])) {
     include 'mygroupperm.php';
-    redirect_header(XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/admin/groupperm_global.php', 1, _AM_ALBM_GPERMUPDATED);
+    redirect_header(XOOPS_URL . "/modules/" . $xoopsModule->dirname() . "/admin/groupperm_global.php", 1, _AM_ALBM_GPERMUPDATED);
 }
 
 xoops_cp_header();

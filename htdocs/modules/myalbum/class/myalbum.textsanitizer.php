@@ -2,7 +2,7 @@
 
 if (!class_exists('MyAlbumTextSanitizer')) {
 
-    include_once XOOPS_ROOT_PATH . '/class/module.textsanitizer.php';
+    include_once(XOOPS_ROOT_PATH . '/class/module.textsanitizer.php');
 
     class MyAlbumTextSanitizer extends MyTextSanitizer
     {
@@ -134,7 +134,7 @@ if (!class_exists('MyAlbumTextSanitizer')) {
          */
         function nl2Br($text)
         {
-            $text = preg_replace("/(\015\012)|(\015)|(\012)/", '<br />', $text);
+            $text = preg_replace("/(\015\012)|(\015)|(\012)/", "<br />", $text);
             if ($this->nbsp) {
                 $patterns = array('  ', '\"');
                 $replaces = array(' &nbsp;', '"');

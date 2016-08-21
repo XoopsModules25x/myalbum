@@ -3,7 +3,7 @@ if (!defined('XOOPS_ROOT_PATH')) {
     exit();
 }
 
-include dirname(__DIR__) . '/include/read_configs.php';
+include (dirname(dirname(__FILE__))) . '/include/read_configs.php';
 
 /**
  * Class for Blue Room Xcenter
@@ -15,7 +15,7 @@ include dirname(__DIR__) . '/include/read_configs.php';
 class MyalbumCat extends XoopsObject
 {
 
-    function __construct($id = null)
+    function MyalbumCat($id = null)
     {
         $this->initVar('cid', XOBJ_DTYPE_INT, null, false);
         $this->initVar('pid', XOBJ_DTYPE_INT, null, false);
@@ -33,8 +33,8 @@ class MyalbumCat extends XoopsObject
 
     function getURL($uid, $num, $pos, $view)
     {
-        $module_handler = xoops_getHandler('module');
-        $config_handler = xoops_getHandler('config');
+        $module_handler = xoops_gethandler('module');
+        $config_handler = xoops_gethandler('config');
         if (!isset($GLOBALS['myalbumModule'])) {
             $GLOBALS['myalbumModule'] = $module_handler->getByDirname($mydirname);
         }
@@ -56,8 +56,8 @@ class MyalbumCat extends XoopsObject
 
     function getRSSURL($uid, $num, $pos, $view)
     {
-        $module_handler = xoops_getHandler('module');
-        $config_handler = xoops_getHandler('config');
+        $module_handler = xoops_gethandler('module');
+        $config_handler = xoops_gethandler('config');
         if (!isset($GLOBALS['myalbumModule'])) {
             $GLOBALS['myalbumModule'] = $module_handler->getByDirname($mydirname);
         }
@@ -90,7 +90,7 @@ class MyalbumCatHandler extends XoopsPersistableObjectHandler
     function __construct(&$db)
     {
         $this->db = $db;
-        parent::__construct($db, $GLOBALS['table_cat'], 'MyalbumCat', 'cid', 'title');
+        parent::__construct($db, $GLOBALS['table_cat'], 'MyalbumCat', "cid", "title");
     }
 
     function prefixDepth($cid, $depth = 0)

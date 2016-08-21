@@ -29,9 +29,9 @@ if (!defined('XOOPS_ROOT_PATH')) {
     exit;
 }
 
-$mydirname = basename(dirname(__DIR__));
+$mydirname = basename(dirname(dirname(__FILE__)));
 if (!preg_match('/^myalbum\d*$/', $mydirname)) {
-    die ('invalid dirname of myalbum: ' . htmlspecialchars($mydirname));
+    die ("invalid dirname of myalbum: " . htmlspecialchars($mydirname));
 }
 
 eval('

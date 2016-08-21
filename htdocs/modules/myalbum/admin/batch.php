@@ -7,12 +7,12 @@
 include 'admin_header.php';
 
 // GPCS vars
-$GLOBALS['submitter'] = empty($_POST['submitter']) ? $my_uid : (int)$_POST['submitter'];
+$GLOBALS['submitter'] = empty($_POST['submitter']) ? $my_uid : intval($_POST['submitter']);
 if (isset($_POST['cid'])) {
-    $cid = (int)$_POST['cid'];
+    $cid = intval($_POST['cid']);
 } else {
     if (isset($_GET['cid'])) {
-        $cid = (int)$_GET['cid'];
+        $cid = intval($_GET['cid']);
     } else {
         $cid = 0;
     }
@@ -27,7 +27,7 @@ if (!$isadmin) {
     exit;
 }
 
-$catHandler = xoops_getModuleHandler('cat');
+$catHandler = xoops_getmodulehandler('cat');
 // check Categories exist
 $count = $catHandler->getCount();
 if ($count < 1) {
@@ -35,10 +35,10 @@ if ($count < 1) {
     exit();
 }
 
-$photosHandler = xoops_getModuleHandler('photos');
-$textHandler   = xoops_getModuleHandler('text');
+$photosHandler = xoops_getmodulehandler('photos');
+$textHandler   = xoops_getmodulehandler('text');
 
-if (isset($_POST['submit']) && $_POST['submit'] != '') {
+if (isset($_POST['submit']) && $_POST['submit'] != "") {
     ob_start();
 
     // Check Directory
@@ -60,7 +60,7 @@ if (isset($_POST['submit']) && $_POST['submit'] != '') {
             exit;
         }
     }
-    if (substr($dir, -1) === '/') {
+    if (substr($dir, -1) == '/') {
         $dir = substr($dir, 0, -1);
     }
 
@@ -81,7 +81,7 @@ if (isset($_POST['submit']) && $_POST['submit'] != '') {
     while ($file_name = readdir($dir_h)) {
 
         // Skip '.' , '..' and hidden file
-        if (substr($file_name, 0, 1) === '.') {
+        if (substr($file_name, 0, 1) == '.') {
             continue;
         }
 
@@ -123,9 +123,9 @@ if (isset($_POST['submit']) && $_POST['submit'] != '') {
     closedir($dir_h);
 
     if ($filecount <= 1) {
-        echo "<p>$dir4edit : " . _ALBM_MES_BATCHNONE . '</p>';
+        echo "<p>$dir4edit : " . _ALBM_MES_BATCHNONE . "</p>";
     } else {
-        printf('<p>' . _ALBM_MES_BATCHDONE . '</p>', $filecount - 1);
+        printf("<p>" . _ALBM_MES_BATCHDONE . "</p>", $filecount - 1);
     }
 
     $result_str = ob_get_contents();

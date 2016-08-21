@@ -82,11 +82,11 @@ class MyXoopsGroupPermForm extends XoopsForm
     /**
      * Constructor
      */
-    function __construct($title, $modid, $permname, $permdesc)
+    function MyXoopsGroupPermForm($title, $modid, $permname, $permdesc)
     {
 //		$this->XoopsForm($title, 'groupperm_form', XOOPS_URL.'/modules/system/admin/groupperm.php', 'post'); GIJ
-        parent::__construct($title, 'groupperm_form', '', 'post');
-        $this->_modid    = (int)$modid;
+        $this->XoopsForm($title, 'groupperm_form', '', 'post');
+        $this->_modid    = intval($modid);
         $this->_permName = $permname;
         $this->_permDesc = $permdesc;
         $this->addElement(new XoopsFormHidden('modid', $this->_modid));
@@ -157,8 +157,8 @@ class MyXoopsGroupPermForm extends XoopsForm
             $this->_itemTree[$item_id]['allchild'] = array();
             $this->_loadAllChildItemIds($item_id, $this->_itemTree[$item_id]['allchild']);
         }
-        $gperm_handler  =& xoops_getHandler('groupperm');
-        $member_handler =& xoops_getHandler('member');
+        $gperm_handler  =& xoops_gethandler('groupperm');
+        $member_handler =& xoops_gethandler('member');
         $glist          =& $member_handler->getGroupList();
         foreach (array_keys($glist) as $i) {
             // get selected item id(s) for each group
@@ -258,7 +258,7 @@ class MyXoopsGroupFormCheckBox extends XoopsFormElement
     /**
      * Constructor
      */
-    function __construct($caption, $name, $groupId, $values = null)
+    function MyXoopsGroupFormCheckBox($caption, $name, $groupId, $values = null)
     {
         $this->setCaption($caption);
         $this->setName($name);
@@ -318,7 +318,7 @@ class MyXoopsGroupFormCheckBox extends XoopsFormElement
     {
         $ret = '';
 
-        if (count($this->_appendix) > 0) {
+        if (sizeof($this->_appendix) > 0) {
             $ret .= '<table class="outer"><tr>';
             $cols = 1;
             foreach ($this->_appendix as $append) {
@@ -366,8 +366,8 @@ class MyXoopsGroupFormCheckBox extends XoopsFormElement
      */
     function _renderOptionTree(&$tree, $option, $prefix, $parentIds = array())
     {
-        $tree .= $prefix . "<input type=\"checkbox\" name=\"" . $this->getName() . '[groups][' . $this->_groupId . '][' . $option['id'] . "]\" id=\""
-            . $this->getName() . '[groups][' . $this->_groupId . '][' . $option['id'] . "]\" onclick=\"";
+        $tree .= $prefix . "<input type=\"checkbox\" name=\"" . $this->getName() . "[groups][" . $this->_groupId . "][" . $option['id'] . "]\" id=\""
+            . $this->getName() . "[groups][" . $this->_groupId . "][" . $option['id'] . "]\" onclick=\"";
         // If there are parent elements, add javascript that will
         // make them selecteded when this element is checked to make
         // sure permissions to parent items are added as well.
@@ -389,10 +389,10 @@ class MyXoopsGroupFormCheckBox extends XoopsFormElement
         }
         $tree
             .=
-            ' />' . $option['name'] . "<input type=\"hidden\" name=\"" . $this->getName() . '[parents][' . $option['id'] . "]\" value=\"" . implode(
+            " />" . $option['name'] . "<input type=\"hidden\" name=\"" . $this->getName() . "[parents][" . $option['id'] . "]\" value=\"" . implode(
                 ':',
                 $parentIds
-            ) . "\" /><input type=\"hidden\" name=\"" . $this->getName() . '[itemname][' . $option['id'] . "]\" value=\"" . htmlspecialchars(
+            ) . "\" /><input type=\"hidden\" name=\"" . $this->getName() . "[itemname][" . $option['id'] . "]\" value=\"" . htmlspecialchars(
                 $option['name']
             ) . "\" /><br />\n";
         if (isset($option['children'])) {

@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__DIR__) . '/include/read_configs.php';
+require_once (dirname(dirname(__FILE__))) . '/include/read_configs.php';
 
 if (!defined('XOOPS_ROOT_PATH')) {
     exit();
@@ -54,7 +54,7 @@ class MyalbumCommentsHandler extends XoopsPersistableObjectHandler
     {
         $this->db = $db;
 
-        parent::__construct($db, $GLOBALS['table_comments'], 'MyalbumComments', 'com_id', 'com_title');
+        parent::__construct($db, $GLOBALS['table_comments'], 'MyalbumComments', "com_id", "com_title");
     }
 }
 

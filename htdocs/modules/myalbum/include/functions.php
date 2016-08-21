@@ -9,7 +9,7 @@ define('PIPEID_GD', 0);
 define('PIPEID_IMAGICK', 1);
 define('PIPEID_NETPBM', 2);
 
-include_once __DIR__ . '/myalbum.forms.php';
+include_once 'myalbum.forms.php';
 /*
 function myalbum_adminMenu ($page, $currentoption = 0)
 {
@@ -75,7 +75,7 @@ function myalbum_footer_adminMenu()
 function mysql_get_sql_set($cols)
 {
 
-    $ret = '';
+    $ret = "";
 
     foreach ($cols as $col => $types) {
 
@@ -86,16 +86,16 @@ function mysql_get_sql_set($cols)
 
         // Check if essential
         if ($essential && !$data) {
-            die(sprintf('Error: %s is not set', $col));
+            die(sprintf("Error: %s is not set", $col));
         }
 
         // Language
         switch ($lang) {
             case 'N' : // Number (remove ,)
-                $data = str_replace(',', '', $data);
+                $data = str_replace(",", "", $data);
                 break;
             case 'J' : // Japanese
-                $data = mb_convert_kana($data, 'KV');
+                $data = mb_convert_kana($data, "KV");
                 break;
             case 'E' : // English
                 // $data = mb_convert_kana( $data , "as" ) ;
@@ -110,11 +110,11 @@ function mysql_get_sql_set($cols)
                 $ret .= "$col='$data',";
                 break;
             case 'I' : // integer
-                $data = (int)$data;
+                $data = intval($data);
                 $ret .= "$col='$data',";
                 break;
             case 'F' : // float
-                $data = (float)$data;
+                $data = doubleval($data);
                 $ret .= "$col='$data',";
                 break;
             default : // varchar (default)
@@ -143,22 +143,22 @@ function myalbum_get_thumbnail_wh($width, $height)
         case 'w' :
             $new_w = $myalbum_thumbsize;
             $scale = $width / $new_w;
-            $new_h = (int)round($height / $scale);
+            $new_h = intval(round($height / $scale));
             break;
         case 'h' :
             $new_h = $myalbum_thumbsize;
             $scale = $height / $new_h;
-            $new_w = (int)round($width / $scale);
+            $new_w = intval(round($width / $scale));
             break;
         case 'b' :
             if ($width > $height) {
                 $new_w = $myalbum_thumbsize;
                 $scale = $width / $new_w;
-                $new_h = (int)round($height / $scale);
+                $new_h = intval(round($height / $scale));
             } else {
                 $new_h = $myalbum_thumbsize;
                 $scale = $height / $new_h;
-                $new_w = (int)round($width / $scale);
+                $new_w = intval(round($width / $scale));
             }
             break;
         default :
@@ -218,7 +218,7 @@ function myalbum_create_thumbs_by_gd($src_path, $node, $ext)
     $bundled_2 = false;
     if (!$myalbum_forcegd2 && function_exists('gd_info')) {
         $gd_info = gd_info();
-        if (substr($gd_info['GD Version'], 0, 10) === 'bundled (2') {
+        if (substr($gd_info['GD Version'], 0, 10) == 'bundled (2') {
             $bundled_2 = true;
         }
     }
@@ -444,11 +444,11 @@ function myalbum_modify_photo_by_gd($src_path, $dst_path)
         if ($width / $myalbum_width > $height / $myalbum_height) {
             $new_w = $myalbum_width;
             $scale = $width / $new_w;
-            $new_h = (int)round($height / $scale);
+            $new_h = intval(round($height / $scale));
         } else {
             $new_h = $myalbum_height;
             $scale = $height / $new_h;
-            $new_w = (int)round($width / $scale);
+            $new_w = intval(round($width / $scale));
         }
         $dst_img = imagecreatetruecolor($new_w, $new_h);
         imagecopyresampled($dst_img, $src_img, 0, 0, 0, 0, $new_w, $new_h, $width, $height);
@@ -525,7 +525,7 @@ function myalbum_modify_photo_by_imagick($src_path, $dst_path)
     }
 
     // Make options for imagick
-    $option      = '';
+    $option      = "";
     $image_stats = getimagesize($src_path);
     if ($image_stats[0] > $myalbum_width || $image_stats[1] > $myalbum_height) {
         $option .= " -geometry {$myalbum_width}x{$myalbum_height}";
@@ -533,13 +533,13 @@ function myalbum_modify_photo_by_imagick($src_path, $dst_path)
     if (isset($_POST['rotate'])) {
         switch ($_POST['rotate']) {
             case 'rot270' :
-                $option .= ' -rotate 270';
+                $option .= " -rotate 270";
                 break;
             case 'rot180' :
-                $option .= ' -rotate 180';
+                $option .= " -rotate 180";
                 break;
             case 'rot90' :
-                $option .= ' -rotate 90';
+                $option .= " -rotate 90";
                 break;
             default :
             case 'rot0' :
@@ -548,7 +548,7 @@ function myalbum_modify_photo_by_imagick($src_path, $dst_path)
     }
 
     // Do Modify and check success
-    if ($option != '') {
+    if ($option != "") {
         exec("{$myalbum_imagickpath}convert $option $src_path $dst_path");
     }
 
@@ -607,11 +607,11 @@ function myalbum_modify_photo_by_netpbm($src_path, $dst_path)
         if ($width / $myalbum_width > $height / $myalbum_height) {
             $new_w = $myalbum_width;
             $scale = $width / $new_w;
-            $new_h = (int)round($height / $scale);
+            $new_h = intval(round($height / $scale));
         } else {
             $new_h = $myalbum_height;
             $scale = $height / $new_h;
-            $new_w = (int)round($width / $scale);
+            $new_w = intval(round($width / $scale));
         }
         $pipe1 .= "{$myalbum_netpbmpath}pnmscale -xysize $new_w $new_h |";
     }
@@ -676,7 +676,7 @@ function myalbum_clear_tmp_files($dir_path, $prefix = 'tmp_')
 //updates rating data in itemtable for a given item
 function myalbum_updaterating($lid)
 {
-    $votedata_handler = xoops_getModuleHandler('votedata', $GLOBALS['mydirname']);
+    $votedata_handler = xoops_getmodulehandler('votedata', $GLOBALS['mydirname']);
     $criteria         = new CriteriaCompo(new Criteria('`lid`', $lid));
     $votes            = $votedata_handler->getObjects($criteria, true);
     $votesDB          = $votedata_handler->getCount($criteria);
@@ -689,10 +689,10 @@ function myalbum_updaterating($lid)
     } else {
         $finalrating = 0;
     }
-    $photos_handler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+    $photos_handler = xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
     $photo          = $photos_handler->get($lid);
     $photo->setVar('rating', $finalrating);
-    $photos_handler->insert($photo, true) or die('Error: DB update rating.');
+    $photos_handler->insert($photo, true) or die("Error: DB update rating.");
 }
 
 // Returns the number of photos included in a Category
@@ -702,7 +702,7 @@ function myalbum_get_photo_small_sum_from_cat($cid, $criteria = null)
         $criteria = new CriteriaCompo($criteria);
     }
     $criteria->add(new Criteria('`cid`', $cid));
-    $photo_handler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+    $photo_handler = xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
 
     return $photo_handler->getCount($criteria);
 }
@@ -713,18 +713,18 @@ function myalbum_get_photo_total_sum_from_cats($cids, $criteria = null)
     if (is_object($criteria)) {
         $criteria = new CriteriaCompo($criteria);
     }
-    $criteria->add(new Criteria('`cid`', '(' . implode(',', $cids) . ',0)', 'IN'));
-    $photo_handler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+    $criteria->add(new Criteria('`cid`', '(' . implode(',', $cids) . ',0)', "IN"));
+    $photo_handler = xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
 
     return $photo_handler->getCount($criteria);
 }
 
 // Update a photo
-function myalbum_update_photo($lid, $cid, $title, $desc, $valid = null, $ext = '', $x = '', $y = '')
+function myalbum_update_photo($lid, $cid, $title, $desc, $valid = null, $ext = "", $x = "", $y = "")
 {
-    $cat_handler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
-    $photos_handler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
-    $text_handler   = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
+    $cat_handler    = xoops_getmodulehandler('cat', $GLOBALS['mydirname']);
+    $photos_handler = xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
+    $text_handler   = xoops_getmodulehandler('text', $GLOBALS['mydirname']);
     $photo          = $photos_handler->get($lid);
     $text           = $text_handler->get($lid);
     $cat            = $cat_handler->get($cid);
@@ -733,7 +733,7 @@ function myalbum_update_photo($lid, $cid, $title, $desc, $valid = null, $ext = '
         $photo->setVar('status', $valid);
         // Trigger Notification
         if ($valid == 1) {
-            $notification_handler =& xoops_getHandler('notification');
+            $notification_handler =& xoops_gethandler('notification');
 
             // Global Notification
             $notification_handler->triggerEvent('global', 0, 'new_photo', array('PHOTO_TITLE' => $title, 'PHOTO_URI' => $photo->getURL()));
@@ -763,7 +763,7 @@ function myalbum_update_photo($lid, $cid, $title, $desc, $valid = null, $ext = '
         $photo->setVar('res_y', $y);
     }
 
-    $cid = empty($_POST['cid']) ? 0 : (int)$_POST['cid'];
+    $cid = empty($_POST['cid']) ? 0 : intval($_POST['cid']);
 
     if ($photos_handler->insert($photo, true)) {
         $text->setVar('description', $desc);
@@ -777,7 +777,7 @@ function myalbum_update_photo($lid, $cid, $title, $desc, $valid = null, $ext = '
 // Delete photos hit by the $whr clause
 function myalbum_delete_photos($criteria = null)
 {
-    $photos_handler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+    $photos_handler = xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
     $photos         = $photos_handler->getObjects($criteria);
     foreach ($photos as $lid => $photo) {
         $photos_handler->delete($photo);
@@ -815,12 +815,12 @@ function myalbum_get_cat_options($order = 'title', $preset = 0, $prefix = '--', 
     $key = 1;
     while (list($title, $cid, $pid, $num) = $GLOBALS['xoopsDB']->fetchRow($rs)) {
         $cats[$key] = array(
-            'cid'      => (int)$cid,
-            'pid'      => (int)$pid,
+            'cid'      => intval($cid),
+            'pid'      => intval($pid),
             'next_key' => $key + 1,
             'depth'    => 0,
             'title'    => $GLOBALS['myts']->htmlSpecialChars($title),
-            'num'      => (int)$num
+            'num'      => intval($num)
         );
         $key++;
     }
@@ -879,7 +879,7 @@ function extractSummary($html)
     $html = $GLOBALS['myts']->displayTarea($html, 1, 1, 1, 1, 1, 1, 1);
     $ret  = '';
     $i    = 0;
-    if ($html != '') {
+    if ($html != "") {
         if ($i < 4) {
             foreach (explode('.', strip_tags($html)) as $raw) {
                 if ($i < 4) {
@@ -906,7 +906,7 @@ function extractSummary($html)
                 }
             }
         } else {
-//            continue;
+            continue;
         }
     }
 
