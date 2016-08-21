@@ -30,7 +30,7 @@
 // ------------------------------------------------------------------------- //
 
 if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($xoopsModule->mid())) {
-    exit("Access Denied");
+    exit('Access Denied');
 } else {
     $op = 'list';
     if (isset($_POST)) {
@@ -42,10 +42,10 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
         $op = trim($_GET['op']);
     }
     if (isset($_GET['confcat_id'])) {
-        $confcat_id = intval($_GET['confcat_id']);
+        $confcat_id = (int)$_GET['confcat_id'];
     }
-    if ($op == 'list') {
-        $confcat_handler =& xoops_gethandler('configcategory');
+    if ($op === 'list') {
+        $confcat_handler =& xoops_getHandler('configcategory');
         $confcats        =& $confcat_handler->getObjects();
         $catcount        = count($confcats);
         xoops_cp_header();
@@ -59,11 +59,11 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
         exit();
     }
 
-    if ($op == 'show') {
+    if ($op === 'show') {
         if (empty($confcat_id)) {
             $confcat_id = 1;
         }
-        $confcat_handler =& xoops_gethandler('configcategory');
+        $confcat_handler =& xoops_getHandler('configcategory');
         $confcat         =& $confcat_handler->get($confcat_id);
         if (!is_object($confcat)) {
             redirect_header('admin.php?fct=preferences', 1);
@@ -71,7 +71,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
         include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
         include_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
         $form           = new XoopsThemeForm(constant($confcat->getVar('confcat_name')), 'pref_form', 'admin.php?fct=preferences');
-        $config_handler =& xoops_gethandler('config');
+        $config_handler =& xoops_getHandler('config');
         $criteria       = new CriteriaCompo();
         $criteria->add(new Criteria('conf_modid', 0));
         $criteria->add(new Criteria('conf_catid', $confcat_id));
@@ -88,7 +88,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
             switch ($config[$i]->getVar('conf_formtype')) {
                 case 'textarea':
                     $myts =& MyTextSanitizer::getInstance();
-                    if ($config[$i]->getVar('conf_valuetype') == 'array') {
+                    if ($config[$i]->getVar('conf_valuetype') === 'array') {
                         // this is exceptional.. only when value type is arrayneed a smarter way for this
                         $ele = ($config[$i]->getVar('conf_value') != '') ? new XoopsFormTextArea($title, $config[$i]->getVar(
                             'conf_name'
@@ -135,7 +135,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                     break;
                 case 'theme':
                 case 'theme_multi':
-                    $ele     = ($config[$i]->getVar('conf_formtype') != 'theme_multi')
+                    $ele     = ($config[$i]->getVar('conf_formtype') !== 'theme_multi')
                         ? new XoopsFormSelect($title, $config[$i]->getVar(
                             'conf_name'
                         ), $config[$i]->getConfValueForOutput())
@@ -145,7 +145,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                     $handle  = opendir(XOOPS_THEME_PATH . '/');
                     $dirlist = array();
                     while (false !== ($file = readdir($handle))) {
-                        if (is_dir(XOOPS_THEME_PATH . '/' . $file) && !preg_match("/^[.]{1,2}$/", $file) && strtolower($file) != 'cvs') {
+                        if (is_dir(XOOPS_THEME_PATH . '/' . $file) && !preg_match("/^[.]{1,2}$/", $file) && strtolower($file) !== 'cvs') {
                             $dirlist[$file] = $file;
                         }
                     }
@@ -165,7 +165,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                     break;
                 case 'tplset':
                     $ele            = new XoopsFormSelect($title, $config[$i]->getVar('conf_name'), $config[$i]->getConfValueForOutput());
-                    $tplset_handler =& xoops_gethandler('tplset');
+                    $tplset_handler =& xoops_getHandler('tplset');
                     $tplsetlist     =& $tplset_handler->getList();
                     asort($tplsetlist);
                     foreach ($tplsetlist as $key => $name) {
@@ -182,7 +182,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                     break;
                 case 'startpage':
                     $ele            = new XoopsFormSelect($title, $config[$i]->getVar('conf_name'), $config[$i]->getConfValueForOutput());
-                    $module_handler =& xoops_gethandler('module');
+                    $module_handler =& xoops_getHandler('module');
                     $criteria       = new CriteriaCompo(new Criteria('hasmain', 1));
                     $criteria->add(new Criteria('isactive', 1));
                     $moduleslist       =& $module_handler->getList($criteria, true);
@@ -203,7 +203,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                     $ele = new XoopsFormSelectUser($title, $config[$i]->getVar('conf_name'), false, $config[$i]->getConfValueForOutput(), 5, true);
                     break;
                 case 'module_cache':
-                    $module_handler =& xoops_gethandler('module');
+                    $module_handler =& xoops_getHandler('module');
                     $modules        =& $module_handler->getObjects(new Criteria('hasmain', 1), true);
                     $currrent_val   = $config[$i]->getConfValueForOutput();
                     $cache_options  = array(
@@ -221,7 +221,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                     if (count($modules) > 0) {
                         $ele = new XoopsFormElementTray($title, '<br />');
                         foreach (array_keys($modules) as $mid) {
-                            $c_val   = isset($currrent_val[$mid]) ? intval($currrent_val[$mid]) : null;
+                            $c_val   = isset($currrent_val[$mid]) ? (int)$currrent_val[$mid] : null;
                             $selform = new XoopsFormSelect($modules[$mid]->getVar('name'), $config[$i]->getVar('conf_name') . "[$mid]", $c_val);
                             $selform->addOptionArray($cache_options);
                             $ele->addElement($selform);
@@ -278,9 +278,9 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
         exit();
     }
 
-    if ($op == 'showmod') {
-        $config_handler =& xoops_gethandler('config');
-        $mod            = isset($_GET['mod']) ? intval($_GET['mod']) : 0;
+    if ($op === 'showmod') {
+        $config_handler =& xoops_getHandler('config');
+        $mod            = isset($_GET['mod']) ? (int)$_GET['mod'] : 0;
         if (empty($mod)) {
             header('Location: admin.php?fct=preferences');
             exit();
@@ -292,7 +292,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
         }
         include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
         $form           = new XoopsThemeForm(_MD_AM_MODCONFIG, 'pref_form', 'admin.php?fct=preferences');
-        $module_handler =& xoops_gethandler('module');
+        $module_handler =& xoops_getHandler('module');
         $module         =& $module_handler->get($mod);
         if (file_exists(XOOPS_ROOT_PATH . '/modules/' . $module->getVar('dirname') . '/language/' . $xoopsConfig['language'] . '/modinfo.php')) {
             include_once XOOPS_ROOT_PATH . '/modules/' . $module->getVar('dirname') . '/language/' . $xoopsConfig['language'] . '/modinfo.php';
@@ -329,7 +329,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
             switch ($config[$i]->getVar('conf_formtype')) {
                 case 'textarea':
                     $myts =& MyTextSanitizer::getInstance();
-                    if ($config[$i]->getVar('conf_valuetype') == 'array') {
+                    if ($config[$i]->getVar('conf_valuetype') === 'array') {
                         // this is exceptional.. only when value type is arrayneed a smarter way for this
                         $ele = ($config[$i]->getVar('conf_value') != '') ? new XoopsFormTextArea($title, $config[$i]->getVar(
                             'conf_name'
@@ -416,15 +416,15 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
         xoops_cp_header();
         // GIJ patch start
         include './mymenu.php';
-        echo "<h3 style='text-align:left;'>" . $module->getvar('name') . ' &nbsp; ' . _PREFERENCES . "</h3>\n";
+        echo "<h3 style='text-align:left;'>" . $module->getVar('name') . ' &nbsp; ' . _PREFERENCES . "</h3>\n";
         // GIJ patch end
         $form->display();
         xoops_cp_footer();
         exit();
     }
 
-    if ($op == 'save') {
-        require_once(XOOPS_ROOT_PATH . '/class/template.php');
+    if ($op === 'save') {
+        require_once XOOPS_ROOT_PATH . '/class/template.php';
         $xoopsTpl = new XoopsTpl();
         $xoopsTpl->clear_all_cache();
         // regenerate admin menu file
@@ -440,7 +440,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                 $new_value =& ${$config->getVar('conf_name')};
                 if (is_array($new_value) || $new_value != $config->getVar('conf_value')) {
                     // if language has been changed
-                    if (!$lang_updated && $config->getVar('conf_catid') == XOOPS_CONF && $config->getVar('conf_name') == 'language') {
+                    if (!$lang_updated && $config->getVar('conf_catid') == XOOPS_CONF && $config->getVar('conf_name') === 'language') {
                         // regenerate admin menu file
                         $xoopsConfig['language'] = ${$config->getVar('conf_name')};
                         xoops_module_write_admin_menu(xoops_module_get_admin_menu());
@@ -448,14 +448,14 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                     }
 
                     // if default theme has been changed
-                    if (!$theme_updated && $config->getVar('conf_catid') == XOOPS_CONF && $config->getVar('conf_name') == 'theme_set') {
-                        $member_handler =& xoops_gethandler('member');
+                    if (!$theme_updated && $config->getVar('conf_catid') == XOOPS_CONF && $config->getVar('conf_name') === 'theme_set') {
+                        $member_handler =& xoops_getHandler('member');
                         $member_handler->updateUsersByField('theme', ${$config->getVar('conf_name')});
                         $theme_updated = true;
                     }
 
                     // if default template set has been changed
-                    if (!$tpl_updated && $config->getVar('conf_catid') == XOOPS_CONF && $config->getVar('conf_name') == 'template_set') {
+                    if (!$tpl_updated && $config->getVar('conf_catid') == XOOPS_CONF && $config->getVar('conf_name') === 'template_set') {
                         // clear cached/compiled files and regenerate them if default theme has been changed
                         if ($xoopsConfig['template_set'] != ${$config->getVar('conf_name')}) {
                             $newtplset = ${$config->getVar('conf_name')};
@@ -465,7 +465,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
 
                             // generate compiled files for the new theme
                             // block files only for now..
-                            $tplfile_handler =& xoops_gethandler('tplfile');
+                            $tplfile_handler =& xoops_getHandler('tplfile');
                             $dtemplates      =& $tplfile_handler->find('default', 'block');
                             $dcount          = count($dtemplates);
 
@@ -484,7 +484,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                             }
 
                             // generate image cache files from image binary data, save them under cache/
-                            $image_handler =& xoops_gethandler('imagesetimg');
+                            $image_handler =& xoops_getHandler('imagesetimg');
                             $imagefiles    =& $image_handler->getObjects(new Criteria('tplset_name', $newtplset), true);
                             foreach (array_keys($imagefiles) as $i) {
                                 if (!$fp = fopen(XOOPS_CACHE_PATH . '/' . $newtplset . '_' . $imagefiles[$i]->getVar('imgsetimg_file'), 'wb')) {
@@ -499,12 +499,12 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
 
                     // add read permission for the start module to all groups
                     if (!$startmod_updated && $new_value != '--' && $config->getVar('conf_catid') == XOOPS_CONF
-                        && $config->getVar('conf_name') == 'startpage'
+                        && $config->getVar('conf_name') === 'startpage'
                     ) {
-                        $member_handler     =& xoops_gethandler('member');
+                        $member_handler     =& xoops_getHandler('member');
                         $groups             =& $member_handler->getGroupList();
-                        $moduleperm_handler =& xoops_gethandler('groupperm');
-                        $module_handler     =& xoops_gethandler('module');
+                        $moduleperm_handler =& xoops_getHandler('groupperm');
+                        $module_handler     =& xoops_getHandler('module');
                         $module             =& $module_handler->getByDirname($new_value);
                         foreach ($groups as $groupid => $groupname) {
                             if (!$moduleperm_handler->checkRight('module_read', $module->getVar('mid'), $groupid)) {
@@ -521,12 +521,12 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
             }
         }
         if (!empty($use_mysession) && $xoopsConfig['use_mysession'] == 0 && $session_name != '') {
-            setcookie($session_name, session_id(), time() + (60 * intval($session_expire)), '/', '', 0);
+            setcookie($session_name, session_id(), time() + (60 * (int)$session_expire), '/', '', 0);
         }
         if (isset($redirect) && $redirect != '') {
             redirect_header($redirect, 2, _MD_AM_DBUPDATED);
         } else {
-            redirect_header("admin.php?fct=preferences", 2, _MD_AM_DBUPDATED);
+            redirect_header('admin.php?fct=preferences', 2, _MD_AM_DBUPDATED);
         }
     }
 }

@@ -10,14 +10,14 @@ if (!class_exists('XoopsGTicket')) {
         var $_latest_token = '';
         var $messages = array();
 
-        function XoopsGTicket()
+        function __construct()
         {
             global $xoopsConfig;
 
             // language file
             if (defined('XOOPS_ROOT_PATH') && !empty($xoopsConfig['language']) && !strstr($xoopsConfig['language'], '/')) {
-                if (file_exists(dirname(dirname(__FILE__)) . '/language/' . $xoopsConfig['language'] . '/gticket_messages.phtml')) {
-                    include dirname(dirname(__FILE__)) . '/language/' . $xoopsConfig['language'] . '/gticket_messages.phtml';
+                if (file_exists(dirname(__DIR__) . '/language/' . $xoopsConfig['language'] . '/gticket_messages.phtml')) {
+                    include dirname(__DIR__) . '/language/' . $xoopsConfig['language'] . '/gticket_messages.phtml';
                 }
             }
 
@@ -31,7 +31,7 @@ if (!class_exists('XoopsGTicket')) {
                     'err_timeout'       => 'Time out',
                     'err_areaorref'     => 'Invalid area or referer',
                     'fmt_prompt4repost' => 'error(s) found:<br /><span style="background-color:red;font-weight:bold;color:white;">%s</span><br />Confirm it.<br />And do you want to post again?',
-                    'btn_repost'        => 'repost',
+                    'btn_repost'        => 'repost'
                 );
             }
         }
@@ -72,7 +72,7 @@ if (!class_exists('XoopsGTicket')) {
             global $xoopsModule;
 
             // create a token
-            list($usec, $sec) = explode(" ", microtime());
+            list($usec, $sec) = explode(' ', microtime());
             $appendix_salt       = empty($_SERVER['PATH']) ? XOOPS_DB_NAME : $_SERVER['PATH'];
             $token               = crypt($salt . $usec . $appendix_salt . $sec);
             $this->_latest_token = $token;
@@ -82,7 +82,7 @@ if (!class_exists('XoopsGTicket')) {
             }
 
             // limit max stubs 10
-            if (sizeof($_SESSION['XOOPS_G_STUBS']) > 10) {
+            if (count($_SESSION['XOOPS_G_STUBS']) > 10) {
                 $_SESSION['XOOPS_G_STUBS'] = array_slice($_SESSION['XOOPS_G_STUBS'], -10);
             }
 
@@ -212,7 +212,7 @@ if (!class_exists('XoopsGTicket')) {
             $table = '<table>';
             $form  = '<form action="?' . htmlspecialchars(@$_SERVER['QUERY_STRING'], ENT_QUOTES) . '" method="post" >';
             foreach ($_POST as $key => $val) {
-                if ($key == 'XOOPS_G_TICKET') {
+                if ($key === 'XOOPS_G_TICKET') {
                     continue;
                 }
                 if (get_magic_quotes_gpc()) {
@@ -307,9 +307,9 @@ if (!class_exists('XoopsGTicket')) {
     function GTicket_ErrorHandler4FindOutput($errNo, $errStr, $errFile, $errLine)
     {
         if (preg_match('?' . preg_quote(XOOPS_ROOT_PATH) . '([^:]+)\:(\d+)?', $errStr, $regs)) {
-            echo "Irregular output! check the file " . htmlspecialchars($regs[1]) . " line " . htmlspecialchars($regs[2]);
+            echo 'Irregular output! check the file ' . htmlspecialchars($regs[1]) . ' line ' . htmlspecialchars($regs[2]);
         } else {
-            echo "Irregular output! check language files etc.";
+            echo 'Irregular output! check language files etc.';
         }
 
         return;
@@ -323,7 +323,7 @@ if (!class_exists('XoopsGTicket')) {
 if (!function_exists('admin_refcheck')) {
 
 //Admin Referer Check By Marijuana(Rev.011)
-    function admin_refcheck($chkref = "")
+    function admin_refcheck($chkref = '')
     {
         if (empty($_SERVER['HTTP_REFERER'])) {
             return true;
@@ -331,7 +331,7 @@ if (!function_exists('admin_refcheck')) {
             $ref = $_SERVER['HTTP_REFERER'];
         }
         $cr = XOOPS_URL;
-        if ($chkref != "") {
+        if ($chkref != '') {
             $cr .= $chkref;
         }
         if (strpos($ref, $cr) !== 0) {

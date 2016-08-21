@@ -7,8 +7,8 @@ $catpath = '';
 include 'header.php';
 
 // GET variables
-$lid = empty($_GET['lid']) ? 0 : intval($_GET['lid']);
-$cid = empty($_GET['cid']) ? 0 : intval($_GET['cid']);
+$lid = empty($_GET['lid']) ? 0 : (int)$_GET['lid'];
+$cid = empty($_GET['cid']) ? 0 : (int)$_GET['cid'];
 
 if (isset($_GET['op'])) {
     $op = $_GET['op'];
@@ -21,48 +21,48 @@ if (isset($_GET['op'])) {
 function deleteImage($lid)
 {
     global $global_perms;
-    $photos_handler = xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
+    $photos_handler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
     $photo_obj      = $photos_handler->get($lid);
 
     if (!($global_perms & GPERM_DELETABLE)) {
-        redirect_header("photo.php", 3, _NOPERM);
+        redirect_header('photo.php', 3, _NOPERM);
         exit;
     }
 
     // anti-CSRF
     if (!xoopsSecurity::checkReferer()) {
-        die("XOOPS_URL is not included in your REFERER");
+        die('XOOPS_URL is not included in your REFERER');
     }
 
     // get and check lid is valid
     if ($lid < 1) {
-        die("Invalid photo id.");
+        die('Invalid photo id.');
     }
 
     $photos_handler->delete($photo_obj);
 
-    redirect_header("index.php", 2, _ALBM_DBUPDATED);
+    redirect_header('index.php', 2, _ALBM_DBUPDATED);
 }
 
 switch ($op) {
-    case "delete":
+    case 'delete':
         deleteImage($lid);
         break;
-    case "default":
+    case 'default':
     default:
 
         myalbum_updaterating($lid);
 
-        $photos_handler = xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
-        $cat_handler    = xoops_getmodulehandler('cat', $GLOBALS['mydirname']);
+        $photos_handler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+        $cat_handler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
 
         if (!is_object($photo_obj = $photos_handler->get($lid))) {
-            redirect_header("index.php", 2, _ALBM_NOMATCH);
+            redirect_header('index.php', 2, _ALBM_NOMATCH);
             exit;
         }
 
         if (!strpos($photo_obj->getURL(), $_SERVER['REQUEST_URI'])) {
-            header("HTTP/1.1 301 Moved Permanently");
+            header('HTTP/1.1 301 Moved Permanently');
             header('Location: ' . $photo_obj->getURL());
             exit(0);
         }
@@ -70,7 +70,7 @@ switch ($op) {
         $cat = $cat_handler->get($photo_obj->getVar('cid'));
 
         $xoopsOption['template_main'] = "{$mydirname}_photo.html";
-        include($GLOBALS['xoops']->path("header.php"));
+        include $GLOBALS['xoops']->path('header.php');
 
         if ($global_perms & GPERM_INSERTABLE) {
             $GLOBALS['xoopsTpl']->assign('lang_add_photo', _ALBM_ADDPHOTO);
@@ -120,22 +120,21 @@ switch ($op) {
         $cids = $GLOBALS['cattree']->getAllChild($cid);
         if (!empty($cids)) {
             foreach ($cids as $index => $child) {
-                $catpath .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . intval($GLOBALS['myalbum_perpage'])
-                    . '&cid=' . $child->getVar('cid') . "' >" . $child->getVar('title') . '</a> ' . ($index < sizeof($cids) ? '>>' : '');
+                $catpath .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid=' . $child->getVar('cid') . "' >" . $child->getVar('title') . '</a> ' . ($index < count($cids) ? '>>' : '');
             }
         } else {
             $cat = $cat_handler->get($photo_obj->getVar('cid'));
             $catpath
-                .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . intval($GLOBALS['myalbum_perpage']) . '&cid='
+                .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid='
                 . $cat->getVar('cid') . "' >" . $cat->getVar('title') . '</a>';
         }
-        $catpath = str_replace(">>", " <span class='fg2'>&raquo;&raquo;</span> ", $catpath);
+        $catpath = str_replace('>>', " <span class='fg2'>&raquo;&raquo;</span> ", $catpath);
         $sub_title = preg_replace("/\'\>/", "'><img src='$mod_url/images/folder16.gif' alt='' />", $catpath);
-        $sub_title = preg_replace("/^(.+)folder16/", '$1folder_open', $sub_title);
+        $sub_title = preg_replace('/^(.+)folder16/', '$1folder_open', $sub_title);
         $GLOBALS['xoopsTpl']->assign('album_sub_title', $sub_title);
 
 // Orders
-        include(XOOPS_ROOT_PATH . "/modules/$mydirname/include/photo_orders.php");
+        include XOOPS_ROOT_PATH . "/modules/$mydirname/include/photo_orders.php";
     if (isset($_GET['orderby']) && isset($myalbum_orders[$_GET['orderby']])) {
         $orderby = $_GET['orderby'];
     } else {
@@ -155,14 +154,14 @@ switch ($op) {
             $ids[] = $id;
         }
 
-        $photo_nav = "";
+        $photo_nav = '';
         $numrows   = count($ids);
         $pos       = array_search($lid, $ids);
         if ($numrows > 1) {
             // prev mark
             if ($ids[0] != $lid) {
                 $photo_nav .= "<a href='photo.php?lid=" . $ids[0] . "'><b>[&lt; </b></a>&nbsp;&nbsp;";
-                $photo_nav .= "<a href='photo.php?lid=" . $ids[$pos - 1] . "'><b>" . _ALBM_PREVIOUS . "</b></a>&nbsp;&nbsp;";
+                $photo_nav .= "<a href='photo.php?lid=" . $ids[$pos - 1] . "'><b>" . _ALBM_PREVIOUS . '</b></a>&nbsp;&nbsp;';
 
             }
 
@@ -191,7 +190,7 @@ switch ($op) {
 
             // next mark
             if ($ids[$numrows - 1] != $lid) {
-                $photo_nav .= "<a href='photo.php?lid=" . $ids[$pos + 1] . "'><b>" . _ALBM_NEXT . "</b></a>&nbsp;&nbsp;";
+                $photo_nav .= "<a href='photo.php?lid=" . $ids[$pos + 1] . "'><b>" . _ALBM_NEXT . '</b></a>&nbsp;&nbsp;';
                 $photo_nav .= "<a href='photo.php?lid=" . $ids[$numrows - 1] . "'><b> &gt;]</b></a>";
             }
         }
@@ -206,6 +205,6 @@ switch ($op) {
 
         include XOOPS_ROOT_PATH . '/include/comment_view.php';
 
-        include($GLOBALS['xoops']->path("footer.php"));
+        include $GLOBALS['xoops']->path('footer.php');
 
 }

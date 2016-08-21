@@ -3,7 +3,7 @@ if (!defined('XOOPS_ROOT_PATH')) {
     exit();
 }
 
-include (dirname(dirname(__FILE__))) . '/include/read_configs.php';
+include dirname(__DIR__) . '/include/read_configs.php';
 
 /**
  * Class for Blue Room Xcenter
@@ -18,7 +18,7 @@ class MyalbumText extends XoopsObject
     function __construct($id = null)
     {
         $this->initVar('lid', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('description', XOBJ_DTYPE_OTHER, null, false, (16 * 1024 * 1024 * 1024));
+        $this->initVar('description', XOBJ_DTYPE_OTHER, null, false, 16 * 1024 * 1024 * 1024);
     }
 
     function toArray()
@@ -43,12 +43,12 @@ class MyalbumTextHandler extends XoopsPersistableObjectHandler
     function __construct(&$db)
     {
         $this->db = $db;
-        parent::__construct($db, $GLOBALS['table_text'], 'MyalbumText', "lid", "description");
+        parent::__construct($db, $GLOBALS['table_text'], 'MyalbumText', 'lid', 'description');
     }
 
     function getBytes()
     {
-        $sql = "SELECT SUM(LENGTH(`description`)) as `bytes` FROM " . $GLOBALS['xoopsDB']->prefix($GLOBALS['table_text']);
+        $sql = 'SELECT SUM(LENGTH(`description`)) as `bytes` FROM ' . $GLOBALS['xoopsDB']->prefix($GLOBALS['table_text']);
         list($bytes) = $GLOBALS['xoopsDB']->fetchRow($GLOBALS['xoopsDB']->queryF($sql));
 
         return $bytes;

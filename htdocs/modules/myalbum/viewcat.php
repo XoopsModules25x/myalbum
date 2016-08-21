@@ -7,17 +7,17 @@
 include 'header.php';
 
 // GET variables
-$cid = !isset($_GET['cid']) ? 0 : intval($_GET['cid']);
-$uid = !isset($_GET['uid']) ? 0 : intval($_GET['uid']);
-$num = !isset($_GET['num']) ? intval($myalbum_perpage) : intval($_GET['num']);
+$cid = !isset($_GET['cid']) ? 0 : (int)$_GET['cid'];
+$uid = !isset($_GET['uid']) ? 0 : (int)$_GET['uid'];
+$num = !isset($_GET['num']) ? (int)$myalbum_perpage : (int)$_GET['num'];
 if ($num < 1) {
     $num = 10;
 }
-$pos  = !isset($_GET['pos']) ? 0 : intval($_GET['pos']);
+$pos  = !isset($_GET['pos']) ? 0 : (int)$_GET['pos'];
 $view = !isset($_GET['view']) ? $myalbum_viewcattype : $_GET['view'];
 
-$photos_handler = xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
-$cat_handler    = xoops_getmodulehandler('cat', $GLOBALS['mydirname']);
+$photos_handler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+$cat_handler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
 if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
     if ($cid == 0) {
         $url = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/cat,' . $cid . ',' . $uid . ',' . $num . ',' . $pos . ',' . $view
@@ -28,14 +28,14 @@ if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
     }
 
     if (!strpos($url, $_SERVER['REQUEST_URI'])) {
-        header("HTTP/1.1 301 Moved Permanently");
+        header('HTTP/1.1 301 Moved Permanently');
         header('Location: ' . $url);
         exit(0);
     }
 }
 
 // Orders
-include(XOOPS_ROOT_PATH . "/modules/$mydirname/include/photo_orders.php");
+include XOOPS_ROOT_PATH . "/modules/$mydirname/include/photo_orders.php";
 if (isset($_GET['orderby']) && isset($myalbum_orders[$_GET['orderby']])) {
     $orderby = $_GET['orderby'];
 } else {
@@ -46,7 +46,7 @@ if (isset($_GET['orderby']) && isset($myalbum_orders[$_GET['orderby']])) {
     }
 }
 
-if ($view == 'table') {
+if ($view === 'table') {
     $xoopsOption['template_main'] = "{$mydirname}_viewcat_table.html";
     $function_assigning           = 'myalbum_get_array_for_photo_assign_light';
 } else {
@@ -54,7 +54,7 @@ if ($view == 'table') {
     $function_assigning           = 'myalbum_get_array_for_photo_assign';
 }
 
-include(XOOPS_ROOT_PATH . "/header.php");
+include XOOPS_ROOT_PATH . '/header.php';
 
 include 'include/assign_globals.php';
 foreach ($GLOBALS['myalbum_assign_globals'] as $key => $value) {
@@ -87,19 +87,18 @@ if ($cid > 0) {
             $childcat = $cat_handler->get($child);
             if (is_object($childcat)) {
                 $catpath
-                    .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . intval($GLOBALS['myalbum_perpage'])
-                    . '&cid=' . $childcat->getVar('cid') . "' >" . $childcat->getVar('title') . '</a> ' . ($index < sizeof($cids) ? '>>' : '');
+                    .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid=' . $childcat->getVar('cid') . "' >" . $childcat->getVar('title') . '</a> ' . ($index < count($cids) ? '>>' : '');
             }
         }
     } else {
         $cat = $cat_handler->get($cid);
         $catpath
-            .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . intval($GLOBALS['myalbum_perpage']) . '&cid='
+            .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid='
             . $cat->getVar('cid') . "' >" . $cat->getVar('title') . '</a>';
     }
-    $catpath   = str_replace(">>", " <span class='fg2'>&raquo;&raquo;</span> ", $catpath);
+    $catpath   = str_replace('>>', " <span class='fg2'>&raquo;&raquo;</span> ", $catpath);
     $sub_title = preg_replace("/\'\>/", "'><img src='$mod_url/images/folder16.gif' alt='' />", $catpath);
-    $sub_title = preg_replace("/^(.+)folder16/", '$1folder_open', $sub_title);
+    $sub_title = preg_replace('/^(.+)folder16/', '$1folder_open', $sub_title);
     $GLOBALS['xoopsTpl']->assign('album_sub_title', $sub_title);
     $criteria->add(new Criteria('`cid`', $cid));
 
@@ -136,7 +135,7 @@ $GLOBALS['xoopsTpl']->assign('photo_small_sum', $photo_small_sum);
 $GLOBALS['xoopsTpl']->assign('photo_total_sum', (empty($photo_total_sum) ? $photo_small_sum : $photo_total_sum));
 $criteria->setOrder($myalbum_orders[$orderby][0]);
 $criteria->setStart($pos);
-$criteria->setSort($myalbum_orders[$orderby][0] . ", title");
+$criteria->setSort($myalbum_orders[$orderby][0] . ', title');
 $criteria->setLimit($num);
 
 if ($photo_small_sum > 0) {
@@ -174,4 +173,4 @@ if ($photo_small_sum > 0) {
     }
 }
 
-include(XOOPS_ROOT_PATH . "/footer.php");
+include XOOPS_ROOT_PATH . '/footer.php';

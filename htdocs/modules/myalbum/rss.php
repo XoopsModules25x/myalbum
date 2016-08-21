@@ -3,18 +3,18 @@
 include 'header.php';
 
 // GET variables
-$cid = empty($_GET['cid']) ? 0 : intval($_GET['cid']);
-$uid = empty($_GET['uid']) ? 0 : intval($_GET['uid']);
-$num = empty($_GET['num']) ? intval($myalbum_perpage) : intval($_GET['num']);
+$cid = empty($_GET['cid']) ? 0 : (int)$_GET['cid'];
+$uid = empty($_GET['uid']) ? 0 : (int)$_GET['uid'];
+$num = empty($_GET['num']) ? (int)$myalbum_perpage : (int)$_GET['num'];
 if ($num < 1) {
     $num = 10;
 }
-$pos  = empty($_GET['pos']) ? 0 : intval($_GET['pos']);
+$pos  = empty($_GET['pos']) ? 0 : (int)$_GET['pos'];
 $view = empty($_GET['view']) ? $myalbum_viewcattype : $_GET['view'];
 
-$photos_handler = xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
-$text_handler   = xoops_getmodulehandler('text', $GLOBALS['mydirname']);
-$cat_handler    = xoops_getmodulehandler('cat', $GLOBALS['mydirname']);
+$photos_handler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+$text_handler   = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
+$cat_handler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
 if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
     if ($cid == 0) {
         $url = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/rss,' . $cid . ',' . $uid . ',' . $num . ',' . $pos . ',' . $view
@@ -25,7 +25,7 @@ if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
     }
 
     if (!strpos($url, $_SERVER['REQUEST_URI'])) {
-        header("HTTP/1.1 301 Moved Permanently");
+        header('HTTP/1.1 301 Moved Permanently');
         header('Location: ' . $url);
     }
 }
@@ -75,7 +75,7 @@ if (!$GLOBALS['xoopsTpl']->is_cached('db:' . $GLOBALS['mydirname'] . '_rss.html'
     }
     $GLOBALS['xoopsTpl']->assign('image_width', $width);
     $GLOBALS['xoopsTpl']->assign('image_height', $height);
-    include(XOOPS_ROOT_PATH . "/modules/$mydirname/include/photo_orders.php");
+    include XOOPS_ROOT_PATH . "/modules/$mydirname/include/photo_orders.php";
     if (isset($_GET['orderby']) && isset($myalbum_orders[$_GET['orderby']])) {
         $orderby = $_GET['orderby'];
     } else {
@@ -100,7 +100,7 @@ if (!$GLOBALS['xoopsTpl']->is_cached('db:' . $GLOBALS['mydirname'] . '_rss.html'
             "'><img src='$mod_url/images/folder16.gif' alt='' />",
             $GLOBALS['cattree']->getNicePathFromId($cid, 'title', "viewcat.php?num=$num")
         );
-        $sub_title       = preg_replace("/^(.+)folder16/", '$1folder_open', $sub_title);
+        $sub_title       = preg_replace('/^(.+)folder16/', '$1folder_open', $sub_title);
         $criteria->add(new Criteria('`cid`', $cid));
 
     } elseif ($uid != 0) {

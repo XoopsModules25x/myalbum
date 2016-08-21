@@ -6,14 +6,14 @@ if (!defined('XOOPS_ROOT_PATH')) {
 
 function myDeleteByModule($DB, $gperm_modid, $gperm_name = null, $gperm_itemid = null)
 {
-    $criteria = new CriteriaCompo(new Criteria('gperm_modid', intval($gperm_modid)));
+    $criteria = new CriteriaCompo(new Criteria('gperm_modid', (int)$gperm_modid));
     if (isset($gperm_name)) {
         $criteria->add(new Criteria('gperm_name', $gperm_name));
         if (isset($gperm_itemid)) {
-            $criteria->add(new Criteria('gperm_itemid', intval($gperm_itemid)));
+            $criteria->add(new Criteria('gperm_itemid', (int)$gperm_itemid));
         }
     }
-    $sql = "DELETE FROM " . $DB->prefix('group_permission') . ' ' . $criteria->renderWhere();
+    $sql = 'DELETE FROM ' . $DB->prefix('group_permission') . ' ' . $criteria->renderWhere();
     if (!$result = $DB->query($sql)) {
         return false;
     }
@@ -22,22 +22,22 @@ function myDeleteByModule($DB, $gperm_modid, $gperm_name = null, $gperm_itemid =
 }
 
 // include '../../../include/cp_header.php'; GIJ
-$modid = isset($_POST['modid']) ? intval($_POST['modid']) : 1;
+$modid = isset($_POST['modid']) ? (int)$_POST['modid'] : 1;
 // we dont want system module permissions to be changed here ( 1 -> 0 GIJ)
 if ($modid <= 0 || !is_object($xoopsUser) || !$xoopsUser->isAdmin($modid)) {
     redirect_header(XOOPS_URL . '/user.php', 1, _NOPERM);
     exit();
 }
-$module_handler =& xoops_gethandler('module');
+$module_handler =& xoops_getHandler('module');
 $module         =& $module_handler->get($modid);
 if (!is_object($module) || !$module->getVar('isactive')) {
     redirect_header(XOOPS_URL . '/admin.php', 1, _MODULENOEXIST);
     exit();
 }
-$member_handler =& xoops_gethandler('member');
+$member_handler =& xoops_getHandler('member');
 $group_list     =& $member_handler->getGroupList();
 if (is_array($_POST['perms']) && !empty($_POST['perms'])) {
-    $gperm_handler = xoops_gethandler('groupperm');
+    $gperm_handler = xoops_getHandler('groupperm');
     foreach ($_POST['perms'] as $perm_name => $perm_data) {
         foreach ($perm_data['itemname'] as $item_id => $item_name) {
             if (false != myDeleteByModule($gperm_handler->db, $modid, $perm_name, $item_id)) {
