@@ -76,7 +76,8 @@ if (defined('FOR_XOOPS_LANG_CHECKER') || !defined('MYALBUM_MB_LOADED')) {
     define('_ALBM_THANKSFORINFO', 'Thanks for the information. We\'ll look into your request shortly.');
     define('_ALBM_BACKTOTOP', 'Back to Photo Top');
     define('_ALBM_THANKSFORHELP', 'Thank you for helping to maintain this directory\'s integrity.');
-    define('_ALBM_FORSECURITY', 'For security reasons your user name and IP address will also be temporarily recorded.');
+    define('_ALBM_FORSECURITY',
+           'For security reasons your user name and IP address will also be temporarily recorded.');
     define('_ALBM_MATCH', 'Match');
     define('_ALBM_ALL', 'ALL');
     define('_ALBM_ANY', 'ANY');
@@ -124,7 +125,8 @@ if (defined('FOR_XOOPS_LANG_CHECKER') || !defined('MYALBUM_MB_LOADED')) {
     define('_ALBM_THANKURATE', 'Thank you for taking the time to rate a photo here at %s.');
     define('_ALBM_VOTEONCE', 'Please do not vote for the same resource more than once.');
     define('_ALBM_RATINGSCALE', 'The scale is 1 - 10, with 1 being poor and 10 being excellent.');
-    define('_ALBM_BEOBJECTIVE', 'Please be objective, if everyone receives a 1 or a 10, the ratings aren\'t very useful.');
+    define('_ALBM_BEOBJECTIVE',
+           'Please be objective, if everyone receives a 1 or a 10, the ratings aren\'t very useful.');
     define('_ALBM_DONOTVOTE', 'Do not vote for your own resource.');
     define('_ALBM_RATEIT', 'Rate this Image!');
     define('_ALBM_RECEIVED', 'We received your Photo. Thanks!');
@@ -147,8 +149,10 @@ if (defined('FOR_XOOPS_LANG_CHECKER') || !defined('MYALBUM_MB_LOADED')) {
     define('_ALBM_CATEGORIES', 'Categories');
     define('_ALBM_SUBMIT', 'Submit');
     define('_ALBM_CANCEL', 'Cancel');
-    define('_ALBM_MUSTREGFIRST', 'Sorry, you don\'t have the permission to perform this action.<br>Please register or login first!');
-    define('_ALBM_MUSTADDCATFIRST', 'Sorry, you don\'t have categories to add to yet.<br>Please create a category first!');
+    define('_ALBM_MUSTREGFIRST',
+           'Sorry, you don\'t have the permission to perform this action.<br>Please register or login first!');
+    define('_ALBM_MUSTADDCATFIRST',
+           'Sorry, you don\'t have categories to add to yet.<br>Please create a category first!');
     define('_ALBM_NORATING', 'No rating selected.');
     define('_ALBM_CANTVOTEOWN', 'You cannot vote on the resource you submitted.<br>All votes are logged and reviewed.');
     define('_ALBM_VOTEONCE2', 'Vote for the selected resource only once.<br>All votes are logged and reviewed.');
@@ -172,11 +176,13 @@ if (defined('FOR_XOOPS_LANG_CHECKER') || !defined('MYALBUM_MB_LOADED')) {
     define('_ALBM_MODCAT', 'Modify Category');
     define('_ALBM_DBUPDATED', 'Database Updated Successfully!');
     define('_ALBM_MODREQDELETED', 'Modification Request Deleted.');
-    define('_ALBM_IMGURLMAIN', 'Image URL (OPTIONAL and Only valid for main categories. Image height will be resized to 50): ');
+    define('_ALBM_IMGURLMAIN',
+           'Image URL (OPTIONAL and Only valid for main categories. Image height will be resized to 50): ');
     define('_ALBM_PARENT', 'Parent Category:');
     define('_ALBM_SAVE', 'Save Changes');
     define('_ALBM_CATDELETED', 'Category Deleted.');
-    define('_ALBM_CATDEL_WARNING', 'WARNING: Are you sure you want to delete this Category and ALL its Photos and Comments?');
+    define('_ALBM_CATDEL_WARNING',
+           'WARNING: Are you sure you want to delete this Category and ALL its Photos and Comments?');
     define('_ALBM_YES', 'Yes');
     define('_ALBM_NO', 'No');
     define('_ALBM_NEWCATADDED', 'New Category Added Successfully!');

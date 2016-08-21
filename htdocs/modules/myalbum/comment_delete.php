@@ -26,4 +26,4 @@
 //  ------------------------------------------------------------------------ //
 include '../../mainfile.php';
 include 'include/read_configs.php';
-include XOOPS_ROOT_PATH.'/include/comment_delete.php';
+include XOOPS_ROOT_PATH . '/include/comment_delete.php';

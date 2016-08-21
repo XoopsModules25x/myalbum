@@ -1,7 +1,7 @@
 <?php
 
 if (!class_exists('MyAlbumTextSanitizer')) {
-    include_once(XOOPS_ROOT_PATH . '/class/module.textsanitizer.php');
+    include_once XOOPS_ROOT_PATH . '/class/module.textsanitizer.php';
 
     /**
      * Class MyAlbumTextSanitizer
@@ -139,11 +139,12 @@ if (!class_exists('MyAlbumTextSanitizer')) {
          */
         public function nl2Br($text)
         {
-            $text = preg_replace("/(\015\012)|(\015)|(\012)/", "<br />", $text);
+            $text = preg_replace("/(\015\012)|(\015)|(\012)/", '<br />', $text);
             if ($this->nbsp) {
                 $patterns = array('  ', '\"');
                 $replaces = array(' &nbsp;', '"');
-                $text     = substr(preg_replace('/\>.*\</esU', "str_replace(\$patterns,\$replaces,'\\0')", ">$text<"), 1, -1);
+                $text     =
+                    substr(preg_replace('/\>.*\</esU', "str_replace(\$patterns,\$replaces,'\\0')", ">$text<"), 1, -1);
             }
 
             return $text;

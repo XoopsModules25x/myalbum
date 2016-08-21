@@ -20,7 +20,8 @@ if (defined('FOR_XOOPS_LANG_CHECKER') || !defined('MYALBUM_AM_LOADED')) {
     define('_AM_CAT_LINK_EDIT', 'Edit this category');
     define('_AM_CAT_LINK_MAKESUBCAT', 'Create a new category under this category');
     define('_AM_CAT_FMT_NEEDADMISSION', '%s images are needed the admission');
-    define('_AM_CAT_FMT_CATDELCONFIRM', '%s will be deleted with its sub-categories, images, comments. Are you OK with it?');
+    define('_AM_CAT_FMT_CATDELCONFIRM',
+           '%s will be deleted with its sub-categories, images, comments. Are you OK with it?');
     // Admission
     define('_AM_H3_FMT_ADMISSION', 'Admitting images (%s)');
     define('_AM_TH_SUBMITTER', 'Submitter');
@@ -58,10 +59,12 @@ if (defined('FOR_XOOPS_LANG_CHECKER') || !defined('MYALBUM_AM_LOADED')) {
     define('_AM_ERR_FIRSTCHAR', "Error: The first character should be '/'");
     define('_AM_ERR_PERMISSION', 'Error: At first create and chmod 777 this directory by FTP or Shell.');
     define('_AM_ERR_NOTDIRECTORY', 'Error: This is not a directory.');
-    define('_AM_ERR_READORWRITE', 'Error: This directory is not writable nor readable. You should change the permission of the directory to 777.');
+    define('_AM_ERR_READORWRITE',
+           'Error: This directory is not writable nor readable. You should change the permission of the directory to 777.');
     define('_AM_ERR_SAMEDIR', 'Error: Photos Path should not be same as Thumbs Path');
     define('_AM_LNK_CHECKGD2', "Check 'GD2' works correctly under your GD bundled with PHP");
-    define('_AM_MB_CHECKGD2', 'If the page linked from here don\'t display correctly, you should give up using your GD in truecolor mode.');
+    define('_AM_MB_CHECKGD2',
+           'If the page linked from here don\'t display correctly, you should give up using your GD in truecolor mode.');
     define('_AM_MB_GD2SUCCESS', 'Success!<br />Perhaps, you can use GD2 (truecolor) in this environment.');
     define('_AM_H4_PHOTOLINK', 'Photos & Thumbs Link Check');
     define('_AM_MB_NOWCHECKING', 'Now, checking.');

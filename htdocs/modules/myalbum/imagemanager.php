@@ -4,18 +4,18 @@ if (!defined('XOOPS_ROOT_PATH')) {
 } else {
     // when this script is included by core's imagemanager.php
     $mydirname = basename(__DIR__);
-    include(XOOPS_ROOT_PATH . "/modules/$mydirname/include/read_configs.php");
+    include XOOPS_ROOT_PATH . "/modules/$mydirname/include/read_configs.php";
 }
 
-include(XOOPS_ROOT_PATH . "/modules/$mydirname/include/get_perms.php");
-include(XOOPS_ROOT_PATH . "/class/template.php");
+include XOOPS_ROOT_PATH . "/modules/$mydirname/include/get_perms.php";
+include XOOPS_ROOT_PATH . '/class/template.php';
 
 // Get variables
 if (empty($_GET['target'])) {
     exit;
 }
-$num = empty($_GET['num']) ? 10 : (int)($_GET['num']);
-$cid = !isset($_GET['cid']) ? 0 : (int)($_GET['cid']);
+$num = empty($_GET['num']) ? 10 : (int)$_GET['num'];
+$cid = !isset($_GET['cid']) ? 0 : (int)$_GET['cid'];
 
 $xoopsTpl = new XoopsTpl();
 $xoopsTpl->assign('lang_imgmanager', _IMGMANAGER);
@@ -45,7 +45,8 @@ if (count($cats) > 0) {
 
     // select box for category
     $cat_options  = "<option value='0'>--</option>\n";
-    $prs          = $xoopsDB->query("SELECT cid,COUNT(lid) FROM $table_photos WHERE status>0 AND $whr_ext GROUP BY cid");
+    $prs          =
+        $xoopsDB->query("SELECT cid,COUNT(lid) FROM $table_photos WHERE status>0 AND $whr_ext GROUP BY cid");
     $photo_counts = array();
     while (list($c, $p) = $xoopsDB->fetchRow($prs)) {
         $photo_counts[$c] = $p;
@@ -67,8 +68,9 @@ if (count($cats) > 0) {
         $rs = $xoopsDB->query("SELECT COUNT(*) FROM $table_photos WHERE cid='$cid' AND status>0 AND $whr_ext");
         list($total) = $xoopsDB->fetchRow($rs);
         if ($total > 0) {
-            $start = empty($_GET['start']) ? 0 : (int)($_GET['start']);
-            $prs   = $xoopsDB->query("SELECT lid,cid,title,ext,submitter,res_x,res_y,$select_is_normal AS is_normal FROM $table_photos WHERE cid='$cid' AND status>0 AND $whr_ext ORDER BY date DESC LIMIT $start,$num");
+            $start = empty($_GET['start']) ? 0 : (int)$_GET['start'];
+            $prs   =
+                $xoopsDB->query("SELECT lid,cid,title,ext,submitter,res_x,res_y,$select_is_normal AS is_normal FROM $table_photos WHERE cid='$cid' AND status>0 AND $whr_ext ORDER BY date DESC LIMIT $start,$num");
             $xoopsTpl->assign('image_total', $total);
             $xoopsTpl->assign('lang_image', _IMAGE);
             $xoopsTpl->assign('lang_imagename', _IMAGENAME);
@@ -110,30 +112,33 @@ if (count($cats) > 0) {
                     }
                 }
 
-                $xcodel  = "[$url_tag=$pdir/{$lid}.{$ext}][$img_tag align=left]$tdir/{$lid}.{$image_ext}[/$img_tag][/$url_tag]";
+                $xcodel  =
+                    "[$url_tag=$pdir/{$lid}.{$ext}][$img_tag align=left]$tdir/{$lid}.{$image_ext}[/$img_tag][/$url_tag]";
                 $xcodec  = "[$url_tag=$pdir/{$lid}.{$ext}][$img_tag]$tdir/{$lid}.{$image_ext}[/$img_tag][/$url_tag]";
-                $xcoder  = "[$url_tag=$pdir/{$lid}.{$ext}][$img_tag align=right]$tdir/{$lid}.{$image_ext}[/$img_tag][/$url_tag]";
+                $xcoder  =
+                    "[$url_tag=$pdir/{$lid}.{$ext}][$img_tag align=right]$tdir/{$lid}.{$image_ext}[/$img_tag][/$url_tag]";
                 $xcodebl = "[$img_tag align=left]$pdir/{$lid}.{$ext}[/$img_tag]";
                 $xcodebc = "[$img_tag]$pdir/{$lid}.{$ext}[/$img_tag]";
                 $xcodebr = "[$img_tag align=right]$pdir/{$lid}.{$ext}[/$img_tag]";
                 $xoopsTpl->append('photos', array(
-                                              'lid'        => $lid,
-                                              'ext'        => $ext,
-                                              'res_x'      => $res_x,
-                                              'res_y'      => $res_y,
-                                              'nicename'   => $GLOBALS['myts']->htmlSpecialChars($title),
-                                              'src'        => "$thumbs_url/{$lid}.{$image_ext}",
-                                              'can_edit'   => (($global_perms & GPERM_EDITABLE) && ($my_uid === $submitter || $isadmin)),
-                                              'can_delete' => (($global_perms & GPERM_DELETABLE) && ($my_uid === $submitter || $isadmin)),
-                                              'width_spec' => $width_spec,
-                                              'xcodel'     => $xcodel,
-                                              'xcodec'     => $xcodec,
-                                              'xcoder'     => $xcoder,
-                                              'xcodebl'    => $xcodebl,
-                                              'xcodebc'    => $xcodebc,
-                                              'xcodebr'    => $xcodebr,
-                                              'is_normal'  => $is_normal,
-                                              'count'      => ++$i));
+                    'lid'        => $lid,
+                    'ext'        => $ext,
+                    'res_x'      => $res_x,
+                    'res_y'      => $res_y,
+                    'nicename'   => $GLOBALS['myts']->htmlSpecialChars($title),
+                    'src'        => "$thumbs_url/{$lid}.{$image_ext}",
+                    'can_edit'   => ($global_perms & GPERM_EDITABLE) && ($my_uid === $submitter || $isadmin),
+                    'can_delete' => ($global_perms & GPERM_DELETABLE) && ($my_uid === $submitter || $isadmin),
+                    'width_spec' => $width_spec,
+                    'xcodel'     => $xcodel,
+                    'xcodec'     => $xcodec,
+                    'xcoder'     => $xcoder,
+                    'xcodebl'    => $xcodebl,
+                    'xcodebc'    => $xcodebc,
+                    'xcodebr'    => $xcodebr,
+                    'is_normal'  => $is_normal,
+                    'count'      => ++$i
+                ));
             }
         } else {
             $xoopsTpl->assign('image_total', 0);

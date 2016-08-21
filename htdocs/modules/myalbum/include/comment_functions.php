@@ -12,7 +12,7 @@ if (!defined('MYALBUM_COMMENT_FUNCTIONS_INCLUDED')) {
      */
     function myalbum_comments_update($lid, $total_num)
     {
-        $photos_handler =& xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
+        $photos_handler =& xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
         $photo          = $photos_handler->get($lid);
         $photo->setVar('comments', $total_num);
 

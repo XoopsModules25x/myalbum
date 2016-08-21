@@ -3,7 +3,7 @@ if (!defined('XOOPS_ROOT_PATH')) {
     exit();
 }
 
-include (dirname(__DIR__)) . '/include/read_configs.php';
+include dirname(__DIR__) . '/include/read_configs.php';
 
 /**
  * Class for Blue Room Xcenter
@@ -32,7 +32,7 @@ class MyalbumCat extends XoopsObject
      */
     public function toArray()
     {
-        $ret = parent::toArray();
+        $ret          = parent::toArray();
         $ret['title'] = $GLOBALS['myts']->htmlSpecialChars($ret['title']);
 
         return $ret;
@@ -47,8 +47,8 @@ class MyalbumCat extends XoopsObject
      */
     public function getURL($uid, $num, $pos, $view)
     {
-        $module_handler =& xoops_gethandler('module');
-        $config_handler =& xoops_gethandler('config');
+        $module_handler =& xoops_getHandler('module');
+        $config_handler =& xoops_getHandler('config');
         if (!isset($GLOBALS['myalbumModule'])) {
             $GLOBALS['myalbumModule'] = $module_handler->getByDirname($mydirname);
         }
@@ -62,9 +62,14 @@ class MyalbumCat extends XoopsObject
                                                                                                         ')',
                                                                                                         '(',
                                                                                                         '&',
-                                                                                                        '#'), '-', $this->getVar('title')) . '/cat,' . $this->getVar('cid') . ',' . $uid . ',' . $num . ',' . $pos . ',' . $view . $GLOBALS['myalbumModuleConfig']['endofurl'];
+                                                                                                        '#'
+                                                                                                    ), '-',
+                                                                                                    $this->getVar('title'))
+                   . '/cat,' . $this->getVar('cid') . ',' . $uid . ',' . $num . ',' . $pos . ',' . $view
+                   . $GLOBALS['myalbumModuleConfig']['endofurl'];
         } else {
-            return XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?cid=' . $this->getVar('cid') . '&uid=' . $uid . '&num=' . $num . '&pos=' . $pos . '&view=' . $view;
+            return XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?cid=' . $this->getVar('cid')
+                   . '&uid=' . $uid . '&num=' . $num . '&pos=' . $pos . '&view=' . $view;
         }
     }
 
@@ -77,8 +82,8 @@ class MyalbumCat extends XoopsObject
      */
     public function getRSSURL($uid, $num, $pos, $view)
     {
-        $module_handler =& xoops_gethandler('module');
-        $config_handler =& xoops_gethandler('config');
+        $module_handler =& xoops_getHandler('module');
+        $config_handler =& xoops_getHandler('config');
         if (!isset($GLOBALS['myalbumModule'])) {
             $GLOBALS['myalbumModule'] = $module_handler->getByDirname($mydirname);
         }
@@ -86,9 +91,12 @@ class MyalbumCat extends XoopsObject
             $GLOBALS['myalbumModuleConfig'] = $config_handler->getConfigList($GLOBALS['myalbumModule']->getVar('mid'));
         }
         if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
-            return XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . xoops_sef($this->getVar('title')) . '/rss,' . $cid . ',' . $uid . ',' . $num . ',' . $pos . ',' . $view . $GLOBALS['myalbumModuleConfig']['endofrss'];
+            return XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/'
+                   . xoops_sef($this->getVar('title')) . '/rss,' . $cid . ',' . $uid . ',' . $num . ',' . $pos . ','
+                   . $view . $GLOBALS['myalbumModuleConfig']['endofrss'];
         } else {
-            return XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/rss.php?cid=' . $this->getVar('cid') . '&uid=' . $uid . '&num=' . $num . '&pos=' . $pos . '&view=' . $view;
+            return XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/rss.php?cid=' . $this->getVar('cid') . '&uid='
+                   . $uid . '&num=' . $num . '&pos=' . $pos . '&view=' . $view;
         }
     }
 }
@@ -110,7 +118,7 @@ class MyalbumCatHandler extends XoopsPersistableObjectHandler
     public function __construct(XoopsDatabase $db)
     {
         $this->db = $db;
-        parent::__construct($db, $GLOBALS['table_cat'], 'MyalbumCat', "cid", "weight", "title");
+        parent::__construct($db, $GLOBALS['table_cat'], 'MyalbumCat', 'cid', 'weight', 'title');
     }
 
     /**

@@ -4,13 +4,13 @@
 //                        <http://www.peak.ne.jp/>                           //
 // ------------------------------------------------------------------------- //
 
-include  __DIR__ . '/admin_header.php';
+include __DIR__ . '/admin_header.php';
 
 // GPCS vars
 $max_col = 4;
-$cid     = empty($_GET['cid']) ? 0 : (int)($_GET['cid']);
-$pos     = empty($_GET['pos']) ? 0 : (int)($_GET['pos']);
-$num     = empty($_GET['num']) ? 20 : (int)($_GET['num']);
+$cid     = empty($_GET['cid']) ? 0 : (int)$_GET['cid'];
+$pos     = empty($_GET['pos']) ? 0 : (int)$_GET['pos'];
+$num     = empty($_GET['num']) ? 20 : (int)$_GET['num'];
 $txt     = empty($_GET['txt']) ? '' : $GLOBALS['myts']->stripSlashesGPC(trim($_GET['txt']));
 
 // Database actions
@@ -20,11 +20,11 @@ if (!empty($_POST['action']) && $_POST['action'] === 'delete' && isset($_POST['i
 
     // Double check for anti-CSRF
     if (!xoops_refcheck()) {
-        die("XOOPS_URL is not included in your REFERER");
+        die('XOOPS_URL is not included in your REFERER');
     }
 
     foreach ($_POST['ids'] as $lid) {
-        $criteria = new Criteria('lid', (int)($lid));
+        $criteria = new Criteria('lid', (int)$lid);
         myalbum_delete_photos($criteria);
     }
     redirect_header("photomanager.php?num=$num&cid=$cid", 2, _ALBM_DELETINGPHOTO);
@@ -35,7 +35,7 @@ if (!empty($_POST['action']) && $_POST['action'] === 'delete' && isset($_POST['i
 
     // Double check for anti-CSRF
     if (!xoops_refcheck()) {
-        die("XOOPS_URL is not included in your REFERER");
+        die('XOOPS_URL is not included in your REFERER');
     }
 
     // set clause for text table
@@ -53,12 +53,12 @@ if (!empty($_POST['action']) && $_POST['action'] === 'delete' && isset($_POST['i
 
     // new_cid
     if (!empty($_POST['new_cid'])) {
-        $set .= "cid='" . (int)($_POST['new_cid']) . "',";
+        $set .= "cid='" . (int)$_POST['new_cid'] . "',";
     }
 
     // new_submitter
     if (!empty($_POST['new_submitter'])) {
-        $set .= "submitter='" . (int)($_POST['new_submitter']) . "',";
+        $set .= "submitter='" . (int)$_POST['new_submitter'] . "',";
     }
 
     // new_post_date
@@ -74,14 +74,14 @@ if (!empty($_POST['action']) && $_POST['action'] === 'delete' && isset($_POST['i
     }
 
     // $whr clause
-    $whr = "lid IN (";
+    $whr = 'lid IN (';
     foreach ($_POST['ids'] as $lid) {
-        $whr .= (int)($lid) . ',';
+        $whr .= (int)$lid . ',';
     }
     $whr = substr($whr, 0, -1) . ')';
 
     if ($set) {
-        $xoopsDB->query("UPDATE " . $GLOBALS['xoopsDB']->prefix($table_photos) . " SET $set WHERE $whr");
+        $xoopsDB->query('UPDATE ' . $GLOBALS['xoopsDB']->prefix($table_photos) . " SET $set WHERE $whr");
     }
     if (!empty($set_for_text)) {
         $xoopsDB->query("UPDATE $table_text SET $set_for_text WHERE $whr");
@@ -92,7 +92,7 @@ if (!empty($_POST['action']) && $_POST['action'] === 'delete' && isset($_POST['i
 }
 
 // make 'WHERE'
-$whr = "1 ";
+$whr = '1 ';
 
 // Limitation by category's id
 if ($cid != 0) {
@@ -100,17 +100,21 @@ if ($cid != 0) {
 }
 
 // Search by free word
-if ($txt !== "") {
-    $keywords = explode(" ", $txt);
+if ($txt !== '') {
+    $keywords = explode(' ', $txt);
     foreach ($keywords as $keyword) {
         $whr .= "AND (CONCAT( l.title , l.ext , c.title ) LIKE '%" . addslashes($keyword) . "%') ";
     }
 }
 
 // Query
-$rs = $xoopsDB->query("SELECT count(l.lid) FROM " . $GLOBALS['xoopsDB']->prefix($table_photos) . " l LEFT JOIN " . $GLOBALS['xoopsDB']->prefix($table_cat) . " c ON l.cid=c.cid WHERE $whr");
+$rs = $xoopsDB->query('SELECT count(l.lid) FROM ' . $GLOBALS['xoopsDB']->prefix($table_photos) . ' l LEFT JOIN '
+                      . $GLOBALS['xoopsDB']->prefix($table_cat) . " c ON l.cid=c.cid WHERE $whr");
 list($numrows) = $xoopsDB->fetchRow($rs);
-$prs = $xoopsDB->query("SELECT l.lid, l.title, l.submitter, l.ext, l.res_x, l.res_y, l.status FROM " . $GLOBALS['xoopsDB']->prefix($table_photos) . " l LEFT JOIN " . $GLOBALS['xoopsDB']->prefix($table_cat) . " c ON l.cid=c.cid WHERE $whr ORDER BY l.lid DESC LIMIT $pos,$num");
+$prs = $xoopsDB->query('SELECT l.lid, l.title, l.submitter, l.ext, l.res_x, l.res_y, l.status FROM '
+                       . $GLOBALS['xoopsDB']->prefix($table_photos) . ' l LEFT JOIN '
+                       . $GLOBALS['xoopsDB']->prefix($table_cat)
+                       . " c ON l.cid=c.cid WHERE $whr ORDER BY l.lid DESC LIMIT $pos,$num");
 
 // Page Navigation
 $nav      = new XoopsPageNav($numrows, $num, $pos, 'pos', "num=$num&cid=$cid&txt=" . urlencode($txt));
@@ -127,11 +131,11 @@ $photonavinfo = sprintf(_ALBM_AM_PHOTONAVINFO, $pos + 1, $last, $numrows);
 $numbers     = explode('|', $myalbum_perpage);
 $num_options = '';
 foreach ($numbers as $number) {
-    $number = (int)($number);
+    $number = (int)$number;
     if ($number < 1) {
         continue;
     }
-    $selected = $number == $num ? "selected='selected'" : "";
+    $selected = $number == $num ? "selected='selected'" : '';
     $num_options .= "<option value='$number' $selected>" . sprintf(_ALBM_FMT_PHOTONUM, $number) . "</option>\n";
 }
 
@@ -143,7 +147,7 @@ $cat_options_for_update = myalbum_get_cat_options('title', 0, '--', _AM_OPT_NOCH
 
 // Options for Selecting a user
 $user_options = "<option value='0'>" . _AM_OPT_NOCHANGE . "</option>\n";
-$urs          = $xoopsDB->query("SELECT uid,uname FROM " . $xoopsDB->prefix("users") . " ORDER BY uname");
+$urs          = $xoopsDB->query('SELECT uid,uname FROM ' . $xoopsDB->prefix('users') . ' ORDER BY uname');
 while (list($uid, $uname) = $xoopsDB->fetchRow($urs)) {
     $user_options .= "<option value='$uid'>" . htmlspecialchars($uname, ENT_QUOTES) . "</option>\n";
 }
@@ -161,7 +165,7 @@ if (!is_object($xoopsModule)) {
 echo "<h3 style='text-align:left;'>" . sprintf(_AM_H3_FMT_PHOTOMANAGER, $xoopsModule->name()) . "</h3>\n";
 
 echo "
-<p><span style='color:blue'>" . (isset($_GET['mes']) ? $_GET['mes'] : "") . "</span></p>
+<p><span style='color:blue'>" . (isset($_GET['mes']) ? $_GET['mes'] : '') . "</span></p>
 <form action='' method='GET' style='margin-bottom:0;'>
   <table border='0' cellpadding='0' cellspacing='0' style='width:100%;'>
     <tr>
@@ -183,7 +187,8 @@ echo "
 </form>
 <p align='center' style='margin:0;'>
   $photonavinfo
-  <a href='../submit.php?cid=$cid'><img src='" . $pathIcon16 . "/add.png' width='18' height='15' alt='" . _AM_CAT_LINK_ADDPHOTOS . "' title='" . _AM_CAT_LINK_ADDPHOTOS . "' /></a>
+  <a href='../submit.php?cid=$cid'><img src='" . $pathIcon16 . "/add.png' width='18' height='15' alt='"
+     . _AM_CAT_LINK_ADDPHOTOS . "' title='" . _AM_CAT_LINK_ADDPHOTOS . "' /></a>
 </p>
 <form name='MainForm' action='?num=$num&cid=$cid' method='POST' style='margin-top:0;'>
 <table width='100%' border='0' cellspacing='0' cellpadding='4'>
@@ -207,10 +212,15 @@ while (list($lid, $title, $submitter, $ext, $w, $h, $status) = $xoopsDB->fetchRo
         $widthheight  = '';
     }
 
-    $bgcolor = $status ? "#FFFFFF" : "#FFEEEE";
+    $bgcolor = $status ? '#FFFFFF' : '#FFEEEE';
 
-    $editbutton     = "<a href='" . XOOPS_URL . "/modules/$mydirname/editphoto.php?lid=$lid' target='_blank'><img src='" . $pathIcon16 . "/edit.png'  border='0' alt='" . _ALBM_EDITTHISPHOTO . "' title='" . _ALBM_EDITTHISPHOTO . "' /></a>  ";
-    $deadlinkbutton = is_readable("$photos_dir/{$lid}.{$ext}") ? "" : "<img src='" . XOOPS_URL . "/modules/$mydirname/assets/images/deadlink.gif' border='0' alt='" . _ALBM_AM_DEADLINKMAINPHOTO . "' title='" . _ALBM_AM_DEADLINKMAINPHOTO . "' />";
+    $editbutton     =
+        "<a href='" . XOOPS_URL . "/modules/$mydirname/editphoto.php?lid=$lid' target='_blank'><img src='" . $pathIcon16
+        . "/edit.png'  border='0' alt='" . _ALBM_EDITTHISPHOTO . "' title='" . _ALBM_EDITTHISPHOTO . "' /></a>  ";
+    $deadlinkbutton = is_readable("$photos_dir/{$lid}.{$ext}") ? '' : "<img src='" . XOOPS_URL
+                                                                      . "/modules/$mydirname/assets/images/deadlink.gif' border='0' alt='"
+                                                                      . _ALBM_AM_DEADLINKMAINPHOTO . "' title='"
+                                                                      . _ALBM_AM_DEADLINKMAINPHOTO . "' />";
 
     if ($col === 0) {
         echo "\t<tr>\n";
@@ -256,7 +266,8 @@ echo "
     </td>
     <td align='right'>
         <input type='hidden' name='action' value='' />
-        " . _ALBM_AM_LABEL_REMOVE . "<input type='button' value='" . _ALBM_AM_BUTTON_REMOVE . "' onclick='if (confirm(\"" . _ALBM_AM_JS_REMOVECONFIRM . "\")) {document.MainForm.action.value=\"delete\"; submit();}' />
+        " . _ALBM_AM_LABEL_REMOVE . "<input type='button' value='" . _ALBM_AM_BUTTON_REMOVE
+     . "' onclick='if (confirm(\"" . _ALBM_AM_JS_REMOVECONFIRM . "\")) {document.MainForm.action.value=\"delete\"; submit();}' />
     </td>
 </tr>
 </table>
@@ -291,15 +302,18 @@ echo "
     </tr>
     <tr valign='top'>
         <td class='head'>" . _AM_TH_DATE . "</td>
-        <td class='even'><input type='text' name='new_post_date' size='20' value='" . formatTimestamp(time(), _ALBM_DTFMT_YMDHI) . "'></textarea></td>
+        <td class='even'><input type='text' name='new_post_date' size='20' value='" . formatTimestamp(time(),
+                                                                                                      _ALBM_DTFMT_YMDHI)
+     . "'></textarea></td>
     </tr>
     <tr>
         <td class='head'></td>
-        <td class='even'><input type='submit' name='update' value='" . _ALBM_AM_BUTTON_UPDATE . "' onclick='return confirm(\"" . _AM_JS_UPDATECONFIRM . "\")' tabindex='1' /></td>
+        <td class='even'><input type='submit' name='update' value='" . _ALBM_AM_BUTTON_UPDATE
+     . "' onclick='return confirm(\"" . _AM_JS_UPDATECONFIRM . "\")' tabindex='1' /></td>
     </tr>
 </table>
 </form>
 ";
 
 //  myalbum_footer_adminMenu();
-include_once  __DIR__ . '/admin_footer.php';
+include_once __DIR__ . '/admin_footer.php';

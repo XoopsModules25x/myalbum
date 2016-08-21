@@ -26,11 +26,12 @@ if (!function_exists('b_waiting_myalbum_base')) {
 
         // get $mydirnumber
         if (!preg_match('/^(\D+)(\d*)$/', $mydirname, $regs)) {
-            echo("invalid dirname: " . htmlspecialchars($mydirname));
+            echo('invalid dirname: ' . htmlspecialchars($mydirname));
         }
-        $mydirnumber = $regs[2] === '' ? '' : (int)($regs[2]);
+        $mydirnumber = $regs[2] === '' ? '' : (int)$regs[2];
 
-        $result = $xoopsDB->query("SELECT COUNT(*) FROM " . $xoopsDB->prefix("myalbum{$mydirnumber}_photos") . " WHERE status=0");
+        $result = $xoopsDB->query('SELECT COUNT(*) FROM ' . $xoopsDB->prefix("myalbum{$mydirnumber}_photos")
+                                  . ' WHERE status=0');
         if ($result) {
             $block['adminlink'] = XOOPS_URL . "/modules/myalbum{$mydirnumber}/admin/admission.php";
             list($block['pendingnum']) = $xoopsDB->fetchRow($result);

@@ -16,25 +16,27 @@ function myalbum_search($keywords, $andor, $limit, $offset, $userid)
 {
     global $xoopsDB;
     $mydirname = basename(dirname(__DIR__));
-    include(XOOPS_ROOT_PATH . '/modules/' . $mydirname . '/include/read_configs.php');
+    include XOOPS_ROOT_PATH . '/modules/' . $mydirname . '/include/read_configs.php';
 
-    $sql = "SELECT l.lid,l.cid,l.title,l.submitter,l.date,t.description FROM " . $xoopsDB->prefix($mydirname . '_photos') . " l LEFT JOIN " . $xoopsDB->prefix($mydirname . '_text') . " t ON t.lid=l.lid WHERE status>0";
+    $sql =
+        'SELECT l.lid,l.cid,l.title,l.submitter,l.date,t.description FROM ' . $xoopsDB->prefix($mydirname . '_photos')
+        . ' l LEFT JOIN ' . $xoopsDB->prefix($mydirname . '_text') . ' t ON t.lid=l.lid WHERE status>0';
 
     if ($userid > 0) {
-        $sql .= " AND l.submitter=" . $userid . " ";
+        $sql .= ' AND l.submitter=' . $userid . ' ';
     }
 
-    $whr = "";
+    $whr = '';
     if (is_array($keywords) && count($keywords) > 0) {
-        $whr = "AND (";
+        $whr = 'AND (';
         switch (strtolower($andor)) {
-            case "and" :
+            case 'and' :
                 foreach ($keywords as $keyword) {
                     $whr .= "CONCAT(l.title,\' \',t.description) LIKE \'%$keyword%\' AND ";
                 }
                 $whr = substr($whr, 0, -5);
                 break;
-            case "or" :
+            case 'or' :
                 foreach ($keywords as $keyword) {
                     $whr .= "CONCAT(l.title,\' \',t.description) LIKE \'%$keyword%\' OR ";
                 }
@@ -44,7 +46,7 @@ function myalbum_search($keywords, $andor, $limit, $offset, $userid)
                 $whr .= "CONCAT(l.title,\'  \',t.description) LIKE \'%{$keywords[0]}%\'";
                 break;
         }
-        $whr .= ")";
+        $whr .= ')';
     }
 
     $sql    = "$sql $whr ORDER BY l.date DESC";
@@ -52,11 +54,12 @@ function myalbum_search($keywords, $andor, $limit, $offset, $userid)
     $ret    = array();
     while ($myrow = $xoopsDB->fetchArray($result)) {
         $ret[] = array(
-            "image" => "images/pict.gif",
-            "link"  => "photo.php?lid=" . $myrow["lid"],
-            "title" => $myrow["title"],
-            "time"  => $myrow["date"],
-            "uid"   => $myrow["submitter"]);
+            'image' => 'images/pict.gif',
+            'link'  => 'photo.php?lid=' . $myrow['lid'],
+            'title' => $myrow['title'],
+            'time'  => $myrow['date'],
+            'uid'   => $myrow['submitter']
+        );
     }
 
     return $ret;

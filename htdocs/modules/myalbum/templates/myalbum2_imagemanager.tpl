@@ -11,11 +11,11 @@
             if (targetDom.createTextRange && targetDom.caretPos) {
                 var caretPos = targetDom.caretPos;
                 caretPos.text = caretPos.text.charAt(caretPos.text.length - 1)
-                        == ' ' ? addCode + ' ' : addCode;
+                == ' ' ? addCode + ' ' : addCode;
             } else if (targetDom.getSelection && targetDom.caretPos) {
                 var caretPos = targetDom.caretPos;
                 caretPos.text = caretPos.text.charat(caretPos.text.length - 1)
-                        == ' ' ? addCode + ' ' : addCode;
+                == ' ' ? addCode + ' ' : addCode;
             } else {
                 targetDom.value = targetDom.value + addCode;
             }
@@ -109,92 +109,97 @@
 </head>
 
 <{strip}>
-<body onload="window.resizeTo(<{$xsize}>, <{$ysize}>);">
-<table id="header" cellspacing="0">
-    <tr>
-        <td><a href="<{$xoops_url}>/"><img src="<{$xoops_url}>/images/logo.gif" width="150" height="80" alt=""/></a></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td id="headerbar" colspan="2"></td>
-    </tr>
-</table>
-
-<form action="<{$xoops_url}>/imagemanager.php" method="get">
-    <table cellspacing="0" id="imagenav">
+    <body onload="window.resizeTo(<{$xsize}>, <{$ysize}>);">
+    <table id="header" cellspacing="0">
         <tr>
-            <td>
-                <select name="cid" onchange="submit();"><{$cat_options}></select>
-                <input type="hidden" name="target" value="<{$target}>"/>
-                <input type="submit" value="<{$lang_refresh}>"/>
+            <td><a href="<{$xoops_url}>/"><img src="<{$xoops_url}>/images/logo.gif" width="150" height="80" alt=""/></a>
             </td>
-            <{if $can_add}>
-            <td align="right"><input type="button" value="<{$lang_addimage}>"
-                                     onclick='window.open("<{$mod_url}>/submit.php?cid=<{$cid}>&amp;caller=imagemanager","submitphoto","WIDTH=600,HEIGHT=540,SCROLLBARS=1,RESIZABLE=1,TOOLBAR=0,MENUBAR=0,STATUS=0,LOCATION=0,DIRECTORIES=0");'/>
-            </td>
-            <{/if}>
+            <td></td>
+        </tr>
+        <tr>
+            <td id="headerbar" colspan="2"></td>
         </tr>
     </table>
-</form>
 
-<{if $image_total > 0}>
+    <form action="<{$xoops_url}>/imagemanager.php" method="get">
+        <table cellspacing="0" id="imagenav">
+            <tr>
+                <td>
+                    <select name="cid" onchange="submit();"><{$cat_options}></select>
+                    <input type="hidden" name="target" value="<{$target}>"/>
+                    <input type="submit" value="<{$lang_refresh}>"/>
+                </td>
+                <{if $can_add}>
+                    <td align="right"><input type="button" value="<{$lang_addimage}>"
+                                             onclick='window.open("<{$mod_url}>/submit.php?cid=<{$cid}>&amp;caller=imagemanager","submitphoto","WIDTH=600,HEIGHT=540,SCROLLBARS=1,RESIZABLE=1,TOOLBAR=0,MENUBAR=0,STATUS=0,LOCATION=0,DIRECTORIES=0");'/>
+                    </td>
+                <{/if}>
+            </tr>
+        </table>
+    </form>
 
-<div id="pagenav"><{$pagenav}></div>
+    <{if $image_total > 0}>
+        <div id="pagenav"><{$pagenav}></div>
+        <table cellspacing="0" id="imagemain">
+            <tr>
+                <th><{$lang_imagename}></th>
+                <th><{$lang_image}></th>
+                <th><{$lang_imagesize}></th>
+                <th><{$lang_align}></th>
+            </tr>
 
-<table cellspacing="0" id="imagemain">
-    <tr>
-        <th><{$lang_imagename}></th>
-        <th><{$lang_image}></th>
-        <th><{$lang_imagesize}></th>
-        <th><{$lang_align}></th>
-    </tr>
+            <{foreach from=$photos item=photo}>
+                <tr align="center">
+                    <td>
+                        <input type="hidden" name="photo_id[]" value="<{$photo.lid}>"/>
+                        <{if $photo.can_edit}>
+                            <a href='<{$mod_url}>/editphoto.php?lid=<{$photo.lid}>' target='_blank'><img
+                                        src='<{xoModuleIcons16 edit.png}>' border='0' alt=''/></a>
+                        <{/if}>
+                        <{$photo.nicename}>
+                    </td>
+                    <td><img src="<{$photo.src}>" <{$photo.width_spec}> alt=""/></td>
+                    <td><{$photo.res_x}>x<{$photo.res_y}><br/>(<{$photo.ext}>)</td>
+                    <td nowrap="nowrap">
 
-    <{foreach from=$photos item=photo}>
-    <tr align="center">
-        <td>
-            <input type="hidden" name="photo_id[]" value="<{$photo.lid}>"/>
-            <{if $photo.can_edit}>
-            <a href='<{$mod_url}>/editphoto.php?lid=<{$photo.lid}>' target='_blank'><img src='<{xoModuleIcons16 edit.png}>' border='0' alt=''/></a>
-            <{/if}>
-            <{$photo.nicename}>
-        </td>
-        <td><img src="<{$photo.src}>" <{$photo.width_spec}> alt="" /></td>
-        <td><{$photo.res_x}>x<{$photo.res_y}><br/>(<{$photo.ext}>)</td>
-        <td nowrap="nowrap">
+                        <{if $makethumb || ! $photo.is_normal }>
+                            <a href="#" onclick="appendCode('<{$photo.xcodel}>');"><img
+                                        src="<{$mod_url}>/assets/images/alignleft.gif" alt="<{$lang_left}>"
+                                        title="<{$lang_left}>"/></a>
+                            <a href="#" onclick="appendCode('<{$photo.xcodec}>');"><img
+                                        src="<{$mod_url}>/assets/images/aligncenter.gif" alt="<{$lang_center}>"
+                                        title="<{$lang_center}>"/></a>
+                            <a href="#" onclick="appendCode('<{$photo.xcoder}>');"><img
+                                        src="<{$mod_url}>/assets/images/alignright.gif" alt="<{$lang_right}>"
+                                        title="<{$lang_right}>"/></a>
+                            <br/>
+                            <br/>
+                        <{/if}>
 
-            <{if $makethumb || ! $photo.is_normal }>
-            <a href="#" onclick="appendCode('<{$photo.xcodel}>');"><img src="<{$mod_url}>/assets/images/alignleft.gif" alt="<{$lang_left}>"
-                                                                        title="<{$lang_left}>"/></a>
-            <a href="#" onclick="appendCode('<{$photo.xcodec}>');"><img src="<{$mod_url}>/assets/images/aligncenter.gif" alt="<{$lang_center}>"
-                                                                        title="<{$lang_center}>"/></a>
-            <a href="#" onclick="appendCode('<{$photo.xcoder}>');"><img src="<{$mod_url}>/assets/images/alignright.gif" alt="<{$lang_right}>"
-                                                                        title="<{$lang_right}>"/></a>
-            <br/>
-            <br/>
-            <{/if}>
+                        <{if $photo.is_normal}>
+                            <a href="#" onclick="appendCode('<{$photo.xcodebl}>');"><img
+                                        src="<{$mod_url}>/assets/images/alignbigleft.gif" alt="<{$lang_left}>"
+                                        title="<{$lang_left}>"/></a>
+                            <a href="#" onclick="appendCode('<{$photo.xcodebc}>');"><img
+                                        src="<{$mod_url}>/assets/images/alignbigcenter.gif"
+                                        alt="<{$lang_center}>" title="<{$lang_center}>"/></a>
+                            <a href="#" onclick="appendCode('<{$photo.xcodebr}>');"><img
+                                        src="<{$mod_url}>/assets/images/alignbigright.gif" alt="<{$lang_right}>"
+                                        title="<{$lang_right}>"/></a>
+                        <{/if}>
 
-            <{if $photo.is_normal}>
-            <a href="#" onclick="appendCode('<{$photo.xcodebl}>');"><img src="<{$mod_url}>/assets/images/alignbigleft.gif" alt="<{$lang_left}>"
-                                                                         title="<{$lang_left}>"/></a>
-            <a href="#" onclick="appendCode('<{$photo.xcodebc}>');"><img src="<{$mod_url}>/assets/images/alignbigcenter.gif"
-                                                                         alt="<{$lang_center}>" title="<{$lang_center}>"/></a>
-            <a href="#" onclick="appendCode('<{$photo.xcodebr}>');"><img src="<{$mod_url}>/assets/images/alignbigright.gif" alt="<{$lang_right}>"
-                                                                         title="<{$lang_right}>"/></a>
-            <{/if}>
+                    </td>
+                </tr>
+            <{/foreach}>
+        </table>
+    <{/if}>
 
-        </td>
-    </tr>
-    <{/foreach}>
-</table>
+    <div id="pagenav"><{$pagenav}></div>
 
-<{/if}>
+    <div id="footer">
+        <input value="<{$lang_close}>" type="button" onclick="window.close();"/>
+    </div>
 
-<div id="pagenav"><{$pagenav}></div>
-
-<div id="footer">
-    <input value="<{$lang_close}>" type="button" onclick="window.close();"/>
-</div>
-
-</body>
+    </body>
 <{/strip}>
 </html>

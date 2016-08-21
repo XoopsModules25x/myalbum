@@ -24,17 +24,20 @@
                         <th><{$smarty.const._AM_TH_CATEGORIES}></th>
                     </tr>
                     <{foreach item=photo from=$photos key=lid}>
-                    <tr class="<{cycle value='even,odd'}>">
-                        <td><img src='<{$thumbs_url}>/<{$photo.photo.lid}>.<{$photo.photo.ext}>'/></td>
-                        <td><input type='checkbox' name='ids[]' value='<{$photo.photo.lid}>'/></td>
-                        <td><a href='<{$xoops_url}>/modules/<{$mydirname}>/editphoto.php?lid=$photo.photo.lid' target='_blank'><img
-                                src='<{xoModuleIcons16 edit.png}>' border='0' alt='<{$smarty.const._ALBM_EDITTHISPHOTO}>'
-                                title='<{$smarty.const._ALBM_EDITTHISPHOTO}>'/></a></td>
-                        <td><{$photo.user.uname}></td>
-                        <td><a href='<{$photos_url}>/<{$photo.lid}>.<{$photo.ext}>' target='_blank'><{$photo.photo.title}></a></td>
-                        <td width='100%'><{$photo.text.description}></td>
-                        <td><{$photo.cat.title}></td>
-                    </tr>
+                        <tr class="<{cycle value='even,odd'}>">
+                            <td><img src='<{$thumbs_url}>/<{$photo.photo.lid}>.<{$photo.photo.ext}>'/></td>
+                            <td><input type='checkbox' name='ids[]' value='<{$photo.photo.lid}>'/></td>
+                            <td><a href='<{$xoops_url}>/modules/<{$mydirname}>/editphoto.php?lid=$photo.photo.lid'
+                                   target='_blank'><img
+                                            src='<{xoModuleIcons16 edit.png}>' border='0'
+                                            alt='<{$smarty.const._ALBM_EDITTHISPHOTO}>'
+                                            title='<{$smarty.const._ALBM_EDITTHISPHOTO}>'/></a></td>
+                            <td><{$photo.user.uname}></td>
+                            <td><a href='<{$photos_url}>/<{$photo.lid}>.<{$photo.ext}>'
+                                   target='_blank'><{$photo.photo.title}></a></td>
+                            <td width='100%'><{$photo.text.description}></td>
+                            <td><{$photo.cat.title}></td>
+                        </tr>
                     <{/foreach}>
                     <tr>
                         <!-- <td colspan='4' align='left'>"._ALBM_AM_LABEL_ADMIT."<input type='submit' name='admit' value='"._ALBM_AM_BUTTON_ADMIT."' /></td> -->

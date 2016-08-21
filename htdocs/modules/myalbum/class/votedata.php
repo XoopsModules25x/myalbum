@@ -4,7 +4,7 @@ if (!defined('XOOPS_ROOT_PATH')) {
     exit();
 }
 
-include (dirname(__DIR__)) . '/include/read_configs.php';
+include dirname(__DIR__) . '/include/read_configs.php';
 
 /**
  * Class for Blue Room Xcenter
@@ -47,7 +47,7 @@ class MyalbumVotedataHandler extends XoopsPersistableObjectHandler
     public function __construct(&$db)
     {
         $this->db = $db;
-        parent::__construct($db, $GLOBALS['table_votedata'], 'MyalbumVotedata', "ratingid", "lid");
+        parent::__construct($db, $GLOBALS['table_votedata'], 'MyalbumVotedata', 'ratingid', 'lid');
     }
 }
 

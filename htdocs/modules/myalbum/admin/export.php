@@ -3,34 +3,36 @@
 //                      myAlbum-P - XOOPS photo album                        //
 //                        <http://www.peak.ne.jp/>                           //
 // ------------------------------------------------------------------------- //
-include  __DIR__ . '/admin_header.php';
-include_once(XOOPS_ROOT_PATH . '/modules/system/constants.php');
+include_once __DIR__ . '/admin_header.php';
+include_once XOOPS_ROOT_PATH . '/modules/system/constants.php';
 
 // To imagemanager
 if (!empty($_POST['imagemanager_export']) && !empty($_POST['imgcat_id']) && !empty($_POST['cid'])) {
+
     // authority check
-    $sysperm_handler =& xoops_gethandler('groupperm');
+    $sysperm_handler = xoops_getHandler('groupperm');
     if (!$sysperm_handler->checkRight('system_admin', XOOPS_SYSTEM_IMAGE, $xoopsUser->getGroups())) {
         exit;
     }
 
     // anti-CSRF
     if (!xoops_refcheck()) {
-        die("XOOPS_URL is not included in your REFERER");
+        die('XOOPS_URL is not included in your REFERER');
     }
 
     // get dst information
-    $dst_cid          = (int)($_POST['imgcat_id']);
-    $dst_table_photos = $xoopsDB->prefix("image");
-    $dst_table_cat    = $xoopsDB->prefix("imagecategory");
+    $dst_cid          = (int)$_POST['imgcat_id'];
+    $dst_table_photos = $xoopsDB->prefix('image');
+    $dst_table_cat    = $xoopsDB->prefix('imagecategory');
 
     // get src information
-    $src_cid          = (int)($_POST['cid']);
+    $src_cid          = (int)$_POST['cid'];
     $src_table_photos = $xoopsDB->prefix($table_photos);
     $src_table_cat    = $xoopsDB->prefix($table_cat);
 
     // get storetype of the imgcat
-    $crs = $xoopsDB->query("SELECT imgcat_storetype,imgcat_maxsize FROM $dst_table_cat WHERE imgcat_id='$dst_cid'") or die('Invalid imgcat_id.');
+    $crs = $xoopsDB->query("SELECT imgcat_storetype,imgcat_maxsize FROM $dst_table_cat WHERE imgcat_id='$dst_cid'")
+           || die('Invalid imgcat_id.');
     list($imgcat_storetype, $imgcat_maxsize) = $xoopsDB->fetchRow($crs);
 
     // mime type look up
@@ -45,7 +47,7 @@ if (!empty($_POST['imagemanager_export']) && !empty($_POST['imgcat_id']) && !emp
         $src_file = empty($_POST['use_thumb']) ? "$photos_dir/{$lid}.{$ext}" : "$thumbs_dir/{$lid}.{$ext}";
 
         if ($imgcat_storetype === 'db') {
-            $fp = fopen($src_file, "rb");
+            $fp = fopen($src_file, 'rb');
             if ($fp === false) {
                 continue;
             }
@@ -60,10 +62,14 @@ if (!empty($_POST['imagemanager_export']) && !empty($_POST['imgcat_id']) && !emp
 
         // insert into image table
         $image_display = $status ? 1 : 0;
-        $xoopsDB->query("INSERT INTO $dst_table_photos SET image_name='{$dst_node}.{$ext}',image_nicename='" . addslashes($title) . "',image_created='$date',image_mimetype='{$mime_types[$ext]}',image_display='$image_display',imgcat_id='$dst_cid'") or die("DB error: INSERT image table");
+        $xoopsDB->query("INSERT INTO $dst_table_photos SET image_name='{$dst_node}.{$ext}',image_nicename='"
+                        . addslashes($title)
+                        . "',image_created='$date',image_mimetype='{$mime_types[$ext]}',image_display='$image_display',imgcat_id='$dst_cid'")
+        || die('DB error: INSERT image table');
         if ($body) {
             $image_id = $xoopsDB->getInsertId();
-            $xoopsDB->query("INSERT INTO " . $xoopsDB->prefix("imagebody") . " SET image_id='$image_id',image_body='$body'");
+            $xoopsDB->query('INSERT INTO ' . $xoopsDB->prefix('imagebody')
+                            . " SET image_id='$image_id',image_body='$body'");
         }
 
         ++$export_count;
@@ -77,11 +83,11 @@ if (!empty($_POST['imagemanager_export']) && !empty($_POST['imgcat_id']) && !emp
 // Form Part
 //
 
-$sysperm_handler =& xoops_gethandler('groupperm');
+$sysperm_handler = xoops_getHandler('groupperm');
 if ($sysperm_handler->checkRight('system_admin', XOOPS_SYSTEM_IMAGE, $xoopsUser->getGroups())) {
     xoops_cp_header();
     $indexAdmin = new ModuleAdmin();
-    echo $indexAdmin->addNavigation('export.php');
+    echo $indexAdmin->addNavigation(basename(__FILE__));
     //  myalbum_adminMenu(basename(__FILE__), 7);
     $GLOBALS['xoopsTpl']->assign('admin_title', sprintf(_AM_H3_FMT_EXPORTTO, $GLOBALS['myalbumModule']->name()));
     $GLOBALS['xoopsTpl']->assign('mydirname', $GLOBALS['mydirname']);
@@ -93,7 +99,7 @@ if ($sysperm_handler->checkRight('system_admin', XOOPS_SYSTEM_IMAGE, $xoopsUser-
 
     // check $GLOBALS['myalbumModule']
     //  myalbum_footer_adminMenu();
-    include_once  __DIR__ . '/admin_footer.php';
+    include_once __DIR__ . '/admin_footer.php';
 } else {
     redirect_header('dashboard.php', 5, _NOPERM);
 }

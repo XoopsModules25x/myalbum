@@ -6,9 +6,9 @@
 $lid = '';
 include 'header.php';
 
-$cat_handler    =& xoops_getmodulehandler('cat', $GLOBALS['mydirname']);
-$photos_handler =& xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
-$text_handler   =& xoops_getmodulehandler('text', $GLOBALS['mydirname']);
+$cat_handler    =& xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+$photos_handler =& xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+$text_handler   =& xoops_getModuleHandler('text', $GLOBALS['mydirname']);
 
 // GET variables
 $caller = empty($_GET['caller']) ? '' : $_GET['caller'];
@@ -16,7 +16,7 @@ $caller = empty($_GET['caller']) ? '' : $_GET['caller'];
 $preview_name = empty($_POST['preview_name']) ? '' : $_POST['preview_name'];
 // check INSERTABLE
 if (!($global_perms & GPERM_INSERTABLE)) {
-    redirect_header(XOOPS_URL . "/user.php", 2, _ALBM_MUSTREGFIRST);
+    redirect_header(XOOPS_URL . '/user.php', 2, _ALBM_MUSTREGFIRST);
     exit;
 }
 
@@ -28,17 +28,18 @@ if ($count < 1) {
 }
 
 // check file_uploads = on
-if (!ini_get("file_uploads")) {
+if (!ini_get('file_uploads')) {
     $file_uploads_off = true;
 }
 
 // get flag of safe_mode
-$safe_mode_flag = ini_get("safe_mode");
+$safe_mode_flag = ini_get('safe_mode');
 
 // check or make photos_dir
 if (!is_dir($photos_dir)) {
     if ($safe_mode_flag) {
-        redirect_header(XOOPS_URL . "/modules/$mydirname/", 10, "At first create & chmod 777 '$photos_dir' by ftp or shell.");
+        redirect_header(XOOPS_URL . "/modules/$mydirname/", 10,
+                        "At first create & chmod 777 '$photos_dir' by ftp or shell.");
     }
 
     $rs = mkdir($photos_dir, 0777);
@@ -52,7 +53,8 @@ if (!is_dir($photos_dir)) {
 // check or make thumbs_dir
 if ($myalbum_makethumb && !is_dir($thumbs_dir)) {
     if ($safe_mode_flag) {
-        redirect_header(XOOPS_URL . "/modules/$mydirname/", 10, "At first create & chmod 777 '$thumbs_dir' by ftp or shell.");
+        redirect_header(XOOPS_URL . "/modules/$mydirname/", 10,
+                        "At first create & chmod 777 '$thumbs_dir' by ftp or shell.");
     }
 
     $rs = mkdir($thumbs_dir, 0777);
@@ -84,30 +86,31 @@ if ($myalbum_makethumb && !is_writable($thumbs_dir)) {
 if (!empty($_POST['submit'])) {
     // anti-CSRF
     if (!xoopsSecurity::checkReferer()) {
-        die("XOOPS_URL is not included in your REFERER");
+        die('XOOPS_URL is not included in your REFERER');
     }
 
     $submitter = $my_uid;
     $photo_obj = $photos_handler->create();
-    $cid       = empty($_POST['cid']) ? 0 : (int)($_POST['cid']);
+    $cid       = empty($_POST['cid']) ? 0 : (int)$_POST['cid'];
 
     // Check if cid is valid
     if ($cid <= 0) {
-        redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . "/submit.php", 2, 'Category is not specified.');
+        redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/submit.php', 2,
+                        'Category is not specified.');
         exit;
     }
 
     // Check if upload file name specified
-    $field = $_POST["xoops_upload_file"][0];
-    if (empty($field) || $field === "") {
-        die("UPLOAD error: file name not specified");
+    $field = $_POST['xoops_upload_file'][0];
+    if (empty($field) || $field === '') {
+        die('UPLOAD error: file name not specified');
     }
     $field = $_POST['xoops_upload_file'][0];
 
     if ($_FILES[$field]['name'] === '') {
         // No photo uploaded
 
-        if (trim($_POST["title"]) === "") {
+        if (trim($_POST['title']) === '') {
             $_POST['title'] = 'no title';
         }
 
@@ -122,33 +125,43 @@ if (!empty($_POST['submit'])) {
                 $tmp_name = 'pixel_trans.gif';
             }
         }
-    } elseif ($_FILES[$field]['tmp_name'] === "") {
+    } elseif ($_FILES[$field]['tmp_name'] === '') {
         // Fail to upload (wrong file name etc.)
-        redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . "/submit.php", 2, _ALBM_FILEERROR);
+        redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/submit.php', 2, _ALBM_FILEERROR);
         exit;
     } else {
-        if (isset($GLOBALS['myalbumModuleConfig']['myalbum_canresize']) && $GLOBALS['myalbumModuleConfig']['myalbum_canresize']) {
-            $uploader = new MyXoopsMediaUploader($GLOBALS['photos_dir'], explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']), $GLOBALS['myalbumModuleConfig']['myalbum_fsize'], null, null, explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedexts']));
+        if (isset($GLOBALS['myalbumModuleConfig']['myalbum_canresize'])
+            && $GLOBALS['myalbumModuleConfig']['myalbum_canresize']
+        ) {
+            $uploader = new MyXoopsMediaUploader($GLOBALS['photos_dir'],
+                                                 explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']),
+                                                 $GLOBALS['myalbumModuleConfig']['myalbum_fsize'], null, null,
+                                                 explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedexts']));
         } else {
-            $uploader = new MyXoopsMediaUploader($GLOBALS['photos_dir'], explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']), $GLOBALS['myalbumModuleConfig']['myalbum_fsize'], $GLOBALS['myalbumModuleConfig']['myalbum_width'], $GLOBALS['myalbumModuleConfig']['myalbum_height'], explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedexts']));
+            $uploader = new MyXoopsMediaUploader($GLOBALS['photos_dir'],
+                                                 explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']),
+                                                 $GLOBALS['myalbumModuleConfig']['myalbum_fsize'],
+                                                 $GLOBALS['myalbumModuleConfig']['myalbum_width'],
+                                                 $GLOBALS['myalbumModuleConfig']['myalbum_height'],
+                                                 explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedexts']));
         }
 
         $uploader->setPrefix('tmp_');
         if ($uploader->fetchMedia($field) && $uploader->upload()) {
             // The original file name will be the title if title is empty
-            if (trim($_POST["title"]) === "") {
+            if (trim($_POST['title']) === '') {
                 $_POST['title'] = $uploader->getMediaName();
             }
 
             $tmp_name = $uploader->getSavedFileName();
         } else {
             // Fail to upload (sizeover etc.)
-            include(XOOPS_ROOT_PATH . "/header.php");
+            include XOOPS_ROOT_PATH . '/header.php';
 
             echo $uploader->getErrors();
             @unlink($uploader->getSavedDestination());
 
-            include(XOOPS_ROOT_PATH . "/footer.php");
+            include XOOPS_ROOT_PATH . '/footer.php';
             exit;
         }
     }
@@ -158,8 +171,8 @@ if (!empty($_POST['submit'])) {
         exit;
     }
 
-    $title     = $GLOBALS['myts']->stripSlashesGPC($_POST["title"]);
-    $desc_text = $GLOBALS['myts']->stripSlashesGPC($_POST["desc_text"]);
+    $title     = $GLOBALS['myts']->stripSlashesGPC($_POST['title']);
+    $desc_text = $GLOBALS['myts']->stripSlashesGPC($_POST['desc_text']);
     $date      = time();
     $fileparts = explode('.', $tmp_name);
     $ext       = $fileparts[count($fileparts) - 1];
@@ -180,8 +193,8 @@ if (!empty($_POST['submit'])) {
     $photo_obj = $photos_handler->get($newid);
 
     if ($GLOBALS['myalbumModuleConfig']['tag']) {
-        $tag_handler =& xoops_getmodulehandler('tag', 'tag');
-        $tag_handler->updateByItem($_POST["tags"], $newid, $GLOBALS['myalbumModule']->getVar("dirname"), $cid);
+        $tag_handler =& xoops_getModuleHandler('tag', 'tag');
+        $tag_handler->updateByItem($_POST['tags'], $newid, $GLOBALS['myalbumModule']->getVar('dirname'), $cid);
     }
 
     myalbum_modify_photo($GLOBALS['photos_dir'] . "/$tmp_name", $GLOBALS['photos_dir'] . "/$newid.$ext");
@@ -202,21 +215,25 @@ if (!empty($_POST['submit'])) {
     @$text_handler->insert($text, true);
 
     // Update User's Posts (Should be modified when need admission.)
-    $xoopsDB->query("UPDATE " . $xoopsDB->prefix('users') . " SET posts=posts+'$myalbum_addposts' WHERE uid='$submitter'");
+    $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('users')
+                    . " SET posts=posts+'$myalbum_addposts' WHERE uid='$submitter'");
 
     // Trigger Notification
     if ($status) {
-        $notification_handler =& xoops_gethandler('notification');
+        $notification_handler =& xoops_getHandler('notification');
 
         // Global Notification
-        $notification_handler->triggerEvent('global', 0, 'new_photo', array('PHOTO_TITLE' => $title, 'PHOTO_URI' => $photo_obj->getURL()));
+        $notification_handler->triggerEvent('global', 0, 'new_photo',
+                                            array('PHOTO_TITLE' => $title, 'PHOTO_URI' => $photo_obj->getURL()));
 
         // Category Notification
         $cat = $cat_handler->get($cid);
         if (is_object($cat)) {
-            $notification_handler->triggerEvent('category', $cid, 'new_photo', array('PHOTO_TITLE'    => $title,
-                                                                                     'CATEGORY_TITLE' => $cat->getVar('title'),
-                                                                                     'PHOTO_URI'      => $photo_obj->getURL()));
+            $notification_handler->triggerEvent('category', $cid, 'new_photo', array(
+                'PHOTO_TITLE'    => $title,
+                'CATEGORY_TITLE' => $cat->getVar('title'),
+                'PHOTO_URI'      => $photo_obj->getURL()
+            ));
         }
     }
 
@@ -241,23 +258,31 @@ if ($caller === 'imagemanager') {
         <meta http-equiv='content-language' content='" . _LANGCODE . "' />
         </head><body>\n";
 } else {
-    include($GLOBALS['xoops']->path("header.php"));
+    include $GLOBALS['xoops']->path('header.php');
     myalbum_header();
 }
 
 // Preview
 if ($caller !== 'imagemanager' && !empty($_POST['preview'])) {
-    $photo['description'] = $GLOBALS['myts']->stripSlashesGPC($_POST["desc_text"]);
-    $photo['title']       = $GLOBALS['myts']->stripSlashesGPC($_POST["title"]);
-    $photo['cid']         = empty($_POST['cid']) ? 0 : (int)($_POST['cid']);
+    $photo['description'] = $GLOBALS['myts']->stripSlashesGPC($_POST['desc_text']);
+    $photo['title']       = $GLOBALS['myts']->stripSlashesGPC($_POST['title']);
+    $photo['cid']         = empty($_POST['cid']) ? 0 : (int)$_POST['cid'];
 
     $field = $_POST['xoops_upload_file'][0];
     if (is_readable($_FILES[$field]['tmp_name'])) {
         // new preview
         if ($GLOBALS['myalbumModuleConfig']['myalbum_canresize']) {
-            $uploader = new MyXoopsMediaUploader($GLOBALS['photos_dir'], explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']), $GLOBALS['myalbumModuleConfig']['myalbum_fsize'], null, null, explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedexts']));
+            $uploader = new MyXoopsMediaUploader($GLOBALS['photos_dir'],
+                                                 explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']),
+                                                 $GLOBALS['myalbumModuleConfig']['myalbum_fsize'], null, null,
+                                                 explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedexts']));
         } else {
-            $uploader = new MyXoopsMediaUploader($GLOBALS['photos_dir'], explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']), $GLOBALS['myalbumModuleConfig']['myalbum_fsize'], $GLOBALS['myalbumModuleConfig']['myalbum_width'], $GLOBALS['myalbumModuleConfig']['myalbum_height'], explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedexts']));
+            $uploader = new MyXoopsMediaUploader($GLOBALS['photos_dir'],
+                                                 explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']),
+                                                 $GLOBALS['myalbumModuleConfig']['myalbum_fsize'],
+                                                 $GLOBALS['myalbumModuleConfig']['myalbum_width'],
+                                                 $GLOBALS['myalbumModuleConfig']['myalbum_height'],
+                                                 explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedexts']));
         }
         $uploader->setPrefix('tmp_');
         if ($uploader->fetchMedia($field) && $uploader->upload()) {
@@ -289,7 +314,8 @@ if ($caller !== 'imagemanager' && !empty($_POST['preview'])) {
         'submitter'      => $my_uid,
         'submitter_name' => myalbum_get_name_from_uid($my_uid),
         'imgsrc_thumb'   => $imgsrc,
-        'ahref_photo'    => $ahref);
+        'ahref_photo'    => $ahref
+    );
     $tpl           = new XoopsTpl();
     include 'include/assign_globals.php';
     $tpl->assign($myalbum_assign_globals);
@@ -299,19 +325,21 @@ if ($caller !== 'imagemanager' && !empty($_POST['preview'])) {
     echo "</table>\n";
 } else {
     $photo = array(
-        'cid'         => (empty($_GET['cid']) ? 0 : (int)($_GET['cid'])),
+        'cid'         => empty($_GET['cid']) ? 0 : (int)$_GET['cid'],
         'description' => '',
-        'title'       => '');
+        'title'       => ''
+    );
 }
 
 if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
     if (isset($_GET['cid']) && isset($_GET['title'])) {
-        $url = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . $_GET['title'] . '/submit,' . $_GET['cid'] . '.tpl';
+        $url = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . $_GET['title'] . '/submit,'
+               . $_GET['cid'] . '.tpl';
     } else {
         $url = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/submit.tpl';
     }
     if (!strpos($url, $_SERVER['REQUEST_URI'])) {
-        header("HTTP/1.1 301 Moved Permanently");
+        header('HTTP/1.1 301 Moved Permanently');
         header('Location: ' . $url);
         exit(0);
     }
@@ -322,8 +350,8 @@ $GLOBALS['xoopsTpl']->assign('mydirname', $GLOBALS['mydirname']);
 echo myalbum_user_form_submit($caller, $photo, $lid);
 
 if ($caller === 'imagemanager') {
-    echo "</body></html>";
+    echo '</body></html>';
 } else {
     myalbum_footer();
-    include($GLOBALS['xoops']->path("footer.php"));
+    include $GLOBALS['xoops']->path('footer.php');
 }

@@ -96,18 +96,20 @@ class MyXoopsMediaUploader
      * @param array  $allowedExtensions
      * @internal param int $cmodvalue
      */
-    public function __construct($uploadDir, $allowedMimeTypes, $maxFileSize, $maxWidth = null, $maxHeight = null, $allowedExtensions = null)
+    public function __construct($uploadDir, $allowedMimeTypes, $maxFileSize, $maxWidth = null, $maxHeight = null,
+                                $allowedExtensions = null
+    )
     {
         if (is_array($allowedMimeTypes)) {
             $this->allowedMimeTypes =& $allowedMimeTypes;
         }
         $this->uploadDir   = $uploadDir;
-        $this->maxFileSize = (int)($maxFileSize);
+        $this->maxFileSize = (int)$maxFileSize;
         if (isset($maxWidth)) {
-            $this->maxWidth = (int)($maxWidth);
+            $this->maxWidth = (int)$maxWidth;
         }
         if (isset($maxHeight)) {
-            $this->maxHeight = (int)($maxHeight);
+            $this->maxHeight = (int)$maxHeight;
         }
         if (isset($allowedExtensions) && is_array($allowedExtensions)) {
             $this->allowedExtensions =& $allowedExtensions;
@@ -129,12 +131,13 @@ class MyXoopsMediaUploader
 
             return false;
         } elseif (is_array($_FILES[$media_name]['name']) && isset($index)) {
-            $index              = (int)($index);
+            $index              = (int)$index;
             $this->mediaName    = $_FILES[$media_name]['name'][$index];
             $this->mediaType    = $_FILES[$media_name]['type'][$index];
             $this->mediaSize    = $_FILES[$media_name]['size'][$index];
             $this->mediaTmpName = $_FILES[$media_name]['tmp_name'][$index];
-            $this->mediaError   = !empty($_FILES[$media_name]['error'][$index]) ? $_FILES[$media_name]['errir'][$index] : 0;
+            $this->mediaError   =
+                !empty($_FILES[$media_name]['error'][$index]) ? $_FILES[$media_name]['errir'][$index] : 0;
         } else {
             $media_name         =& $_FILES[$media_name];
             $this->mediaName    = $media_name['name'];
@@ -144,7 +147,7 @@ class MyXoopsMediaUploader
             $this->mediaError   = !empty($media_name['error']) ? $media_name['error'] : 0;
         }
         $this->errors = array();
-        if ((int)($this->mediaSize) < 0) {
+        if ((int)$this->mediaSize < 0) {
             $this->setErrors('Invalid File Size');
 
             return false;
@@ -175,7 +178,7 @@ class MyXoopsMediaUploader
      **/
     public function setTargetFileName($value)
     {
-        $this->targetFileName = (string)(trim($value));
+        $this->targetFileName = (string)trim($value);
     }
 
     /**
@@ -185,7 +188,7 @@ class MyXoopsMediaUploader
      **/
     public function setPrefix($value)
     {
-        $this->prefix = (string)(trim($value));
+        $this->prefix = (string)trim($value);
     }
 
     /**
@@ -359,7 +362,8 @@ class MyXoopsMediaUploader
                 return false;
             }
         } else {
-            trigger_error(sprintf('Failed fetching image size of %s, skipping max width check..', $this->mediaTmpName), E_USER_WARNING);
+            trigger_error(sprintf('Failed fetching image size of %s, skipping max width check..', $this->mediaTmpName),
+                          E_USER_WARNING);
         }
 
         return true;
@@ -380,7 +384,8 @@ class MyXoopsMediaUploader
                 return false;
             }
         } else {
-            trigger_error(sprintf('Failed fetching image size of %s, skipping max height check..', $this->mediaTmpName), E_USER_WARNING);
+            trigger_error(sprintf('Failed fetching image size of %s, skipping max height check..', $this->mediaTmpName),
+                          E_USER_WARNING);
         }
 
         return true;

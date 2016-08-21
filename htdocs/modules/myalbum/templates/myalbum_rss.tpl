@@ -13,25 +13,25 @@
         <webMaster><{$channel_webmaster}></webMaster>
         <language><{$channel_language}></language>
         <{if $image_url != ""}>
-        <image>
-            <title><{$channel_title}></title>
-            <url><{$image_url}></url>
-            <link>
-            <{$channel_link}></link>
-            <width><{$image_width}></width>
-            <height><{$image_height}></height>
-        </image>
+            <image>
+                <title><{$channel_title}></title>
+                <url><{$image_url}></url>
+                <link>
+                <{$channel_link}></link>
+                <width><{$image_width}></width>
+                <height><{$image_height}></height>
+            </image>
         <{/if}>
         <{foreach item=item from=$items}>
-        <item>
-            <title><{$item.title}></title>
-            <link>
-            <{$item.link}></link>
-            <description><{$item.description}></description>
-            <category><{$item.category}></category>
-            <pubDate><{$item.pubdate}></pubDate>
-            <guid><{$item.guid}></guid>
-        </item>
+            <item>
+                <title><{$item.title}></title>
+                <link>
+                <{$item.link}></link>
+                <description><{$item.description}></description>
+                <category><{$item.category}></category>
+                <pubDate><{$item.pubdate}></pubDate>
+                <guid><{$item.guid}></guid>
+            </item>
         <{/foreach}>
     </channel>
 </rss>

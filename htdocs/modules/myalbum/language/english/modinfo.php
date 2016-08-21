@@ -14,19 +14,24 @@ if (defined('FOR_XOOPS_LANG_CHECKER') || !defined('MYALBUM_MI_LOADED')) {
     define('_ALBM_BNAME_HITS_P', 'Top Photos with thumbs');
     // Config Items
     define('_ALBM_CFG_PHOTOSPATH', 'Path to photos');
-    define('_ALBM_CFG_DESCPHOTOSPATH', "Path from the directory with installed XOOPS.<br />(The first character must be '/'. The last character should not be '/'.)<br />This directory\'s permission is 777 or 707 in unix.");
+    define('_ALBM_CFG_DESCPHOTOSPATH',
+           "Path from the directory with installed XOOPS.<br />(The first character must be '/'. The last character should not be '/'.)<br />This directory\'s permission is 777 or 707 in unix.");
     define('_ALBM_CFG_THUMBSPATH', 'Path to thumbnails');
     define('_ALBM_CFG_DESCTHUMBSPATH', 'Same as \'Path to photos\'.');
     //define('_ALBM_CFG_USEIMAGICK','Use ImageMagick for treating images');
     //define('_ALBM_CFG_DESCIMAGICK','Not use ImageMagick cause Not work resize or rotate the main photo, and make thumbnails by GD.<br />You'd better use ImageMagick if you can.');
     define('_ALBM_CFG_IMAGINGPIPE', 'Package treating images');
-    define('_ALBM_CFG_DESCIMAGINGPIPE', 'Almost any PHP environment can use GD. But GD is functionally inferior than another 2 packages.<br />You\'d better use ImageMagick or NetPBM if you can.');
+    define('_ALBM_CFG_DESCIMAGINGPIPE',
+           'Almost any PHP environment can use GD. But GD is functionally inferior than another 2 packages.<br />You\'d better use ImageMagick or NetPBM if you can.');
     define('_ALBM_CFG_FORCEGD2', 'Force GD2 conversion');
-    define('_ALBM_CFG_DESCFORCEGD2', 'Even if the GD is bundled version of PHP, it forces GD2(truecolor) conversion.<br />Some configured PHP fails to create thumbnails in GD2<br />This configuration is significant only when using GD');
+    define('_ALBM_CFG_DESCFORCEGD2',
+           'Even if the GD is bundled version of PHP, it forces GD2(truecolor) conversion.<br />Some configured PHP fails to create thumbnails in GD2<br />This configuration is significant only when using GD');
     define('_ALBM_CFG_IMAGICKPATH', 'Path of ImageMagick');
-    define('_ALBM_CFG_DESCIMAGICKPATH', "Though the full path to 'convert' should be written, leave blank in almost any environment.<br />This configuration is significant only when using ImageMagick");
+    define('_ALBM_CFG_DESCIMAGICKPATH',
+           "Though the full path to 'convert' should be written, leave blank in almost any environment.<br />This configuration is significant only when using ImageMagick");
     define('_ALBM_CFG_NETPBMPATH', 'Path of NetPBM');
-    define('_ALBM_CFG_DESCNETPBMPATH', "Though the full path to 'pnmscale' should be written, leave blank in almost environment.<br />This configuration is significant only when using NetPBM");
+    define('_ALBM_CFG_DESCNETPBMPATH',
+           "Though the full path to 'pnmscale' should be written, leave blank in almost environment.<br />This configuration is significant only when using NetPBM");
     define('_ALBM_CFG_POPULAR', 'Number of Hits to be Popular');
     define('_ALBM_CFG_NEWDAYS', "Days between displaying icon of 'new'&'update'");
     define('_ALBM_CFG_NEWPHOTOS', 'Number of Photos as New on Top Page');
@@ -41,7 +46,8 @@ if (defined('FOR_XOOPS_LANG_CHECKER') || !defined('MYALBUM_MI_LOADED')) {
     define('_ALBM_CFG_THUMBSIZE', 'Size of thumbnails (pixel)');
     define('_ALBM_CFG_THUMBRULE', 'Calc rule for building thumbnails');
     define('_ALBM_CFG_WIDTH', 'Max photo width');
-    define('_ALBM_CFG_DESCWIDTH', 'This means the photo\'s width to be resized.<br />If you use GD without Truecolor, this means the limitation of width.');
+    define('_ALBM_CFG_DESCWIDTH',
+           'This means the photo\'s width to be resized.<br />If you use GD without Truecolor, this means the limitation of width.');
     define('_ALBM_CFG_HEIGHT', 'Max photo height');
     define('_ALBM_CFG_DESCHEIGHT', "Same as 'Max photo width'.");
     define('_ALBM_CFG_FSIZE', 'Max file size');
@@ -56,11 +62,14 @@ if (defined('FOR_XOOPS_LANG_CHECKER') || !defined('MYALBUM_MI_LOADED')) {
     define('_ALBM_CFG_VIEWCATTYPE', 'Type of view in category');
     define('_ALBM_CFG_COLSOFTABLEVIEW', 'Number of columns in table view');
     define('_ALBM_CFG_ALLOWEDEXTS', 'File extensions that can be uploaded');
-    define('_ALBM_CFG_DESCALLOWEDEXTS', "Input extensions with separator '|'. (eg 'jpg|jpeg|gif|png') .<br />All character must be small. Don't insert periods or spaces<br />Never add php or phtml etc.");
+    define('_ALBM_CFG_DESCALLOWEDEXTS',
+           "Input extensions with separator '|'. (eg 'jpg|jpeg|gif|png') .<br />All character must be small. Don't insert periods or spaces<br />Never add php or phtml etc.");
     define('_ALBM_CFG_ALLOWEDMIME', 'MIME Types that can be uploaded');
-    define('_ALBM_CFG_DESCALLOWEDMIME', "Input MIME Types with separator '|'. (eg 'image/gif|image/jpeg|image/png')<br />If you want it to be checked by MIME Type defined by XOOPS, be blank here");
+    define('_ALBM_CFG_DESCALLOWEDMIME',
+           "Input MIME Types with separator '|'. (eg 'image/gif|image/jpeg|image/png')<br />If you want it to be checked by MIME Type defined by XOOPS, be blank here");
     define('_ALBM_CFG_USESITEIMG', 'Use [siteimg] in ImageManager Integration');
-    define('_ALBM_CFG_DESCUSESITEIMG', 'Using the Integrated Image Manager input [siteimg] instead of [img].<br />You have to hack module.textsanitizer.php or each modules individually to enable tag of [siteimg]');
+    define('_ALBM_CFG_DESCUSESITEIMG',
+           'Using the Integrated Image Manager input [siteimg] instead of [img].<br />You have to hack module.textsanitizer.php or each modules individually to enable tag of [siteimg]');
     define('_ALBM_OPT_USENAME', 'Handle Name');
     define('_ALBM_OPT_USEUNAME', 'Login Name');
     define('_ALBUM_OPT_CALCFROMWIDTH', 'width:specified height:auto');
@@ -97,7 +106,8 @@ if (defined('FOR_XOOPS_LANG_CHECKER') || !defined('MYALBUM_MI_LOADED')) {
     define('_MI_MYALBUM_GLOBAL_NEWPHOTO_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE}: auto-notify : New photo');
     define('_MI_MYALBUM_CATEGORY_NEWPHOTO_NOTIFY', 'New Photo');
     define('_MI_MYALBUM_CATEGORY_NEWPHOTO_NOTIFYCAP', 'Notify me when a new photo is posted to the current category');
-    define('_MI_MYALBUM_CATEGORY_NEWPHOTO_NOTIFYDSC', 'Receive notification when a new photo is posted to the current category');
+    define('_MI_MYALBUM_CATEGORY_NEWPHOTO_NOTIFYDSC',
+           'Receive notification when a new photo is posted to the current category');
     define('_MI_MYALBUM_CATEGORY_NEWPHOTO_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE}: auto-notify : New photo');
     // Version 3.01
     // Admin
