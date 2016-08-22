@@ -45,12 +45,12 @@ class MyalbumCat extends XoopsObject
     public function getURL($uid, $num, $pos, $view)
     {
         $moduleHandler  = xoops_getHandler('module');
-        $config_handler = xoops_getHandler('config');
+        $configHandler = xoops_getHandler('config');
         if (!isset($GLOBALS['myalbumModule'])) {
             $GLOBALS['myalbumModule'] = $moduleHandler->getByDirname($moduleDirName);
         }
         if (!isset($GLOBALS['myalbumModuleConfig'])) {
-            $GLOBALS['myalbumModuleConfig'] = $config_handler->getConfigList($GLOBALS['myalbumModule']->getVar('mid'));
+            $GLOBALS['myalbumModuleConfig'] = $configHandler->getConfigList($GLOBALS['myalbumModule']->getVar('mid'));
         }
         if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
             return XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . str_replace(array(
@@ -78,12 +78,12 @@ class MyalbumCat extends XoopsObject
     public function getRSSURL($uid, $num, $pos, $view)
     {
         $moduleHandler  = xoops_getHandler('module');
-        $config_handler = xoops_getHandler('config');
+        $configHandler = xoops_getHandler('config');
         if (!isset($GLOBALS['myalbumModule'])) {
             $GLOBALS['myalbumModule'] = $moduleHandler->getByDirname($moduleDirName);
         }
         if (!isset($GLOBALS['myalbumModuleConfig'])) {
-            $GLOBALS['myalbumModuleConfig'] = $config_handler->getConfigList($GLOBALS['myalbumModule']->getVar('mid'));
+            $GLOBALS['myalbumModuleConfig'] = $configHandler->getConfigList($GLOBALS['myalbumModule']->getVar('mid'));
         }
         if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
             return XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . xoops_sef($this->getVar('title')) . '/rss,' . $cid . ',' . $uid . ',' . $num . ',' . $pos . ',' . $view . $GLOBALS['myalbumModuleConfig']['endofrss'];

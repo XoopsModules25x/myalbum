@@ -35,7 +35,7 @@
 /*!
 Example
 
-  include_once 'myuploader.php';
+  include_once __DIR__ . '/myuploader.php';
   $allowed_mimetypes = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png');
   $maxfilesize = 50000;
   $maxfilewidth = 120;

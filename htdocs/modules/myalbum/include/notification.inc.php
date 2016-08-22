@@ -39,8 +39,8 @@ eval('function ' . $moduleDirName . '_notify_iteminfo($not_category, $item_id)
     if (empty($xoopsModule) || $xoopsModule->getVar("dirname") != "' . $moduleDirName . '" ) {
         $moduleHandler = xoops_getHandler("module");
         $module = $moduleHandler->getByDirname("' . $moduleDirName . '");
-        $config_handler = xoops_getHandler("config");
-        $config =& $config_handler->getConfigsByCat(0,$module->getVar("mid"));
+        $configHandler = xoops_getHandler("config");
+        $config = $configHandler->getConfigsByCat(0,$module->getVar("mid"));
     } else {
         $module =& $xoopsModule;
         $config =& $xoopsModuleConfig;

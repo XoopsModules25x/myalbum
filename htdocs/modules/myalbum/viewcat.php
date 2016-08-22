@@ -16,13 +16,13 @@ if ($num < 1) {
 $pos  = !isset($_GET['pos']) ? 0 : (int)$_GET['pos'];
 $view = !isset($_GET['view']) ? $myalbum_viewcattype : $_GET['view'];
 
-$photos_handler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
-$cat_handler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+$photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+$catHandler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
 if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
     if ($cid == 0) {
         $url = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/cat,' . $cid . ',' . $uid . ',' . $num . ',' . $pos . ',' . $view . '.html';
     } else {
-        $cat = $cat_handler->get($cid);
+        $cat = $catHandler->get($cid);
         $url = $cat->getURL($uid, $num, $pos, $view);
     }
 
@@ -70,7 +70,7 @@ $GLOBALS['xoopsTpl']->assign('lang_album_main', _ALBM_MAIN);
 if ($cid > 0) {
     $cids    = array();
     $catpath = '';
-    $cat     = $cat_handler->get($cid);
+    $cat     = $catHandler->get($cid);
     // Category Specified
     $GLOBALS['xoopsTpl']->assign('category_id', $cid);
     $GLOBALS['xoopsTpl']->assign('subcategories', myalbum_get_sub_categories($cid, $GLOBALS['cattree']));
@@ -84,14 +84,14 @@ if ($cid > 0) {
     $photo_total_sum = myalbum_get_photo_total_sum_from_cats($cids, $criteria);
     if (!empty($cids)) {
         foreach ($cids as $index => $child) {
-            $childcat = $cat_handler->get($child);
+            $childcat = $catHandler->get($child);
             if (is_object($childcat)) {
                 $catpath .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid=' . $childcat->getVar('cid') . "' >" . $childcat->getVar('title') . '</a> ' . ($index
                                                                                                                                                                                                                                           < count($cids) ? '>>' : '');
             }
         }
     } else {
-        $cat = $cat_handler->get($cid);
+        $cat = $catHandler->get($cid);
         $catpath .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid=' . $cat->getVar('cid') . "' >" . $cat->getVar('title') . '</a>';
     }
     $catpath   = str_replace('>>', " <span class='fg2'>&raquo;&raquo;</span> ", $catpath);
@@ -119,14 +119,14 @@ if ($cid > 0) {
 }
 
 if (!isset($cat) || !is_object($cat)) {
-    $cat = $cat_handler->create();
+    $cat = $catHandler->create();
 }
 $GLOBALS['xoopsTpl']->assign('rss', $cat->getRSSURL($uid, $num, $pos, $view));
 $GLOBALS['xoopsTpl']->assign('xoConfig', $GLOBALS['myalbumModuleConfig']);
 $GLOBALS['xoopsTpl']->assign('mydirname', $GLOBALS['mydirname']);
 
-$photo_small_sum = $photos_handler->getCount($criteria);
-$photo_total_sum = $photos_handler->getCount(new Criteria('`status`', '0', '>'));
+$photo_small_sum = $photosHandler->getCount($criteria);
+$photo_total_sum = $photosHandler->getCount(new Criteria('`status`', '0', '>'));
 $GLOBALS['xoopsTpl']->assign('photo_small_sum', $photo_small_sum);
 $GLOBALS['xoopsTpl']->assign('photo_total_sum', (empty($photo_total_sum) ? $photo_small_sum : $photo_total_sum));
 $criteria->setOrder($myalbum_orders[$orderby][0]);
@@ -161,7 +161,7 @@ if ($photo_small_sum > 0) {
     // Display photos
     $count = 1;
 
-    foreach ($photos_handler->getObjects($criteria, true) as $lid => $photo) {
+    foreach ($photosHandler->getObjects($criteria, true) as $lid => $photo) {
         //echo __LINE__.' - '.$function_assigning.' - '.$lid.'<br>';
         $photo = $function_assigning($photo) + array('count' => ++$count, true);
         $GLOBALS['xoopsTpl']->append('photos', $photo);

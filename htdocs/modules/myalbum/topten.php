@@ -18,8 +18,8 @@ if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
     }
 }
 
-$photos_handler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
-$cat_handler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+$photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+$catHandler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
 
 $GLOBALS['xoopsOption']['template_main'] = "{$moduleDirName }_topten.tpl";
 
@@ -51,7 +51,7 @@ $criteria = new Criteria('`pid`', '0');
 $criteria->setOrder('`title`');
 $rankings = array();
 $i        = 0;
-foreach ($cat_handler->getObjects($criteria, true) as $cid => $cat) {
+foreach ($catHandler->getObjects($criteria, true) as $cid => $cat) {
     if ($rate == 1) {
         $rankings[$i] = array(
             'title' => sprintf(_ALBM_TOP10, $GLOBALS['myts']->htmlSpecialChars($cat->getVar('title'))),
@@ -82,7 +82,7 @@ foreach ($cat_handler->getObjects($criteria, true) as $cid => $cat) {
     $criteria->setLimit(10);
 
     $rank = 1;
-    foreach ($photos_handler->getObjects($criteria, true) as $lid => $photo) {
+    foreach ($photosHandler->getObjects($criteria, true) as $lid => $photo) {
         $catpath = '';
 
         $cids = $GLOBALS['cattree']->getAllChild($photo->getVar('cid'));
@@ -93,7 +93,7 @@ foreach ($cat_handler->getObjects($criteria, true) as $cid => $cat) {
                                                                                                                                                                                                                                     < count($cids) ? '>>' : '');
             }
         } else {
-            $cat = $cat_handler->get($photo->getVar('cid'));
+            $cat = $catHandler->get($photo->getVar('cid'));
             $catpath .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid=' . $cat->getVar('cid') . "' >" . $cat->getVar('title') . '</a>';
         }
 

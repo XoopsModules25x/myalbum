@@ -45,8 +45,8 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
         $confcat_id = (int)$_GET['confcat_id'];
     }
     if ($op === 'list') {
-        $confcat_handler = xoops_getHandler('configcategory');
-        $confcats        =& $confcat_handler->getObjects();
+        $confcatHandler = xoops_getHandler('configcategory');
+        $confcats        =& $confcatHandler->getObjects();
         $catcount        = count($confcats);
         xoops_cp_header();
         echo '<h4 style="text-align:left;">' . _MD_AM_SITEPREF . '</h4><ul>';
@@ -62,19 +62,19 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
         if (empty($confcat_id)) {
             $confcat_id = 1;
         }
-        $confcat_handler = xoops_getHandler('configcategory');
-        $confcat         =& $confcat_handler->get($confcat_id);
+        $confcatHandler = xoops_getHandler('configcategory');
+        $confcat         = $confcatHandler->get($confcat_id);
         if (!is_object($confcat)) {
             redirect_header('admin.php?fct=preferences', 1);
         }
         include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
         include_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
         $form           = new XoopsThemeForm(constant($confcat->getVar('confcat_name')), 'pref_form', 'admin.php?fct=preferences');
-        $config_handler = xoops_getHandler('config');
+        $configHandler = xoops_getHandler('config');
         $criteria       = new CriteriaCompo();
         $criteria->add(new Criteria('conf_modid', 0));
         $criteria->add(new Criteria('conf_catid', $confcat_id));
-        $config    =& $config_handler->getConfigs($criteria);
+        $config    = $configHandler->getConfigs($criteria);
         $confcount = count($config);
         for ($i = 0; $i < $confcount; ++$i) {
             $title = (!defined($config[$i]->getVar('conf_desc'))
@@ -93,7 +93,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                     break;
                 case 'select':
                     $ele     = new XoopsFormSelect($title, $config[$i]->getVar('conf_name'), $config[$i]->getConfValueForOutput());
-                    $options =& $config_handler->getConfigOptions(new Criteria('conf_id', $config[$i]->getVar('conf_id')));
+                    $options = $configHandler->getConfigOptions(new Criteria('conf_id', $config[$i]->getVar('conf_id')));
                     $opcount = count($options);
                     for ($j = 0; $j < $opcount; ++$j) {
                         $optval = defined($options[$j]->getVar('confop_value')) ? constant($options[$j]->getVar('confop_value')) : $options[$j]->getVar('confop_value');
@@ -103,7 +103,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                     break;
                 case 'select_multi':
                     $ele     = new XoopsFormSelect($title, $config[$i]->getVar('conf_name'), $config[$i]->getConfValueForOutput(), 5, true);
-                    $options =& $config_handler->getConfigOptions(new Criteria('conf_id', $config[$i]->getVar('conf_id')));
+                    $options = $configHandler->getConfigOptions(new Criteria('conf_id', $config[$i]->getVar('conf_id')));
                     $opcount = count($options);
                     for ($j = 0; $j < $opcount; ++$j) {
                         $optval = defined($options[$j]->getVar('confop_value')) ? constant($options[$j]->getVar('confop_value')) : $options[$j]->getVar('confop_value');
@@ -134,8 +134,8 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                         asort($dirlist);
                         $ele->addOptionArray($dirlist);
                     }
-                    //$themeset_handler = xoops_getHandler('themeset');
-                    //$themesetlist =& $themeset_handler->getList();
+                    //$themesetHandler = xoops_getHandler('themeset');
+                    //$themesetlist =& $themesetHandler->getList();
                     //asort($themesetlist);
                     //foreach ($themesetlist as $key => $name) {
                     //  $ele->addOption($key, $name.' ('._MD_AM_THEMESET.')');
@@ -145,8 +145,8 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                     break;
                 case 'tplset':
                     $ele            = new XoopsFormSelect($title, $config[$i]->getVar('conf_name'), $config[$i]->getConfValueForOutput());
-                    $tplset_handler = xoops_getHandler('tplset');
-                    $tplsetlist     =& $tplset_handler->getList();
+                    $tplsetHandler = xoops_getHandler('tplset');
+                    $tplsetlist     =& $tplsetHandler->getList();
                     asort($tplsetlist);
                     foreach ($tplsetlist as $key => $name) {
                         $ele->addOption($key, $name);
@@ -252,13 +252,13 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
     }
 
     if ($op === 'showmod') {
-        $config_handler = xoops_getHandler('config');
+        $configHandler = xoops_getHandler('config');
         $mod            = isset($_GET['mod']) ? (int)$_GET['mod'] : 0;
         if (empty($mod)) {
             header('Location: admin.php?fct=preferences');
             exit();
         }
-        $config =& $config_handler->getConfigs(new Criteria('conf_modid', $mod));
+        $config = $configHandler->getConfigs(new Criteria('conf_modid', $mod));
         $count  = count($config);
         if ($count < 1) {
             redirect_header('admin.php?fct=preferences', 1);
@@ -303,7 +303,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                     break;
                 case 'select':
                     $ele     = new XoopsFormSelect($title, $config[$i]->getVar('conf_name'), $config[$i]->getConfValueForOutput());
-                    $options =& $config_handler->getConfigOptions(new Criteria('conf_id', $config[$i]->getVar('conf_id')));
+                    $options = $configHandler->getConfigOptions(new Criteria('conf_id', $config[$i]->getVar('conf_id')));
                     $opcount = count($options);
                     for ($j = 0; $j < $opcount; ++$j) {
                         $optval = defined($options[$j]->getVar('confop_value')) ? constant($options[$j]->getVar('confop_value')) : $options[$j]->getVar('confop_value');
@@ -313,7 +313,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                     break;
                 case 'select_multi':
                     $ele     = new XoopsFormSelect($title, $config[$i]->getVar('conf_name'), $config[$i]->getConfValueForOutput(), 5, true);
-                    $options =& $config_handler->getConfigOptions(new Criteria('conf_id', $config[$i]->getVar('conf_id')));
+                    $options = $configHandler->getConfigOptions(new Criteria('conf_id', $config[$i]->getVar('conf_id')));
                     $opcount = count($options);
                     for ($j = 0; $j < $opcount; ++$j) {
                         $optval = defined($options[$j]->getVar('confop_value')) ? constant($options[$j]->getVar('confop_value')) : $options[$j]->getVar('confop_value');
@@ -382,7 +382,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
         $lang_updated     = false;
         if ($count > 0) {
             for ($i = 0; $i < $count; ++$i) {
-                $config    =& $config_handler->getConfig($conf_ids[$i]);
+                $config    = $configHandler->getConfig($conf_ids[$i]);
                 $new_value =& ${$config->getVar('conf_name')};
                 if (is_array($new_value) || $new_value != $config->getVar('conf_value')) {
                     // if language has been changed
@@ -399,8 +399,8 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                     if (!$theme_updated && $config->getVar('conf_catid') == XOOPS_CONF
                         && $config->getVar('conf_name') === 'theme_set'
                     ) {
-                        $member_handler = xoops_getHandler('member');
-                        $member_handler->updateUsersByField('theme', ${$config->getVar('conf_name')});
+                        $memberHandler = xoops_getHandler('member');
+                        $memberHandler->updateUsersByField('theme', ${$config->getVar('conf_name')});
                         $theme_updated = true;
                     }
 
@@ -417,15 +417,15 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
 
                             // generate compiled files for the new theme
                             // block files only for now..
-                            $tplfile_handler = xoops_getHandler('tplfile');
-                            $dtemplates      =& $tplfile_handler->find('default', 'block');
+                            $tplfileHandler = xoops_getHandler('tplfile');
+                            $dtemplates      = $tplfileHandler->find('default', 'block');
                             $dcount          = count($dtemplates);
 
                             // need to do this to pass to xoops_template_touch function
                             $GLOBALS['xoopsConfig']['template_set'] = $newtplset;
 
                             for ($i = 0; $i < $dcount; ++$i) {
-                                $found =& $tplfile_handler->find($newtplset, 'block', $dtemplates[$i]->getVar('tpl_refid'), null);
+                                $found = $tplfileHandler->find($newtplset, 'block', $dtemplates[$i]->getVar('tpl_refid'), null);
                                 if (count($found) > 0) {
                                     // template for the new theme found, compile it
                                     xoops_template_touch($found[0]->getVar('tpl_id'));
@@ -436,8 +436,8 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                             }
 
                             // generate image cache files from image binary data, save them under cache/
-                            $image_handler = xoops_getHandler('imagesetimg');
-                            $imagefiles    =& $image_handler->getObjects(new Criteria('tplset_name', $newtplset), true);
+                            $imageHandler = xoops_getHandler('imagesetimg');
+                            $imagefiles    = $imageHandler->getObjects(new Criteria('tplset_name', $newtplset), true);
                             foreach (array_keys($imagefiles) as $i) {
                                 if (!$fp = fopen(XOOPS_CACHE_PATH . '/' . $newtplset . '_' . $imagefiles[$i]->getVar('imgsetimg_file'), 'wb')) {
                                 } else {
@@ -453,21 +453,21 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                     if (!$startmod_updated && $new_value != '--' && $config->getVar('conf_catid') == XOOPS_CONF
                         && $config->getVar('conf_name') === 'startpage'
                     ) {
-                        $member_handler     = xoops_getHandler('member');
-                        $groups             = $member_handler->getGroupList();
-                        $moduleperm_handler = xoops_getHandler('groupperm');
+                        $memberHandler     = xoops_getHandler('member');
+                        $groups             = $memberHandler->getGroupList();
+                        $modulepermHandler = xoops_getHandler('groupperm');
                         $moduleHandler      = xoops_getHandler('module');
                         $module             = $moduleHandler->getByDirname($new_value);
                         foreach ($groups as $groupid => $groupname) {
-                            if (!$moduleperm_handler->checkRight('module_read', $module->getVar('mid'), $groupid)) {
-                                $moduleperm_handler->addRight('module_read', $module->getVar('mid'), $groupid);
+                            if (!$modulepermHandler->checkRight('module_read', $module->getVar('mid'), $groupid)) {
+                                $modulepermHandler->addRight('module_read', $module->getVar('mid'), $groupid);
                             }
                         }
                         $startmod_updated = true;
                     }
 
                     $config->setConfValueForInput($new_value);
-                    $config_handler->insertConfig($config);
+                    $configHandler->insertConfig($config);
                 }
                 unset($new_value);
             }

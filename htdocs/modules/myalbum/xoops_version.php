@@ -215,9 +215,9 @@ if ($GLOBALS['global_perms'] & 256) { // GPERM_RATEVIEW
 }
 if (isset($myalbum_catonsubmenu) && $myalbum_catonsubmenu) {
     $criteria    = new Criteria('`pid`', 0);
-    $cat_handler = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
-    if ($cat_handler->getCount($criteria) !== false) {
-        foreach ($cat_handler->getObjects($criteria, true) as $cid => $cat) {
+    $catHandler = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+    if ($catHandler->getCount($criteria) !== false) {
+        foreach ($catHandler->getObjects($criteria, true) as $cid => $cat) {
             $modversion['sub'][$subcount]['name']  = ' - ' . $cat->getVar('title');
             $modversion['sub'][$subcount++]['url'] = "viewcat.php?cid=$cid";
         }
@@ -226,8 +226,8 @@ if (isset($myalbum_catonsubmenu) && $myalbum_catonsubmenu) {
 
 // Config
 xoops_load('XoopsEditorHandler');
-$editor_handler = XoopsEditorHandler::getInstance();
-foreach ($editor_handler->getList(false) as $id => $val) {
+$editorHandler = XoopsEditorHandler::getInstance();
+foreach ($editorHandler->getList(false) as $id => $val) {
     $options[$val] = $id;
 }
 

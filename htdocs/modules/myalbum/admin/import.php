@@ -128,8 +128,8 @@ else {
     if (!empty($_POST['imagemanager_import']) && !empty($_POST['imgcat_id'])) {
 
         // authority check
-        $sysperm_handler = xoops_getHandler('groupperm');
-        if (!$sysperm_handler->checkRight('system_admin', XOOPS_SYSTEM_IMAGE, $GLOBALS['xoopsUser']->getGroups())) {
+        $syspermHandler = xoops_getHandler('groupperm');
+        if (!$syspermHandler->checkRight('system_admin', XOOPS_SYSTEM_IMAGE, $GLOBALS['xoopsUser']->getGroups())) {
             exit;
         }
 

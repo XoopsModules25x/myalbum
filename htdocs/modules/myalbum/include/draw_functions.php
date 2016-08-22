@@ -31,8 +31,8 @@ function myalbum_get_name_from_uid($uid)
     global $myalbum_nameoruname;
 
     if ($uid > 0) {
-        $member_handler = xoops_getHandler('member');
-        $poster         = $member_handler->getUser($uid);
+        $memberHandler = xoops_getHandler('member');
+        $poster         = $memberHandler->getUser($uid);
 
         if (is_object($poster)) {
             if ($myalbum_nameoruname === 'uname') {
@@ -66,15 +66,15 @@ function myalbum_get_array_for_photo_assign($photo, $summary = false)
     global $photos_url, $thumbs_url, $thumbs_dir, $mod_url, $mod_path;
     global $myalbum_makethumb, $myalbum_thumbsize, $myalbum_popular, $myalbum_newdays, $myalbum_normal_exts;
 
-    $photos_handler   = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
-    $text_handler     = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
-    $cat_handler      = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
-    $votedata_handler = xoops_getModuleHandler('votedata', $GLOBALS['mydirname']);
-    $comments_handler = xoops_getModuleHandler('comments', $GLOBALS['mydirname']);
+    $photosHandler   = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+    $textHandler     = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
+    $catHandler      = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+    $votedataHandler = xoops_getModuleHandler('votedata', $GLOBALS['mydirname']);
+    $commentsHandler = xoops_getModuleHandler('comments', $GLOBALS['mydirname']);
 
     extract($photo->toArray(true));
-    $text = $text_handler->get($photo->getVar('lid'));
-    $cat  = $cat_handler->get($photo->getVar('cid'));
+    $text = $textHandler->get($photo->getVar('lid'));
+    $cat  = $catHandler->get($photo->getVar('cid'));
     $ext  = $photo->vars['ext']['value'];
 
     if (in_array(strtolower($ext), $myalbum_normal_exts)) {
@@ -190,15 +190,15 @@ function myalbum_get_array_for_photo_assign_light($photo, $summary = false)
     global $photos_url, $thumbs_url, $thumbs_dir;
     global $myalbum_makethumb, $myalbum_thumbsize, $myalbum_normal_exts;
 
-    $photos_handler   = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
-    $text_handler     = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
-    $cat_handler      = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
-    $votedata_handler = xoops_getModuleHandler('votedata', $GLOBALS['mydirname']);
-    $comments_handler = xoops_getModuleHandler('comments', $GLOBALS['mydirname']);
+    $photosHandler   = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+    $textHandler     = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
+    $catHandler      = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+    $votedataHandler = xoops_getModuleHandler('votedata', $GLOBALS['mydirname']);
+    $commentsHandler = xoops_getModuleHandler('comments', $GLOBALS['mydirname']);
 
     extract($photo->toArray(true));
-    $text = $text_handler->get($photo->getVar('lid'));
-    $cat  = $cat_handler->get($photo->getVar('cid'));
+    $text = $textHandler->get($photo->getVar('lid'));
+    $cat  = $catHandler->get($photo->getVar('cid'));
 
     if (in_array(strtolower($ext), $myalbum_normal_exts)) {
         $imgsrc_thumb    = $photo->getThumbsURL();
@@ -263,9 +263,9 @@ function myalbum_get_sub_categories($parent_id, $cattree)
     $criterib->setSort('cid');
     $criterib->setOrder('DESC');
 
-    $cat_handler = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+    $catHandler = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
 
-    $cats = $cat_handler->getObjects($criterib, true);
+    $cats = $catHandler->getObjects($criterib, true);
 
     foreach ($cats as $cid => $cat) {
         extract($cat->toArray());

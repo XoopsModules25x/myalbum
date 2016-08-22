@@ -16,23 +16,27 @@
             <a href="<{$mod_url}>/viewcat.php?cid=<{$cat.cid}>"><span style="font:bold 150%;"><{$cat.title}></span></a>&nbsp;<{$lang_total}><{$cat.photo_total_sum}>
             &nbsp;(<{$cat.photo_small_sum}>)
             <br>
-                <{foreach from=$cat.subcategories item=subcat}>
+            <{foreach from=$cat.subcategories item=subcat}>
                 <{if $subcat.number_of_subcat}>
-                <a href="<{$mod_url}>/viewcat.php?cid=<{$subcat.cid}>"><img src="<{xoModuleIcons16 topic.png}>"
-                                                                            width="16" height="16"
-                                                                            alt=""/><{$subcat.title}><img
-                            src='<{$mod_url}>/assets/images/subcat.gif' width='15' height='15'/></a> &nbsp;<br>
-                    <{else}>
+                    <a href="<{$mod_url}>/viewcat.php?cid=<{$subcat.cid}>"><img src="<{xoModuleIcons16 topic.png}>"
+                                                                                width="16" height="16"
+                                                                                alt=""/><{$subcat.title}><img
+                                src='<{$mod_url}>/assets/images/subcat.gif' width='15' height='15'/></a>
+                    &nbsp;
+                    <br>
+                <{else}>
                     <a href="<{$mod_url}>/viewcat.php?cid=<{$subcat.cid}>"><img src="<{xoModuleIcons16 topic.png}>"
                                                                                 width="16" height="16"
                                                                                 alt=""/><{$subcat.title}>
-                    </a>&nbsp;(<{$subcat.photo_small_sum}>)
-                    &nbsp;<br>
-                        <{/if}>
-                        <{/foreach}>
+                    </a>
+                    &nbsp;(<{$subcat.photo_small_sum}>)
+                    &nbsp;
+                    <br>
+                <{/if}>
+            <{/foreach}>
         </td>
         <br>
-            <{if ($count+1) is div by 3}>
+        <{if ($count+1) is div by 3}>
     </tr>
     <tr>
         <{/if}>

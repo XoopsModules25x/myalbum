@@ -73,26 +73,26 @@ if (defined('FOR_XOOPS_LANG_CHECKER') || !defined('MYALBUM_AM_LOADED')) {
     define('_AM_LINK_REDOTHUMBS', 'rebuild thumbnails');
     define('_AM_LINK_TABLEMAINTENANCE', 'maintain tables');
     // Redo Thumbnail
-    define('_AM_H3_FMT_RECORDMAINTENANCE', 'myAlbum-P photo maintenance (%s)');
-    define('_AM_FMT_CHECKING', 'checking %s ...');
-    define('_AM_FORM_RECORDMAINTENANCE', 'maintenance of photos like remaking thumbnails etc.');
-    define('_AM_MB_FAILEDREADING', 'failed reading.');
-    define('_AM_MB_CREATEDTHUMBS', 'created a thumbnail.');
-    define('_AM_MB_BIGTHUMBS', 'failed making a thumbnail. copied.');
-    define('_AM_MB_SKIPPED', 'skipped.');
-    define('_AM_MB_SIZEREPAIRED', '(repaired size fields of the record.)');
-    define('_AM_MB_RECREMOVED', 'this record has been removed.');
-    define('_AM_MB_PHOTONOTEXISTS', 'main photo does not exist.');
-    define('_AM_MB_PHOTORESIZED', 'main photo was resized.');
-    define('_AM_TEXT_RECORDFORSTARTING', 'record number to start with');
-    define('_AM_TEXT_NUMBERATATIME', 'number of records processed at a time');
+    define('_AM_H3_FMT_RECORDMAINTENANCE', 'myAlbum-P Photo Maintenance (%s)');
+    define('_AM_FMT_CHECKING', 'Checking %s ...');
+    define('_AM_FORM_RECORDMAINTENANCE', 'Maintenance of photos like recreating of thumbnails etc.');
+    define('_AM_MB_FAILEDREADING', 'Failed reading.');
+    define('_AM_MB_CREATEDTHUMBS', 'Created a thumbnail.');
+    define('_AM_MB_BIGTHUMBS', 'Failed to create a thumbnail. Copied.');
+    define('_AM_MB_SKIPPED', 'Skipped.');
+    define('_AM_MB_SIZEREPAIRED', '(Repaired size fields of the record.)');
+    define('_AM_MB_RECREMOVED', 'This record has been removed.');
+    define('_AM_MB_PHOTONOTEXISTS', 'Main photo does not exist.');
+    define('_AM_MB_PHOTORESIZED', 'Main photo was resized.');
+    define('_AM_TEXT_RECORDFORSTARTING', 'Record number to start with');
+    define('_AM_TEXT_NUMBERATATIME', 'Number of records to process at a time');
     define('_AM_LABEL_DESCNUMBERATATIME', 'Too large number may lead to server time out.');
-    define('_AM_RADIO_FORCEREDO', 'force recreating even if a thumbnail exists');
-    define('_AM_RADIO_REMOVEREC', "remove records that don't link to a main photo");
-    define('_AM_RADIO_RESIZE', 'resize bigger photos than the pixels specified in current preferences');
-    define('_AM_MB_FINISHED', 'finished');
-    define('_AM_LINK_RESTART', 'restart');
-    define('_AM_SUBMIT_NEXT', 'next');
+    define('_AM_RADIO_FORCEREDO', 'Force recreating of thumbnails even if a thumbnail exists');
+    define('_AM_RADIO_REMOVEREC', "Remove records that don't link to a main photo");
+    define('_AM_RADIO_RESIZE', 'Resize bigger photos than the pixels specified in current preferences');
+    define('_AM_MB_FINISHED', 'Finished');
+    define('_AM_LINK_RESTART', 'Restart');
+    define('_AM_SUBMIT_NEXT', 'Next');
     // Batch Register
     define('_AM_H3_FMT_BATCHREGISTER', 'myAlbum-P batch register (%s)');
     // GroupPerm Global

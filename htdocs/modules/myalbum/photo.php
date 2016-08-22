@@ -24,8 +24,8 @@ if (isset($_GET['op'])) {
 function deleteImage($lid)
 {
     global $global_perms;
-    $photos_handler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
-    $photo_obj      = $photos_handler->get($lid);
+    $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+    $photo_obj      = $photosHandler->get($lid);
 
     if (!($global_perms & GPERM_DELETABLE)) {
         redirect_header('photo.php', 3, _NOPERM);
@@ -42,7 +42,7 @@ function deleteImage($lid)
         die('Invalid photo id.');
     }
 
-    $photos_handler->delete($photo_obj);
+    $photosHandler->delete($photo_obj);
 
     redirect_header('index.php', 2, _ALBM_DBUPDATED);
 }
@@ -56,10 +56,10 @@ switch ($op) {
 
         myalbum_updaterating($lid);
 
-        $photos_handler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
-        $cat_handler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+        $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+        $catHandler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
 
-        if (!is_object($photo_obj = $photos_handler->get($lid))) {
+        if (!is_object($photo_obj = $photosHandler->get($lid))) {
             redirect_header('index.php', 2, _ALBM_NOMATCH);
             exit;
         }
@@ -70,7 +70,7 @@ switch ($op) {
             exit(0);
         }
 
-        $cat = $cat_handler->get($photo_obj->getVar('cid'));
+        $cat = $catHandler->get($photo_obj->getVar('cid'));
 
         $GLOBALS['xoopsOption']['template_main'] = "{$moduleDirName }_photo.tpl";
         include $GLOBALS['xoops']->path('header.php');
@@ -127,7 +127,7 @@ switch ($op) {
                                                                                                                                                                                                                                     < count($cids) ? '>>' : '');
             }
         } else {
-            $cat = $cat_handler->get($photo_obj->getVar('cid'));
+            $cat = $catHandler->get($photo_obj->getVar('cid'));
             $catpath .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid=' . $cat->getVar('cid') . "' >" . $cat->getVar('title') . '</a>';
         }
         $catpath   = str_replace('>>', " <span class='fg2'>&raquo;&raquo;</span> ", $catpath);
@@ -152,7 +152,7 @@ switch ($op) {
         $criteria->setOrder($myalbum_orders[$orderby][0]);
         // create category navigation
         $ids = array();
-        foreach ($photos_handler->getObjects($criteria, true) as $id => $pht) {
+        foreach ($photosHandler->getObjects($criteria, true) as $id => $pht) {
             $ids[] = $id;
         }
 

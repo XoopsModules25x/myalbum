@@ -12,9 +12,9 @@ if (!($global_perms & GPERM_RATEVOTE)) {
 
 $lid = empty($_GET['lid']) ? 0 : (int)$_GET['lid'];
 
-$photos_handler   = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
-$votedata_handler = xoops_getModuleHandler('votedata', $GLOBALS['mydirname']);
-if (!$photo_obj = $photos_handler->get($lid)) {
+$photosHandler   = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+$votedataHandler = xoops_getModuleHandler('votedata', $GLOBALS['mydirname']);
+if (!$photo_obj = $photosHandler->get($lid)) {
     redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/index.php', 2, _ALBM_NOMATCH);
     exit;
 }
@@ -39,7 +39,7 @@ if (isset($_POST['submit'])) {
         $criteria = new CriteriaCompo(new Criteria('`lid`', $lid, '='));
         $criteria->add(new Criteria('`submitter`', $ratinguser));
 
-        if ($photos_handler->getCount($criteria)) {
+        if ($photosHandler->getCount($criteria)) {
             redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/index.php', 4, _ALBM_CANTVOTEOWN);
             exit;
         }
@@ -48,7 +48,7 @@ if (isset($_POST['submit'])) {
         $criteria->add(new Criteria('`ratinguser`', $ratinguser));
 
         // Check if REG user is trying to vote twice.
-        if ($votedata_handler->getCount($criteria)) {
+        if ($votedataHandler->getCount($criteria)) {
             redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/index.php', 4, _ALBM_VOTEONCE2);
             exit;
         }
@@ -59,21 +59,21 @@ if (isset($_POST['submit'])) {
         $criteria->add(new Criteria('`ratinguser`', 0));
         $criteria->add(new Criteria('`ratinghostname`', $ip));
         // Check if REG user is trying to vote twice.
-        if ($votedata_handler->getCount($criteria)) {
+        if ($votedataHandler->getCount($criteria)) {
             redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/index.php', 4, _ALBM_VOTEONCE2);
             exit;
         }
     }
 
     // All is well.  Add to Line Item Rate to DB.
-    $vote     = $votedata_handler->create();
+    $vote     = $votedataHandler->create();
     $datetime = time();
     $vote->setVar('lid', $lid);
     $vote->setVar('ratinguser', $ratinguser);
     $vote->setVar('rating', $rating);
     $vote->setVar('ratinghostname', $ip);
     $vote->setVar('ratingtimestamp', $datetime);
-    $votedata_handler->insert($vote, true) || die('DB error: INSERT votedata table');
+    $votedataHandler->insert($vote, true) || die('DB error: INSERT votedata table');
     //All is well.  Calculate Score & Add to Summary (for quick retrieval & sorting) to DB.
     myalbum_updaterating($lid);
     $ratemessage = _ALBM_VOTEAPPRE . '<br>' . sprintf(_ALBM_THANKURATE, $xoopsConfig['sitename']);

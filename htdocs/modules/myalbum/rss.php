@@ -12,14 +12,14 @@ if ($num < 1) {
 $pos  = empty($_GET['pos']) ? 0 : (int)$_GET['pos'];
 $view = empty($_GET['view']) ? $myalbum_viewcattype : $_GET['view'];
 
-$photos_handler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
-$text_handler   = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
-$cat_handler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+$photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+$textHandler   = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
+$catHandler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
 if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
     if ($cid == 0) {
         $url = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/rss,' . $cid . ',' . $uid . ',' . $num . ',' . $pos . ',' . $view . $GLOBALS['myalbumModuleConfig']['endofrss'];
     } else {
-        $cat = $cat_handler->get($cid);
+        $cat = $catHandler->get($cid);
         $url = $cat->getRSSURL($uid, $num, $pos, $view);
     }
 
@@ -79,7 +79,7 @@ if (!$GLOBALS['xoopsTpl']->is_cached('db:' . $GLOBALS['mydirname'] . '_rss.tpl')
     }
 
     if ($cid > 0) {
-        $cat = $cat_handler->get($cid);
+        $cat = $catHandler->get($cid);
         foreach ($GLOBALS['cattree']->getAllChild($cid) as $index => $child) {
             $cids[$child->getVar('cid')] = $child->getVar('cid');
         }
@@ -107,9 +107,9 @@ if (!$GLOBALS['xoopsTpl']->is_cached('db:' . $GLOBALS['mydirname'] . '_rss.tpl')
     $criteria->setLimit($num);
 
     // Display photos
-    foreach ($photos_handler->getObjects($criteria, true) as $lid => $photo) {
-        $text = $text_handler->get($lid);
-        $cat  = $cat_handler->get($photo->getVar('cid'));
+    foreach ($photosHandler->getObjects($criteria, true) as $lid => $photo) {
+        $text = $textHandler->get($lid);
+        $cat  = $catHandler->get($photo->getVar('cid'));
         $GLOBALS['xoopsTpl']->append('items', array(
             'title'       => XoopsLocal::convert_encoding(htmlspecialchars($photo->getVar('title'), ENT_QUOTES)),
             'category'    => XoopsLocal::convert_encoding(htmlspecialchars($cat->getVar('title'), ENT_QUOTES)),

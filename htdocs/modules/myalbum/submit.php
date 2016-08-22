@@ -6,9 +6,9 @@
 $lid = '';
 include __DIR__ . '/header.php';
 
-$cat_handler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
-$photos_handler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
-$text_handler   = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
+$catHandler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+$photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+$textHandler   = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
 
 // GET variables
 $caller = empty($_GET['caller']) ? '' : $_GET['caller'];
@@ -21,7 +21,7 @@ if (!($global_perms & GPERM_INSERTABLE)) {
 }
 
 // check Categories exist
-$count = $cat_handler->getCount();
+$count = $catHandler->getCount();
 if ($count < 1) {
     redirect_header(XOOPS_URL . "/modules/$moduleDirName/", 2, _ALBM_MUSTADDCATFIRST);
     exit;
@@ -37,7 +37,7 @@ if (!ini_get('file_uploads')) {
 
 // check or make photos_dir
 if (!is_dir($photos_dir)) {
-//    if ($safe_mode_flag) {
+    //    if ($safe_mode_flag) {
 //        redirect_header(XOOPS_URL . "/modules/$moduleDirName/", 10, "At first create & chmod 777 '$photos_dir' by ftp or shell.");
 //    }
 
@@ -51,7 +51,7 @@ if (!is_dir($photos_dir)) {
 
 // check or make thumbs_dir
 if ($myalbum_makethumb && !is_dir($thumbs_dir)) {
-//    if ($safe_mode_flag) {
+    //    if ($safe_mode_flag) {
 //        redirect_header(XOOPS_URL . "/modules/$moduleDirName/", 10, "At first create & chmod 777 '$thumbs_dir' by ftp or shell.");
 //    }
 
@@ -87,7 +87,7 @@ if (!empty($_POST['submit'])) {
     }
 
     $submitter = $my_uid;
-    $photo_obj = $photos_handler->create();
+    $photo_obj = $photosHandler->create();
     $cid       = empty($_POST['cid']) ? 0 : (int)$_POST['cid'];
 
     // Check if cid is valid
@@ -180,19 +180,19 @@ if (!empty($_POST['submit'])) {
     $photo_obj->setVar('votes', 0);
     $photo_obj->setVar('comments', 0);
     $photo_obj->setVar('tags', (isset($_POST['tags']) ? $_POST['tags'] : ''));
-    $newid     = $photos_handler->insert($photo_obj, true);
-    $photo_obj = $photos_handler->get($newid);
+    $newid     = $photosHandler->insert($photo_obj, true);
+    $photo_obj = $photosHandler->get($newid);
 
     if ($GLOBALS['myalbumModuleConfig']['tag']) {
-        $tag_handler = xoops_getModuleHandler('tag', 'tag');
-        $tag_handler->updateByItem($_POST['tags'], $newid, $GLOBALS['myalbumModule']->getVar('dirname'), $cid);
+        $tagHandler = xoops_getModuleHandler('tag', 'tag');
+        $tagHandler->updateByItem($_POST['tags'], $newid, $GLOBALS['myalbumModule']->getVar('dirname'), $cid);
     }
 
     myalbum_modify_photo($GLOBALS['photos_dir'] . "/$tmp_name", $GLOBALS['photos_dir'] . "/$newid.$ext");
     $dim = getimagesize($GLOBALS['photos_dir'] . "/$newid.$ext");
     $photo_obj->setVar('res_x', $dim[0]);
     $photo_obj->setVar('res_y', $dim[1]);
-    @$photos_handler->insert($photo_obj, true);
+    @$photosHandler->insert($photo_obj, true);
 
     if (!myalbum_create_thumb($GLOBALS['photos_dir'] . "/$newid.$ext", $newid, $ext)) {
         $xoopsDB->query("DELETE FROM $table_photos WHERE lid=$newid");
@@ -200,25 +200,25 @@ if (!empty($_POST['submit'])) {
         exit;
     }
 
-    $text = $text_handler->create();
+    $text = $textHandler->create();
     $text->setVar('lid', $photo_obj->getVar('lid'));
     $text->setVar('description', $desc_text);
-    @$text_handler->insert($text, true);
+    @$textHandler->insert($text, true);
 
     // Update User's Posts (Should be modified when need admission.)
     $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('users') . " SET posts=posts+'$myalbum_addposts' WHERE uid='$submitter'");
 
     // Trigger Notification
     if ($status) {
-        $notification_handler = xoops_getHandler('notification');
+        $notificationHandler = xoops_getHandler('notification');
 
         // Global Notification
-        $notification_handler->triggerEvent('global', 0, 'new_photo', array('PHOTO_TITLE' => $title, 'PHOTO_URI' => $photo_obj->getURL()));
+        $notificationHandler->triggerEvent('global', 0, 'new_photo', array('PHOTO_TITLE' => $title, 'PHOTO_URI' => $photo_obj->getURL()));
 
         // Category Notification
-        $cat = $cat_handler->get($cid);
+        $cat = $catHandler->get($cid);
         if (is_object($cat)) {
-            $notification_handler->triggerEvent('category', $cid, 'new_photo', array(
+            $notificationHandler->triggerEvent('category', $cid, 'new_photo', array(
                 'PHOTO_TITLE'    => $title,
                 'CATEGORY_TITLE' => $cat->getVar('title'),
                 'PHOTO_URI'      => $photo_obj->getURL()

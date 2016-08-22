@@ -10,8 +10,8 @@ include_once XOOPS_ROOT_PATH . '/modules/system/constants.php';
 if (!empty($_POST['imagemanager_export']) && !empty($_POST['imgcat_id']) && !empty($_POST['cid'])) {
 
     // authority check
-    $sysperm_handler = xoops_getHandler('groupperm');
-    if (!$sysperm_handler->checkRight('system_admin', XOOPS_SYSTEM_IMAGE, $xoopsUser->getGroups())) {
+    $syspermHandler = xoops_getHandler('groupperm');
+    if (!$syspermHandler->checkRight('system_admin', XOOPS_SYSTEM_IMAGE, $xoopsUser->getGroups())) {
         exit;
     }
 
@@ -80,8 +80,8 @@ if (!empty($_POST['imagemanager_export']) && !empty($_POST['imgcat_id']) && !emp
 // Form Part
 //
 
-$sysperm_handler = xoops_getHandler('groupperm');
-if ($sysperm_handler->checkRight('system_admin', XOOPS_SYSTEM_IMAGE, $xoopsUser->getGroups())) {
+$syspermHandler = xoops_getHandler('groupperm');
+if ($syspermHandler->checkRight('system_admin', XOOPS_SYSTEM_IMAGE, $xoopsUser->getGroups())) {
     xoops_cp_header();
     $indexAdmin = new ModuleAdmin();
     echo $indexAdmin->addNavigation(basename(__FILE__));

@@ -9,12 +9,12 @@ $indexAdmin = new ModuleAdmin();
 
 echo $indexAdmin->addNavigation(basename(__FILE__));
 
-$cat_handler      = xoops_getModuleHandler('cat');
-$comments_handler = xoops_getModuleHandler('comments');
-$photos_handler   = xoops_getModuleHandler('photos');
-$text_handler     = xoops_getModuleHandler('text');
-$votedata_handler = xoops_getModuleHandler('votedata');
-$group_handler    = xoops_getHandler('group');
+$catHandler      = xoops_getModuleHandler('cat');
+$commentsHandler = xoops_getModuleHandler('comments');
+$photosHandler   = xoops_getModuleHandler('photos');
+$textHandler     = xoops_getModuleHandler('text');
+$votedataHandler = xoops_getModuleHandler('votedata');
+$groupHandler    = xoops_getHandler('group');
 
 $netpbm_pipes = array(
     'jpegtopnm',
@@ -84,14 +84,14 @@ if ($error_upload_tmp_dir === false) {
 // Tables
 $title = _AM_H4_TABLE;
 $indexAdmin->addInfoBox($title);
-$indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_PHOTOSTABLE . ': ' . $GLOBALS['table_photos'] . ': %s photos</label>', $photos_handler->getCount(new Criteria('`status`', '0', '>')), 'Purple');
-$indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_PHOTOSTABLE . ': ' . $GLOBALS['table_photos'] . ': %s dead photos</label>', $photos_handler->getCountDeadPhotos(), 'Red');
-$indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_PHOTOSTABLE . ': ' . $GLOBALS['table_photos'] . ': %s dead thumbs</label>', $photos_handler->getCountDeadThumbs(), 'Red');
-$indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_DESCRIPTIONTABLE . ': ' . $GLOBALS['table_text'] . ': %s descriptions</label>', $text_handler->getCount(), 'Purple');
-$indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_DESCRIPTIONTABLE . ': ' . $GLOBALS['table_text'] . ': %s bytes</label>', $text_handler->getBytes(), 'Orange');
-$indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_CATEGORIESTABLE . ': ' . $GLOBALS['table_cat'] . ': %s categories</label>', $cat_handler->getCount(), 'Purple');
-$indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_VOTEDATATABLE . ': ' . $GLOBALS['table_votedata'] . ': %s votes</label>', $votedata_handler->getCount(), 'Purple');
-$indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_COMMENTSTABLE . ': ' . $GLOBALS['table_comments'] . ': %s comments</label>', $comments_handler->getCount(new Criteria('`com_modid`', $GLOBALS['myalbumModule']->getVar('mid'), '=')), 'Purple');
+$indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_PHOTOSTABLE . ': ' . $GLOBALS['table_photos'] . ': %s photos</label>', $photosHandler->getCount(new Criteria('`status`', '0', '>')), 'Purple');
+$indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_PHOTOSTABLE . ': ' . $GLOBALS['table_photos'] . ': %s dead photos</label>', $photosHandler->getCountDeadPhotos(), 'Red');
+$indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_PHOTOSTABLE . ': ' . $GLOBALS['table_photos'] . ': %s dead thumbs</label>', $photosHandler->getCountDeadThumbs(), 'Red');
+$indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_DESCRIPTIONTABLE . ': ' . $GLOBALS['table_text'] . ': %s descriptions</label>', $textHandler->getCount(), 'Purple');
+$indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_DESCRIPTIONTABLE . ': ' . $GLOBALS['table_text'] . ': %s bytes</label>', $textHandler->getBytes(), 'Orange');
+$indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_CATEGORIESTABLE . ': ' . $GLOBALS['table_cat'] . ': %s categories</label>', $catHandler->getCount(), 'Purple');
+$indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_VOTEDATATABLE . ': ' . $GLOBALS['table_votedata'] . ': %s votes</label>', $votedataHandler->getCount(), 'Purple');
+$indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_COMMENTSTABLE . ': ' . $GLOBALS['table_comments'] . ': %s comments</label>', $commentsHandler->getCount(new Criteria('`com_modid`', $GLOBALS['myalbumModule']->getVar('mid'), '=')), 'Purple');
 
 // Config
 $title = _AM_H4_CONFIG;

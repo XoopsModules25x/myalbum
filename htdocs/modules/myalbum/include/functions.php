@@ -94,13 +94,13 @@ function mysqli_get_sql_set($cols)
 
         // Language
         switch ($lang) {
-            case 'N' : // Number (remove ,)
+            case 'N': // Number (remove ,)
                 $data = str_replace(',', '', $data);
                 break;
-            case 'J' : // Japanese
+            case 'J': // Japanese
                 $data = mb_convert_kana($data, 'KV');
                 break;
-            case 'E' : // English
+            case 'E': // English
                 // $data = mb_convert_kana( $data , "as" ) ;
                 $data = $data;
                 break;
@@ -108,19 +108,19 @@ function mysqli_get_sql_set($cols)
 
         // DataType
         switch ($field) {
-            case 'A' : // textarea
+            case 'A': // textarea
                 $data = addslashes($data);
                 $ret .= "$col='$data',";
                 break;
-            case 'I' : // integer
+            case 'I': // integer
                 $data = (int)$data;
                 $ret .= "$col='$data',";
                 break;
-            case 'F' : // float
+            case 'F': // float
                 $data = (float)$data;
                 $ret .= "$col='$data',";
                 break;
-            default : // varchar (default)
+            default: // varchar (default)
                 if ($field < 1) {
                     $field = 255;
                 }
@@ -149,17 +149,17 @@ function myalbum_get_thumbnail_wh($width, $height)
     global $myalbum_thumbsize, $myalbum_thumbrule;
 
     switch ($myalbum_thumbrule) {
-        case 'w' :
+        case 'w':
             $new_w = $myalbum_thumbsize;
             $scale = $width / $new_w;
             $new_h = (int)round($height / $scale);
             break;
-        case 'h' :
+        case 'h':
             $new_h = $myalbum_thumbsize;
             $scale = $height / $new_h;
             $new_w = (int)round($width / $scale);
             break;
-        case 'b' :
+        case 'b':
             if ($width > $height) {
                 $new_w = $myalbum_thumbsize;
                 $scale = $width / $new_w;
@@ -170,7 +170,7 @@ function myalbum_get_thumbnail_wh($width, $height)
                 $new_w = (int)round($width / $scale);
             }
             break;
-        default :
+        default:
             $new_w = $myalbum_thumbsize;
             $new_h = $myalbum_thumbsize;
             break;
@@ -259,20 +259,20 @@ function myalbum_create_thumbs_by_gd($src_path, $node, $ext)
     @unlink("$thumbs_dir/$node.$ext");
     list($width, $height, $type) = getimagesize($src_path);
     switch ($type) {
-        case 1 :
+        case 1:
             // GIF (skip)
             @copy($src_path, "$thumbs_dir/$node.$ext");
 
             return 2;
-        case 2 :
+        case 2:
             // JPEG
             $src_img = imagecreatefromjpeg($src_path);
             break;
-        case 3 :
+        case 3:
             // PNG
             $src_img = imagecreatefrompng($src_path);
             break;
-        default :
+        default:
             @copy($src_path, "$thumbs_dir/$node.$ext");
 
             return 2;
@@ -301,12 +301,12 @@ function myalbum_create_thumbs_by_gd($src_path, $node, $ext)
     }
     echo __LINE__ . '<br>';
     switch ($type) {
-        case 2 :
+        case 2:
             // JPEG
             imagejpeg($dst_img, "$thumbs_dir/$node.$ext");
             imagedestroy($dst_img);
             break;
-        case 3 :
+        case 3:
             // PNG
             imagepng($dst_img, "$thumbs_dir/$node.$ext");
             imagedestroy($dst_img);
@@ -385,22 +385,22 @@ function myalbum_create_thumbs_by_netpbm($src_path, $node, $ext)
     @unlink("$thumbs_dir/$node.$ext");
     list($width, $height, $type) = getimagesize($src_path);
     switch ($type) {
-        case 1 :
+        case 1:
             // GIF
             $pipe0 = "{$myalbum_netpbmpath}giftopnm";
             $pipe2 = "{$myalbum_netpbmpath}ppmquant 256 | {$myalbum_netpbmpath}ppmtogif";
             break;
-        case 2 :
+        case 2:
             // JPEG
             $pipe0 = "{$myalbum_netpbmpath}jpegtopnm";
             $pipe2 = "{$myalbum_netpbmpath}pnmtojpeg";
             break;
-        case 3 :
+        case 3:
             // PNG
             $pipe0 = "{$myalbum_netpbmpath}pngtopnm";
             $pipe2 = "{$myalbum_netpbmpath}pnmtopng";
             break;
-        default :
+        default:
             @copy($src_path, "$thumbs_dir/$node.$ext");
 
             return 2;
@@ -475,20 +475,20 @@ function myalbum_modify_photo_by_gd($src_path, $dst_path)
     list($width, $height, $type) = getimagesize($src_path);
 
     switch ($type) {
-        case 1 :
+        case 1:
             // GIF
             @rename($src_path, $dst_path);
 
             return 2;
-        case 2 :
+        case 2:
             // JPEG
             $src_img = imagecreatefromjpeg($src_path);
             break;
-        case 3 :
+        case 3:
             // PNG
             $src_img = imagecreatefrompng($src_path);
             break;
-        default :
+        default:
             @rename($src_path, $dst_path);
 
             return 2;
@@ -510,7 +510,7 @@ function myalbum_modify_photo_by_gd($src_path, $dst_path)
 
     if (isset($_POST['rotate']) && function_exists('imagerotate')) {
         switch ($_POST['rotate']) {
-            case 'rot270' :
+            case 'rot270':
                 if (!isset($dst_img) || !is_resource($dst_img)) {
                     $dst_img = $src_img;
                 }
@@ -518,32 +518,32 @@ function myalbum_modify_photo_by_gd($src_path, $dst_path)
                 $dst_img = imagerotate($dst_img, 270, 0);
                 $dst_img = imagerotate($dst_img, 180, 0);
                 break;
-            case 'rot180' :
+            case 'rot180':
                 if (!isset($dst_img) || !is_resource($dst_img)) {
                     $dst_img = $src_img;
                 }
                 $dst_img = imagerotate($dst_img, 180, 0);
                 break;
-            case 'rot90' :
+            case 'rot90':
                 if (!isset($dst_img) || !is_resource($dst_img)) {
                     $dst_img = $src_img;
                 }
                 $dst_img = imagerotate($dst_img, 270, 0);
                 break;
-            default :
-            case 'rot0' :
+            default:
+            case 'rot0':
                 break;
         }
     }
 
     if (isset($dst_img) && is_resource($dst_img)) {
         switch ($type) {
-            case 2 :
+            case 2:
                 // JPEG
                 imagejpeg($dst_img, $dst_path);
                 imagedestroy($dst_img);
                 break;
-            case 3 :
+            case 3:
                 // PNG
                 imagepng($dst_img, $dst_path);
                 imagedestroy($dst_img);
@@ -592,17 +592,17 @@ function myalbum_modify_photo_by_imagick($src_path, $dst_path)
     }
     if (isset($_POST['rotate'])) {
         switch ($_POST['rotate']) {
-            case 'rot270' :
+            case 'rot270':
                 $option .= ' -rotate 270';
                 break;
-            case 'rot180' :
+            case 'rot180':
                 $option .= ' -rotate 180';
                 break;
-            case 'rot90' :
+            case 'rot90':
                 $option .= ' -rotate 90';
                 break;
-            default :
-            case 'rot0' :
+            default:
+            case 'rot0':
                 break;
         }
     }
@@ -648,22 +648,22 @@ function myalbum_modify_photo_by_netpbm($src_path, $dst_path)
 
     $pipe1 = '';
     switch ($type) {
-        case 1 :
+        case 1:
             // GIF
             $pipe0 = "{$myalbum_netpbmpath}giftopnm";
             $pipe2 = "{$myalbum_netpbmpath}ppmquant 256 | {$myalbum_netpbmpath}ppmtogif";
             break;
-        case 2 :
+        case 2:
             // JPEG
             $pipe0 = "{$myalbum_netpbmpath}jpegtopnm";
             $pipe2 = "{$myalbum_netpbmpath}pnmtojpeg";
             break;
-        case 3 :
+        case 3:
             // PNG
             $pipe0 = "{$myalbum_netpbmpath}pngtopnm";
             $pipe2 = "{$myalbum_netpbmpath}pnmtopng";
             break;
-        default :
+        default:
             @rename($src_path, $dst_path);
 
             return 2;
@@ -684,17 +684,17 @@ function myalbum_modify_photo_by_netpbm($src_path, $dst_path)
 
     if (isset($_POST['rotate'])) {
         switch ($_POST['rotate']) {
-            case 'rot270' :
+            case 'rot270':
                 $pipe1 .= "{$myalbum_netpbmpath}pnmflip -r90 |";
                 break;
-            case 'rot180' :
+            case 'rot180':
                 $pipe1 .= "{$myalbum_netpbmpath}pnmflip -r180 |";
                 break;
-            case 'rot90' :
+            case 'rot90':
                 $pipe1 .= "{$myalbum_netpbmpath}pnmflip -r270 |";
                 break;
-            default :
-            case 'rot0' :
+            default:
+            case 'rot0':
                 break;
         }
     }
@@ -751,10 +751,10 @@ function myalbum_clear_tmp_files($dir_path, $prefix = 'tmp_')
  */
 function myalbum_updaterating($lid)
 {
-    $votedata_handler = xoops_getModuleHandler('votedata', $GLOBALS['mydirname']);
+    $votedataHandler = xoops_getModuleHandler('votedata', $GLOBALS['mydirname']);
     $criteria         = new CriteriaCompo(new Criteria('`lid`', $lid));
-    $votes            = $votedata_handler->getObjects($criteria, true);
-    $votesDB          = $votedata_handler->getCount($criteria);
+    $votes            = $votedataHandler->getObjects($criteria, true);
+    $votesDB          = $votedataHandler->getCount($criteria);
     $totalrating      = 0;
     foreach ($votes as $vid => $vote) {
         $totalrating += $vote->getVar('rating');
@@ -764,10 +764,10 @@ function myalbum_updaterating($lid)
     } else {
         $finalrating = 0;
     }
-    $photos_handler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
-    $photo          = $photos_handler->get($lid);
+    $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+    $photo          = $photosHandler->get($lid);
     $photo->setVar('rating', $finalrating);
-    $photos_handler->insert($photo, true) || die('Error: DB update rating.');
+    $photosHandler->insert($photo, true) || die('Error: DB update rating.');
 }
 
 // Returns the number of photos included in a Category
@@ -782,9 +782,9 @@ function myalbum_get_photo_small_sum_from_cat($cid, Criteria $criteria = null)
         $criteria = new CriteriaCompo($criteria);
     }
     $criteria->add(new Criteria('`cid`', $cid));
-    $photo_handler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+    $photoHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
 
-    return $photo_handler->getCount($criteria);
+    return $photoHandler->getCount($criteria);
 }
 
 // Returns the number of whole photos included in a Category
@@ -800,9 +800,9 @@ function myalbum_get_photo_total_sum_from_cats($cids, $criteria = null)
         $criteria = new CriteriaCompo($criteria);
     }
     $criteria->add(new Criteria('`cid`', '(' . implode(',', $cids) . ',0)', 'IN'));
-    $photo_handler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+    $photoHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
 
-    return $photo_handler->getCount($criteria);
+    return $photoHandler->getCount($criteria);
 }
 
 // Update a photo
@@ -818,26 +818,26 @@ function myalbum_get_photo_total_sum_from_cats($cids, $criteria = null)
  */
 function myalbum_update_photo($lid, $cid, $title, $desc, $valid = null, $ext = '', $x = '', $y = '')
 {
-    $cat_handler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
-    $photos_handler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
-    $text_handler   = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
-    $photo          = $photos_handler->get($lid);
-    $text           = $text_handler->get($lid);
-    $cat            = $cat_handler->get($cid);
+    $catHandler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+    $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+    $textHandler   = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
+    $photo          = $photosHandler->get($lid);
+    $text           = $textHandler->get($lid);
+    $cat            = $catHandler->get($cid);
 
     if (isset($valid)) {
         $photo->setVar('status', $valid);
         // Trigger Notification
         if ($valid == 1) {
-            $notification_handler = xoops_getHandler('notification');
+            $notificationHandler = xoops_getHandler('notification');
 
             // Global Notification
-            $notification_handler->triggerEvent('global', 0, 'new_photo', array('PHOTO_TITLE' => $title, 'PHOTO_URI' => $photo->getURL()));
+            $notificationHandler->triggerEvent('global', 0, 'new_photo', array('PHOTO_TITLE' => $title, 'PHOTO_URI' => $photo->getURL()));
 
             // Category Notification
 
             $cat_title = $cat->getVar('title');
-            $notification_handler->triggerEvent('category', $cid, 'new_photo', array(
+            $notificationHandler->triggerEvent('category', $cid, 'new_photo', array(
                 'PHOTO_TITLE'    => $title,
                 'CATEGORY_TITLE' => $cat_title,
                 'PHOTO_URI'      => $photo->getURL()
@@ -860,9 +860,9 @@ function myalbum_update_photo($lid, $cid, $title, $desc, $valid = null, $ext = '
 
     $cid = empty($_POST['cid']) ? 0 : (int)$_POST['cid'];
 
-    if ($photos_handler->insert($photo, true)) {
+    if ($photosHandler->insert($photo, true)) {
         $text->setVar('description', $desc);
-        @$text_handler->insert($text, true);
+        @$textHandler->insert($text, true);
     }
 
     // not admin can only touch photos status>0
@@ -875,10 +875,10 @@ function myalbum_update_photo($lid, $cid, $title, $desc, $valid = null, $ext = '
  */
 function myalbum_delete_photos($criteria = null)
 {
-    $photos_handler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
-    $photos         = $photos_handler->getObjects($criteria);
+    $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+    $photos         = $photosHandler->getObjects($criteria);
     foreach ($photos as $lid => $photo) {
-        $photos_handler->delete($photo);
+        $photosHandler->delete($photo);
     }
 }
 

@@ -151,9 +151,9 @@ function myalbum_admin_form_import_myalbum()
  */
 function myalbum_admin_form_import_imagemanager()
 {
-    $sysperm_handler = xoops_getHandler('groupperm');
-    $frm             = '';
-    if ($sysperm_handler->checkRight('system_admin', XOOPS_SYSTEM_IMAGE, $GLOBALS['xoopsUser']->getGroups())) {
+    $syspermHandler = xoops_getHandler('groupperm');
+    $frm            = '';
+    if ($syspermHandler->checkRight('system_admin', XOOPS_SYSTEM_IMAGE, $GLOBALS['xoopsUser']->getGroups())) {
         // only when user has admin right of system 'imagemanager'
         $irs            = $GLOBALS['xoopsDB']->query('SELECT c.imgcat_id,c.imgcat_name,COUNT(i.image_id) AS imgcat_sum FROM ' . $GLOBALS['xoopsDB']->prefix('imagecategory') . ' c NATURAL LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('image')
                                                      . ' i GROUP BY c.imgcat_id ORDER BY c.imgcat_weight');
@@ -200,7 +200,6 @@ function myalbum_admin_form_display_edit($cat_array, $form_title, $action)
 
     // Weight
     $form->addElement(new XoopsFormText(_AM_CAT_TH_WEIGHT, 'weight', 30, 50, $weight));
-
 
     // Image URL
     $form->addElement(new XoopsFormText(_AM_CAT_TH_IMGURL, 'imgurl', 50, 150, $GLOBALS['myts']->htmlSpecialChars($imgurl)));

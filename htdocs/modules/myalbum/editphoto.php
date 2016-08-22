@@ -8,9 +8,9 @@ include __DIR__ . '/header.php';
 
 $lid = empty($_GET['lid']) ? 0 : (int)$_GET['lid'];
 
-$photos_handler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
-$text_handler   = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
-if (!$photo_obj = $photos_handler->get($lid)) {
+$photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+$textHandler   = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
+if (!$photo_obj = $photosHandler->get($lid)) {
     redirect_header('index.php', 2, _ALBM_NOMATCH);
     exit;
 }
@@ -43,7 +43,7 @@ if (!empty($_POST['do_delete'])) {
         die('Invalid photo id.');
     }
 
-    $photos_handler->delete($photo_obj);
+    $photosHandler->delete($photo_obj);
 
     redirect_header($mod_url, 3, _ALBM_DELETINGPHOTO);
     exit;
@@ -183,8 +183,8 @@ if (!empty($_POST['submit'])) {
         $cid       = (int)$_POST['cid'];
         $ext       = $_POST['ext'];
         if ($GLOBALS['myalbumModuleConfig']['tag']) {
-            $tag_handler = xoops_getModuleHandler('tag', 'tag');
-            $tag_handler->updateByItem($_POST['tags'], $lid, $GLOBALS['myalbumModule']->getVar('dirname'), $cid);
+            $tagHandler = xoops_getModuleHandler('tag', 'tag');
+            $tagHandler->updateByItem($_POST['tags'], $lid, $GLOBALS['myalbumModule']->getVar('dirname'), $cid);
         }
         myalbum_update_photo($lid, $cid, $title, $desc_text, $valid);
         exit;
@@ -223,7 +223,7 @@ $cat_tray = new XoopsFormElementTray(_ALBM_PHOTOCAT, '&nbsp;');
 $cat_tray->addElement($cat_select);
 $cat_tray->addElement($cat_link);
 
-$text                   = $text_handler->get($lid);
+$text                   = $textHandler->get($lid);
 $html_configs           = array();
 $html_configs['name']   = 'desc_text';
 $html_configs['value']  = $text->getVar('description');
