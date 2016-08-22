@@ -1,9 +1,7 @@
 <?php
-if (!defined('XOOPS_ROOT_PATH')) {
-    exit();
-}
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
-include (dirname(dirname(__FILE__))) . '/include/read_configs.php';
+include dirname(__DIR__) . '/include/read_configs.php';
 
 /**
  * Class for Blue Room Xcenter
@@ -14,17 +12,23 @@ include (dirname(dirname(__FILE__))) . '/include/read_configs.php';
  */
 class MyalbumText extends XoopsObject
 {
-
-    function __construct($id = null)
+    /**
+     * MyalbumText constructor.
+     * @param null $id
+     */
+    public function __construct($id = null)
     {
         $this->initVar('lid', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('description', XOBJ_DTYPE_OTHER, null, false, (16 * 1024 * 1024 * 1024));
+        $this->initVar('description', XOBJ_DTYPE_OTHER, null, false, 16 * 1024 * 1024 * 1024);
     }
 
-    function toArray()
+    /**
+     * @return array
+     */
+    public function toArray()
     {
         $ret                = parent::toArray();
-        $ret['description'] = $GLOBALS['myts']->displayTarea($ret['description'], 1, 1, 1, 1, 1, 1);;
+        $ret['description'] = $GLOBALS['myts']->displayTarea($ret['description'], 1, 1, 1, 1, 1, 1);
 
         return $ret;
     }
@@ -40,40 +44,68 @@ class MyalbumText extends XoopsObject
  */
 class MyalbumTextHandler extends XoopsPersistableObjectHandler
 {
-    function __construct(&$db)
+    /**
+     * MyalbumTextHandler constructor.
+     * @param null|object $db
+     */
+    public function __construct(XoopsDatabase $db)
     {
         $this->db = $db;
-        parent::__construct($db, $GLOBALS['table_text'], 'MyalbumText', "lid", "description");
+        parent::__construct($db, $GLOBALS['table_text'], 'MyalbumText', 'lid', 'description');
     }
 
-    function getBytes()
+    /**
+     * @return mixed
+     */
+    public function getBytes()
     {
-        $sql = "SELECT SUM(LENGTH(`description`)) as `bytes` FROM " . $GLOBALS['xoopsDB']->prefix($GLOBALS['table_text']);
+        $sql = 'SELECT SUM(LENGTH(`description`)) as `bytes` FROM ' . $GLOBALS['xoopsDB']->prefix($GLOBALS['table_text']);
         list($bytes) = $GLOBALS['xoopsDB']->fetchRow($GLOBALS['xoopsDB']->queryF($sql));
 
         return $bytes;
     }
 }
 
+/**
+ * Class Myalbum0TextHandler
+ */
 class Myalbum0TextHandler extends MyalbumTextHandler
 {
-    function __construct(&$db)
+    /**
+     * Myalbum0TextHandler constructor.
+     * @param null|object $db
+     */
+    public function __construct(XoopsDatabase $db)
     {
         parent::__construct($db);
     }
 }
 
+/**
+ * Class Myalbum1TextHandler
+ */
 class Myalbum1TextHandler extends MyalbumTextHandler
 {
-    function __construct(&$db)
+    /**
+     * Myalbum1TextHandler constructor.
+     * @param null|object $db
+     */
+    public function __construct(XoopsDatabase $db)
     {
         parent::__construct($db);
     }
 }
 
+/**
+ * Class Myalbum2TextHandler
+ */
 class Myalbum2TextHandler extends MyalbumTextHandler
 {
-    function __construct(&$db)
+    /**
+     * Myalbum2TextHandler constructor.
+     * @param null|object $db
+     */
+    public function __construct(XoopsDatabase $db)
     {
         parent::__construct($db);
     }

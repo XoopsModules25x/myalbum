@@ -1,12 +1,12 @@
 <?php
 // ------------------------------------------------------------------------- //
 //                XOOPS - PHP Content Management System                      //
-//                       <http://www.xoops.org/>                             //
+//                       <http://xoops.org/>                             //
 // ------------------------------------------------------------------------- //
-// Based on:								     //
-// myPHPNUKE Web Portal System - http://myphpnuke.com/	  		     //
-// PHP-NUKE Web Portal System - http://phpnuke.org/	  		     //
-// Thatware - http://thatware.org/					     //
+// Based on:                                     //
+// myPHPNUKE Web Portal System - http://myphpnuke.com/               //
+// PHP-NUKE Web Portal System - http://phpnuke.org/              //
+// Thatware - http://thatware.org/                       //
 // ------------------------------------------------------------------------- //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -22,20 +22,21 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 // ------------------------------------------------------------------------- //
-include(dirname(dirname(dirname(__FILE__))) . "/mainfile.php");
+include dirname(dirname(__DIR__)) . '/mainfile.php';
+$moduleDirName = basename(__DIR__);
 
-$GLOBALS['mydirname'] = basename(dirname(__FILE__));
-include(XOOPS_ROOT_PATH . "/modules/$mydirname/include/read_configs.php");
-include(XOOPS_ROOT_PATH . "/modules/$mydirname/include/get_perms.php");
-include_once(XOOPS_ROOT_PATH . "/modules/$mydirname/include/functions.php");
-include_once(XOOPS_ROOT_PATH . "/modules/$mydirname/include/draw_functions.php");
-include_once(XOOPS_ROOT_PATH . "/modules/$mydirname/class/myuploader.php");
+$GLOBALS['mydirname'] = basename(__DIR__);
+include XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/read_configs.php";
+include XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/get_perms.php";
+include_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/functions.php";
+include_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/draw_functions.php";
+include_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/class/myuploader.php";
 
 $GLOBALS['myts'] = MyTextSanitizer::getInstance();
 
-$module_handler                 = xoops_gethandler('module');
-$config_handler                 = xoops_gethandler('config');
-$GLOBALS['myalbumModule']       = $module_handler->getByDirname($GLOBALS['mydirname']);
+$moduleHandler                  = xoops_getHandler('module');
+$config_handler                 = xoops_getHandler('config');
+$GLOBALS['myalbumModule']       = $moduleHandler->getByDirname($GLOBALS['mydirname']);
 $GLOBALS['myalbumModuleConfig'] = $config_handler->getConfigList($GLOBALS['myalbumModule']->getVar('mid'));
 $GLOBALS['myalbum_mid']         = $GLOBALS['myalbumModule']->getVar('mid');
 $GLOBALS['photos_dir']          = XOOPS_ROOT_PATH . $GLOBALS['myalbumModuleConfig']['myalbum_photospath'];
@@ -50,11 +51,11 @@ xoops_load('xoopsformloader');
 include_once $GLOBALS['xoops']->path('class' . DS . 'xoopsmailer.php');
 include_once $GLOBALS['xoops']->path('class' . DS . 'tree.php');
 
-$cat_handler        = xoops_getmodulehandler('cat');
+$cat_handler        = xoops_getModuleHandler('cat');
 $cats               = $cat_handler->getObjects(null, true);
 $GLOBALS['cattree'] = new XoopsObjectTree($cats, 'cid', 'pid', 0);
 
-xoops_loadLanguage('main', $mydirname);
+xoops_loadLanguage('main', $moduleDirName);
 
 if ($GLOBALS['myalbumModuleConfig']['tag']) {
     include_once $GLOBALS['xoops']->path('modules' . DS . 'tag' . DS . 'include' . DS . 'formtag.php');
@@ -63,8 +64,8 @@ if ($GLOBALS['myalbumModuleConfig']['tag']) {
 extract($GLOBALS['myalbumModuleConfig']);
 
 if (!isset($GLOBALS['xoopsTpl']) || !is_object($GLOBALS['xoopsTpl'])) {
-    include_once(XOOPS_ROOT_PATH . "/class/template.php");
+    include_once XOOPS_ROOT_PATH . '/class/template.php';
     $GLOBALS['xoopsTpl'] = new XoopsTpl();
 }
 
-include(XOOPS_ROOT_PATH . "/modules/$mydirname/include/assign_globals.php");
+include XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/assign_globals.php";

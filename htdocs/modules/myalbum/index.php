@@ -4,30 +4,30 @@
 //                        <http://www.peak.ne.jp/>                           //
 // ------------------------------------------------------------------------- //
 
-include 'header.php';
+include __DIR__ . '/header.php';
 
-$cat_handler    = xoops_getmodulehandler('cat', $GLOBALS['mydirname']);
-$photos_handler = xoops_getmodulehandler('photos', $GLOBALS['mydirname']);
+$cat_handler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+$photos_handler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
 
-$num = empty($_GET['num']) ? $myalbum_newphotos : intval($_GET['num']);
-$pos = empty($_GET['pos']) ? 0 : intval($_GET['pos']);
+$num = empty($_GET['num']) ? $myalbum_newphotos : (int)$_GET['num'];
+$pos = empty($_GET['pos']) ? 0 : (int)$_GET['pos'];
 
 if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
     $url = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/index,' . $num . ',' . $pos . $GLOBALS['myalbumModuleConfig']['endofurl'];
     if (!strpos($url, $_SERVER['REQUEST_URI'])) {
-        header("HTTP/1.1 301 Moved Permanently");
+        header('HTTP/1.1 301 Moved Permanently');
         header('Location: ' . $url);
         exit;
     }
 }
 
-$xoopsOption['template_main'] = "{$mydirname}_index.html";
-include($GLOBALS['xoops']->path("/header.php"));
+$GLOBALS['xoopsOption']['template_main'] = "{$moduleDirName }_index.tpl";
+include $GLOBALS['xoops']->path('header.php');
 // Modification apporté par black_beard alias MONTUY337513
 /*if (!is_object($cat)) {
     $cat = $cat_handler->create();
 }*/
-if (!isset($cat) OR !is_object($cat)) {
+if (!isset($cat) || !is_object($cat)) {
     $cat = $cat_handler->create();
 }
 // Fin de modification
@@ -35,7 +35,7 @@ $GLOBALS['xoopsTpl']->assign('rss', $cat->getRSSURL(0, $num, $pos, $myalbum_view
 $GLOBALS['xoopsTpl']->assign('xoConfig', $GLOBALS['myalbumModuleConfig']);
 $GLOBALS['xoopsTpl']->assign('mydirname', $GLOBALS['mydirname']);
 
-include 'include/assign_globals.php';
+include __DIR__ . '/include/assign_globals.php';
 foreach ($GLOBALS['myalbum_assign_globals'] as $key => $value) {
     $GLOBALS['xoopsTpl']->assign($key, $value);
 }
@@ -78,11 +78,12 @@ if ($photo_num_total > $num) {
 $criteria = new Criteria('`status`', '0', '>');
 $criteria->setStart($pos);
 $criteria->setLimit($num);
-$criteria->setSort('`date`');
+//$criteria->setSort('`date`');
+$criteria->setSort('`cid`');
 $criteria->setOrder('DESC');
 // Assign Latest Photos
 foreach ($photos_handler->getObjects($criteria, true) as $lid => $photo) {
     $GLOBALS['xoopsTpl']->append_by_ref('photos', myalbum_get_array_for_photo_assign($photo, true));
 }
 
-include($GLOBALS['xoops']->path("/footer.php"));
+include $GLOBALS['xoops']->path('footer.php');

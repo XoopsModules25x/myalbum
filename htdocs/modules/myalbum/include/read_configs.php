@@ -1,14 +1,12 @@
 <?php
 
-if (!defined('XOOPS_ROOT_PATH')) {
-    exit;
-}
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
-$GLOBALS['mydirname'] = basename(dirname(dirname(__FILE__)));
+$GLOBALS['mydirname'] = basename(dirname(__DIR__));
 if (preg_match('/^myalbum(\d*)$/', $GLOBALS['mydirname'], $regs)) {
     $GLOBALS['myalbum_number'] = $regs[1];
 } else {
-    die("invalid dirname of myalbum: " . htmlspecialchars($GLOBALS['mydirname']));
+    die('invalid dirname of myalbum: ' . htmlspecialchars($GLOBALS['mydirname']));
 }
 
 global $xoopsConfig, $xoopsDB, $xoopsUser;
@@ -23,11 +21,11 @@ xoops_loadLanguage('myalbum_constants', $GLOBALS['mydirname']);
 
 // read from xoops_config
 // get my mid
-$moduleHandler            = xoops_gethandler('module');
+$moduleHandler            = xoops_getHandler('module');
 $GLOBALS['myalbumModule'] = $moduleHandler->getByDirname($GLOBALS['mydirname']);
 if (is_object($GLOBALS['myalbumModule'])) {
     $GLOBALS['myalbum_mid'] = $GLOBALS[$GLOBALS['mydirname'] . 'Module']->getVar('mid');
-    $configHandler          = xoops_gethandler('config');
+    $configHandler          = xoops_getHandler('config');
     // read configs from xoops_config directly
     $GLOBALS['myalbumModuleConfig'] = $configHandler->getConfigList($GLOBALS['myalbum_mid']);
     extract($GLOBALS['myalbumModuleConfig']);
@@ -44,7 +42,7 @@ if (empty($GLOBALS['xoopsUser'])) {
 
 // Value Check
 if (isset($GLOBALS['myalbum_addposts'])) {
-    $GLOBALS['myalbum_addposts'] = intval($GLOBALS['myalbum_addposts']);
+    $GLOBALS['myalbum_addposts'] = (int)$GLOBALS['myalbum_addposts'];
 } else {
     $GLOBALS['myalbum_addposts'] = 0;
 }
@@ -53,7 +51,7 @@ if ($GLOBALS['myalbum_addposts'] < 0) {
 }
 
 // Path to Main Photo & Thumbnail ;
-if (isset ($GLOBALS['myalbum_photospath'])) {
+if (isset($GLOBALS['myalbum_photospath'])) {
     if (ord($GLOBALS['myalbum_photospath']) != 0x2f) {
         $GLOBALS['myalbum_photospath'] = DS . $GLOBALS['myalbum_photospath'];
     }
@@ -78,11 +76,11 @@ if (isset($GLOBALS['myalbum_makethumb'])) {
 }
 
 // DB table name
-$GLOBALS['table_photos']   = ("{$GLOBALS['mydirname']}_photos");
-$GLOBALS['table_cat']      = ("{$GLOBALS['mydirname']}_cat");
-$GLOBALS['table_text']     = ("{$GLOBALS['mydirname']}_text");
-$GLOBALS['table_votedata'] = ("{$GLOBALS['mydirname']}_votedata");
-$GLOBALS['table_comments'] = ("xoopscomments");
+$GLOBALS['table_photos']   = "{$GLOBALS['mydirname']}_photos";
+$GLOBALS['table_cat']      = "{$GLOBALS['mydirname']}_cat";
+$GLOBALS['table_text']     = "{$GLOBALS['mydirname']}_text";
+$GLOBALS['table_votedata'] = "{$GLOBALS['mydirname']}_votedata";
+$GLOBALS['table_comments'] = 'xoopscomments';
 
 // Pipe environment check
 if (isset($GLOBALS['myalbum_imagingpipe'])) {

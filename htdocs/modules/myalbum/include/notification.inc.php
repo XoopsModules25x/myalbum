@@ -1,9 +1,9 @@
 <?php
-// $Id: notification.inc.php,v 1.1 2003/04/01 23:40:27 w4z004 Exp $
+//
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
+//                  Copyright (c) 2000-2016 XOOPS.org                        //
+//                       <http://xoops.org/>                             //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -25,25 +25,21 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
-if (!defined('XOOPS_ROOT_PATH')) {
-    exit;
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+
+$moduleDirName = basename(dirname(__DIR__));
+if (!preg_match('/^myalbum\d*$/', $moduleDirName)) {
+    die('invalid dirname of myalbum: ' . htmlspecialchars($moduleDirName));
 }
 
-$mydirname = basename(dirname(dirname(__FILE__)));
-if (!preg_match('/^myalbum\d*$/', $mydirname)) {
-    die ("invalid dirname of myalbum: " . htmlspecialchars($mydirname));
-}
-
-eval('
-
-function ' . $mydirname . '_notify_iteminfo($not_category, $item_id)
+eval('function ' . $moduleDirName . '_notify_iteminfo($not_category, $item_id)
 {
     global $xoopsModule, $xoopsModuleConfig, $xoopsConfig , $xoopsDB ;
 
-    if (empty($xoopsModule) || $xoopsModule->getVar("dirname") != "' . $mydirname . '" ) {
-        $module_handler =& xoops_gethandler("module");
-        $module =& $module_handler->getByDirname("' . $mydirname . '");
-        $config_handler =& xoops_gethandler("config");
+    if (empty($xoopsModule) || $xoopsModule->getVar("dirname") != "' . $moduleDirName . '" ) {
+        $moduleHandler = xoops_getHandler("module");
+        $module = $moduleHandler->getByDirname("' . $moduleDirName . '");
+        $config_handler = xoops_getHandler("config");
         $config =& $config_handler->getConfigsByCat(0,$module->getVar("mid"));
     } else {
         $module =& $xoopsModule;
@@ -56,14 +52,14 @@ function ' . $mydirname . '_notify_iteminfo($not_category, $item_id)
         $item["url"] = "";
     } elseif ($not_category == "category") {
         // Assume we have a valid cid
-        $sql = "SELECT title FROM ".$xoopsDB->prefix("' . $mydirname . '_cat")." WHERE cid=\'$item_id\'";
+        $sql = "SELECT title FROM ".$xoopsDB->prefix("' . $moduleDirName . '_cat")." WHERE cid=\'$item_id\'";
         $rs = $xoopsDB->query( $sql ) ;
         list( $title ) = $xoopsDB->fetchRow( $rs ) ;
         $item["name"] = $title ;
         $item["url"] = "$mod_url/viewcat.php?cid=$item_id" ;
     } elseif ($not_category == "photo") {
         // Assume we have a valid event_id
-        $sql = "SELECT title FROM ".$xoopsDB->prefix("' . $mydirname . '_photos")." WHERE lid=\'$item_id\'";
+        $sql = "SELECT title FROM ".$xoopsDB->prefix("' . $moduleDirName . '_photos")." WHERE lid=\'$item_id\'";
         $rs = $xoopsDB->query( $sql ) ;
         list( $title ) = $xoopsDB->fetchRow( $rs ) ;
         $item["name"] = $title ;

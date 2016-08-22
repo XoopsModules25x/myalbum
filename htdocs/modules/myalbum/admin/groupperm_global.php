@@ -1,12 +1,12 @@
 <?php
-include_once 'admin_header.php';
+include_once __DIR__ . '/admin_header.php';
 include_once 'mygrouppermform.php';
 
 xoops_loadLanguage('admin', 'system');
 
 if (!empty($_POST['submit'])) {
-    include 'mygroupperm.php';
-    redirect_header(XOOPS_URL . "/modules/" . $xoopsModule->dirname() . "/admin/groupperm_global.php", 1, _AM_ALBM_GPERMUPDATED);
+    include __DIR__ . '/mygroupperm.php';
+    redirect_header(XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/admin/groupperm_global.php', 1, _AM_ALBM_GPERMUPDATED);
 }
 
 xoops_cp_header();
@@ -22,7 +22,7 @@ if (isset($result_str)) {
     $GLOBALS['xoopsTpl']->assign('result_str', $result_str);
 }
 
-$GLOBALS['xoopsTpl']->display('db:' . $GLOBALS['mydirname'] . '_cpanel_permissions.html');
+$GLOBALS['xoopsTpl']->display('db:' . $GLOBALS['mydirname'] . '_cpanel_permissions.tpl');
 
-//	myalbum_footer_adminMenu();
-include_once 'admin_footer.php';
+//  myalbum_footer_adminMenu();
+include_once __DIR__ . '/admin_footer.php';

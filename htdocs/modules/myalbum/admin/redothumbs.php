@@ -4,21 +4,21 @@
 //                        <http://www.peak.ne.jp/>                           //
 // ------------------------------------------------------------------------- //
 
-include 'admin_header.php';
+include_once __DIR__ . '/admin_header.php';
 
 // get and check $_POST['size']
-$start = isset($_POST['start']) ? intval($_POST['start']) : 0;
-$size  = isset($_POST['size']) ? intval($_POST['size']) : 10;
+$start = isset($_POST['start']) ? (int)$_POST['start'] : 0;
+$size  = isset($_POST['size']) ? (int)$_POST['size'] : 10;
 if ($size <= 0 || $size > 10000) {
     $size = 10;
 }
 
-$forceredo = isset($_POST['forceredo']) ? intval($_POST['forceredo']) : false;
-$removerec = isset($_POST['removerec']) ? intval($_POST['removerec']) : false;
-$resize    = isset($_POST['resize']) ? intval($_POST['resize']) : false;
+$forceredo = isset($_POST['forceredo']) ? (int)$_POST['forceredo'] : false;
+$removerec = isset($_POST['removerec']) ? (int)$_POST['removerec'] : false;
+$resize    = isset($_POST['resize']) ? (int)$_POST['resize'] : false;
 
 // get flag of safe_mode
-$safe_mode_flag = ini_get("safe_mode");
+//$safe_mode_flag = ini_get('safe_mode');
 
 // even if makethumb is off, it is treated as makethumb on
 if (!$myalbum_makethumb) {
@@ -29,19 +29,19 @@ if (!$myalbum_makethumb) {
 
 // check if the directories of thumbs and photos are same.
 if ($GLOBALS['thumbs_dir'] == $GLOBALS['photos_dir']) {
-    die("The directory for thumbnails is same as for photos.");
+    die('The directory for thumbnails is same as for photos.');
 }
 
 // check or make thumbs_dir
 if ($myalbum_makethumb && !is_dir($thumbs_dir)) {
-    if ($safe_mode_flag) {
-        redirect_header(XOOPS_URL . "/modules/$mydirname/admin/", 10, "At first create & chmod 777 '$thumbs_dir' by ftp or shell.");
-        exit;
-    }
+//    if ($safe_mode_flag) {
+//        redirect_header(XOOPS_URL . "/modules/$moduleDirName/admin/", 10, "At first create & chmod 777 '$thumbs_dir' by ftp or shell.");
+//        exit;
+//    }
 
     $rs = mkdir($thumbs_dir, 0777);
     if (!$rs) {
-        redirect_header(XOOPS_URL . "/modules/$mydirname/", 10, "$thumbs_dir is not a directory");
+        redirect_header(XOOPS_URL . "/modules/$moduleDirName/", 10, "$thumbs_dir is not a directory");
         exit;
     } else {
         @chmod($thumbs_dir, 0777);
@@ -51,23 +51,22 @@ if ($myalbum_makethumb && !is_dir($thumbs_dir)) {
 if (!empty($_POST['submit'])) {
     ob_start();
 
-    $result = $xoopsDB->query(
-        "SELECT lid , ext , res_x , res_y FROM " . $GLOBALS['xoopsDB']->prefix($table_photos) . " ORDER BY lid LIMIT $start , $size"
-    ) or die("DB Error");
+    $result         = $xoopsDB->query('SELECT lid , ext , res_x , res_y FROM ' . $GLOBALS['xoopsDB']->prefix($table_photos) . " ORDER BY lid LIMIT $start , $size")
+                      || die('DB Error');
     $record_counter = 0;
     while (list($lid, $ext, $w, $h) = $xoopsDB->fetchRow($result)) {
-        $record_counter++;
-        echo ($record_counter + $start - 1) . ") ";
+        ++$record_counter;
+        echo ($record_counter + $start - 1) . ') ';
         printf(_AM_FMT_CHECKING, "$lid.$ext");
 
         // Check if the main image exists
         if (!is_readable("$photos_dir/$lid.$ext")) {
-            echo _AM_MB_PHOTONOTEXISTS . " &nbsp; ";
+            echo _AM_MB_PHOTONOTEXISTS . ' &nbsp; ';
             if ($removerec) {
                 myalbum_delete_photos("lid='$lid'");
-                echo _AM_MB_RECREMOVED . "<br />\n";
+                echo _AM_MB_RECREMOVED . "<br>\n";
             } else {
-                echo _AM_MB_SKIPPED . "<br />\n";
+                echo _AM_MB_SKIPPED . "<br>\n";
             }
             continue;
         }
@@ -76,9 +75,9 @@ if (!empty($_POST['submit'])) {
         if (!in_array(strtolower($ext), $myalbum_normal_exts)) {
             if ($forceredo || !is_readable("$thumbs_dir/$lid.gif")) {
                 myalbum_create_thumb("$photos_dir/$lid.$ext", $lid, $ext);
-                echo _AM_MB_CREATEDTHUMBS . "<br />\n";
+                echo _AM_MB_CREATEDTHUMBS . "<br>\n";
             } else {
-                echo _AM_MB_SKIPPED . "<br />\n";
+                echo _AM_MB_SKIPPED . "<br>\n";
             }
             continue;
         }
@@ -94,15 +93,15 @@ if (!empty($_POST['submit'])) {
             rename("$photos_dir/$lid.$ext", $tmp_path);
             myalbum_modify_photo($tmp_path, "$photos_dir/$lid.$ext");
             @unlink($tmp_path);
-            echo _AM_MB_PHOTORESIZED . " &nbsp; ";
+            echo _AM_MB_PHOTORESIZED . ' &nbsp; ';
             list($true_w, $true_h) = getimagesize("$photos_dir/$lid.$ext");
         }
 
         // Check and repair record of the photo if necessary
         if ($true_w != $w || $true_h != $h) {
-            $xoopsDB->query("UPDATE " . $GLOBALS['xoopsDB']->prefix($table_photos) . " SET res_x=$true_w, res_y=$true_h WHERE lid=$lid")
-            or die("DB error: UPDATE photo table.");
-            echo _AM_MB_SIZEREPAIRED . " &nbsp; ";
+            $xoopsDB->query('UPDATE ' . $GLOBALS['xoopsDB']->prefix($table_photos) . " SET res_x=$true_w, res_y=$true_h WHERE lid=$lid")
+            || exit('DB error: UPDATE photo table.');
+            echo _AM_MB_SIZEREPAIRED . ' &nbsp; ';
         }
 
         // Create Thumbs
@@ -124,16 +123,16 @@ if (!empty($_POST['submit'])) {
 
         switch ($retcode) {
             case 0 :
-                echo _AM_MB_FAILEDREADING . "<br />\n";
+                echo _AM_MB_FAILEDREADING . "<br>\n";
                 break;
             case 1 :
-                echo _AM_MB_CREATEDTHUMBS . "<br />\n";
+                echo _AM_MB_CREATEDTHUMBS . "<br>\n";
                 break;
             case 2 :
-                echo _AM_MB_BIGTHUMBS . "<br />\n";
+                echo _AM_MB_BIGTHUMBS . "<br>\n";
                 break;
             case 3 :
-                echo _AM_MB_SKIPPED . "<br />\n";
+                echo _AM_MB_SKIPPED . "<br>\n";
                 break;
         }
     }
@@ -144,26 +143,25 @@ if (!empty($_POST['submit'])) {
 }
 
 // Make form objects
-$form = new XoopsThemeForm(_AM_FORM_RECORDMAINTENANCE, "batchupload", "redothumbs.php");
+$form = new XoopsThemeForm(_AM_FORM_RECORDMAINTENANCE, 'batchupload', 'redothumbs.php');
 $form->setExtra("enctype='multipart/form-data'");
 
-$start_text = new XoopsFormText(_AM_TEXT_RECORDFORSTARTING, "start", 20, 20, $start);
-$size_text = new XoopsFormText(_AM_TEXT_NUMBERATATIME . "<br /><br /><span style='font-weight:normal'>" . _AM_LABEL_DESCNUMBERATATIME
-    . "</span>", "size", 20, 20, $size);
+$start_text      = new XoopsFormText(_AM_TEXT_RECORDFORSTARTING, 'start', 20, 20, $start);
+$size_text       = new XoopsFormText(_AM_TEXT_NUMBERATATIME . "<br><br><span style='font-weight:normal'>" . _AM_LABEL_DESCNUMBERATATIME . '</span>', 'size', 20, 20, $size);
 $forceredo_radio = new XoopsFormRadioYN(_AM_RADIO_FORCEREDO, 'forceredo', $forceredo);
 $removerec_radio = new XoopsFormRadioYN(_AM_RADIO_REMOVEREC, 'removerec', $removerec);
-$resize_radio = new XoopsFormRadioYN(_AM_RADIO_RESIZE . " ({$myalbum_width}x{$myalbum_height})", 'resize', $resize);
+$resize_radio    = new XoopsFormRadioYN(_AM_RADIO_RESIZE . " ({$myalbum_width}x{$myalbum_height})", 'resize', $resize);
 
 if (isset($record_counter) && $record_counter < $size) {
-    $submit_button = new XoopsFormLabel("", _AM_MB_FINISHED . " &nbsp; <a href='redothumbs.php'>" . _AM_LINK_RESTART . "</a>");
+    $submit_button = new XoopsFormLabel('', _AM_MB_FINISHED . " &nbsp; <a href='redothumbs.php'>" . _AM_LINK_RESTART . '</a>');
 } else {
-    $submit_button = new XoopsFormButton("", "submit", _AM_SUBMIT_NEXT, "submit");
+    $submit_button = new XoopsFormButton('', 'submit', _AM_SUBMIT_NEXT, 'submit');
 }
 
 // Render forms
 xoops_cp_header();
 $indexAdmin = new ModuleAdmin();
-echo $indexAdmin->addNavigation('redothumbs.php');
+echo $indexAdmin->addNavigation(basename(__FILE__));
 //myalbum_adminMenu(basename(__FILE__), 5);
 
 // check $xoopsModule
@@ -183,9 +181,9 @@ $form->display();
 myalbum_closetable();
 
 if (isset($result_str)) {
-    echo "<br />\n";
+    echo "<br>\n";
     echo $result_str;
 }
 
-//	myalbum_footer_adminMenu();
-include_once 'admin_footer.php';
+//  myalbum_footer_adminMenu();
+include_once __DIR__ . '/admin_footer.php';

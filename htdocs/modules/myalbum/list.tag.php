@@ -1,3 +1,3 @@
 <?php
-include 'header.php';
-include XOOPS_ROOT_PATH . "/modules/tag/list.tag.php";
+include __DIR__ . '/header.php';
+include XOOPS_ROOT_PATH . '/modules/tag/list.tag.php';

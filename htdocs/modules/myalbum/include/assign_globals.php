@@ -1,8 +1,6 @@
 <?php
 
-if (!defined('XOOPS_ROOT_PATH')) {
-    exit;
-}
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 $GLOBALS['myalbum_assign_globals'] = array(
     'lang_total'           => _ALBM_CAPTION_TOTAL,

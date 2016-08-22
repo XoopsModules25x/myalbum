@@ -7,8 +7,14 @@ CREATE TABLE myalbum_cat (
   pid int(5) unsigned NOT NULL default '0',
   title varchar(50) NOT NULL default '',
   imgurl varchar(150) NOT NULL default '',
+  weight int(5) unsigned NOT NULL default '0',
+  depth int(5) unsigned NOT NULL default '0',
+  description text,
+  allowed_ext varchar(255) NOT NULL default 'jpg|jpeg|gif|png',
   PRIMARY KEY  (cid),
-  KEY pid (pid)
+  KEY pid (pid),
+  KEY weight (weight),
+  KEY depth (depth)
 ) ENGINE=INNODB;
 # --------------------------------------------------------
 

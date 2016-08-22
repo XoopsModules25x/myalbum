@@ -1,27 +1,29 @@
 <?php
 
 if (!class_exists('MyAlbumTextSanitizer')) {
+    include_once XOOPS_ROOT_PATH . '/class/module.textsanitizer.php';
 
-    include_once(XOOPS_ROOT_PATH . '/class/module.textsanitizer.php');
-
+    /**
+     * Class MyAlbumTextSanitizer
+     */
     class MyAlbumTextSanitizer extends MyTextSanitizer
     {
-        var $nbsp = 0;
+        public $nbsp = 0;
 
         /*
-        * Constructor of this class
+        * MyAlbumTextSanitizer constructor.
         *
         * Gets allowed html tags from admin config settings
         * <br> should not be allowed since nl2br will be used
         * when storing data.
         *
-        * @access	private
+        * @access   private
         *
         * @todo Sofar, this does nuttin' ;-)
         */
-        function __construct()
-        {
 
+        public function __construct()
+        {
         }
 
         /**
@@ -32,11 +34,11 @@ if (!class_exists('MyAlbumTextSanitizer')) {
          * @static
          * @staticvar   object
          */
-        static function &getInstance()
+        public static function getInstance()
         {
             static $instance;
-            if (!isset($instance)) {
-                $instance = new MyAlbumTextSanitizer();
+            if (null === $instance) {
+                $instance = new static();
             }
 
             return $instance;
@@ -45,22 +47,24 @@ if (!class_exists('MyAlbumTextSanitizer')) {
         /**
          * Filters textarea form data in DB for display
          *
-         * @param  string $text
-         * @param  bool   $html   allow html?
-         * @param  bool   $smiley allow smileys?
-         * @param  bool   $xcode  allow xoopscode?
-         * @param  bool   $image  allow inline images?
-         * @param  bool   $br     convert linebreaks?
+         * @param string   $text
+         * @param bool|int $html   allow html?
+         * @param bool|int $smiley allow smileys?
+         * @param bool|int $xcode  allow xoopscode?
+         * @param bool|int $image  allow inline images?
+         * @param bool|int $br     convert linebreaks?
+         *
+         * @param int      $nbsp
          *
          * @return string
-         **/
-        function displayTarea($text, $html = 0, $smiley = 1, $xcode = 1, $image = 1, $br = 1, $nbsp = 0)
+         */
+        public function displayTarea($text, $html = 0, $smiley = 1, $xcode = 1, $image = 1, $br = 1, $nbsp = 0)
         {
             $this->nbsp = $nbsp;
             $text       = parent::displayTarea($text, $html, $smiley, $xcode, $image, $br);
 
             return $this->postCodeDecode($text);
-            /*		if ($html != 1) {
+            /*      if ($html != 1) {
                         // html not allowed
                         $text =& $this->htmlSpecialChars($text);
                     }
@@ -89,11 +93,11 @@ if (!class_exists('MyAlbumTextSanitizer')) {
         /**
          * Replace some appendix codes with their equivalent HTML formatting
          *
-         * @param  string $text
+         * @param string $text
          *
          * @return string
          **/
-        function postCodeDecode($text)
+        public function postCodeDecode($text)
         {
             $removal_tags = array('[summary]', '[/summary]', '[pagebreak]');
             $text         = str_replace($removal_tags, '', $text);
@@ -113,11 +117,11 @@ if (!class_exists('MyAlbumTextSanitizer')) {
         /**
          * get inside of tags [summary] and [/summary]
          *
-         * @param  string $text
+         * @param string $text
          *
          * @return string
          **/
-        function extractSummary($text)
+        public function extractSummary($text)
         {
             $patterns[]     = "/^(.*)\[summary\](.*)\[\/summary\](.*)$/sU";
             $replacements[] = '$2';
@@ -126,19 +130,20 @@ if (!class_exists('MyAlbumTextSanitizer')) {
         }
 
         /**
-         * Convert linebreaks to <br /> tags
+         * Convert linebreaks to <br> tags
          *
          * @param string $text
          *
          * @return string
          */
-        function nl2Br($text)
+        public function nl2Br($text)
         {
-            $text = preg_replace("/(\015\012)|(\015)|(\012)/", "<br />", $text);
+            $text = preg_replace("/(\015\012)|(\015)|(\012)/", '<br>', $text);
             if ($this->nbsp) {
                 $patterns = array('  ', '\"');
                 $replaces = array(' &nbsp;', '"');
-                $text     = substr(preg_replace('/\>.*\</esU', "str_replace(\$patterns,\$replaces,'\\0')", ">$text<"), 1, -1);
+                //              $text     = substr(preg_replace('/\>.*\</esU', "str_replace(\$patterns,\$replaces,'\\0')", ">$text<"), 1, -1);
+                $text = substr(preg_replace_callback('/\>.*\</sU', function ($m) { return str_replace($patterns, $replaces, $m[0]); }, ">$text<"), 1, -1);
             }
 
             return $text;
@@ -147,11 +152,16 @@ if (!class_exists('MyAlbumTextSanitizer')) {
         /*
         * if magic_quotes_gpc is on, stirip back slashes
         *
-        * @param	string  $text
+        * @param    string  $text
         *
-        * @return	string
+        * @return   string
         */
-        function stripSlashesGPC($text)
+        /**
+         * @param string $text
+         *
+         * @return string
+         */
+        public function stripSlashesGPC($text)
         {
             if (get_magic_quotes_gpc()) {
                 $text = stripslashes($text);
@@ -164,7 +174,6 @@ if (!class_exists('MyAlbumTextSanitizer')) {
             return $text;
         }
 
-// The End of Class
+        // The End of Class
     }
-
 }

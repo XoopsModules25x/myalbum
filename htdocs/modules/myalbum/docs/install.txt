@@ -57,10 +57,10 @@ This is the easiest way, but is not smart.
 2) add a line into original imagemanager.php like this:
 line 28:
 ---------------------------------------------------
-include './mainfile.php';
-include 'modules/myalbum/imagemanager.php';  // add this line
+include __DIR__ . '/mainfile.php';
+include __DIR__ . '/modules/myalbum/imagemanager.php';  // add this line
 if (!isset($HTTP_GET_VARS['target']) && !isset($HTTP_POST_VARS['target'])) {
-	exit();
+    exit();
 }
 ---------------------------------------------------
 Though this way is a little bit more difficult than overwriting method,
@@ -68,7 +68,7 @@ you can turn on/off myalbum's hook easily.
 
 When you use myAlbum-P with multiple, you can specify the module like this:
 
-include 'modules/myalbum0/imagemanager.php';  // add this line
+include __DIR__ . '/modules/myalbum0/imagemanager.php';  // add this line
 
 If you want to use ImageManager Integration as Simplified Attachment Manager, change the preferences of myAlbum-P.
 

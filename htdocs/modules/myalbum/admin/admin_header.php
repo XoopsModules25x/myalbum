@@ -1,21 +1,23 @@
 <?php
-require_once (dirname(dirname(dirname(dirname(__FILE__))))) . '/mainfile.php';
-require_once (dirname(dirname(dirname(dirname(__FILE__))))) . '/include/cp_header.php';
-require_once (dirname(dirname(__FILE__))) . '/include/functions.php';
-require_once (dirname(dirname(__FILE__))) . '/include/read_configs.php';
+
+$moduleDirName = basename(dirname(__DIR__));
+require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+require_once dirname(__DIR__) . '/include/functions.php';
+require_once dirname(__DIR__) . '/include/read_configs.php';
 
 if (!defined('_CHARSET')) {
-    define ("_CHARSET", "UTF-8");
+    define('_CHARSET', 'UTF-8');
 }
 if (!defined('_CHARSET_ISO')) {
-    define ("_CHARSET_ISO", "ISO-8859-1");
+    define('_CHARSET_ISO', 'ISO-8859-1');
 }
 
 $GLOBALS['myts'] = MyTextSanitizer::getInstance();
 
-$module_handler                 = xoops_gethandler('module');
-$config_handler                 = xoops_gethandler('config');
-$GLOBALS['myalbumModule']       = $module_handler->getByDirname($GLOBALS['mydirname']);
+$moduleHandler                  = xoops_getHandler('module');
+$config_handler                 = xoops_getHandler('config');
+$GLOBALS['myalbumModule']       = $moduleHandler->getByDirname($GLOBALS['mydirname']);
 $GLOBALS['myalbumModuleConfig'] = $config_handler->getConfigList($GLOBALS['myalbumModule']->getVar('mid'));
 $GLOBALS['myalbum_mid']         = $GLOBALS['myalbumModule']->getVar('mid');
 $GLOBALS['photos_dir']          = XOOPS_ROOT_PATH . $GLOBALS['myalbumModuleConfig']['myalbum_photospath'];
@@ -30,40 +32,34 @@ xoops_load('xoopsformloader');
 include_once $GLOBALS['xoops']->path('class' . DS . 'xoopsmailer.php');
 include_once $GLOBALS['xoops']->path('class' . DS . 'tree.php');
 
-$cat_handler        = xoops_getmodulehandler('cat');
+$cat_handler        = xoops_getModuleHandler('cat');
 $cats               = $cat_handler->getObjects(null, true);
 $GLOBALS['cattree'] = new XoopsObjectTree($cats, 'cid', 'pid', 0);
 
-if (file_exists($GLOBALS['xoops']->path('/Frameworks/moduleclasses/moduleadmin/moduleadmin.php'))) {
-    include_once $GLOBALS['xoops']->path('/Frameworks/moduleclasses/moduleadmin/moduleadmin.php');
-} else {
-    echo xoops_error("Error: You don't use the Frameworks \"admin module\". Please install this Frameworks");
-}
+$xoopsModuleAdminPath = $GLOBALS['xoops']->path('www/' . $GLOBALS['xoopsModule']->getInfo('dirmoduleadmin'));
+require_once $xoopsModuleAdminPath . '/moduleadmin.php';
 
-$GLOBALS['myalbumImageIcon']  = XOOPS_URL . '/' . $GLOBALS['myalbumModule']->getInfo('icons16');
-$GLOBALS['myalbumImageAdmin'] = XOOPS_URL . '/' . $GLOBALS['myalbumModule']->getInfo('icons32');
+$GLOBALS['myalbumImageIcon']  = XOOPS_URL . '/' . $GLOBALS['myalbumModule']->getInfo('modicons16');
+$GLOBALS['myalbumImageAdmin'] = XOOPS_URL . '/' . $GLOBALS['myalbumModule']->getInfo('modicons32');
 
 if ($GLOBALS['xoopsUser']) {
-    $moduleperm_handler =& xoops_gethandler('groupperm');
+    $moduleperm_handler = xoops_getHandler('groupperm');
     if (!$moduleperm_handler->checkRight('module_admin', $GLOBALS['myalbumModule']->getVar('mid'), $GLOBALS['xoopsUser']->getGroups())) {
         redirect_header(XOOPS_URL, 1, _NOPERM);
-        exit();
     }
 } else {
-    redirect_header(XOOPS_URL . "/user.php", 1, _NOPERM);
-    exit();
+    redirect_header(XOOPS_URL . '/user.php', 1, _NOPERM);
 }
 
 xoops_loadLanguage('user');
-xoops_loadLanguage('admin', $mydirname);
-xoops_loadLanguage('main', $mydirname);
+xoops_loadLanguage('admin', $moduleDirName);
+xoops_loadLanguage('main', $moduleDirName);
 
-$pathIcon16      = '../' . $xoopsModule->getInfo('icons16');
-$pathIcon32      = '../' . $xoopsModule->getInfo('icons32');
-$pathModuleAdmin = $xoopsModule->getInfo('dirmoduleadmin');
+$pathIcon16      = $GLOBALS['xoops']->url('www/' . $GLOBALS['xoopsModule']->getInfo('sysicons16'));
+$pathIcon32      = $GLOBALS['xoops']->url('www/' . $GLOBALS['xoopsModule']->getInfo('sysicons32'));
 
 if (!isset($GLOBALS['xoopsTpl']) || !is_object($GLOBALS['xoopsTpl'])) {
-    include_once(XOOPS_ROOT_PATH . "/class/template.php");
+    include_once XOOPS_ROOT_PATH . '/class/template.php';
     $GLOBALS['xoopsTpl'] = new XoopsTpl();
 }
 
@@ -71,7 +67,7 @@ $GLOBALS['xoopsTpl']->assign('pathImageIcon', $GLOBALS['myalbumImageIcon']);
 $GLOBALS['xoopsTpl']->assign('pathImageAdmin', $GLOBALS['myalbumImageAdmin']);
 
 if (isset($_GET['lid'])) {
-    $lid    = intval($_GET['lid']);
+    $lid    = (int)$_GET['lid'];
     $result = $GLOBALS['xoopsDB']->query("SELECT submitter FROM $table_photos where lid=$lid", 0);
     list($submitter) = $GLOBALS['xoopsDB']->fetchRow($result);
 } else {

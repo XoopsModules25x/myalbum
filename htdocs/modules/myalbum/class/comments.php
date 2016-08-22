@@ -1,9 +1,7 @@
 <?php
-require_once (dirname(dirname(__FILE__))) . '/include/read_configs.php';
+require_once dirname(__DIR__) . '/include/read_configs.php';
 
-if (!defined('XOOPS_ROOT_PATH')) {
-    exit();
-}
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 /**
  * Class for Blue Room Xcenter
  *
@@ -13,8 +11,10 @@ if (!defined('XOOPS_ROOT_PATH')) {
  */
 class MyalbumComments extends XoopsObject
 {
-
-    function __construct($id = null)
+    /**
+     * @param null $id
+     */
+    public function __construct($id = null)
     {
         $this->initVar('com_id', XOBJ_DTYPE_INT, null, false);
         $this->initVar('com_pid', XOBJ_DTYPE_INT, 0, false);
@@ -37,7 +37,6 @@ class MyalbumComments extends XoopsObject
         $this->initVar('doimage', XOBJ_DTYPE_INT, 0, false);
         $this->initVar('dobr', XOBJ_DTYPE_INT, 0, false);
     }
-
 }
 
 /**
@@ -50,33 +49,58 @@ class MyalbumComments extends XoopsObject
  */
 class MyalbumCommentsHandler extends XoopsPersistableObjectHandler
 {
-    function __construct(&$db)
+    /**
+     * MyalbumCommentsHandler constructor.
+     * @param null|object $db
+     */
+    public function __construct(XoopsDatabase $db)
     {
         $this->db = $db;
 
-        parent::__construct($db, $GLOBALS['table_comments'], 'MyalbumComments', "com_id", "com_title");
+        parent::__construct($db, $GLOBALS['table_comments'], 'MyalbumComments', 'com_id', 'com_title');
     }
 }
 
+/**
+ * Class Myalbum0CommentsHandler
+ */
 class Myalbum0CommentsHandler extends MyalbumCommentsHandler
 {
-    function __construct(&$db)
+    /**
+     * Myalbum0CommentsHandler constructor.
+     * @param null|object $db
+     */
+    public function __construct(XoopsDatabase $db)
     {
         parent::__construct($db);
     }
 }
 
+/**
+ * Class Myalbum1CommentsHandler
+ */
 class Myalbum1CommentsHandler extends MyalbumCommentsHandler
 {
-    function __construct(&$db)
+    /**
+     * Myalbum1CommentsHandler constructor.
+     * @param null|object $db
+     */
+    public function __construct(XoopsDatabase $db)
     {
         parent::__construct($db);
     }
 }
 
+/**
+ * Class Myalbum2CommentsHandler
+ */
 class Myalbum2CommentsHandler extends MyalbumCommentsHandler
 {
-    function __construct(&$db)
+    /**
+     * Myalbum2CommentsHandler constructor.
+     * @param null|object $db
+     */
+    public function __construct(XoopsDatabase $db)
     {
         parent::__construct($db);
     }
