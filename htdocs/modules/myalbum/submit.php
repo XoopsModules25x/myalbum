@@ -240,7 +240,7 @@ if ($caller === 'imagemanager') {
         </head><body>\n";
 } else {
     include $GLOBALS['xoops']->path('header.php');
-    myalbum_header();
+    MyalbumPreview::header();
 }
 
 // Preview
@@ -264,7 +264,7 @@ if ($caller !== 'imagemanager' && !empty($_POST['preview'])) {
             $tmp_name     = $uploader->getSavedFileName();
             $preview_name = str_replace('tmp_', 'tmp_prev_', $tmp_name);
             MyalbumUtilities::editPhoto($GLOBALS['photos_dir'] . "/$tmp_name", $GLOBALS['photos_dir'] . "/$lid.$ext");
-            list($imgsrc, $width_spec, $ahref) = myalbum_get_img_attribs_for_preview($preview_name);
+            list($imgsrc, $width_spec, $ahref) = MyalbumPreview::getImageAttribsForPreview($preview_name);
         } else {
             @unlink($uploader->getSavedDestination());
             $imgsrc     = "$mod_url/assets/images/pixel_trans.gif";
@@ -273,7 +273,7 @@ if ($caller !== 'imagemanager' && !empty($_POST['preview'])) {
         }
     } elseif ($preview_name != '' && is_readable("$photos_dir/$preview_name")) {
         // old preview
-        list($imgsrc, $width_spec, $ahref) = myalbum_get_img_attribs_for_preview($preview_name);
+        list($imgsrc, $width_spec, $ahref) = MyalbumPreview::getImageAttribsForPreview($preview_name);
     } else {
         // preview without image
         $imgsrc     = "$mod_url/assets/images/pixel_trans.gif";
@@ -287,7 +287,7 @@ if ($caller !== 'imagemanager' && !empty($_POST['preview'])) {
         'title'          => $GLOBALS['myts']->htmlSpecialChars($photo['title']),
         'width_spec'     => $width_spec,
         'submitter'      => $my_uid,
-        'submitter_name' => myalbum_get_name_from_uid($my_uid),
+        'submitter_name' => MyalbumPreview::getNameFromUid($my_uid),
         'imgsrc_thumb'   => $imgsrc,
         'ahref_photo'    => $ahref
     );
@@ -326,6 +326,6 @@ echo MyalbumForms::getUserFormSubmit($caller, $photo, $lid);
 if ($caller === 'imagemanager') {
     echo '</body></html>';
 } else {
-    myalbum_footer();
+    MyalbumPreview::footer();
     include $GLOBALS['xoops']->path('footer.php');
 }

@@ -89,7 +89,7 @@ switch ($op) {
         // update hit count
         $photo_obj->increaseHits(1);
 
-        $photo = myalbum_get_array_for_photo_assign($photo_obj);
+        $photo = MyalbumPreview::getArrayForPhotoAssign($photo_obj);
 
         // Middle size calculation
         $photo['width_height'] = '';

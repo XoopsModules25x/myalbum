@@ -73,7 +73,7 @@ if ($cid > 0) {
     $cat     = $catHandler->get($cid);
     // Category Specified
     $GLOBALS['xoopsTpl']->assign('category_id', $cid);
-    $GLOBALS['xoopsTpl']->assign('subcategories', myalbum_get_sub_categories($cid, $GLOBALS['cattree']));
+    $GLOBALS['xoopsTpl']->assign('subcategories', MyalbumPreview::getSubCategories($cid, $GLOBALS['cattree']));
     $GLOBALS['xoopsTpl']->assign('category_options', MyalbumUtilities::getCategoryOptions());
 
     foreach ($GLOBALS['cattree']->getAllChild($cid) as $child) {
@@ -111,7 +111,7 @@ if ($cid > 0) {
         $criteria = new CriteriaCompo(new Criteria('`status`', '0', '>'));
         $criteria->add(new Criteria('`submitter`', $uid));
         $GLOBALS['xoopsTpl']->assign('uid', $uid);
-        $GLOBALS['xoopsTpl']->assign('album_sub_title', "<img src='$mod_url/assets/images/myphotos.gif' alt='' />" . myalbum_get_name_from_uid($uid));
+        $GLOBALS['xoopsTpl']->assign('album_sub_title', "<img src='$mod_url/assets/images/myphotos.gif' alt='' />" . MyalbumPreview::getNameFromUid($uid));
     }
 } else {
     $criteria = new CriteriaCompo(new Criteria('`status`', '0', '>'));

@@ -29,7 +29,7 @@ $GLOBALS['mydirname'] = basename(__DIR__);
 include XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/read_configs.php";
 include XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/get_perms.php";
 include_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/class/utilities.php";
-include_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/draw_functions.php";
+include_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/class/preview.php";
 include_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/class/myuploader.php";
 
 $GLOBALS['myts'] = MyTextSanitizer::getInstance();

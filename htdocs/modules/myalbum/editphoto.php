@@ -191,10 +191,10 @@ if (!strpos($photo_obj->getEditURL(), $_SERVER['REQUEST_URI'])) {
 
 // Editing Display
 include_once $GLOBALS['xoops']->path('header.php');
-myalbum_header();
+MyalbumPreview::header();
 
 // Display
-$photo_for_tpl = myalbum_get_array_for_photo_assign($photo_obj);
+$photo_for_tpl = MyalbumPreview::getArrayForPhotoAssign($photo_obj);
 $tpl           = new XoopsTpl();
 include __DIR__ . '/include/assign_globals.php';
 $tpl->assign($myalbum_assign_globals);
@@ -276,6 +276,6 @@ if ($isadmin) {
 $form->addElement($submit_tray);
 $form->display();
 
-myalbum_footer();
+MyalbumPreview::footer();
 
 include XOOPS_ROOT_PATH . '/footer.php';
