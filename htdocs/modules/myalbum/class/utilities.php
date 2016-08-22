@@ -47,7 +47,7 @@ class MyalbumUtilities extends XoopsObject
                     break;
                 case 'E': // English
                     // $data = mb_convert_kana( $data , "as" ) ;
-                    $data = $data;
+//                    $data = $data;
                     break;
             }
 
@@ -193,7 +193,8 @@ class MyalbumUtilities extends XoopsObject
         $bundled_2 = false;
         if (!$myalbum_forcegd2 && function_exists('gd_info')) {
             $gd_info = gd_info();
-            if (substr($gd_info['GD Version'], 0, 10) === 'bundled (2') {
+            // if (substr($gd_info['GD Version'], 0, 10) === 'bundled (2') {
+            if (0 === strpos($gd_info['GD Version'], 'bundled (2')) {
                 $bundled_2 = true;
             }
         }
@@ -679,7 +680,7 @@ class MyalbumUtilities extends XoopsObject
         $ret        = 0;
         $prefix_len = strlen($prefix);
         while (($file = readdir($dir)) !== false) {
-            if (strncmp($file, $prefix, $prefix_len) === 0) {
+            if (0 === strpos($file, $prefix)) {
                 if (@unlink("$dir_path/$file")) {
                     ++$ret;
                 }
@@ -696,18 +697,19 @@ class MyalbumUtilities extends XoopsObject
      */
     public static function updateRating($lid)
     {
+        /** @var MyalbumVotedataHandler $votedataHandler*/
         $votedataHandler = xoops_getModuleHandler('votedata', $GLOBALS['mydirname']);
         $criteria        = new CriteriaCompo(new Criteria('`lid`', $lid));
-        $votes           = $votedataHandler->getObjects($criteria, true);
+        $votes           =& $votedataHandler->getObjects($criteria, true);
         $votesDB         = $votedataHandler->getCount($criteria);
         $totalrating     = 0;
+        /** @var MyalbumVotedata $vote*/
         foreach ($votes as $vid => $vote) {
             $totalrating += $vote->getVar('rating');
         }
+        $finalrating = 0;
         if ($votesDB > 0) {
             $finalrating = number_format($totalrating / $votesDB, 4);
-        } else {
-            $finalrating = 0;
         }
         $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
         $photo         = $photosHandler->get($lid);
@@ -727,6 +729,7 @@ class MyalbumUtilities extends XoopsObject
             $criteria = new CriteriaCompo($criteria);
         }
         $criteria->add(new Criteria('`cid`', $cid));
+        /** @var MyalbumPhotosHandler $photoHandler*/
         $photoHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
 
         return $photoHandler->getCount($criteria);
@@ -745,6 +748,7 @@ class MyalbumUtilities extends XoopsObject
             $criteria = new CriteriaCompo($criteria);
         }
         $criteria->add(new Criteria('`cid`', '(' . implode(',', $cids) . ',0)', 'IN'));
+        /** @var MyalbumPhotosHandler $photoHandler*/
         $photoHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
 
         return $photoHandler->getCount($criteria);
@@ -763,17 +767,21 @@ class MyalbumUtilities extends XoopsObject
      */
     public static function updatePhoto($lid, $cid, $title, $desc, $valid = null, $ext = '', $x = '', $y = '')
     {
+        /** @var MyalbumCatHandler $catHandler*/
         $catHandler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+        /** @var MyalbumPhotosHandler $photosHandler*/
         $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
         $textHandler   = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
+        /** @var MyalbumPhotos $photo*/
         $photo         = $photosHandler->get($lid);
         $text          = $textHandler->get($lid);
         $cat           = $catHandler->get($cid);
 
-        if (isset($valid)) {
+        if (null !== $valid) {
             $photo->setVar('status', $valid);
             // Trigger Notification
             if ($valid == 1) {
+                /** @var XoopsNotificationHandler $notificationHandler*/
                 $notificationHandler = xoops_getHandler('notification');
 
                 // Global Notification
@@ -820,8 +828,9 @@ class MyalbumUtilities extends XoopsObject
      */
     public static function deletePhotos($criteria = null)
     {
+        /** @var MyalbumPhotosHandler $photosHandler*/
         $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
-        $photos        = $photosHandler->getObjects($criteria);
+        $photos        =& $photosHandler->getObjects($criteria);
         foreach ($photos as $lid => $photo) {
             $photosHandler->delete($photo);
         }
@@ -885,12 +894,11 @@ class MyalbumUtilities extends XoopsObject
 
         $loop_check_for_key = 1024;
         for ($key = 1; $key < $sizeofcats; ++$key) {
-            $cat    =& $cats[$key];
-            $target =& $cats[0];
+            $cat        =& $cats[$key];
+            $target     =& $cats[0];
+            $loop_check = 4096;
             if (--$loop_check_for_key < 0) {
                 $loop_check = -1;
-            } else {
-                $loop_check = 4096;
             }
 
             while (1) {
@@ -915,10 +923,9 @@ class MyalbumUtilities extends XoopsObject
             }
         }
 
-        if (isset($none)) {
+        $ret = '';
+        if (null !== $none) {
             $ret = "<option value=''>$none</option>\n";
-        } else {
-            $ret = '';
         }
         $cat =& $cats[0];
         for ($weight = 1; $weight < $sizeofcats; ++$weight) {
