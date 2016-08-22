@@ -143,7 +143,9 @@ if (!class_exists('MyAlbumTextSanitizer')) {
                 $patterns = array('  ', '\"');
                 $replaces = array(' &nbsp;', '"');
                 //              $text     = substr(preg_replace('/\>.*\</esU', "str_replace(\$patterns,\$replaces,'\\0')", ">$text<"), 1, -1);
-                $text = substr(preg_replace_callback('/\>.*\</sU', function ($m) { return str_replace($patterns, $replaces, $m[0]); }, ">$text<"), 1, -1);
+                $text = substr(preg_replace_callback('/\>.*\</sU', function ($m) {
+                    return str_replace($patterns, $replaces, $m[0]);
+                }, ">$text<"), 1, -1);
             }
 
             return $text;

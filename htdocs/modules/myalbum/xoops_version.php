@@ -59,7 +59,7 @@ $modversion = array(
     'min_admin'           => '1.1',
     'min_db'              => array('mysql' => '5.0.7', 'mysqli' => '5.0.7'),
     // images
-    'image'               => "assets/images/{$moduleDirName}_slogo.gif", //'assets/images/module_logo.png',
+    'image'               => 'assets/images/logoModule.png', //'assets/images/module_logo.png',
     //    'iconsmall'           => 'assets/images/iconsmall.png',
     //    'iconbig'             => 'assets/images/iconbig.png',
     'dirname'             => $moduleDirName,
