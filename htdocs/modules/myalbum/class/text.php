@@ -46,7 +46,7 @@ class MyalbumTextHandler extends XoopsPersistableObjectHandler
 {
     /**
      * MyalbumTextHandler constructor.
-     * @param null|object $db
+     * @param null|XoopsDatabase $db
      */
     public function __construct(XoopsDatabase $db)
     {
@@ -73,7 +73,7 @@ class Myalbum0TextHandler extends MyalbumTextHandler
 {
     /**
      * Myalbum0TextHandler constructor.
-     * @param null|object $db
+     * @param null|XoopsDatabase $db
      */
     public function __construct(XoopsDatabase $db)
     {
@@ -88,7 +88,7 @@ class Myalbum1TextHandler extends MyalbumTextHandler
 {
     /**
      * Myalbum1TextHandler constructor.
-     * @param null|object $db
+     * @param null|XoopsDatabase $db
      */
     public function __construct(XoopsDatabase $db)
     {
@@ -103,7 +103,7 @@ class Myalbum2TextHandler extends MyalbumTextHandler
 {
     /**
      * Myalbum2TextHandler constructor.
-     * @param null|object $db
+     * @param null|XoopsDatabase $db
      */
     public function __construct(XoopsDatabase $db)
     {

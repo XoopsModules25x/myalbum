@@ -22,6 +22,9 @@ if (!class_exists('MyAlbumTextSanitizer')) {
         * @todo Sofar, this does nuttin' ;-)
         */
 
+        /**
+         * MyAlbumTextSanitizer constructor.
+         */
         public function __construct()
         {
         }
@@ -29,10 +32,7 @@ if (!class_exists('MyAlbumTextSanitizer')) {
         /**
          * Access the only instance of this class
          *
-         * @return object
-         *
-         * @static
-         * @staticvar   object
+         * @return MyTextSanitizer
          */
         public static function getInstance()
         {
@@ -61,7 +61,7 @@ if (!class_exists('MyAlbumTextSanitizer')) {
         public function displayTarea($text, $html = 0, $smiley = 1, $xcode = 1, $image = 1, $br = 1, $nbsp = 0)
         {
             $this->nbsp = $nbsp;
-            $text       = parent::displayTarea($text, $html, $smiley, $xcode, $image, $br);
+            $text       =& parent::displayTarea($text, $html, $smiley, $xcode, $image, $br);
 
             return $this->postCodeDecode($text);
             /*      if ($html != 1) {

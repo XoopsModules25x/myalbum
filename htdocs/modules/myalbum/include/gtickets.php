@@ -387,8 +387,7 @@ if (!class_exists('XoopsGTicket')) {
         } else {
             echo 'Irregular output! check language files etc.';
         }
-
-        return;
+//        return;
     }
 
     // create a instance in global scope

@@ -112,7 +112,7 @@
     <body onload="window.resizeTo(<{$xsize}>, <{$ysize}>);">
     <table id="header" cellspacing="0">
         <tr>
-            <td><a href="<{$xoops_url}>/"><img src="<{$xoops_url}>/images/logo.gif" width="150" height="80" alt=""/></a>
+            <td><a href="<{$xoops_url}>/"><img src="<{$xoops_url}>/images/logo.gif" width="148" height="80" alt=""/></a>
             </td>
             <td></td>
         </tr>

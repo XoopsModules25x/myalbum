@@ -139,16 +139,16 @@ if (substr($myalbum_photospath, -1) === '/') {
 } elseif (ord($myalbum_photospath) != 0x2f) {
     $indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_photospath %s</label>", _AM_ERR_FIRSTCHAR, 'Red');
 } elseif (!is_dir($GLOBALS['photos_dir'])) {
-    if ($safe_mode_flag) {
-        $indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_photospath %s</label>", _AM_ERR_PERMISSION, 'Red');
+    //    if ($safe_mode_flag) {
+    //        $indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_photospath %s</label>", _AM_ERR_PERMISSION, 'Red');
+    //    } else {
+    $rs = mkdir($GLOBALS['photos_dir'], 0777);
+    if (!$rs) {
+        $indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_photospath %s</label>", _AM_ERR_NOTDIRECTORY, 'Red');
     } else {
-        $rs = mkdir($GLOBALS['photos_dir'], 0777);
-        if (!$rs) {
-            $indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_photospath %s</label>", _AM_ERR_NOTDIRECTORY, 'Red');
-        } else {
-            $indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_photospath %s</label>", 'Ok', 'Green');
-        }
+        $indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_photospath %s</label>", 'Ok', 'Green');
     }
+    //    }
 } elseif (!is_writable($GLOBALS['photos_dir']) || !is_readable($GLOBALS['photos_dir'])) {
     $indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_photospath %s</label>", _AM_ERR_READORWRITE, 'Red');
 } else {
@@ -162,16 +162,16 @@ if ($myalbum_makethumb) {
     } elseif (ord($myalbum_thumbspath) != 0x2f) {
         $indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_thumbspath %s</label>", _AM_ERR_FIRSTCHAR, 'Red');
     } elseif (!is_dir($GLOBALS['thumbs_dir'])) {
-        if ($safe_mode_flag) {
-            $indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_thumbspath %s</label>", _AM_ERR_PERMISSION, 'Red');
+        //        if ($safe_mode_flag) {
+        //            $indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_thumbspath %s</label>", _AM_ERR_PERMISSION, 'Red');
+        //        } else {
+        $rs = mkdir($GLOBALS['thumbs_dir'], 0777);
+        if (!$rs) {
+            $indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_thumbspath %s</label>", _AM_ERR_NOTDIRECTORY, 'Red');
         } else {
-            $rs = mkdir($GLOBALS['thumbs_dir'], 0777);
-            if (!$rs) {
-                $indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_thumbspath %s</label>", _AM_ERR_NOTDIRECTORY, 'Red');
-            } else {
-                $indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_thumbspath %s</label>", 'Ok', 'Green');
-            }
+            $indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_thumbspath %s</label>", 'Ok', 'Green');
         }
+        //        }
     } elseif (!is_writable($GLOBALS['thumbs_dir']) || !is_readable($GLOBALS['thumbs_dir'])) {
         $indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_thumbspath %s</label>", _AM_ERR_READORWRITE, 'Red');
     } else {

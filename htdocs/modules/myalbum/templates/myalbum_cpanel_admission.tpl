@@ -1,10 +1,10 @@
 <h3 style='text-align:left;'><{$admin_title}></h3>
-<{if $smarty.get.mes}><p><span style='color:blue'>(<{$smarty.get.mes}>)</span></p><{/if}>
+<{if $smarty.get.mes}><p><span style='color:blue;'>(<{$smarty.get.mes}>)</span></p><{/if}>
 <table width='95%' border='0' cellpadding='4' cellspacing='0'>
     <tr>
         <td>
 
-            <form action='' method='GET' style='margin-bottom:0;text-align:right'>
+            <form action='' method='GET' style='margin-bottom:0;text-align:right;'>
                 <!--
           <input type='hidden' name='num' value='<{$num}>'>
           <input type='text' name='txt' value='<{$txt}>'>

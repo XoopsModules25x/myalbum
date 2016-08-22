@@ -49,7 +49,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
         $confcats        =& $confcat_handler->getObjects();
         $catcount        = count($confcats);
         xoops_cp_header();
-        echo '<h4 style="text-align:left">' . _MD_AM_SITEPREF . '</h4><ul>';
+        echo '<h4 style="text-align:left;">' . _MD_AM_SITEPREF . '</h4><ul>';
         for ($i = 0; $i < $catcount; ++$i) {
             echo '<li>' . constant($confcats[$i]->getVar('confcat_name')) . ' [<a href="admin.php?fct=preferences&amp;op=show&amp;confcat_id=' . $confcats[$i]->getVar('confcat_id') . '">' . _EDIT . '</a>]</li>';
         }
@@ -361,7 +361,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
         $form->addElement(new XoopsFormButton('', 'button', _GO, 'submit'));
         xoops_cp_header();
         // GIJ patch start
-        include './mymenu.php';
+        include __DIR__ . '/mymenu.php';
         echo "<h3 style='text-align:left;'>" . $module->getVar('name') . ' &nbsp; ' . _PREFERENCES . "</h3>\n";
         // GIJ patch end
         $form->display();
@@ -374,7 +374,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
         $xoopsTpl = new XoopsTpl();
         $xoopsTpl->clear_all_cache();
         // regenerate admin menu file
-        xoops_module_write_admin_menu(xoops_module_get_admin_menu());
+//        xoops_module_write_admin_menu(xoops_module_get_admin_menu());
         $count            = count($conf_ids);
         $tpl_updated      = false;
         $theme_updated    = false;
@@ -391,7 +391,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                     ) {
                         // regenerate admin menu file
                         $xoopsConfig['language'] = ${$config->getVar('conf_name')};
-                        xoops_module_write_admin_menu(xoops_module_get_admin_menu());
+//                        xoops_module_write_admin_menu(xoops_module_get_admin_menu());
                         $lang_updated = true;
                     }
 

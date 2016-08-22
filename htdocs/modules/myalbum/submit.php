@@ -33,13 +33,13 @@ if (!ini_get('file_uploads')) {
 }
 
 // get flag of safe_mode
-$safe_mode_flag = ini_get('safe_mode');
+//$safe_mode_flag = ini_get('safe_mode');
 
 // check or make photos_dir
 if (!is_dir($photos_dir)) {
-    if ($safe_mode_flag) {
-        redirect_header(XOOPS_URL . "/modules/$moduleDirName/", 10, "At first create & chmod 777 '$photos_dir' by ftp or shell.");
-    }
+//    if ($safe_mode_flag) {
+//        redirect_header(XOOPS_URL . "/modules/$moduleDirName/", 10, "At first create & chmod 777 '$photos_dir' by ftp or shell.");
+//    }
 
     $rs = mkdir($photos_dir, 0777);
     if (!$rs) {
@@ -51,9 +51,9 @@ if (!is_dir($photos_dir)) {
 
 // check or make thumbs_dir
 if ($myalbum_makethumb && !is_dir($thumbs_dir)) {
-    if ($safe_mode_flag) {
-        redirect_header(XOOPS_URL . "/modules/$moduleDirName/", 10, "At first create & chmod 777 '$thumbs_dir' by ftp or shell.");
-    }
+//    if ($safe_mode_flag) {
+//        redirect_header(XOOPS_URL . "/modules/$moduleDirName/", 10, "At first create & chmod 777 '$thumbs_dir' by ftp or shell.");
+//    }
 
     $rs = mkdir($thumbs_dir, 0777);
     if (!$rs) {

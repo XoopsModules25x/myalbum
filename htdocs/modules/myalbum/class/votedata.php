@@ -40,7 +40,7 @@ class MyalbumVotedataHandler extends XoopsPersistableObjectHandler
 {
     /**
      * MyalbumVotedataHandler constructor.
-     * @param null|object $db
+     * @param null|XoopsDatabase $db
      */
     public function __construct(XoopsDatabase $db)
     {
@@ -56,7 +56,7 @@ class Myalbum0VotedataHandler extends MyalbumVotedataHandler
 {
     /**
      * Myalbum0VotedataHandler constructor.
-     * @param null|object $db
+     * @param null|XoopsDatabase $db
      */
     public function __construct(XoopsDatabase $db)
     {
@@ -71,7 +71,7 @@ class Myalbum1VotedataHandler extends MyalbumVotedataHandler
 {
     /**
      * Myalbum1VotedataHandler constructor.
-     * @param null|object $db
+     * @param null|XoopsDatabase $db
      */
     public function __construct(XoopsDatabase $db)
     {
@@ -86,7 +86,7 @@ class Myalbum2VotedataHandler extends MyalbumVotedataHandler
 {
     /**
      * Myalbum2VotedataHandler constructor.
-     * @param null|object $db
+     * @param null|XoopsDatabase $db
      */
     public function __construct(XoopsDatabase $db)
     {

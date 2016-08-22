@@ -104,7 +104,7 @@ class MyalbumCat extends XoopsObject
 class MyalbumCatHandler extends XoopsPersistableObjectHandler
 {
     /**
-     * @param null|object $db
+     * @param null|XoopsDatabase $db
      */
     public function __construct(XoopsDatabase $db)
     {
@@ -140,7 +140,7 @@ class MyalbumCatHandler extends XoopsPersistableObjectHandler
 class Myalbum0CatHandler extends MyalbumCatHandler
 {
     /**
-     * @param null|object $db
+     * @param null|XoopsDatabase $db
      */
     public function __construct(XoopsDatabase $db)
     {
@@ -154,7 +154,7 @@ class Myalbum0CatHandler extends MyalbumCatHandler
 class Myalbum1CatHandler extends MyalbumCatHandler
 {
     /**
-     * @param null|object $db
+     * @param null|XoopsDatabase $db
      */
     public function __construct(XoopsDatabase $db)
     {
@@ -168,7 +168,7 @@ class Myalbum1CatHandler extends MyalbumCatHandler
 class Myalbum2CatHandler extends MyalbumCatHandler
 {
     /**
-     * @param null|object $db
+     * @param null|XoopsDatabase $db
      */
     public function __construct(XoopsDatabase $db)
     {

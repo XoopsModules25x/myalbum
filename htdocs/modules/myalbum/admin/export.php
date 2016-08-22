@@ -42,7 +42,7 @@ if (!empty($_POST['imagemanager_export']) && !empty($_POST['imgcat_id']) && !emp
     $srs          = $xoopsDB->query("SELECT lid,ext,title,date,status FROM $src_table_photos WHERE cid='$src_cid'");
     $export_count = 0;
     while (list($lid, $ext, $title, $date, $status) = $xoopsDB->fetchRow($srs)) {
-        $dst_node = uniqid('img');
+        $dst_node = uniqid('img', true);
         $dst_file = XOOPS_UPLOAD_PATH . "/{$dst_node}.{$ext}";
         $src_file = empty($_POST['use_thumb']) ? "$photos_dir/{$lid}.{$ext}" : "$thumbs_dir/{$lid}.{$ext}";
 

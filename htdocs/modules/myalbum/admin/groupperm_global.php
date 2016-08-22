@@ -1,6 +1,6 @@
 <?php
 include_once __DIR__ . '/admin_header.php';
-include_once 'mygrouppermform.php';
+include_once __DIR__ . '/mygrouppermform.php';
 
 xoops_loadLanguage('admin', 'system');
 
