@@ -25,7 +25,7 @@ if (!empty($_POST['action']) && $_POST['action'] === 'delete' && isset($_POST['i
 
     foreach ($_POST['ids'] as $lid) {
         $criteria = new Criteria('lid', (int)$lid);
-        myalbum_delete_photos($criteria);
+        MyalbumUtilities::deletePhotos($criteria);
     }
     redirect_header("photomanager.php?num=$num&cid=$cid", 2, _ALBM_DELETINGPHOTO);
 } elseif (isset($_POST['update']) && isset($_POST['ids']) && is_array($_POST['ids'])) {
@@ -134,11 +134,11 @@ foreach ($numbers as $number) {
     $num_options .= "<option value='$number' $selected>" . sprintf(_ALBM_FMT_PHOTONUM, $number) . "</option>\n";
 }
 
-myalbum_get_cat_options();
+MyalbumUtilities::getCategoryOptions();
 
 // Options for Selecting a category
-$cat_options            = myalbum_get_cat_options('title', $cid, '--', '----');
-$cat_options_for_update = myalbum_get_cat_options('title', 0, '--', _AM_OPT_NOCHANGE);
+$cat_options            = MyalbumUtilities::getCategoryOptions('title', $cid, '--', '----');
+$cat_options_for_update = MyalbumUtilities::getCategoryOptions('title', 0, '--', _AM_OPT_NOCHANGE);
 
 // Options for Selecting a user
 $user_options = "<option value='0'>" . _AM_OPT_NOCHANGE . "</option>\n";

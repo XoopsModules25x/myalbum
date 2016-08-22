@@ -3,7 +3,7 @@
 $moduleDirName = basename(dirname(__DIR__));
 require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
-require_once dirname(__DIR__) . '/include/functions.php';
+require_once dirname(__DIR__) . '/class/utilities.php';
 require_once dirname(__DIR__) . '/include/read_configs.php';
 
 if (!defined('_CHARSET')) {
@@ -16,7 +16,7 @@ if (!defined('_CHARSET_ISO')) {
 $GLOBALS['myts'] = MyTextSanitizer::getInstance();
 
 $moduleHandler                  = xoops_getHandler('module');
-$configHandler                 = xoops_getHandler('config');
+$configHandler                  = xoops_getHandler('config');
 $GLOBALS['myalbumModule']       = $moduleHandler->getByDirname($GLOBALS['mydirname']);
 $GLOBALS['myalbumModuleConfig'] = $configHandler->getConfigList($GLOBALS['myalbumModule']->getVar('mid'));
 $GLOBALS['myalbum_mid']         = $GLOBALS['myalbumModule']->getVar('mid');
@@ -32,7 +32,7 @@ xoops_load('xoopsformloader');
 include_once $GLOBALS['xoops']->path('class' . DS . 'xoopsmailer.php');
 include_once $GLOBALS['xoops']->path('class' . DS . 'tree.php');
 
-$catHandler        = xoops_getModuleHandler('cat');
+$catHandler         = xoops_getModuleHandler('cat');
 $cats               = $catHandler->getObjects(null, true);
 $GLOBALS['cattree'] = new XoopsObjectTree($cats, 'cid', 'pid', 0);
 
@@ -55,8 +55,8 @@ xoops_loadLanguage('user');
 xoops_loadLanguage('admin', $moduleDirName);
 xoops_loadLanguage('main', $moduleDirName);
 
-$pathIcon16      = $GLOBALS['xoops']->url('www/' . $GLOBALS['xoopsModule']->getInfo('sysicons16'));
-$pathIcon32      = $GLOBALS['xoops']->url('www/' . $GLOBALS['xoopsModule']->getInfo('sysicons32'));
+$pathIcon16 = $GLOBALS['xoops']->url('www/' . $GLOBALS['xoopsModule']->getInfo('sysicons16'));
+$pathIcon32 = $GLOBALS['xoops']->url('www/' . $GLOBALS['xoopsModule']->getInfo('sysicons32'));
 
 if (!isset($GLOBALS['xoopsTpl']) || !is_object($GLOBALS['xoopsTpl'])) {
     include_once XOOPS_ROOT_PATH . '/class/template.php';

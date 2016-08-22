@@ -28,14 +28,14 @@ $moduleDirName = basename(__DIR__);
 $GLOBALS['mydirname'] = basename(__DIR__);
 include XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/read_configs.php";
 include XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/get_perms.php";
-include_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/functions.php";
+include_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/class/utilities.php";
 include_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/draw_functions.php";
 include_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/class/myuploader.php";
 
 $GLOBALS['myts'] = MyTextSanitizer::getInstance();
 
 $moduleHandler                  = xoops_getHandler('module');
-$configHandler                 = xoops_getHandler('config');
+$configHandler                  = xoops_getHandler('config');
 $GLOBALS['myalbumModule']       = $moduleHandler->getByDirname($GLOBALS['mydirname']);
 $GLOBALS['myalbumModuleConfig'] = $configHandler->getConfigList($GLOBALS['myalbumModule']->getVar('mid'));
 $GLOBALS['myalbum_mid']         = $GLOBALS['myalbumModule']->getVar('mid');
@@ -51,7 +51,7 @@ xoops_load('xoopsformloader');
 include_once $GLOBALS['xoops']->path('class' . DS . 'xoopsmailer.php');
 include_once $GLOBALS['xoops']->path('class' . DS . 'tree.php');
 
-$catHandler        = xoops_getModuleHandler('cat');
+$catHandler         = xoops_getModuleHandler('cat');
 $cats               = $catHandler->getObjects(null, true);
 $GLOBALS['cattree'] = new XoopsObjectTree($cats, 'cid', 'pid', 0);
 

@@ -107,7 +107,7 @@ if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
                 $GLOBALS['xoopsDB']->prefix($table_text),
                 $GLOBALS['xoopsDB']->prefix($table_votedata)
             );
-            myalbum_delete_photos("lid='$src_lid'");
+            MyalbumUtilities::deletePhotos("lid='$src_lid'");
             list($photos_dir, $thumbs_dir, $myalbum_mid, $table_photos, $table_text, $table_votedata) = array(
                 $saved_photos_dir,
                 $saved_thumbs_dir,
@@ -176,10 +176,10 @@ else {
                 list($body) = $GLOBALS['xoopsDB']->fetchRow($brs);
                 fwrite($fp, $body);
                 fclose($fp);
-                myalbum_create_thumb($dst_file, $lid, $ext);
+                MyalbumUtilities::createThumb($dst_file, $lid, $ext);
             } else {
                 @copy($src_file, $dst_file);
-                myalbum_create_thumb($src_file, $lid, $ext);
+                MyalbumUtilities::createThumb($src_file, $lid, $ext);
             }
 
             list($width, $height, $type) = getimagesize($dst_file);

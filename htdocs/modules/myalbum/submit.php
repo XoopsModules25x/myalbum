@@ -39,7 +39,7 @@ if (!is_dir($photos_dir)) {
     //        redirect_header(XOOPS_URL . "/modules/$moduleDirName/", 10, "At first create & chmod 777 '$photos_dir' by ftp or shell.");
     //    }
 
-    $rs = mkdir($photos_dir, 0777);
+    $rs = mkdir($photos_dir);
     if (!$rs) {
         redirect_header(XOOPS_URL . "/modules/$moduleDirName/", 10, "$photos_dir is not a directory");
     } else {
@@ -53,7 +53,7 @@ if ($myalbum_makethumb && !is_dir($thumbs_dir)) {
     //        redirect_header(XOOPS_URL . "/modules/$moduleDirName/", 10, "At first create & chmod 777 '$thumbs_dir' by ftp or shell.");
     //    }
 
-    $rs = mkdir($thumbs_dir, 0777);
+    $rs = mkdir($thumbs_dir);
     if (!$rs) {
         redirect_header(XOOPS_URL . "/modules/$moduleDirName/", 10, "$thumbs_dir is not a directory");
     } else {
@@ -182,13 +182,13 @@ if (!empty($_POST['submit'])) {
         $tagHandler->updateByItem($_POST['tags'], $newid, $GLOBALS['myalbumModule']->getVar('dirname'), $cid);
     }
 
-    myalbum_modify_photo($GLOBALS['photos_dir'] . "/$tmp_name", $GLOBALS['photos_dir'] . "/$newid.$ext");
+    MyalbumUtilities::editPhoto($GLOBALS['photos_dir'] . "/$tmp_name", $GLOBALS['photos_dir'] . "/$newid.$ext");
     $dim = getimagesize($GLOBALS['photos_dir'] . "/$newid.$ext");
     $photo_obj->setVar('res_x', $dim[0]);
     $photo_obj->setVar('res_y', $dim[1]);
     @$photosHandler->insert($photo_obj, true);
 
-    if (!myalbum_create_thumb($GLOBALS['photos_dir'] . "/$newid.$ext", $newid, $ext)) {
+    if (!MyalbumUtilities::createThumb($GLOBALS['photos_dir'] . "/$newid.$ext", $newid, $ext)) {
         $xoopsDB->query("DELETE FROM $table_photos WHERE lid=$newid");
         redirect_header('submit.php', 2, _ALBM_FILEREADERROR);
     }
@@ -220,7 +220,7 @@ if (!empty($_POST['submit'])) {
     }
 
     // Clear tempolary files
-    myalbum_clear_tmp_files($photos_dir);
+    MyalbumUtilities::clearTempFiles($photos_dir);
 
     $redirect_uri = XOOPS_URL . "/modules/$moduleDirName/viewcat.php?cid=$cid&amp;orderby=dateD";
     if ($caller === 'imagemanager') {
@@ -263,7 +263,7 @@ if ($caller !== 'imagemanager' && !empty($_POST['preview'])) {
         if ($uploader->fetchMedia($field) && $uploader->upload()) {
             $tmp_name     = $uploader->getSavedFileName();
             $preview_name = str_replace('tmp_', 'tmp_prev_', $tmp_name);
-            myalbum_modify_photo($GLOBALS['photos_dir'] . "/$tmp_name", $GLOBALS['photos_dir'] . "/$lid.$ext");
+            MyalbumUtilities::editPhoto($GLOBALS['photos_dir'] . "/$tmp_name", $GLOBALS['photos_dir'] . "/$lid.$ext");
             list($imgsrc, $width_spec, $ahref) = myalbum_get_img_attribs_for_preview($preview_name);
         } else {
             @unlink($uploader->getSavedDestination());

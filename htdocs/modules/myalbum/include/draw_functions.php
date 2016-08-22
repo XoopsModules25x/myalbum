@@ -32,7 +32,7 @@ function myalbum_get_name_from_uid($uid)
 
     if ($uid > 0) {
         $memberHandler = xoops_getHandler('member');
-        $poster         = $memberHandler->getUser($uid);
+        $poster        = $memberHandler->getUser($uid);
 
         if (is_object($poster)) {
             if ($myalbum_nameoruname === 'uname') {
@@ -276,8 +276,8 @@ function myalbum_get_sub_categories($parent_id, $cattree)
             $subcat[] = array(
                 'cid'              => $child->getVar('cid'),
                 'title'            => $child->getVar('title'),
-                'weight'            => $child->getVar('weight'),
-                'photo_small_sum'  => myalbum_get_photo_small_sum_from_cat($child->getVar('cid'), $criteria),
+                'weight'           => $child->getVar('weight'),
+                'photo_small_sum'  => MyalbumUtilities::getCategoryCount($child->getVar('cid'), $criteria),
                 'number_of_subcat' => count($GLOBALS['cattree']->getFirstChild($child->getVar('cid')))
             );
         }
@@ -295,12 +295,12 @@ function myalbum_get_sub_categories($parent_id, $cattree)
 
         array_push($cids, $cid);
 
-        $photo_total_sum = myalbum_get_photo_total_sum_from_cats($cids, $criteria);
+        $photo_total_sum = MyalbumUtilities::getTotalCount($cids, $criteria);
 
         $ret[] = array(
             'cid'             => $cid,
             'imgurl'          => $GLOBALS['myts']->htmlSpecialChars($imgurl),
-            'photo_small_sum' => myalbum_get_photo_small_sum_from_cat($cid, $criteria),
+            'photo_small_sum' => MyalbumUtilities::getCategoryCount($cid, $criteria),
             'photo_total_sum' => $photo_total_sum,
             'title'           => $title,
             'weight'          => $weight,

@@ -53,7 +53,7 @@ function myalbum_admin_form_export()
     }
 
     // Options for Selecting a category in myAlbum-P
-    $myalbum_cat_options = myalbum_get_cat_options('title', 0, '--', '----');
+    $myalbum_cat_options = MyalbumUtilities::getCategoryOptions('title', 0, '--', '----');
 
     $form = '<h4>' . _AM_FMT_EXPORTTOIMAGEMANAGER . "</h4>
 <form name='ImageManager' action='export.php' method='POST'>
@@ -125,7 +125,7 @@ function myalbum_admin_form_import_myalbum()
             continue;
         }
 
-        $myalbum_cat_options = myalbum_get_cat_options('title', 0, '--', '----', $GLOBALS['xoopsDB']->prefix("{$src_dirname}_cat"), $GLOBALS['xoopsDB']->prefix("{$src_dirname}_photos"));
+        $myalbum_cat_options = MyalbumUtilities::getCategoryOptions('title', 0, '--', '----', $GLOBALS['xoopsDB']->prefix("{$src_dirname}_cat"), $GLOBALS['xoopsDB']->prefix("{$src_dirname}_photos"));
 
         $frm .= '<p>
                 <h4>' . sprintf(_AM_FMT_IMPORTFROMMYALBUMP, $module->name()) . "</h4>

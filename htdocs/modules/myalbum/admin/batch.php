@@ -106,7 +106,7 @@ if (isset($_POST['submit']) && $_POST['submit'] !== '') {
             if ($lid = $photosHandler->insert($photo)) {
                 print " &nbsp; <a href='../photo.php?lid=$lid' target='_blank'>$file_path</a>\n";
                 copy($file_path, $GLOBALS['photos_dir'] . DS . "$lid.$ext");
-                myalbum_create_thumb($GLOBALS['photos_dir'] . DS . "$lid.$ext", $lid, $ext);
+                MyalbumUtilities::createThumb($GLOBALS['photos_dir'] . DS . "$lid.$ext", $lid, $ext);
                 $text = $textHandler->create();
                 $text->setVar('lid', $lid);
                 $text->setVar('description', $desc4save);

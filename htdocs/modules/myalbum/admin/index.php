@@ -142,7 +142,7 @@ if (substr($myalbum_photospath, -1) === '/') {
     //    if ($safe_mode_flag) {
     //        $indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_photospath %s</label>", _AM_ERR_PERMISSION, 'Red');
     //    } else {
-    $rs = mkdir($GLOBALS['photos_dir'], 0777);
+    $rs = mkdir($GLOBALS['photos_dir']);
     if (!$rs) {
         $indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_photospath %s</label>", _AM_ERR_NOTDIRECTORY, 'Red');
     } else {
@@ -165,7 +165,7 @@ if ($myalbum_makethumb) {
         //        if ($safe_mode_flag) {
         //            $indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_thumbspath %s</label>", _AM_ERR_PERMISSION, 'Red');
         //        } else {
-        $rs = mkdir($GLOBALS['thumbs_dir'], 0777);
+        $rs = mkdir($GLOBALS['thumbs_dir']);
         if (!$rs) {
             $indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_thumbspath %s</label>", _AM_ERR_NOTDIRECTORY, 'Red');
         } else {
