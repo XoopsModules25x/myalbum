@@ -7,7 +7,6 @@ include __DIR__ . '/header.php';
 
 if (!($global_perms & GPERM_RATEVOTE)) {
     redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/index.php', 1, _NOPERM);
-    exit;
 }
 
 $lid = empty($_GET['lid']) ? 0 : (int)$_GET['lid'];
@@ -16,7 +15,6 @@ $photosHandler   = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
 $votedataHandler = xoops_getModuleHandler('votedata', $GLOBALS['mydirname']);
 if (!$photo_obj = $photosHandler->get($lid)) {
     redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/index.php', 2, _ALBM_NOMATCH);
-    exit;
 }
 
 if (isset($_POST['submit'])) {
@@ -30,7 +28,6 @@ if (isset($_POST['submit'])) {
     // Check if rating is valid
     if ($rating <= 0 || $rating > 10) {
         redirect_header($photo_obj->getRateURL(), 4, _ALBM_NORATING);
-        exit;
     }
 
     if ($ratinguser != 0) {
@@ -41,7 +38,6 @@ if (isset($_POST['submit'])) {
 
         if ($photosHandler->getCount($criteria)) {
             redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/index.php', 4, _ALBM_CANTVOTEOWN);
-            exit;
         }
 
         $criteria = new CriteriaCompo(new Criteria('`lid`', $lid, '='));
@@ -50,7 +46,6 @@ if (isset($_POST['submit'])) {
         // Check if REG user is trying to vote twice.
         if ($votedataHandler->getCount($criteria)) {
             redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/index.php', 4, _ALBM_VOTEONCE2);
-            exit;
         }
     } else {
         // Check if ANONYMOUS user is trying to vote more than once per day.
@@ -61,7 +56,6 @@ if (isset($_POST['submit'])) {
         // Check if REG user is trying to vote twice.
         if ($votedataHandler->getCount($criteria)) {
             redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/index.php', 4, _ALBM_VOTEONCE2);
-            exit;
         }
     }
 
@@ -78,7 +72,6 @@ if (isset($_POST['submit'])) {
     myalbum_updaterating($lid);
     $ratemessage = _ALBM_VOTEAPPRE . '<br>' . sprintf(_ALBM_THANKURATE, $xoopsConfig['sitename']);
     redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/index.php', 2, $ratemessage);
-    exit;
 } else {
     if (!strpos($photo_obj->getRateURL(), $_SERVER['REQUEST_URI'])) {
         header('HTTP/1.1 301 Moved Permanently');

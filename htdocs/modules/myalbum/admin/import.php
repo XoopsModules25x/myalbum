@@ -122,7 +122,6 @@ if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
     }
 
     redirect_header('import.php', 2, sprintf(_AM_FMT_IMPORTSUCCESS, $import_count));
-    exit;
 } // From imagemanager
 else {
     if (!empty($_POST['imagemanager_import']) && !empty($_POST['imgcat_id'])) {
@@ -190,7 +189,6 @@ else {
         }
 
         redirect_header('import.php', 2, sprintf(_AM_FMT_IMPORTSUCCESS, $import_count));
-        exit;
     }
 }
 

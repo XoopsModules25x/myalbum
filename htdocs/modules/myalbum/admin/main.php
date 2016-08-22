@@ -35,7 +35,6 @@ if ($action === 'insert') {
     }
 
     redirect_header('main.php', 1, _AM_CAT_INSERTED);
-    exit;
 } elseif ($action === 'update' && !empty($_POST['cid'])) {
 
     // anti-CSRF (Double Check)
@@ -64,7 +63,6 @@ if ($action === 'insert') {
     $sql .= mysqli_get_sql_set($cols) . " WHERE cid='$cid'";
     $GLOBALS['xoopsDB']->query($sql) || die('DB Error: update category');
     redirect_header('main.php', 1, _AM_CAT_UPDATED);
-    exit;
 } elseif (!empty($_POST['delcat'])) {
 
     // anti-CSRF (Double Check)

@@ -28,7 +28,6 @@ if (!empty($_POST['action']) && $_POST['action'] === 'delete' && isset($_POST['i
         myalbum_delete_photos($criteria);
     }
     redirect_header("photomanager.php?num=$num&cid=$cid", 2, _ALBM_DELETINGPHOTO);
-    exit;
 } elseif (isset($_POST['update']) && isset($_POST['ids']) && is_array($_POST['ids'])) {
 
     // batch update
@@ -88,7 +87,6 @@ if (!empty($_POST['action']) && $_POST['action'] === 'delete' && isset($_POST['i
     }
 
     redirect_header("photomanager.php?num=$num&cid=$cid", 2, _ALBM_DBUPDATED);
-    exit;
 }
 
 // make 'WHERE'

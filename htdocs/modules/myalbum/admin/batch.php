@@ -24,7 +24,6 @@ $GLOBALS['desc4edit']  = isset($_POST['desc']) ? $GLOBALS['myts']->htmlSpecialCh
 // reject Not Admin
 if (!$isadmin) {
     redirect_header($mod_url, 2, _ALBM_MUSTREGFIRST);
-    exit;
 }
 
 $catHandler = xoops_getModuleHandler('cat');
@@ -73,7 +72,6 @@ if (isset($_POST['submit']) && $_POST['submit'] !== '') {
     $dir_h = opendir($dir);
     if ($dir_h === false) {
         redirect_header('batch.php', 3, _ALBM_MES_INVALIDDIRECTORY . "<br />$dir4edit");
-        exit;
     }
     $filecount = 1;
     while ($file_name = readdir($dir_h)) {

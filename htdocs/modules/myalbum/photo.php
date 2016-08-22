@@ -25,11 +25,10 @@ function deleteImage($lid)
 {
     global $global_perms;
     $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
-    $photo_obj      = $photosHandler->get($lid);
+    $photo_obj     = $photosHandler->get($lid);
 
     if (!($global_perms & GPERM_DELETABLE)) {
         redirect_header('photo.php', 3, _NOPERM);
-        exit;
     }
 
     // anti-CSRF
@@ -61,7 +60,6 @@ switch ($op) {
 
         if (!is_object($photo_obj = $photosHandler->get($lid))) {
             redirect_header('index.php', 2, _ALBM_NOMATCH);
-            exit;
         }
 
         if (!strpos($photo_obj->getURL(), $_SERVER['REQUEST_URI'])) {
@@ -86,7 +84,6 @@ switch ($op) {
 
         if ($photo_obj->getVar('status') < 1) {
             redirect_header($mod_url, 3, _ALBM_NOMATCH);
-            exit;
         }
 
         // update hit count

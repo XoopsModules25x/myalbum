@@ -15,7 +15,6 @@ if (!empty($_POST['action']) && $_POST['action'] === 'admit' && isset($_POST['id
     $photosHandler = xoops_getModuleHandler('photos');
     @$photosHandler->setStatus($_POST['ids'], 1);
     redirect_header('admission.php', 2, _ALBM_AM_ADMITTING);
-    exit;
 } elseif (!empty($_POST['action']) && $_POST['action'] === 'delete' && isset($_POST['ids']) && is_array($_POST['ids'])) {
 
     // remove records
@@ -29,7 +28,6 @@ if (!empty($_POST['action']) && $_POST['action'] === 'admit' && isset($_POST['id
     @$photosHandler->deletePhotos($_POST['ids']);
 
     redirect_header('admission.php', 2, _ALBM_DELETINGPHOTO);
-    exit;
 }
 
 $photosHandler = xoops_getModuleHandler('photos');

@@ -12,7 +12,6 @@ if (!empty($_POST['imagemanager_export']) && !empty($_POST['imgcat_id']) && !emp
     // authority check
     $syspermHandler = xoops_getHandler('groupperm');
     if (!$syspermHandler->checkRight('system_admin', XOOPS_SYSTEM_IMAGE, $xoopsUser->getGroups())) {
-        exit;
     }
 
     // anti-CSRF
@@ -71,9 +70,7 @@ if (!empty($_POST['imagemanager_export']) && !empty($_POST['imgcat_id']) && !emp
 
         ++$export_count;
     }
-
     redirect_header('export.php', 2, sprintf(_AM_FMT_EXPORTSUCCESS, $export_count));
-    exit;
 }
 
 //

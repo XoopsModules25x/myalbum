@@ -12,25 +12,21 @@ $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
 $textHandler   = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
 if (!$photo_obj = $photosHandler->get($lid)) {
     redirect_header('index.php', 2, _ALBM_NOMATCH);
-    exit;
 }
 $submitter = $photo_obj->getVar('submitted');
 
 if ($global_perms & GPERM_EDITABLE) {
     if ($my_uid != $submitter && !$isadmin) {
         redirect_header($mod_url, 3, _NOPERM);
-        exit;
     }
 } else {
     redirect_header($mod_url, 3, _NOPERM);
-    exit;
 }
 
 // Do Delete
 if (!empty($_POST['do_delete'])) {
     if (!($global_perms & GPERM_DELETABLE)) {
         redirect_header($mod_url, 3, _NOPERM);
-        exit;
     }
 
     // anti-CSRF
@@ -46,14 +42,12 @@ if (!empty($_POST['do_delete'])) {
     $photosHandler->delete($photo_obj);
 
     redirect_header($mod_url, 3, _ALBM_DELETINGPHOTO);
-    exit;
 }
 
 // Confirm Delete
 if (!empty($_POST['conf_delete'])) {
     if (!($global_perms & GPERM_DELETABLE)) {
         redirect_header($mod_url, 3, _NOPERM);
-        exit;
     }
 
     include XOOPS_ROOT_PATH . '/include/cp_functions.php';
@@ -160,7 +154,6 @@ if (!empty($_POST['submit'])) {
 
             if (!myalbum_create_thumb($GLOBALS['photos_dir'] . "/$lid.$ext", $lid, $ext)) {
                 redirect_header('editphoto.php?lid=$lid', 10, _ALBM_FILEERROR);
-                exit;
             }
 
             myalbum_update_photo($lid, $cid, $title, $desc_text, $valid, $ext, $dim[0], $dim[1]);
