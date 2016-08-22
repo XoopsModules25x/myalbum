@@ -5,9 +5,11 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
 include_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
 include XOOPS_ROOT_PATH . '/modules/system/admin/blocksadmin/blocksadmin.php';
 
-$moduleHandler = xoops_getHandler('module');
-$mydirname     = $moduleHandler->getByDirname($GLOBALS['mydirname']);
-xoops_loadLanguage('blocks', $mydirname);
+$moduleDirName = basename(dirname(__DIR__));
+
+//$moduleHandler = xoops_getHandler('module');
+//$moduleDirName     = $moduleHandler->getByDirname($GLOBALS['mydirname']);
+xoops_loadLanguage('blocks', $moduleDirName);
 
 $op = 'list';
 if (isset($_POST)) {

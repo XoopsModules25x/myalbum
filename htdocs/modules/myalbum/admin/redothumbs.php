@@ -52,7 +52,7 @@ if (!empty($_POST['submit'])) {
     $result         = $xoopsDB->query('SELECT lid , ext , res_x , res_y FROM ' . $GLOBALS['xoopsDB']->prefix($table_photos) . " ORDER BY lid LIMIT $start , $size")
                       || die('DB Error');
     $record_counter = 0;
-    while (list($lid, $ext, $w, $h) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($lid, $ext, $w, $h) = $xoopsDB->fetchRow($result))) {
         ++$record_counter;
         echo ($record_counter + $start - 1) . ') ';
         printf(_AM_FMT_CHECKING, "$lid.$ext");

@@ -54,7 +54,7 @@ class MyalbumForms extends XoopsObject
         $irs            = $GLOBALS['xoopsDB']->query('SELECT c.imgcat_id,c.imgcat_name,c.imgcat_storetype,COUNT(i.image_id) AS imgcat_sum FROM ' . $GLOBALS['xoopsDB']->prefix('imagecategory') . ' c NATURAL LEFT JOIN '
                                                      . $GLOBALS['xoopsDB']->prefix('image') . ' i GROUP BY c.imgcat_id ORDER BY c.imgcat_weight');
         $imgcat_options = '';
-        while (list($imgcat_id, $imgcat_name, $imgcat_storetype, $imgcat_sum) = $GLOBALS['xoopsDB']->fetchRow($irs)) {
+        while (false !== (list($imgcat_id, $imgcat_name, $imgcat_storetype, $imgcat_sum) = $GLOBALS['xoopsDB']->fetchRow($irs))) {
             $imgcat_options .= "<option value='$imgcat_id'>$imgcat_storetype : $imgcat_name ($imgcat_sum)</option>\n";
         }
 
@@ -117,7 +117,7 @@ class MyalbumForms extends XoopsObject
         $moduleHandler = xoops_getHandler('module');
         $mrs           = $GLOBALS['xoopsDB']->query('SELECT dirname FROM ' . $GLOBALS['xoopsDB']->prefix('modules') . " WHERE dirname like 'myalbum%'");
         $frm           = '';
-        while (list($src_dirname) = $GLOBALS['xoopsDB']->fetchRow($mrs)) {
+        while (false !== (list($src_dirname) = $GLOBALS['xoopsDB']->fetchRow($mrs))) {
             if ($GLOBALS['mydirname'] == $src_dirname) {
                 continue;
             }
@@ -164,7 +164,7 @@ class MyalbumForms extends XoopsObject
             $irs            = $GLOBALS['xoopsDB']->query('SELECT c.imgcat_id,c.imgcat_name,COUNT(i.image_id) AS imgcat_sum FROM ' . $GLOBALS['xoopsDB']->prefix('imagecategory') . ' c NATURAL LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('image')
                                                          . ' i GROUP BY c.imgcat_id ORDER BY c.imgcat_weight');
             $imgcat_options = '';
-            while (list($imgcat_id, $imgcat_name, $imgcat_sum) = $GLOBALS['xoopsDB']->fetchRow($irs)) {
+            while (false !== (list($imgcat_id, $imgcat_name, $imgcat_sum) = $GLOBALS['xoopsDB']->fetchRow($irs))) {
                 $imgcat_options .= "<option value='$imgcat_id'>$imgcat_name ($imgcat_sum)</option>\n";
             }
             $frm .= '<p>

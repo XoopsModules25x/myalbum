@@ -10,7 +10,7 @@ $mydirnumber = $regs[2] === '' ? '' : (int)$regs[2];
 
 // referer check
 $ref = xoops_getenv('HTTP_REFERER');
-if ($ref == '' || strpos($ref, XOOPS_URL . '/modules/system/admin.php') === 0) {
+if ($ref == '' || strpos($ref, XOOPS_URL . '/modules/system/admin.php') == 0) {
     /* module specific part */
     $db = XoopsDatabaseFactory::getDatabaseConnection();
 
@@ -30,4 +30,25 @@ if ($ref == '' || strpos($ref, XOOPS_URL . '/modules/system/admin.php') === 0) {
     $db->query('ALTER TABLE ' . $db->prefix("myalbum{$mydirnumber}_photos") . " ADD COLUMN tags varchar(255) NOT NULL default ''");
     // Keep the values of block's options when module is updated (by nobunobu)
     include __DIR__ . '/updateblock.inc.php';
+}
+
+function xoops_module_update_myalbum(XoopsModule $module, $oldversion = null)
+{
+    //create upload directories, if needed
+    $moduleDirName = $module->getVar('dirname');
+    include $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/include/config.php');
+
+    foreach (array_keys($uploadFolders) as $i) {
+        MyalbumUtilities::createFolder($uploadFolders[$i]);
+    }
+    //copy blank.png files, if needed
+    $file = _ALBM_ROOT_PATH . '/assets/images/blank.png';
+    foreach (array_keys($copyFiles) as $i) {
+        $dest = $copyFiles[$i] . '/blank.png';
+        MyalbumUtilities::copyFile($file, $dest);
+    }
+
+    $gpermHandler = xoops_getHandler('groupperm');
+
+    return $gpermHandler->deleteByModule($module->getVar('mid'), 'item_read');
 }

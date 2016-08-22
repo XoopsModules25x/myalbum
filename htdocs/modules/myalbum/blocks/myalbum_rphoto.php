@@ -66,7 +66,7 @@ if (!defined('MYALBUM_BLOCK_RPHOTO_INCLUDED')) {
             $result   = $xoopsDB->query('SELECT lid FROM ' . $xoopsDB->prefix($table_photos) . " WHERE status>0 AND $whr_cat AND $whr_ext");
             $lids     = array();
             $sel_lids = array();
-            while (list($lid) = $xoopsDB->fetchRow($result)) {
+            while (false !== (list($lid) = $xoopsDB->fetchRow($result))) {
                 $lids[] = $lid;
             }
             mt_srand((int)(time() / $cycle) * $cycle);
@@ -84,7 +84,7 @@ if (!defined('MYALBUM_BLOCK_RPHOTO_INCLUDED')) {
         }
 
         $count = 1;
-        while ($photo = $xoopsDB->fetchArray($result)) {
+        while (false !== ($photo = $xoopsDB->fetchArray($result))) {
             $photo['title']      = $GLOBALS['myts']->displayTarea($photo['title']);
             $photo['suffix']     = $photo['hits'] > 1 ? 'hits' : 'hit';
             $photo['date']       = formatTimestamp($photo['unixtime'], 's');

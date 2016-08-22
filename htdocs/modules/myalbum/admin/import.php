@@ -36,7 +36,7 @@ if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
 
     // read configs from xoops_config directly
     $rs = $GLOBALS['xoopsDB']->query('SELECT conf_name,conf_value FROM  ' . $GLOBALS['xoopsDB']->prefix('config') . " WHERE conf_modid='$src_mid'");
-    while (list($key, $val) = $GLOBALS['xoopsDB']->fetchRow($rs)) {
+    while (false !== (list($key, $val) = $GLOBALS['xoopsDB']->fetchRow($rs))) {
         $src_configs[$key] = $val;
     }
     $src_photos_dir = XOOPS_ROOT_PATH . $src_configs['myalbum_photospath'];
@@ -61,7 +61,7 @@ if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
     // INSERT loop
     $rs           = $GLOBALS['xoopsDB']->query("SELECT lid,ext FROM $src_table_photos WHERE cid='$src_cid'");
     $import_count = 0;
-    while (list($src_lid, $ext) = $GLOBALS['xoopsDB']->fetchRow($rs)) {
+    while (false !== (list($src_lid, $ext) = $GLOBALS['xoopsDB']->fetchRow($rs))) {
 
         // photos table
         $set_comments = $move_mode ? 'comments' : "'0'";
@@ -153,7 +153,7 @@ else {
         // INSERT loop
         $rs           = $GLOBALS['xoopsDB']->query("SELECT image_id,image_name,image_nicename,image_created,image_display FROM $src_table_photos WHERE imgcat_id='$src_cid'");
         $import_count = 0;
-        while (list($image_id, $image_name, $image_nicename, $image_created, $image_display) = $GLOBALS['xoopsDB']->fetchRow($rs)) {
+        while (false !== (list($image_id, $image_name, $image_nicename, $image_created, $image_display) = $GLOBALS['xoopsDB']->fetchRow($rs))) {
             $src_file = XOOPS_UPLOAD_PATH . "/$image_name";
             $ext      = substr(strrchr($image_name, '.'), 1);
 

@@ -34,3 +34,27 @@ function xoops_module_install_' . $moduleDirName . '( $module )
 }
 
 ');
+
+function xoops_module_install_myalbum(XoopsModule $xoopsModule)
+{
+    include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+
+    xoops_loadLanguage('admin', $xoopsModule->getVar('dirname'));
+    xoops_loadLanguage('modinfo', $xoopsModule->getVar('dirname'));
+
+    $moduleDirName = $xoopsModule->getVar('dirname');
+    include_once $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/include/config.php');
+
+    foreach (array_keys($uploadFolders) as $i) {
+        MyalbumUtilities::createFolder($uploadFolders[$i]);
+    }
+
+    $file = _ALMB_ROOT_PATH . '/assets/images/blank.png';
+    foreach (array_keys($copyFiles) as $i) {
+        $dest = $copyFiles[$i] . '/blank.png';
+        MyalbumUtilities::copyFile($file, $dest);
+    }
+
+    return true;
+
+}

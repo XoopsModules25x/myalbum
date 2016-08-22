@@ -52,7 +52,7 @@ if (!defined('MYALBUM_BLOCK_TOPHITS_INCLUDED')) {
                                            . " WHERE status>0 AND $whr_cat ORDER BY hits DESC", $photos_num, 0);
 
         $count = 1;
-        while ($photo = $xoopsDB->fetchArray($result)) {
+        while (false !== ($photo = $xoopsDB->fetchArray($result))) {
             $photo['title'] = $myts->htmlSpecialChars($photo['title']);
             if (strlen($photo['title']) >= $title_max_length) {
                 if (!XOOPS_USE_MULTIBYTES) {

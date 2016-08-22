@@ -16,7 +16,7 @@ if (is_object($GLOBALS['xoopsDB'])) {
     if (isset($GLOBALS['myalbum_mid'])) {
         $GLOBALS['global_perms'] = array();
         $rs                      = $GLOBALS['xoopsDB']->query('SELECT gperm_itemid FROM ' . $GLOBALS['xoopsDB']->prefix('group_permission') . " WHERE gperm_modid='" . $GLOBALS['myalbum_mid'] . "' AND gperm_name='myalbum_global' AND ($whr_groupid)");
-        while (list($itemid) = $GLOBALS['xoopsDB']->fetchRow($rs)) {
+        while (false !== (list($itemid) = $GLOBALS['xoopsDB']->fetchRow($rs))) {
             $GLOBALS['global_perms'] |= $itemid;
         }
     }

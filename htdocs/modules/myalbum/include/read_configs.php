@@ -16,7 +16,7 @@ $GLOBALS['mod_url']       = XOOPS_URL . "/modules/{$GLOBALS['mydirname']}";
 $GLOBALS['mod_path']      = XOOPS_ROOT_PATH . "/modules/{$GLOBALS['mydirname']}";
 $GLOBALS['mod_copyright'] = "<a href='http://xoops.org/'><strong>myAlbum-P 3.07</strong></a>";
 
-// global langauge file
+// global language file
 xoops_loadLanguage('myalbum_constants', $GLOBALS['mydirname']);
 
 // read from xoops_config

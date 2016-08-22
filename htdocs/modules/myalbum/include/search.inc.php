@@ -27,19 +27,19 @@ function myalbum_search($keywords, $andor, $limit, $offset, $userid)
     if (is_array($keywords) && count($keywords) > 0) {
         $whr = 'AND (';
         switch (strtolower($andor)) {
-            case 'and' :
+            case 'and':
                 foreach ($keywords as $keyword) {
                     $whr .= "CONCAT(l.title,\' \',t.description) LIKE \'%$keyword%\' AND ";
                 }
                 $whr = substr($whr, 0, -5);
                 break;
-            case 'or' :
+            case 'or':
                 foreach ($keywords as $keyword) {
                     $whr .= "CONCAT(l.title,\' \',t.description) LIKE \'%$keyword%\' OR ";
                 }
                 $whr = substr($whr, 0, -4);
                 break;
-            default :
+            default:
                 $whr .= "CONCAT(l.title,\'  \',t.description) LIKE \'%{$keywords[0]}%\'";
                 break;
         }
@@ -49,7 +49,7 @@ function myalbum_search($keywords, $andor, $limit, $offset, $userid)
     $sql    = "$sql $whr ORDER BY l.date DESC";
     $result = $xoopsDB->query($sql, $limit, $offset);
     $ret    = array();
-    while ($myrow = $xoopsDB->fetchArray($result)) {
+    while (false !== ($myrow = $xoopsDB->fetchArray($result))) {
         $ret[] = array(
             'image' => 'assets/images/pict.gif',
             'link'  => 'photo.php?lid=' . $myrow['lid'],

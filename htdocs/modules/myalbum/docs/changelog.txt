@@ -1,6 +1,5 @@
 3.08 Beta 1            NOT RELEASED
 =================================
-- Converted to XOOPS 2.5.8 Admin GUI (Mamba)
 - removed @version (mamba)
 - addNavigation(basename(__FILE__))  (mamba)
 - dirname(__FILE__) to __DIR__ (mamba)
@@ -14,8 +13,10 @@
 - add category sort (chaoos/bleekk)
 - replace intval() with (int) (mamba)
 - add weight to category (mamba)
-- moved functions to utilities Class (mamba)
-- 
+- moved functions to Utilities Class (mamba)
+- moved preview functions to Preview Class (mamba)
+- moved form functions to Forms Class (mamba)
+- added PhpDocs for handlers type annotations
 
 3.07 RC 5          2014-04-23
 =================================

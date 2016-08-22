@@ -16,6 +16,133 @@ include_once __DIR__ . '/forms.php';
  */
 class MyalbumUtilities extends XoopsObject
 {
+    /**
+     * Function responsible for checking if a directory exists, we can also write in and create an index.html file
+     *
+     * @param string $folder The full path of the directory to check
+     *
+     * @return void
+     */
+    public static function createFolder($folder)
+    {
+        try {
+            if (!mkdir($folder) && !is_dir($folder)) {
+                throw new \RuntimeException(sprintf('Unable to create the %s directory', $folder));
+            } else {
+                file_put_contents($folder . '/index.html', '<script>history.go(-1);</script>');
+            }
+        } catch (Exception $e) {
+            echo 'Caught exception: ', $e->getMessage(), "\n", '<br/>';
+        }
+    }
+
+    /**
+     * @param $file
+     * @param $folder
+     * @return bool
+     */
+    public static function copyFile($file, $folder)
+    {
+        return copy($file, $folder);
+        //        try {
+        //            if (!is_dir($folder)) {
+        //                throw new \RuntimeException(sprintf('Unable to copy file as: %s ', $folder));
+        //            } else {
+        //                return copy($file, $folder);
+        //            }
+        //        } catch (Exception $e) {
+        //            echo 'Caught exception: ', $e->getMessage(), "\n", "<br/>";
+        //        }
+        //        return false;
+    }
+
+    /**
+     * @param $src
+     * @param $dst
+     */
+    public static function recurseCopy($src, $dst)
+    {
+        $dir = opendir($src);
+        //    @mkdir($dst);
+        while (false !== ($file = readdir($dir))) {
+            if (($file !== '.') && ($file !== '..')) {
+                if (is_dir($src . '/' . $file)) {
+                    self::recurseCopy($src . '/' . $file, $dst . '/' . $file);
+                } else {
+                    copy($src . '/' . $file, $dst . '/' . $file);
+                }
+            }
+        }
+        closedir($dir);
+    }
+
+
+    /**
+     *
+     * Verifies XOOPS version meets minimum requirements for this module
+     * @static
+     * @param XoopsModule $module
+     *
+     * @return bool true if meets requirements, false if not
+     */
+    public static function checkXoopsVer(XoopsModule $module)
+    {
+        xoops_loadLanguage('admin', $module->dirname());
+        //check for minimum XOOPS version
+        $currentVer  = substr(XOOPS_VERSION, 6); // get the numeric part of string
+        $currArray   = explode('.', $currentVer);
+        $requiredVer = '' . $module->getInfo('min_xoops'); //making sure it's a string
+        $reqArray    = explode('.', $requiredVer);
+        $success     = true;
+        foreach ($reqArray as $k => $v) {
+            if (isset($currArray[$k])) {
+                if ($currArray[$k] > $v) {
+                    break;
+                } elseif ($currArray[$k] == $v) {
+                    continue;
+                } else {
+                    $success = false;
+                    break;
+                }
+            } else {
+                if ((int)$v > 0) { // handles things like x.x.x.0_RC2
+                    $success = false;
+                    break;
+                }
+            }
+        }
+
+        if (!$success) {
+            $module->setErrors(sprintf(_AM_TAG_ERROR_BAD_XOOPS, $requiredVer, $currentVer));
+        }
+
+        return $success;
+    }
+
+    /**
+     *
+     * Verifies PHP version meets minimum requirements for this module
+     * @static
+     * @param XoopsModule $module
+     *
+     * @return bool true if meets requirements, false if not
+     */
+    public static function checkPhpVer(XoopsModule $module)
+    {
+        xoops_loadLanguage('admin', $module->dirname());
+        // check for minimum PHP version
+        $success = true;
+        $verNum  = phpversion();
+        $reqVer  =& $module->getInfo('min_php');
+        if (false !== $reqVer && '' !== $reqVer) {
+            if (version_compare($verNum, $reqVer, '<')) {
+                $module->setErrors(sprintf(_AM_TAG_ERROR_BAD_PHP, $reqVer, $verNum));
+                $success = false;
+            }
+        }
+
+        return $success;
+    }
 
     /**
      * @param $cols
@@ -47,7 +174,7 @@ class MyalbumUtilities extends XoopsObject
                     break;
                 case 'E': // English
                     // $data = mb_convert_kana( $data , "as" ) ;
-//                    $data = $data;
+                    //                    $data = $data;
                     break;
             }
 
@@ -697,13 +824,13 @@ class MyalbumUtilities extends XoopsObject
      */
     public static function updateRating($lid)
     {
-        /** @var MyalbumVotedataHandler $votedataHandler*/
+        /** @var MyalbumVotedataHandler $votedataHandler */
         $votedataHandler = xoops_getModuleHandler('votedata', $GLOBALS['mydirname']);
         $criteria        = new CriteriaCompo(new Criteria('`lid`', $lid));
         $votes           =& $votedataHandler->getObjects($criteria, true);
         $votesDB         = $votedataHandler->getCount($criteria);
         $totalrating     = 0;
-        /** @var MyalbumVotedata $vote*/
+        /** @var MyalbumVotedata $vote */
         foreach ($votes as $vid => $vote) {
             $totalrating += $vote->getVar('rating');
         }
@@ -729,7 +856,7 @@ class MyalbumUtilities extends XoopsObject
             $criteria = new CriteriaCompo($criteria);
         }
         $criteria->add(new Criteria('`cid`', $cid));
-        /** @var MyalbumPhotosHandler $photoHandler*/
+        /** @var MyalbumPhotosHandler $photoHandler */
         $photoHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
 
         return $photoHandler->getCount($criteria);
@@ -748,7 +875,7 @@ class MyalbumUtilities extends XoopsObject
             $criteria = new CriteriaCompo($criteria);
         }
         $criteria->add(new Criteria('`cid`', '(' . implode(',', $cids) . ',0)', 'IN'));
-        /** @var MyalbumPhotosHandler $photoHandler*/
+        /** @var MyalbumPhotosHandler $photoHandler */
         $photoHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
 
         return $photoHandler->getCount($criteria);
@@ -767,21 +894,21 @@ class MyalbumUtilities extends XoopsObject
      */
     public static function updatePhoto($lid, $cid, $title, $desc, $valid = null, $ext = '', $x = '', $y = '')
     {
-        /** @var MyalbumCatHandler $catHandler*/
-        $catHandler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
-        /** @var MyalbumPhotosHandler $photosHandler*/
+        /** @var MyalbumCatHandler $catHandler */
+        $catHandler = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+        /** @var MyalbumPhotosHandler $photosHandler */
         $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
         $textHandler   = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
-        /** @var MyalbumPhotos $photo*/
-        $photo         = $photosHandler->get($lid);
-        $text          = $textHandler->get($lid);
-        $cat           = $catHandler->get($cid);
+        /** @var MyalbumPhotos $photo */
+        $photo = $photosHandler->get($lid);
+        $text  = $textHandler->get($lid);
+        $cat   = $catHandler->get($cid);
 
         if (null !== $valid) {
             $photo->setVar('status', $valid);
             // Trigger Notification
             if ($valid == 1) {
-                /** @var XoopsNotificationHandler $notificationHandler*/
+                /** @var XoopsNotificationHandler $notificationHandler */
                 $notificationHandler = xoops_getHandler('notification');
 
                 // Global Notification
@@ -828,7 +955,7 @@ class MyalbumUtilities extends XoopsObject
      */
     public static function deletePhotos($criteria = null)
     {
-        /** @var MyalbumPhotosHandler $photosHandler*/
+        /** @var MyalbumPhotosHandler $photosHandler */
         $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
         $photos        =& $photosHandler->getObjects($criteria);
         foreach ($photos as $lid => $photo) {
@@ -879,7 +1006,7 @@ class MyalbumUtilities extends XoopsObject
         $rs = $GLOBALS['xoopsDB']->query("SELECT c.title,c.cid,c.pid,COUNT(p.lid) AS num FROM $table_name_cat c LEFT JOIN $table_name_photos p ON c.cid=p.cid GROUP BY c.cid ORDER BY pid ASC,$order DESC");
 
         $key = 1;
-        while (list($title, $cid, $pid, $num) = $GLOBALS['xoopsDB']->fetchRow($rs)) {
+        while (false !== (list($title, $cid, $pid, $num) = $GLOBALS['xoopsDB']->fetchRow($rs))) {
             $cats[$key] = array(
                 'cid'      => (int)$cid,
                 'pid'      => (int)$pid,

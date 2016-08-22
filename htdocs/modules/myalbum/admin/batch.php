@@ -74,7 +74,7 @@ if (isset($_POST['submit']) && $_POST['submit'] !== '') {
         redirect_header('batch.php', 3, _ALBM_MES_INVALIDDIRECTORY . "<br />$dir4edit");
     }
     $filecount = 1;
-    while ($file_name = readdir($dir_h)) {
+    while (false !== ($file_name = readdir($dir_h))) {
 
         // Skip '.' , '..' and hidden file
         //if (substr($file_name, 0, 1) === '.') {

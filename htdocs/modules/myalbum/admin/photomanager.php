@@ -143,7 +143,7 @@ $cat_options_for_update = MyalbumUtilities::getCategoryOptions('title', 0, '--',
 // Options for Selecting a user
 $user_options = "<option value='0'>" . _AM_OPT_NOCHANGE . "</option>\n";
 $urs          = $xoopsDB->query('SELECT uid,uname FROM ' . $xoopsDB->prefix('users') . ' ORDER BY uname');
-while (list($uid, $uname) = $xoopsDB->fetchRow($urs)) {
+while (false !== (list($uid, $uname) = $xoopsDB->fetchRow($urs))) {
     $user_options .= "<option value='$uid'>" . htmlspecialchars($uname, ENT_QUOTES) . "</option>\n";
 }
 
@@ -193,7 +193,7 @@ echo "
 
 // list part
 $col = 0;
-while (list($lid, $title, $submitter, $ext, $w, $h, $status) = $xoopsDB->fetchRow($prs)) {
+while (false !== (list($lid, $title, $submitter, $ext, $w, $h, $status) = $xoopsDB->fetchRow($prs))) {
     $title = $GLOBALS['myts']->htmlspecialchars($title);
 
     if (in_array(strtolower($ext), $myalbum_normal_exts)) {

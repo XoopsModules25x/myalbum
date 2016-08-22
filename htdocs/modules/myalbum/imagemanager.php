@@ -47,7 +47,7 @@ if (count($cats) > 0) {
     $cat_options  = "<option value='0'>--</option>\n";
     $prs          = $xoopsDB->query("SELECT cid,COUNT(lid) FROM $table_photos WHERE status>0 AND $whr_ext GROUP BY cid");
     $photo_counts = array();
-    while (list($c, $p) = $xoopsDB->fetchRow($prs)) {
+    while (false !== (list($c, $p) = $xoopsDB->fetchRow($prs))) {
         $photo_counts[$c] = $p;
     }
     foreach ($cats as $cat) {
@@ -94,7 +94,7 @@ if (count($cats) > 0) {
             }
 
             $i = 1;
-            while (list($lid, $cid, $title, $ext, $submitter, $res_x, $res_y, $is_normal) = $xoopsDB->fetchRow($prs)) {
+            while (false !== (list($lid, $cid, $title, $ext, $submitter, $res_x, $res_y, $is_normal) = $xoopsDB->fetchRow($prs))) {
 
                 // Width of thumb
                 if (!$is_normal) {

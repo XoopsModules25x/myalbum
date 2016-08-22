@@ -179,6 +179,17 @@ if ($myalbum_makethumb) {
     }
 }
 
+if (!class_exists('MyAlbumUtilities')) {
+    xoops_load('utilities', $moduleDirName);
+}
+
+foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
+    MyAlbumUtilities::createFolder($uploadFolders[$i]);
+    $indexAdmin->addConfigBoxLine($uploadFolders[$i], 'folder');
+    //    $indexAdmin->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
+}
+
+
 echo $indexAdmin->renderIndex();
 //  myalbum_footer_adminMenu();
 include_once __DIR__ . '/admin_footer.php';
