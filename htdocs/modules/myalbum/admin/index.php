@@ -72,7 +72,7 @@ $rs                   = ini_get('file_uploads');
 $tmp_dirs             = explode(PATH_SEPARATOR, ini_get('upload_tmp_dir'));
 $error_upload_tmp_dir = false;
 foreach ($tmp_dirs as $dir) {
-    if ($dir !== '' && (!is_writable($dir) || !is_readable($dir)) && $error_upload_tmp_dir == false) {
+    if ($dir !== '' && (!is_writable($dir) || !is_readable($dir)) && $error_upload_tmp_dir === false) {
         $indexAdmin->addInfoBoxLine($title, "<label>'upload_tmp_dir': %s</label>", "Error: upload_tmp_dir ($dir) is not writable nor readable", 'Red');
         $error_upload_tmp_dir = true;
     }

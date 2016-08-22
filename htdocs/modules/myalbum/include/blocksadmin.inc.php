@@ -5,8 +5,8 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
 include_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
 include XOOPS_ROOT_PATH . '/modules/system/admin/blocksadmin/blocksadmin.php';
 
-$moduleHandler                 = xoops_getHandler('module');
-$mydirname = $moduleHandler->getByDirname($GLOBALS['mydirname']);
+$moduleHandler = xoops_getHandler('module');
+$mydirname     = $moduleHandler->getByDirname($GLOBALS['mydirname']);
 xoops_loadLanguage('blocks', $mydirname);
 
 $op = 'list';
@@ -158,16 +158,16 @@ if ($op == 'clone_ok') {
 
 // import from modules/system/admin/blocksadmin/blocksadmin.php
 /**
- * @param       $bid
- * @param       $bside
- * @param       $bweight
- * @param       $bvisible
- * @param       $btitle
- * @param       $bcontent
- * @param       $bctype
- * @param       $bcachetime
- * @param       $bmodule
- * @param array $options
+ * @param              $bid
+ * @param              $bside
+ * @param              $bweight
+ * @param              $bvisible
+ * @param              $btitle
+ * @param              $bcontent
+ * @param              $bctype
+ * @param              $bcachetime
+ * @param              $bmodule
+ * @param array|string $options
  *
  * @return string
  */

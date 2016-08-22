@@ -752,10 +752,10 @@ function myalbum_clear_tmp_files($dir_path, $prefix = 'tmp_')
 function myalbum_updaterating($lid)
 {
     $votedataHandler = xoops_getModuleHandler('votedata', $GLOBALS['mydirname']);
-    $criteria         = new CriteriaCompo(new Criteria('`lid`', $lid));
-    $votes            = $votedataHandler->getObjects($criteria, true);
-    $votesDB          = $votedataHandler->getCount($criteria);
-    $totalrating      = 0;
+    $criteria        = new CriteriaCompo(new Criteria('`lid`', $lid));
+    $votes           = $votedataHandler->getObjects($criteria, true);
+    $votesDB         = $votedataHandler->getCount($criteria);
+    $totalrating     = 0;
     foreach ($votes as $vid => $vote) {
         $totalrating += $vote->getVar('rating');
     }
@@ -765,18 +765,18 @@ function myalbum_updaterating($lid)
         $finalrating = 0;
     }
     $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
-    $photo          = $photosHandler->get($lid);
+    $photo         = $photosHandler->get($lid);
     $photo->setVar('rating', $finalrating);
     $photosHandler->insert($photo, true) || die('Error: DB update rating.');
 }
 
 // Returns the number of photos included in a Category
 /**
- * @param      $cid
- * @param Criteria|null $criteria
+ * @param               $cid
+ * @param CriteriaElement|null $criteria
  * @return mixed
  */
-function myalbum_get_photo_small_sum_from_cat($cid, Criteria $criteria = null)
+function myalbum_get_photo_small_sum_from_cat($cid, CriteriaElement $criteria = null)
 {
     if (is_object($criteria)) {
         $criteria = new CriteriaCompo($criteria);
@@ -790,11 +790,11 @@ function myalbum_get_photo_small_sum_from_cat($cid, Criteria $criteria = null)
 // Returns the number of whole photos included in a Category
 /**
  * @param      $cids
- * @param null $criteria
+ * @param null|CriteriaElement $criteria
  *
  * @return mixed
  */
-function myalbum_get_photo_total_sum_from_cats($cids, $criteria = null)
+function myalbum_get_photo_total_sum_from_cats($cids, CriteriaElement $criteria = null)
 {
     if (is_object($criteria)) {
         $criteria = new CriteriaCompo($criteria);
@@ -821,9 +821,9 @@ function myalbum_update_photo($lid, $cid, $title, $desc, $valid = null, $ext = '
     $catHandler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
     $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
     $textHandler   = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
-    $photo          = $photosHandler->get($lid);
-    $text           = $textHandler->get($lid);
-    $cat            = $catHandler->get($cid);
+    $photo         = $photosHandler->get($lid);
+    $text          = $textHandler->get($lid);
+    $cat           = $catHandler->get($cid);
 
     if (isset($valid)) {
         $photo->setVar('status', $valid);
@@ -876,7 +876,7 @@ function myalbum_update_photo($lid, $cid, $title, $desc, $valid = null, $ext = '
 function myalbum_delete_photos($criteria = null)
 {
     $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
-    $photos         = $photosHandler->getObjects($criteria);
+    $photos        = $photosHandler->getObjects($criteria);
     foreach ($photos as $lid => $photo) {
         $photosHandler->delete($photo);
     }

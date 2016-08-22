@@ -56,7 +56,7 @@ $modversion = array(
     'manual_file'         => XOOPS_URL . "/modules/$moduleDirName/docs/install.txt",
     'min_php'             => '5.5',
     'min_xoops'           => '2.5.8',
-    'min_admin'           => '1.1',
+    'min_admin'           => '1.2',
     'min_db'              => array('mysql' => '5.0.7', 'mysqli' => '5.0.7'),
     // images
     'image'               => 'assets/images/logoModule.png', //'assets/images/module_logo.png',
@@ -214,7 +214,7 @@ if ($GLOBALS['global_perms'] & 256) { // GPERM_RATEVIEW
     $modversion['sub'][$subcount++]['url'] = 'topten.php?rate=1';
 }
 if (isset($myalbum_catonsubmenu) && $myalbum_catonsubmenu) {
-    $criteria    = new Criteria('`pid`', 0);
+    $criteria   = new Criteria('`pid`', 0);
     $catHandler = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
     if ($catHandler->getCount($criteria) !== false) {
         foreach ($catHandler->getObjects($criteria, true) as $cid => $cat) {

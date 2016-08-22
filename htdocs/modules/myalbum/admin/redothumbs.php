@@ -34,15 +34,13 @@ if ($GLOBALS['thumbs_dir'] == $GLOBALS['photos_dir']) {
 
 // check or make thumbs_dir
 if ($myalbum_makethumb && !is_dir($thumbs_dir)) {
-//    if ($safe_mode_flag) {
-//        redirect_header(XOOPS_URL . "/modules/$moduleDirName/admin/", 10, "At first create & chmod 777 '$thumbs_dir' by ftp or shell.");
-//        exit;
-//    }
+    //    if ($safe_mode_flag) {
+    //        redirect_header(XOOPS_URL . "/modules/$moduleDirName/admin/", 10, "At first create & chmod 777 '$thumbs_dir' by ftp or shell.");
+    //    }
 
     $rs = mkdir($thumbs_dir, 0777);
     if (!$rs) {
         redirect_header(XOOPS_URL . "/modules/$moduleDirName/", 10, "$thumbs_dir is not a directory");
-        exit;
     } else {
         @chmod($thumbs_dir, 0777);
     }
@@ -122,16 +120,16 @@ if (!empty($_POST['submit'])) {
         }
 
         switch ($retcode) {
-            case 0 :
+            case 0:
                 echo _AM_MB_FAILEDREADING . "<br>\n";
                 break;
-            case 1 :
+            case 1:
                 echo _AM_MB_CREATEDTHUMBS . "<br>\n";
                 break;
-            case 2 :
+            case 2:
                 echo _AM_MB_BIGTHUMBS . "<br>\n";
                 break;
-            case 3 :
+            case 3:
                 echo _AM_MB_SKIPPED . "<br>\n";
                 break;
         }

@@ -128,9 +128,9 @@ if ($disp === 'edit' && $cid > 0) {
         $live_cids[$child->getVar('cid')]      = $child->getVar('cid');
     }
     $criteria = new CriteriaCompo(new Criteria('`pid`', '(' . implode(',', $live_cids) . ')', 'NOT IN'));
-    if ($catHandler->getCount($criteria) != false) {
+    if ($catHandler->getCount($criteria) !== false) {
         $GLOBALS['xoopsDB']->queryF('UPDATE ' . $GLOBALS['xoopsDB']->prefix($table_cat) . " SET pid='0' " . $criteria->renderWhere());
-        redirect_header('index.php', 0, 'A Ghost Category found.');        
+        redirect_header('index.php', 0, 'A Ghost Category found.');
     }
 
     // Waiting Admission
