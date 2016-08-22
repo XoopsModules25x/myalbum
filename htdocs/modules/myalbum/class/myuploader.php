@@ -301,7 +301,7 @@ class MyXoopsMediaUploader
         if (count($this->errors) > 0) {
             return false;
         }
-        if (!$this->_copyFile($chmod)) {
+        if (!$this->copyFile($chmod)) {
             $this->setErrors('Failed uploading file: ' . $this->mediaName);
 
             return false;
@@ -317,7 +317,7 @@ class MyXoopsMediaUploader
      *
      * @return bool
      */
-    public function _copyFile($chmod)
+    public function copyFile($chmod)
     {
         $matched = array();
         if (!preg_match("/\.([a-zA-Z0-9]+)$/", $this->mediaName, $matched)) {

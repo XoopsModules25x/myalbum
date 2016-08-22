@@ -140,7 +140,7 @@ class MyXoopsGroupPermForm extends XoopsForm
      *
      * @access private
      */
-    public function _loadAllChildItemIds($itemId, &$childIds)
+    private function loadAllChildItemIds($itemId, &$childIds)
     {
         if (!empty($this->_itemTree[$itemId]['children'])) {
             $first_child = $this->_itemTree[$itemId]['children'];
@@ -149,7 +149,7 @@ class MyXoopsGroupPermForm extends XoopsForm
                 if (!empty($this->_itemTree[$fcid]['children'])) {
                     foreach ($this->_itemTree[$fcid]['children'] as $_fcid) {
                         array_push($childIds, $_fcid);
-                        $this->_loadAllChildItemIds($_fcid, $childIds);
+                        $this->loadAllChildItemIds($_fcid, $childIds);
                     }
                 }
             }
@@ -167,11 +167,11 @@ class MyXoopsGroupPermForm extends XoopsForm
         // load all child ids for javascript codes
         foreach (array_keys($this->_itemTree) as $item_id) {
             $this->_itemTree[$item_id]['allchild'] = array();
-            $this->_loadAllChildItemIds($item_id, $this->_itemTree[$item_id]['allchild']);
+            $this->loadAllChildItemIds($item_id, $this->_itemTree[$item_id]['allchild']);
         }
         $gpermHandler  = xoops_getHandler('groupperm');
         $memberHandler = xoops_getHandler('member');
-        $glist          = $memberHandler->getGroupList();
+        $glist         = $memberHandler->getGroupList();
         foreach (array_keys($glist) as $i) {
             // get selected item id(s) for each group
             $selected = $gpermHandler->getItemIds($this->_permName, $i, $this->_modid);
@@ -355,7 +355,7 @@ class MyXoopsGroupFormCheckBox extends XoopsFormElement
             }
             $tree   = '<td class="odd">';
             $prefix = '';
-            $this->_renderOptionTree($tree, $this->_optionTree[$topitem], $prefix);
+            $this->renderOptionTree($tree, $this->_optionTree[$topitem], $prefix);
             $ret .= $tree . '</td>';
             ++$cols;
         }
@@ -374,7 +374,7 @@ class MyXoopsGroupFormCheckBox extends XoopsFormElement
      *
      * @access private
      */
-    public function _renderOptionTree(&$tree, $option, $prefix, $parentIds = array())
+    private function renderOptionTree(&$tree, $option, $prefix, $parentIds = array())
     {
         $tree .= $prefix . "<input type=\"checkbox\" name=\"" . $this->getName() . '[groups][' . $this->_groupId . '][' . $option['id'] . "]\" id=\"" . $this->getName() . '[groups][' . $this->_groupId . '][' . $option['id'] . "]\" onclick=\"";
         // If there are parent elements, add javascript that will
@@ -401,7 +401,7 @@ class MyXoopsGroupFormCheckBox extends XoopsFormElement
         if (isset($option['children'])) {
             foreach ($option['children'] as $child) {
                 array_push($parentIds, $option['id']);
-                $this->_renderOptionTree($tree, $this->_optionTree[$child], $prefix . '&nbsp;-', $parentIds);
+                $this->renderOptionTree($tree, $this->_optionTree[$child], $prefix . '&nbsp;-', $parentIds);
             }
         }
     }

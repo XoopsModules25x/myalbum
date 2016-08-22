@@ -9,7 +9,7 @@ define('PIPEID_GD', 0);
 define('PIPEID_IMAGICK', 1);
 define('PIPEID_NETPBM', 2);
 
-include_once __DIR__ . '/../include/myalbum.forms.php';
+include_once __DIR__ . '/forms.php';
 
 /**
  * Class MyalbumUtilities

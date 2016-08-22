@@ -3,14 +3,14 @@
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 /**
- * @param      $DB
+ * @param XoopsDatabase $DB
  * @param      $gperm_modid
  * @param null $gperm_name
  * @param null $gperm_itemid
  *
  * @return bool
  */
-function myDeleteByModule($DB, $gperm_modid, $gperm_name = null, $gperm_itemid = null)
+function myDeleteByModule(XoopsDatabase $DB, $gperm_modid, $gperm_name = null, $gperm_itemid = null)
 {
     $criteria = new CriteriaCompo(new Criteria('gperm_modid', (int)$gperm_modid));
     if (isset($gperm_name)) {
@@ -39,7 +39,7 @@ if (!is_object($module) || !$module->getVar('isactive')) {
     redirect_header(XOOPS_URL . '/admin.php', 1, _MODULENOEXIST);
 }
 $memberHandler = xoops_getHandler('member');
-$group_list     = $memberHandler->getGroupList();
+$group_list    = $memberHandler->getGroupList();
 if (is_array($_POST['perms']) && !empty($_POST['perms'])) {
     $gpermHandler = xoops_getHandler('groupperm');
     foreach ($_POST['perms'] as $perm_name => $perm_data) {

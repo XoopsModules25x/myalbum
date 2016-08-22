@@ -192,7 +192,7 @@ else {
     }
 }
 
-include_once dirname(__DIR__) . '/include/myalbum.forms.php';
+include_once dirname(__DIR__) . '/class/forms.php';
 xoops_cp_header();
 $indexAdmin = new ModuleAdmin();
 echo $indexAdmin->addNavigation(basename(__FILE__));
@@ -201,8 +201,8 @@ $GLOBALS['xoopsTpl']->assign('admin_title', sprintf(_AM_H3_FMT_IMPORTTO, $xoopsM
 $GLOBALS['xoopsTpl']->assign('mydirname', $GLOBALS['mydirname']);
 $GLOBALS['xoopsTpl']->assign('photos_url', $GLOBALS['photos_url']);
 $GLOBALS['xoopsTpl']->assign('thumbs_url', $GLOBALS['thumbs_url']);
-$GLOBALS['xoopsTpl']->assign('forma', myalbum_admin_form_import_myalbum());
-$GLOBALS['xoopsTpl']->assign('formb', myalbum_admin_form_import_imagemanager());
+$GLOBALS['xoopsTpl']->assign('forma', MyalbumForms::getAdminFormImportMyalbum());
+$GLOBALS['xoopsTpl']->assign('formb', MyalbumForms::getAdminFormImportImageManager());
 
 $GLOBALS['xoopsTpl']->display('db:' . $GLOBALS['mydirname'] . '_cpanel_import.tpl');
 

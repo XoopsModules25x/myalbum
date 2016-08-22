@@ -321,7 +321,7 @@ if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
 $GLOBALS['xoopsTpl']->assign('xoConfig', $GLOBALS['myalbumModuleConfig']);
 $GLOBALS['xoopsTpl']->assign('mydirname', $GLOBALS['mydirname']);
 
-echo myalbum_user_form_submit($caller, $photo, $lid);
+echo MyalbumForms::getUserFormSubmit($caller, $photo, $lid);
 
 if ($caller === 'imagemanager') {
     echo '</body></html>';
