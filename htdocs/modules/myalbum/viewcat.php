@@ -16,7 +16,9 @@ if ($num < 1) {
 $pos  = !isset($_GET['pos']) ? 0 : (int)$_GET['pos'];
 $view = !isset($_GET['view']) ? $myalbum_viewcattype : $_GET['view'];
 
+/** @var MyalbumPhotosHandler $photosHandler */
 $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+/** @var MyalbumCatHandler $catHandler */
 $catHandler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
 if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
     if ($cid == 0) {
@@ -48,10 +50,10 @@ if (isset($_GET['orderby']) && isset($myalbum_orders[$_GET['orderby']])) {
 
 if ($view === 'table') {
     $GLOBALS['xoopsOption']['template_main'] = "{$moduleDirName }_viewcat_table.tpl";
-    $function_assigning                      = 'myalbum_get_array_for_photo_assign_light';
+    $function_assigning                      = 'MyalbumPreview::getArrayForPhotoAssignLight';
 } else {
     $GLOBALS['xoopsOption']['template_main'] = "{$moduleDirName }_viewcat_list.tpl";
-    $function_assigning                      = 'myalbum_get_array_for_photo_assign';
+    $function_assigning                      = 'MyalbumPreview::getArrayForPhotoAssign';
 }
 
 include XOOPS_ROOT_PATH . '/header.php';
@@ -161,9 +163,12 @@ if ($photo_small_sum > 0) {
     // Display photos
     $count = 1;
 
+    include_once __DIR__ . '/class/preview.php';
+
     foreach ($photosHandler->getObjects($criteria, true) as $lid => $photo) {
-        //echo __LINE__.' - '.$function_assigning.' - '.$lid.'<br>';
-        $photo = $function_assigning($photo) + array('count' => ++$count, true);
+//        echo __LINE__.' - '.$function_assigning.' - '.$lid.'<br>';
+        $photo = call_user_func($function_assigning, $photo) + array('count' => ++$count, true);
+
         $GLOBALS['xoopsTpl']->append('photos', $photo);
     }
 }

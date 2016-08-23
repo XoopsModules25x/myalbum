@@ -8,7 +8,9 @@ include __DIR__ . '/header.php';
 
 $lid = empty($_GET['lid']) ? 0 : (int)$_GET['lid'];
 
+/** @var MyalbumPhotosHandler $photosHandler */
 $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+/** @var MyalbumTextHandler $textHandler */
 $textHandler   = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
 if (!$photo_obj = $photosHandler->get($lid)) {
     redirect_header('index.php', 2, _ALBM_NOMATCH);
@@ -176,6 +178,7 @@ if (!empty($_POST['submit'])) {
         $cid       = (int)$_POST['cid'];
         $ext       = $_POST['ext'];
         if ($GLOBALS['myalbumModuleConfig']['tag']) {
+            /** @var TagTagHandler $tagHandler */
             $tagHandler = xoops_getModuleHandler('tag', 'tag');
             $tagHandler->updateByItem($_POST['tags'], $lid, $GLOBALS['myalbumModule']->getVar('dirname'), $cid);
         }

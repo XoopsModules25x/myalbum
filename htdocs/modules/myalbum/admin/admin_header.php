@@ -32,6 +32,7 @@ xoops_load('xoopsformloader');
 include_once $GLOBALS['xoops']->path('class' . DS . 'xoopsmailer.php');
 include_once $GLOBALS['xoops']->path('class' . DS . 'tree.php');
 
+/** @var MyalbumCatHandler $catHandler */
 $catHandler         = xoops_getModuleHandler('cat');
 $cats               = $catHandler->getObjects(null, true);
 $GLOBALS['cattree'] = new XoopsObjectTree($cats, 'cid', 'pid', 0);

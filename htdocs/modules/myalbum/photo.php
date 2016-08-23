@@ -24,6 +24,7 @@ if (isset($_GET['op'])) {
 function deleteImage($lid)
 {
     global $global_perms;
+    /** @var MyalbumPhotosHandler $photosHandler */
     $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
     $photo_obj     = $photosHandler->get($lid);
 
@@ -52,10 +53,10 @@ switch ($op) {
         break;
     case 'default':
     default:
-
         MyalbumUtilities::updateRating($lid);
-
+        /** @var MyalbumPhotosHandler $photosHandler */
         $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+        /** @var MyalbumCatHandler $catHandler */
         $catHandler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
 
         if (!is_object($photo_obj = $photosHandler->get($lid))) {

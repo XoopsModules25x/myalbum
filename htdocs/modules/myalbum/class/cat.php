@@ -21,6 +21,7 @@ class MyalbumCat extends XoopsObject
         $this->initVar('pid', XOBJ_DTYPE_INT, null, false);
         $this->initVar('title', XOBJ_DTYPE_TXTBOX, null, false, 50);
         $this->initVar('imgurl', XOBJ_DTYPE_TXTBOX, null, false, 150);
+        $this->initVar('weight', XOBJ_DTYPE_INT, null, false);
     }
 
     /**
@@ -44,7 +45,7 @@ class MyalbumCat extends XoopsObject
      */
     public function getURL($uid, $num, $pos, $view)
     {
-        $moduleHandler  = xoops_getHandler('module');
+        $moduleHandler = xoops_getHandler('module');
         $configHandler = xoops_getHandler('config');
         if (!isset($GLOBALS['myalbumModule'])) {
             $GLOBALS['myalbumModule'] = $moduleHandler->getByDirname($moduleDirName);
@@ -77,7 +78,7 @@ class MyalbumCat extends XoopsObject
      */
     public function getRSSURL($uid, $num, $pos, $view)
     {
-        $moduleHandler  = xoops_getHandler('module');
+        $moduleHandler = xoops_getHandler('module');
         $configHandler = xoops_getHandler('config');
         if (!isset($GLOBALS['myalbumModule'])) {
             $GLOBALS['myalbumModule'] = $moduleHandler->getByDirname($moduleDirName);

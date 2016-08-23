@@ -29,7 +29,8 @@ include __DIR__ . '/include/read_configs.php';
 
 $lid = empty($_GET['com_itemid']) ? 0 : (int)$_GET['com_itemid'];
 if ($lid > 0) {
-    $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+    /** @var MyalbumPhotosHandler $photosHandler */
+    $photosHandler  = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
     $photo          = $photosHandler->get($lid);
     $com_replytitle = $photo->getVar('title');
 

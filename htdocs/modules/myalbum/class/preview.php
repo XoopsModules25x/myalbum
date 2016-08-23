@@ -71,10 +71,15 @@ class MyalbumPreview extends XoopsObject
         global $photos_url, $thumbs_url, $thumbs_dir, $mod_url, $mod_path;
         global $myalbum_makethumb, $myalbum_thumbsize, $myalbum_popular, $myalbum_newdays, $myalbum_normal_exts;
 
+        /** @var MyalbumPhotosHandler $photosHandler */
         $photosHandler   = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+        /** @var MyalbumTextHandler $textHandler */
         $textHandler     = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
+        /** @var MyalbumCatHandler $catHandler */
         $catHandler      = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+        /** @var MyalbumVotedataHandler $votedataHandler */
         $votedataHandler = xoops_getModuleHandler('votedata', $GLOBALS['mydirname']);
+        /** @var MyalbumCommentsHandler $commentsHandler */
         $commentsHandler = xoops_getModuleHandler('comments', $GLOBALS['mydirname']);
 
         extract($photo->toArray(true));
@@ -195,10 +200,15 @@ class MyalbumPreview extends XoopsObject
         global $photos_url, $thumbs_url, $thumbs_dir;
         global $myalbum_makethumb, $myalbum_thumbsize, $myalbum_normal_exts;
 
+        /** @var MyalbumPhotosHandler $photosHandler */
         $photosHandler   = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+        /** @var MyalbumTextHandler $textHandler */
         $textHandler     = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
+        /** @var MyalbumCatHandler $catHandler */
         $catHandler      = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+        /** @var MyalbumVotedataHandler $votedataHandler */
         $votedataHandler = xoops_getModuleHandler('votedata', $GLOBALS['mydirname']);
+        /** @var MyalbumCommentsHandler $commentsHandler */
         $commentsHandler = xoops_getModuleHandler('comments', $GLOBALS['mydirname']);
 
         extract($photo->toArray(true));
@@ -268,6 +278,7 @@ class MyalbumPreview extends XoopsObject
         $criterib->setSort('cid');
         $criterib->setOrder('DESC');
 
+        /** @var MyalbumTextHandler $textHandler */
         $catHandler = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
 
         $cats = $catHandler->getObjects($criterib, true);

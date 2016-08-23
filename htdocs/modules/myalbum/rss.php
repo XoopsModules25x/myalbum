@@ -11,9 +11,11 @@ if ($num < 1) {
 }
 $pos  = empty($_GET['pos']) ? 0 : (int)$_GET['pos'];
 $view = empty($_GET['view']) ? $myalbum_viewcattype : $_GET['view'];
-
+/** @var MyalbumPhotosHandler $photosHandler */
 $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+/** @var MyalbumTextHandler $textHandler */
 $textHandler   = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
+/** @var MyalbumCatHandler $catHandler */
 $catHandler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
 if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
     if ($cid == 0) {

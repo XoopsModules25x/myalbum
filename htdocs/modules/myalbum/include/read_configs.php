@@ -10,18 +10,20 @@ if (preg_match('/^myalbum(\d*)$/', $GLOBALS['mydirname'], $regs)) {
 }
 
 global $xoopsConfig, $xoopsDB, $xoopsUser;
+$moduleHandler = xoops_getHandler('module');
+$module        = $moduleHandler->getByDirname($GLOBALS['mydirname']);
 
 // module information
 $GLOBALS['mod_url']       = XOOPS_URL . "/modules/{$GLOBALS['mydirname']}";
 $GLOBALS['mod_path']      = XOOPS_ROOT_PATH . "/modules/{$GLOBALS['mydirname']}";
-$GLOBALS['mod_copyright'] = "<a href='http://xoops.org/'><strong>myAlbum-P 3.07</strong></a>";
+$GLOBALS['mod_copyright'] = "<a href='http://xoops.org/'><strong>myAlbum-P " . $module->getInfo('version') . " by XOOPS</strong></a>";
 
 // global language file
 xoops_loadLanguage('myalbum_constants', $GLOBALS['mydirname']);
 
 // read from xoops_config
 // get my mid
-$moduleHandler            = xoops_getHandler('module');
+//$moduleHandler            = xoops_getHandler('module');
 $GLOBALS['myalbumModule'] = $moduleHandler->getByDirname($GLOBALS['mydirname']);
 if (is_object($GLOBALS['myalbumModule'])) {
     $GLOBALS['myalbum_mid'] = $GLOBALS[$GLOBALS['mydirname'] . 'Module']->getVar('mid');

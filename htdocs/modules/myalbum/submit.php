@@ -5,9 +5,11 @@
 // ------------------------------------------------------------------------- //
 $lid = '';
 include __DIR__ . '/header.php';
-
+/** @var MyalbumCatHandler $catHandler */
 $catHandler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+/** @var MyalbumPhotosHandler $photosHandler */
 $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+/** @var MyalbumTextHandler $textHandler */
 $textHandler   = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
 
 // GET variables
@@ -178,6 +180,7 @@ if (!empty($_POST['submit'])) {
     $photo_obj = $photosHandler->get($newid);
 
     if ($GLOBALS['myalbumModuleConfig']['tag']) {
+        /** @var TagTagHandler $tagHandler */
         $tagHandler = xoops_getModuleHandler('tag', 'tag');
         $tagHandler->updateByItem($_POST['tags'], $newid, $GLOBALS['myalbumModule']->getVar('dirname'), $cid);
     }

@@ -50,6 +50,7 @@ class MyalbumPhotos extends XoopsObject
         }
 
         if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
+            /** @var MyalbumCatHandler $catHandler */
             $catHandler = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
             $cat        = $catHandler->get($this->getVar('cid'));
             $url        = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . str_replace(array(
@@ -90,6 +91,7 @@ class MyalbumPhotos extends XoopsObject
         }
 
         if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
+            /** @var MyalbumCatHandler $catHandler */
             $catHandler = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
             $cat        = $catHandler->get($this->getVar('cid'));
             $url        = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . str_replace(array(
@@ -130,6 +132,7 @@ class MyalbumPhotos extends XoopsObject
         }
 
         if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
+            /** @var MyalbumCatHandler $catHandler */
             $catHandler = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
             $cat        = $catHandler->get($this->getVar('cid'));
             $url        = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . str_replace(array(
@@ -203,8 +206,9 @@ class MyalbumPhotos extends XoopsObject
         if ($justVar === true) {
             return parent::toArray();
         }
-
+        /** @var MyalbumCatHandler $catHandler */
         $catHandler  = xoops_getModuleHandler('cat');
+        /** @var MyalbumTextHandler $textHandler */
         $textHandler = xoops_getModuleHandler('text');
         $userHandler = xoops_getHandler('user');
         //mb        $statusHandler = xoops_getModuleHandler('status');
@@ -286,6 +290,7 @@ class MyalbumPhotosHandler extends XoopsPersistableObjectHandler
 
         switch ($status) {
             case 1:
+                /** @var MyalbumCatHandler $catHandler */
                 $catHandler = xoops_getModuleHandler('cat', $this->_dirname);
                 $cats       = $catHandler->getObjects(null, true);
                 // Trigger Notification
@@ -349,8 +354,11 @@ class MyalbumPhotosHandler extends XoopsPersistableObjectHandler
         unlink($GLOBALS['thumbs_dir'] . DS . $photo->getVar('lid') . '.' . $photo->getVar('ext'));
         unlink($GLOBALS['thumbs_dir'] . DS . $photo->getVar('lid') . '.gif');
 
+        /** @var MyalbumVotedataHandler $votedataHandler */
         $votedataHandler = xoops_getModuleHandler('votedata', $this->_dirname);
+        /** @var MyalbumTextHandler $textHandler */
         $textHandler     = xoops_getModuleHandler('text', $this->_dirname);
+        /** @var MyalbumCommentsHandler $commentsHandler */
         $commentsHandler = xoops_getModuleHandler('comments', $this->_dirname);
         $criteria        = new Criteria('`lid`', $photo->getVar('lid'));
         $votedataHandler->deleteAll($criteria, $force);

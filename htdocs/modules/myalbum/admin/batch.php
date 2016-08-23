@@ -25,15 +25,16 @@ $GLOBALS['desc4edit']  = isset($_POST['desc']) ? $GLOBALS['myts']->htmlSpecialCh
 if (!$isadmin) {
     redirect_header($mod_url, 2, _ALBM_MUSTREGFIRST);
 }
-
+/** @var MyalbumCatHandler $catHandler */
 $catHandler = xoops_getModuleHandler('cat');
 // check Categories exist
 $count = $catHandler->getCount();
 if ($count < 1) {
     redirect_header(XOOPS_URL . "/modules/$moduleDirName/", 2, _ALBM_MUSTADDCATFIRST);
 }
-
+/** @var MyalbumPhotosHandler $photosHandler */
 $photosHandler = xoops_getModuleHandler('photos');
+/** @var MyalbumTextHandler $textHandler */
 $textHandler   = xoops_getModuleHandler('text');
 
 if (isset($_POST['submit']) && $_POST['submit'] !== '') {

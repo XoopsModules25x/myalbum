@@ -37,6 +37,7 @@ function xoops_module_update_myalbum(XoopsModule $module, $oldversion = null)
     //create upload directories, if needed
     $moduleDirName = $module->getVar('dirname');
     include $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/include/config.php');
+    include $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/class/utilities.php');
 
     foreach (array_keys($uploadFolders) as $i) {
         MyalbumUtilities::createFolder($uploadFolders[$i]);

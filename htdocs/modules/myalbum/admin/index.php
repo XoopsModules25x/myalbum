@@ -8,11 +8,15 @@ xoops_cp_header();
 $indexAdmin = new ModuleAdmin();
 
 echo $indexAdmin->addNavigation(basename(__FILE__));
-
+/** @var MyalbumCatHandler $catHandler */
 $catHandler      = xoops_getModuleHandler('cat');
+/** @var MyalbumCommentsHandler $commentsHandler */
 $commentsHandler = xoops_getModuleHandler('comments');
+/** @var MyalbumPhotosHandler $photosHandler */
 $photosHandler   = xoops_getModuleHandler('photos');
+/** @var MyalbumTextHandler $textHandler */
 $textHandler     = xoops_getModuleHandler('text');
+/** @var MyalbumVotedataHandler $votedataHandler */
 $votedataHandler = xoops_getModuleHandler('votedata');
 $groupHandler    = xoops_getHandler('group');
 
@@ -178,6 +182,8 @@ if ($myalbum_makethumb) {
         $indexAdmin->addInfoBoxLine($title, '<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_thumbspath %s</label>", 'Ok', 'Green');
     }
 }
+
+include_once dirname(__DIR__) . '/include/config.php';
 
 if (!class_exists('MyAlbumUtilities')) {
     xoops_load('utilities', $moduleDirName);

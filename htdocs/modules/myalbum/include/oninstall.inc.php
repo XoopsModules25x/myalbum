@@ -31,10 +31,19 @@ function xoops_module_install_' . $moduleDirName . '( $module )
         $gpermHandler->insert($gperm) ;
         unset($gperm);
     }
+    
+    include_once $GLOBALS["xoops"]->path("modules/' . $moduleDirName . '/include/config.php");
+    include_once $GLOBALS["xoops"]->path("modules/' . $moduleDirName . '/class/utilities.php");
+    foreach (array_keys($uploadFolders) as $i) {
+        MyalbumUtilities::createFolder($uploadFolders[$i]);
+    }
+
+    
 }
 
 ');
 
+/*
 function xoops_module_install_myalbum(XoopsModule $xoopsModule)
 {
     include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
@@ -58,3 +67,4 @@ function xoops_module_install_myalbum(XoopsModule $xoopsModule)
     return true;
 
 }
+*/

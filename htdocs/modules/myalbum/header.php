@@ -48,9 +48,10 @@ xoops_load('pagenav');
 xoops_load('xoopslists');
 xoops_load('xoopsformloader');
 
-include_once $GLOBALS['xoops']->path('class' . DS . 'xoopsmailer.php');
-include_once $GLOBALS['xoops']->path('class' . DS . 'tree.php');
+include_once $GLOBALS['xoops']->path('class/xoopsmailer.php');
+include_once $GLOBALS['xoops']->path('class/tree.php');
 
+/** @var MyalbumCatHandler $catHandler */
 $catHandler         = xoops_getModuleHandler('cat');
 $cats               = $catHandler->getObjects(null, true);
 $GLOBALS['cattree'] = new XoopsObjectTree($cats, 'cid', 'pid', 0);

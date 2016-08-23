@@ -10,8 +10,9 @@ if (!($global_perms & GPERM_RATEVOTE)) {
 }
 
 $lid = empty($_GET['lid']) ? 0 : (int)$_GET['lid'];
-
+/** @var MyalbumPhotosHandler $photosHandler */
 $photosHandler   = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+/** @var MyalbumVotedataHandler $votedataHandler */
 $votedataHandler = xoops_getModuleHandler('votedata', $GLOBALS['mydirname']);
 if (!$photo_obj = $photosHandler->get($lid)) {
     redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/index.php', 2, _ALBM_NOMATCH);

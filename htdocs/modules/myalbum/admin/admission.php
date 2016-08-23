@@ -12,6 +12,7 @@ $num = empty($_GET['num']) ? 10 : (int)$_GET['num'];
 $txt = empty($_GET['txt']) ? '' : $GLOBALS['myts']->stripSlashesGPC(trim($_GET['txt']));
 
 if (!empty($_POST['action']) && $_POST['action'] === 'admit' && isset($_POST['ids']) && is_array($_POST['ids'])) {
+    /** @var MyalbumPhotosHandler $photosHandler */
     $photosHandler = xoops_getModuleHandler('photos');
     @$photosHandler->setStatus($_POST['ids'], 1);
     redirect_header('admission.php', 2, _ALBM_AM_ADMITTING);
@@ -23,13 +24,13 @@ if (!empty($_POST['action']) && $_POST['action'] === 'admit' && isset($_POST['id
     if (!xoops_refcheck()) {
         die('XOOPS_URL is not included in your REFERER');
     }
-
+    /** @var MyalbumPhotosHandler $photosHandler */
     $photosHandler = xoops_getModuleHandler('photos');
     @$photosHandler->deletePhotos($_POST['ids']);
 
     redirect_header('admission.php', 2, _ALBM_DELETINGPHOTO);
 }
-
+/** @var MyalbumPhotosHandler $photosHandler */
 $photosHandler = xoops_getModuleHandler('photos');
 
 // extracting by free word

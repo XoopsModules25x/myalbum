@@ -215,6 +215,7 @@ if ($GLOBALS['global_perms'] & 256) { // GPERM_RATEVIEW
 }
 if (isset($myalbum_catonsubmenu) && $myalbum_catonsubmenu) {
     $criteria   = new Criteria('`pid`', 0);
+    /** @var MyalbumCatHandler $catHandler */
     $catHandler = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
     if ($catHandler->getCount($criteria) !== false) {
         foreach ($catHandler->getObjects($criteria, true) as $cid => $cat) {

@@ -10,6 +10,7 @@ define('PIPEID_IMAGICK', 1);
 define('PIPEID_NETPBM', 2);
 
 include_once __DIR__ . '/forms.php';
+include_once __DIR__ . '/../include/common.php';
 
 /**
  * Class MyalbumUtilities
@@ -26,7 +27,7 @@ class MyalbumUtilities extends XoopsObject
     public static function createFolder($folder)
     {
         try {
-            if (!mkdir($folder) && !is_dir($folder)) {
+            if (!@mkdir($folder) && !is_dir($folder)) {
                 throw new \RuntimeException(sprintf('Unable to create the %s directory', $folder));
             } else {
                 file_put_contents($folder . '/index.html', '<script>history.go(-1);</script>');
@@ -838,6 +839,7 @@ class MyalbumUtilities extends XoopsObject
         if ($votesDB > 0) {
             $finalrating = number_format($totalrating / $votesDB, 4);
         }
+        /** @var MyalbumPhotosHandler $photosHandler */
         $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
         $photo         = $photosHandler->get($lid);
         $photo->setVar('rating', $finalrating);
@@ -898,6 +900,7 @@ class MyalbumUtilities extends XoopsObject
         $catHandler = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
         /** @var MyalbumPhotosHandler $photosHandler */
         $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+        /** @var MyalbumTextHandler $textHandler */
         $textHandler   = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
         /** @var MyalbumPhotos $photo */
         $photo = $photosHandler->get($lid);
@@ -958,6 +961,7 @@ class MyalbumUtilities extends XoopsObject
         /** @var MyalbumPhotosHandler $photosHandler */
         $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
         $photos        =& $photosHandler->getObjects($criteria);
+        /** @var MyalbumPhotos $photo */
         foreach ($photos as $lid => $photo) {
             $photosHandler->delete($photo);
         }

@@ -5,8 +5,9 @@
 // ------------------------------------------------------------------------- //
 
 include_once __DIR__ . '/admin_header.php';
-
+/** @var MyalbumCatHandler $catHandler */
 $catHandler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+/** @var MyalbumPhotosHandler $photosHandler */
 $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
 global $pathIcon16;
 
@@ -18,13 +19,14 @@ $cid    = isset($_GET['cid']) ? (int)$_GET['cid'] : 0;
 if ($action === 'insert') {
 
     // anti-CSRF (Double Check)
-    if (!XoopsSecurity::checkReferer()) {
+    $xsecurity = new XoopsSecurity;
+    if (!$xsecurity->checkReferer()) {
         die('XOOPS_URL is not included in your REFERER');
     }
 
     // newly insert
     $sql  = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix($table_cat) . ' SET ';
-    $cols = array('pid' => 'I:N:0', 'title' => '50:E:1', 'imgurl' => '150:E:0');
+    $cols = array('pid' => 'I:N:0', 'title' => '50:E:1', 'imgurl' => '150:E:0', 'weight' => 'I:N:0');
     $sql .= MyalbumUtilities::mysqliGetSqlSet($cols);
     $GLOBALS['xoopsDB']->query($sql) || die('DB Error: insert category');
 
@@ -38,7 +40,8 @@ if ($action === 'insert') {
 } elseif ($action === 'update' && !empty($_POST['cid'])) {
 
     // anti-CSRF (Double Check)
-    if (!XoopsSecurity::checkReferer()) {
+    $xsecurity = new XoopsSecurity;
+    if (!$xsecurity->checkReferer()) {
         die('XOOPS_URL is not included in your REFERER');
     }
 
@@ -59,14 +62,15 @@ if ($action === 'insert') {
 
     // update
     $sql  = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table_cat) . ' SET ';
-    $cols = array('pid' => 'I:N:0', 'title' => '50:E:1', 'imgurl' => '150:E:0');
+    $cols = array('pid' => 'I:N:0', 'title' => '50:E:1', 'imgurl' => '150:E:0', 'weight' => 'I:N:0');
     $sql .= MyalbumUtilities::mysqliGetSqlSet($cols) . " WHERE cid='$cid'";
     $GLOBALS['xoopsDB']->query($sql) || die('DB Error: update category');
     redirect_header('main.php', 1, _AM_CAT_UPDATED);
 } elseif (!empty($_POST['delcat'])) {
 
     // anti-CSRF (Double Check)
-    if (!XoopsSecurity::checkReferer()) {
+    $xsecurity = new XoopsSecurity;
+    if (!$xsecurity->checkReferer()) {
         die('XOOPS_URL is not included in your REFERER');
     }
 
@@ -127,7 +131,7 @@ if ($disp === 'edit' && $cid > 0) {
         $live_cids[$child->getVar('cid')]      = $child->getVar('cid');
     }
     $criteria = new CriteriaCompo(new Criteria('`pid`', '(' . implode(',', $live_cids) . ')', 'NOT IN'));
-    if ($catHandler->getCount($criteria) !== false) {
+    if ($catHandler->getCount($criteria) > 0) {
         $GLOBALS['xoopsDB']->queryF('UPDATE ' . $GLOBALS['xoopsDB']->prefix($table_cat) . " SET pid='0' " . $criteria->renderWhere());
         redirect_header('index.php', 0, 'A Ghost Category found.');
     }
@@ -173,9 +177,11 @@ if ($disp === 'edit' && $cid > 0) {
             } else {
                 $imgsrc4show = '../assets/images/pixel_trans.gif';
             }
+            $weight         = (int)$weight;
 
             echo "<tr>
             <td class='$oddeven' width='100%'><a href='photomanager.php?cid=$cid'>$prefix&nbsp;" . $GLOBALS['myts']->htmlSpecialChars($title) . "</a></td>
+            <td class='$oddeven' align='center' nowrap='nowrap'>" . $weight . "</td>
             <td class='$oddeven' nowrap='nowrap' align='right'>
               <a href='photomanager.php?cid=$cid'>$photos_num</a>
               <a href='../submit.php?cid=$cid'><img src='" . $pathIcon16 . "/add.png' width='16' height='16' alt='" . _AM_CAT_LINK_ADDPHOTOS . "' title='" . _AM_CAT_LINK_ADDPHOTOS . "' /></a></td>

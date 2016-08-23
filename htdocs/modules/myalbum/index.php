@@ -6,7 +6,9 @@
 
 include __DIR__ . '/header.php';
 
+/** @var MyalbumCatHandler $catHandler */
 $catHandler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+/** @var MyalbumPhotosHandler $photosHandler */
 $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
 
 $num = empty($_GET['num']) ? $myalbum_newphotos : (int)$_GET['num'];
