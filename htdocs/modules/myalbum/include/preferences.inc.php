@@ -46,7 +46,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
     }
     if ($op === 'list') {
         $confcatHandler = xoops_getHandler('configcategory');
-        $confcats        =& $confcatHandler->getObjects();
+        $confcats        = $confcatHandler->getObjects();
         $catcount        = count($confcats);
         xoops_cp_header();
         echo '<h4 style="text-align:left;">' . _MD_AM_SITEPREF . '</h4><ul>';

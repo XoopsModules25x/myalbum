@@ -828,7 +828,7 @@ class MyalbumUtilities extends XoopsObject
         /** @var MyalbumVotedataHandler $votedataHandler */
         $votedataHandler = xoops_getModuleHandler('votedata', $GLOBALS['mydirname']);
         $criteria        = new CriteriaCompo(new Criteria('`lid`', $lid));
-        $votes           =& $votedataHandler->getObjects($criteria, true);
+        $votes           = $votedataHandler->getObjects($criteria, true);
         $votesDB         = $votedataHandler->getCount($criteria);
         $totalrating     = 0;
         /** @var MyalbumVotedata $vote */
@@ -960,7 +960,7 @@ class MyalbumUtilities extends XoopsObject
     {
         /** @var MyalbumPhotosHandler $photosHandler */
         $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
-        $photos        =& $photosHandler->getObjects($criteria);
+        $photos        = $photosHandler->getObjects($criteria);
         /** @var MyalbumPhotos $photo */
         foreach ($photos as $lid => $photo) {
             $photosHandler->delete($photo);

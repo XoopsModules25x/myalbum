@@ -9,7 +9,7 @@ $mydirnumber = $regs[2] === '' ? '' : intval( $regs[2] ) ;
 eval( '
 
 function b_sitemap_'.$mydirname.'(){
-	$xoopsDB =& Database::getInstance();
+	$xoopsDB = Database::getInstance();
 
     $block = sitemap_get_categoires_map($xoopsDB->prefix("myalbum'.$mydirnumber.'_cat"), "cid", "pid", "title", "viewcat.php?cid=", "title");
 
