@@ -87,7 +87,7 @@ I'm felt strongly that my skill of English is too poor...
 Original README on Daniel's myAlbum
 ------------------------------------
 
- MyAlbum is a photo album for the XOOPS (http://xoops.org) CMS, it's
+ MyAlbum is a photo album for the XOOPS (https://xoops.org) CMS, it's
 based on XOOPS OO code with XOOPS classes beeing used when ever possible.
  It was based on mylinks module, with comments from xoopspoll and the upload
 of photos using the avatar upload code.

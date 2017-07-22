@@ -3,7 +3,7 @@
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                  Copyright (c) 2000-2016 XOOPS.org                        //
-//                       <http://xoops.org/>                             //
+//                       <https://xoops.org/>                             //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -43,7 +43,7 @@ $modversion = array(
     'author'              => 'GIJoe, http://xoops.peak.ne.jp<br />Updates: Wishcraft=Simon Roberts, montuy337513 alias black_beard',
     'credits'             => 'Original: Daniel Branco<br />(http://bluetopia.homeip.net)<br />Kazumi Ono<br />(http://www.mywebaddons.com/)<br />Wishcraft=Simon Roberts<br />Chronolabs Co-op.(http://www.chronolabs.coop/)<br />The XOOPS Project, Chronolabs Co-op - http://www.chronolabs.coop/',
     'author_mail'         => '',
-    'author_website_url'  => 'http://xoops.org',
+    'author_website_url'  => 'https://xoops.org',
     'author_website_name' => 'XOOPS',
     'license'             => 'GPL 2.0 or later',
     'license_url'         => 'www.gnu.org/licenses/gpl-2.0.html/',
@@ -77,9 +77,9 @@ $modversion = array(
     //    'release'             => '2015-04-04',
     'demo_site_url'       => 'http://www.xoops.org',
     'demo_site_name'      => 'XOOPS Demo Site',
-    'support_url'         => 'http://xoops.org/modules/newbb',
-    'submit_bug'          => 'http://xoops.org/modules/newbb/viewforum.php?forum=28',
-    'submit_feature'      => 'http://xoops.org/modules/newbb/viewforum.php?forum=30',
+    'support_url'         => 'https://xoops.org/modules/newbb',
+    'submit_bug'          => 'https://xoops.org/modules/newbb/viewforum.php?forum=28',
+    'submit_feature'      => 'https://xoops.org/modules/newbb/viewforum.php?forum=30',
     'support_name'        => 'XOOPS Support Forum',
     'module_website_url'  => 'www.xoops.org',
     'module_website_name' => 'XOOPS Project',

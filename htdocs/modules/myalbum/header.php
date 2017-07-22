@@ -1,7 +1,7 @@
 <?php
 // ------------------------------------------------------------------------- //
 //                XOOPS - PHP Content Management System                      //
-//                       <http://xoops.org/>                             //
+//                       <https://xoops.org/>                             //
 // ------------------------------------------------------------------------- //
 // Based on:                                     //
 // myPHPNUKE Web Portal System - http://myphpnuke.com/               //
