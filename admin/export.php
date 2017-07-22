@@ -1,10 +1,10 @@
 <?php
 // ------------------------------------------------------------------------- //
 //                      myAlbum-P - XOOPS photo album                        //
-//                        <http://www.peak.ne.jp/>                           //
+//                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
-include_once __DIR__ . '/admin_header.php';
-include_once XOOPS_ROOT_PATH . '/modules/system/constants.php';
+require_once __DIR__ . '/admin_header.php';
+require_once XOOPS_ROOT_PATH . '/modules/system/constants.php';
 
 // To imagemanager
 if (!empty($_POST['imagemanager_export']) && !empty($_POST['imgcat_id']) && !empty($_POST['cid'])) {
@@ -15,7 +15,7 @@ if (!empty($_POST['imagemanager_export']) && !empty($_POST['imgcat_id']) && !emp
     }
 
     // anti-CSRF
-    if (!xoops_refcheck()) {
+    if (!xoopsSecurity::checkReferer()) {
         die('XOOPS_URL is not included in your REFERER');
     }
 
@@ -80,8 +80,8 @@ if (!empty($_POST['imagemanager_export']) && !empty($_POST['imgcat_id']) && !emp
 $syspermHandler = xoops_getHandler('groupperm');
 if ($syspermHandler->checkRight('system_admin', XOOPS_SYSTEM_IMAGE, $xoopsUser->getGroups())) {
     xoops_cp_header();
-    $indexAdmin = new ModuleAdmin();
-    echo $indexAdmin->addNavigation(basename(__FILE__));
+    $adminObject = \Xmf\Module\Admin::getInstance();
+    $adminObject->displayNavigation(basename(__FILE__));
     //  myalbum_adminMenu(basename(__FILE__), 7);
     $GLOBALS['xoopsTpl']->assign('admin_title', sprintf(_AM_H3_FMT_EXPORTTO, $GLOBALS['myalbumModule']->name()));
     $GLOBALS['xoopsTpl']->assign('mydirname', $GLOBALS['mydirname']);
@@ -93,7 +93,7 @@ if ($syspermHandler->checkRight('system_admin', XOOPS_SYSTEM_IMAGE, $xoopsUser->
 
     // check $GLOBALS['myalbumModule']
     //  myalbum_footer_adminMenu();
-    include_once __DIR__ . '/admin_footer.php';
+    require_once __DIR__ . '/admin_footer.php';
 } else {
     redirect_header('dashboard.php', 5, _NOPERM);
 }

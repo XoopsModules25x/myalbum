@@ -1,10 +1,10 @@
 <?php
 // ------------------------------------------------------------------------- //
 //                      myAlbum-P - XOOPS photo album                        //
-//                        <http://www.peak.ne.jp/>                           //
+//                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
-include_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 
 // get and check $_POST['size']
 $start = isset($_POST['start']) ? (int)$_POST['start'] : 0;
@@ -61,7 +61,7 @@ if (!empty($_POST['submit'])) {
         if (!is_readable("$photos_dir/$lid.$ext")) {
             echo _AM_MB_PHOTONOTEXISTS . ' &nbsp; ';
             if ($removerec) {
-                MyalbumUtilities::deletePhotos("lid='$lid'");
+                MyalbumUtility::deletePhotos("lid='$lid'");
                 echo _AM_MB_RECREMOVED . "<br>\n";
             } else {
                 echo _AM_MB_SKIPPED . "<br>\n";
@@ -72,7 +72,7 @@ if (!empty($_POST['submit'])) {
         // Check if the file is normal image
         if (!in_array(strtolower($ext), $myalbum_normal_exts)) {
             if ($forceredo || !is_readable("$thumbs_dir/$lid.gif")) {
-                MyalbumUtilities::createThumb("$photos_dir/$lid.$ext", $lid, $ext);
+                MyalbumUtility::createThumb("$photos_dir/$lid.$ext", $lid, $ext);
                 echo _AM_MB_CREATEDTHUMBS . "<br>\n";
             } else {
                 echo _AM_MB_SKIPPED . "<br>\n";
@@ -89,7 +89,7 @@ if (!empty($_POST['submit'])) {
             $tmp_path = "$photos_dir/myalbum_tmp_photo";
             @unlink($tmp_path);
             rename("$photos_dir/$lid.$ext", $tmp_path);
-            MyalbumUtilities::editPhoto($tmp_path, "$photos_dir/$lid.$ext");
+            MyalbumUtility::editPhoto($tmp_path, "$photos_dir/$lid.$ext");
             @unlink($tmp_path);
             echo _AM_MB_PHOTORESIZED . ' &nbsp; ';
             list($true_w, $true_h) = getimagesize("$photos_dir/$lid.$ext");
@@ -107,13 +107,13 @@ if (!empty($_POST['submit'])) {
             list($thumbs_w, $thumbs_h) = getimagesize("$thumbs_dir/$lid.$ext");
             echo "{$thumbs_w}x{$thumbs_h} ... ";
             if ($forceredo) {
-                $retcode = MyalbumUtilities::createThumb("$photos_dir/$lid.$ext", $lid, $ext);
+                $retcode = MyalbumUtility::createThumb("$photos_dir/$lid.$ext", $lid, $ext);
             } else {
                 $retcode = 3;
             }
         } else {
             if ($myalbum_makethumb) {
-                $retcode = MyalbumUtilities::createThumb("$photos_dir/$lid.$ext", $lid, $ext);
+                $retcode = MyalbumUtility::createThumb("$photos_dir/$lid.$ext", $lid, $ext);
             } else {
                 $retcode = 3;
             }
@@ -158,8 +158,8 @@ if (isset($record_counter) && $record_counter < $size) {
 
 // Render forms
 xoops_cp_header();
-$indexAdmin = new ModuleAdmin();
-echo $indexAdmin->addNavigation(basename(__FILE__));
+$adminObject = \Xmf\Module\Admin::getInstance();
+$adminObject->displayNavigation(basename(__FILE__));
 //myalbum_adminMenu(basename(__FILE__), 5);
 
 // check $xoopsModule
@@ -168,7 +168,7 @@ if (!is_object($xoopsModule)) {
 }
 echo "<h3 style='text-align:left;'>" . sprintf(_AM_H3_FMT_RECORDMAINTENANCE, $xoopsModule->name()) . "</h3>\n";
 
-MyalbumUtilities::openTable();
+MyalbumUtility::openTable();
 $form->addElement($start_text);
 $form->addElement($size_text);
 $form->addElement($forceredo_radio);
@@ -176,7 +176,7 @@ $form->addElement($removerec_radio);
 $form->addElement($resize_radio);
 $form->addElement($submit_button);
 $form->display();
-MyalbumUtilities::closeTable();
+MyalbumUtility::closeTable();
 
 if (isset($result_str)) {
     echo "<br>\n";
@@ -184,4 +184,4 @@ if (isset($result_str)) {
 }
 
 //  myalbum_footer_adminMenu();
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

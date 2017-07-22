@@ -54,7 +54,7 @@ if (!class_exists('XoopsGTicket')) {
          */
         public function getTicketHtml($salt = '', $timeout = 1800, $area = '')
         {
-            return '<input type="hidden" name="XOOPS_G_TICKET" value="' . $this->issue($salt, $timeout, $area) . '" />';
+            return '<input type="hidden" name="XOOPS_G_TICKET" value="' . $this->issue($salt, $timeout, $area) . '" >';
         }
 
         // returns an object of XoopsFormHidden including theh ticket
@@ -292,11 +292,11 @@ if (!class_exists('XoopsGTicket')) {
                         $val = stripslashes($val);
                     }
                     $table .= '<tr><th>' . htmlspecialchars($key, ENT_QUOTES) . '</th><td>' . htmlspecialchars($val, ENT_QUOTES) . '</td></tr>' . "\n";
-                    $form .= '<input type="hidden" name="' . htmlspecialchars($key, ENT_QUOTES) . '" value="' . htmlspecialchars($val, ENT_QUOTES) . '" />' . "\n";
+                    $form .= '<input type="hidden" name="' . htmlspecialchars($key, ENT_QUOTES) . '" value="' . htmlspecialchars($val, ENT_QUOTES) . '" >' . "\n";
                 }
             }
             $table .= '</table>';
-            $form .= $this->getTicketHtml(__LINE__, 300, $area) . '<input type="submit" value="' . $this->messages['btn_repost'] . '" /></form>';
+            $form .= $this->getTicketHtml(__LINE__, 300, $area) . '<input type="submit" value="' . $this->messages['btn_repost'] . '" ></form>';
 
             echo '<html><head><title>' . $this->messages['err_general'] . '</title><style>table,td,th {border:solid black 1px; border-collapse:collapse;}</style></head><body>' . sprintf($this->messages['fmt_prompt4repost'], $this->getErrors())
                  . $table . $form . '</body></html>';
@@ -325,7 +325,7 @@ if (!class_exists('XoopsGTicket')) {
                         $val = stripslashes($val);
                     }
                     $table .= '<tr><th>' . $key_name . '[' . htmlspecialchars($key, ENT_QUOTES) . ']</th><td>' . htmlspecialchars($val, ENT_QUOTES) . '</td></tr>' . "\n";
-                    $form .= '<input type="hidden" name="' . $key_name . '[' . htmlspecialchars($key, ENT_QUOTES) . ']" value="' . htmlspecialchars($val, ENT_QUOTES) . '" />' . "\n";
+                    $form .= '<input type="hidden" name="' . $key_name . '[' . htmlspecialchars($key, ENT_QUOTES) . ']" value="' . htmlspecialchars($val, ENT_QUOTES) . '" >' . "\n";
                 }
             }
 

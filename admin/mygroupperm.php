@@ -3,14 +3,14 @@
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 /**
- * @param XoopsDatabase $DB
+ * @param XoopsDatabase $db
  * @param      $gperm_modid
  * @param null $gperm_name
  * @param null $gperm_itemid
  *
  * @return bool
  */
-function myDeleteByModule(XoopsDatabase $DB, $gperm_modid, $gperm_name = null, $gperm_itemid = null)
+function myDeleteByModule(XoopsDatabase $db, $gperm_modid, $gperm_name = null, $gperm_itemid = null)
 {
     $criteria = new CriteriaCompo(new Criteria('gperm_modid', (int)$gperm_modid));
     if (isset($gperm_name)) {
@@ -19,20 +19,21 @@ function myDeleteByModule(XoopsDatabase $DB, $gperm_modid, $gperm_name = null, $
             $criteria->add(new Criteria('gperm_itemid', (int)$gperm_itemid));
         }
     }
-    $sql = 'DELETE FROM ' . $DB->prefix('group_permission') . ' ' . $criteria->renderWhere();
-    if (!$result = $DB->query($sql)) {
+    $sql = 'DELETE FROM ' . $db->prefix('group_permission') . ' ' . $criteria->renderWhere();
+    if (!$result = $db->query($sql)) {
         return false;
     }
 
     return true;
 }
 
-// include_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php'; GIJ
+// require_once __DIR__ . '/../../../include/cp_header.php'; GIJ
 $modid = isset($_POST['modid']) ? (int)$_POST['modid'] : 1;
 // we dont want system module permissions to be changed here ( 1 -> 0 GIJ)
 if ($modid <= 0 || !is_object($xoopsUser) || !$xoopsUser->isAdmin($modid)) {
     redirect_header(XOOPS_URL . '/user.php', 1, _NOPERM);
 }
+/** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->get($modid);
 if (!is_object($module) || !$module->getVar('isactive')) {

@@ -13,7 +13,7 @@
 - add category sort (chaoos/bleekk)
 - replace intval() with (int) (mamba)
 - add weight to category (mamba)
-- moved functions to Utilities Class (mamba)
+- moved functions to Utility Class (mamba)
 - moved preview functions to Preview Class (mamba)
 - moved form functions to Forms Class (mamba)
 - added PhpDocs for handlers type annotations

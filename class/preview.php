@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class MyalbumUtilities
+ * Class MyalbumPreview
  */
 class MyalbumPreview extends XoopsObject
 {
@@ -145,7 +145,7 @@ class MyalbumPreview extends XoopsObject
         }
 
         if ($GLOBALS['myalbumModuleConfig']['tag']) {
-            include_once XOOPS_ROOT_PATH . '/modules/tag/include/tagbar.php';
+            require_once XOOPS_ROOT_PATH . '/modules/tag/include/tagbar.php';
             $tagbar = tagBar($lid, $cid);
         } else {
             $tagbar = array();
@@ -233,7 +233,7 @@ class MyalbumPreview extends XoopsObject
         }
 
         if ($GLOBALS['myalbumModuleConfig']['tag']) {
-            include_once XOOPS_ROOT_PATH . '/modules/tag/include/tagbar.php';
+            require_once XOOPS_ROOT_PATH . '/modules/tag/include/tagbar.php';
             $tagbar = tagBar($lid, $cid);
         } else {
             $tagbar = array();
@@ -293,7 +293,7 @@ class MyalbumPreview extends XoopsObject
                     'cid'              => $child->getVar('cid'),
                     'title'            => $child->getVar('title'),
                     'weight'           => $child->getVar('weight'),
-                    'photo_small_sum'  => MyalbumUtilities::getCategoryCount($child->getVar('cid'), $criteria),
+                    'photo_small_sum'  => MyalbumUtility::getCategoryCount($child->getVar('cid'), $criteria),
                     'number_of_subcat' => count($GLOBALS['cattree']->getFirstChild($child->getVar('cid')))
                 );
             }
@@ -311,12 +311,12 @@ class MyalbumPreview extends XoopsObject
 
             array_push($cids, $cid);
 
-            $photo_total_sum = MyalbumUtilities::getTotalCount($cids, $criteria);
+            $photo_total_sum = MyalbumUtility::getTotalCount($cids, $criteria);
 
             $ret[] = array(
                 'cid'             => $cid,
                 'imgurl'          => $GLOBALS['myts']->htmlSpecialChars($imgurl),
-                'photo_small_sum' => MyalbumUtilities::getCategoryCount($cid, $criteria),
+                'photo_small_sum' => MyalbumUtility::getCategoryCount($cid, $criteria),
                 'photo_total_sum' => $photo_total_sum,
                 'title'           => $title,
                 'weight'          => $weight,

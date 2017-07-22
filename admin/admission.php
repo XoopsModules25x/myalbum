@@ -1,10 +1,10 @@
 <?php
 // ------------------------------------------------------------------------- //
 //                      myAlbum-P - XOOPS photo album                        //
-//                        <http://www.peak.ne.jp/>                           //
+//                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
-include_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 
 // GET vars
 $pos = empty($_GET['pos']) ? 0 : (int)$_GET['pos'];
@@ -21,7 +21,7 @@ if (!empty($_POST['action']) && $_POST['action'] === 'admit' && isset($_POST['id
     // remove records
 
     // Double check for anti-CSRF
-    if (!xoops_refcheck()) {
+    if (!xoopsSecurity::checkReferer()) {
         die('XOOPS_URL is not included in your REFERER');
     }
     /** @var MyalbumPhotosHandler $photosHandler */
@@ -42,8 +42,8 @@ if ($txt !== '') {
     }
 }
 xoops_cp_header();
-$indexAdmin = new ModuleAdmin();
-echo $indexAdmin->addNavigation(basename(__FILE__));
+$adminObject = \Xmf\Module\Admin::getInstance();
+$adminObject->displayNavigation(basename(__FILE__));
 //myalbum_adminMenu(basename(__FILE__), 3);
 $GLOBALS['xoopsTpl']->assign('admin_title', sprintf(_AM_H3_FMT_ADMISSION, $xoopsModule->name()));
 $GLOBALS['xoopsTpl']->assign('mydirname', $GLOBALS['mydirname']);
@@ -73,4 +73,4 @@ $GLOBALS['xoopsTpl']->display('db:' . $GLOBALS['mydirname'] . '_cpanel_admission
 
 // check $xoopsModule
 //  myalbum_footer_adminMenu();
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

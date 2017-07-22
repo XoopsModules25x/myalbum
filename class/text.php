@@ -1,7 +1,7 @@
 <?php
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
-include dirname(__DIR__) . '/include/read_configs.php';
+include __DIR__ . '/../include/read_configs.php';
 
 /**
  * Class for Blue Room Xcenter
@@ -59,7 +59,7 @@ class MyalbumTextHandler extends XoopsPersistableObjectHandler
      */
     public function getBytes()
     {
-        $sql = 'SELECT SUM(LENGTH(`description`)) as `bytes` FROM ' . $GLOBALS['xoopsDB']->prefix($GLOBALS['table_text']);
+        $sql = 'SELECT SUM(LENGTH(`description`)) AS `bytes` FROM ' . $GLOBALS['xoopsDB']->prefix($GLOBALS['table_text']);
         list($bytes) = $GLOBALS['xoopsDB']->fetchRow($GLOBALS['xoopsDB']->queryF($sql));
 
         return $bytes;

@@ -1,7 +1,7 @@
 <{strip}>
 <div style="float:right;">
     <a href="<{$rss}>">
-        <img border='0' src='<{$xoops_url}>/modules/<{$mydirname}>/assets/images/rss.gif'/>
+        <img border='0' src='<{$xoops_url}>/modules/<{$mydirname}>/assets/images/rss.gif'>
     </a>
 </div>
 <table width="100%" cellspacing="0" class="outer">
@@ -19,14 +19,14 @@
                             <{if $lang_add_photo}>
                                 <a href="submit.php?cid=<{$category_id}>"><{$lang_add_photo}>
                                     <img src="<{xoModuleIcons16 add.png}>" border="0" alt="<{$lang_add_photo}>"
-                                         title="<{$lang_add_photo}>"/>
+                                         title="<{$lang_add_photo}>">
                                 </a>
                             <{/if}>
                         </td>
                     </tr>
                 </table>
                 <{if count( $subcategories ) > 0 }>
-                    <hr/>
+                    <hr>
                     <{include file="db:myalbum_categories.tpl"}>
                 <{/if}>
         </td>
@@ -46,34 +46,34 @@
                             <{$lang_sortby}>&nbsp;&nbsp;
                             <{$lang_title}> (
                             <a href="viewcat.php?cid=<{$category_id}>&amp;uid=<{$uid}>&amp;orderby=titleA">
-                                <img src="assets/images/up.gif" border="0" align="middle" alt=""/>
+                                <img src="assets/images/up.gif" border="0" align="middle" alt="">
                             </a>
                             <a href="viewcat.php?cid=<{$category_id}>&amp;uid=<{$uid}>&amp;orderby=titleD">
-                                <img src="assets/images/down.gif" border="0" align="middle" alt=""/>
+                                <img src="assets/images/down.gif" border="0" align="middle" alt="">
                             </a>)&nbsp;
                             <{$lang_date}> (
                             <a href="viewcat.php?cid=<{$category_id}>&amp;uid=<{$uid}>&amp;orderby=dateA">
-                                <img src="assets/images/up.gif" border="0" align="middle" alt=""/>
+                                <img src="assets/images/up.gif" border="0" align="middle" alt="">
                             </a>
                             <a href="viewcat.php?cid=<{$category_id}>&amp;uid=<{$uid}>&amp;orderby=dateD">
-                                <img src="assets/images/down.gif" border="0" align="middle" alt=""/>
+                                <img src="assets/images/down.gif" border="0" align="middle" alt="">
                             </a>)&nbsp;
                             <{if $canrateview }>
                                 <{$lang_rating}> (
                                 <a href="viewcat.php?cid=<{$category_id}>&amp;uid=<{$uid}>&amp;orderby=ratingA">
-                                    <img src="assets/images/up.gif" border="0" align="middle" alt=""/>
+                                    <img src="assets/images/up.gif" border="0" align="middle" alt="">
                                 </a>
                                 <a href="viewcat.php?cid=<{$category_id}>&amp;uid=<{$uid}>&amp;orderby=ratingD">
-                                    <img src="assets/images/down.gif" border="0" align="middle" alt=""/>
+                                    <img src="assets/images/down.gif" border="0" align="middle" alt="">
                                 </a>
                                 )&nbsp;
                             <{/if}>
                             <{$lang_popularity}> (
                             <a href="viewcat.php?cid=<{$category_id}>&amp;uid=<{$uid}>&amp;orderby=hitsA">
-                                <img src="assets/images/up.gif" border="0" align="middle" alt=""/>
+                                <img src="assets/images/up.gif" border="0" align="middle" alt="">
                             </a>
                             <a href="viewcat.php?cid=<{$category_id}>&amp;uid=<{$uid}>&amp;orderby=hitsD">
-                                <img src="assets/images/down.gif" border="0" align="middle" alt=""/>
+                                <img src="assets/images/down.gif" border="0" align="middle" alt="">
                             </a>)
                             <br>
                                 <strong><{$lang_cursortedby}></strong>
@@ -90,7 +90,7 @@
                                             </tr>
                                         </table>
                         </div>
-                        <hr/>
+                        <hr>
                     <{/if}>
                     <br>
                         <table width='100%' cellspacing='0' cellpadding='10' border='0'>
@@ -100,7 +100,7 @@
                         </table>
 
                         <{if $photo_small_sum > 1 }>
-                            <hr/>
+                            <hr>
                             <div align="center">
                                 <table border='0' cellpadding='0' cellspacing='0' width='100%'>
                                     <tr>

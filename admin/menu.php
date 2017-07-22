@@ -1,24 +1,19 @@
 <?php
-$GLOBALS['mydirname']     = basename(dirname(__DIR__));
-$moduleHandler            = xoops_getHandler('module');
-$GLOBALS['myalbumModule'] = $moduleHandler->getByDirname($GLOBALS['mydirname']);
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+use Xmf\Module\Admin;
+use Xmf\Module\Helper;
 
-$path = dirname(dirname(dirname(__DIR__)));
-include_once $path . '/mainfile.php';
+//$path = dirname(dirname(dirname(__DIR__)));
+//require_once $path . '/mainfile.php';
 
 $moduleDirName         = basename(dirname(__DIR__));
-$moduleHandler   = xoops_getHandler('module');
-$module          = $moduleHandler->getByDirname($moduleDirName);
-$pathIcon32      = '../../' . $module->getInfo('sysicons32');
-$modIcon32      = '../../' . $module->getInfo('modicons32');
-$pathModuleAdmin = $module->getInfo('dirmoduleadmin');
-$pathLanguage    = $path . $pathModuleAdmin;
 
-if (!file_exists($fileinc = $pathLanguage . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/' . 'main.php')) {
-    $fileinc = $pathLanguage . '/language/english/main.php';
+if (false !== ($moduleHelper = Helper::getHelper($moduleDirName))) {
+} else {
+    $moduleHelper = Helper::getHelper('system');
 }
+$pathIcon32    = Admin::menuIconPath('');
+$pathModIcon32 = $moduleHelper->getModule()->getInfo('modicons32');
 
 $adminmenu[] = array(
     'title' => _ALBM_MYALBUM_ADMENU_DASHBOARD,

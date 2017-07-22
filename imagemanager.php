@@ -1,6 +1,6 @@
 <?php
 if (!defined('XOOPS_ROOT_PATH')) {
-    require __DIR__ . '/header.php';
+    require_once __DIR__ . '/header.php';
 } else {
     // when this script is included by core's imagemanager.php
     $moduleDirName = basename(__DIR__);

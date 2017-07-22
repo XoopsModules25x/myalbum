@@ -1,10 +1,10 @@
 <?php
 
 $moduleDirName = basename(dirname(__DIR__));
-require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
-require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
-require_once dirname(__DIR__) . '/class/utilities.php';
-require_once dirname(__DIR__) . '/include/read_configs.php';
+require_once __DIR__ . '/../../../mainfile.php';
+require_once __DIR__ . '/../../../include/cp_header.php';
+require_once __DIR__ . '/../include/functions.php';
+require_once __DIR__ . '/../include/read_configs.php';
 
 if (!defined('_CHARSET')) {
     define('_CHARSET', 'UTF-8');
@@ -15,6 +15,7 @@ if (!defined('_CHARSET_ISO')) {
 
 $GLOBALS['myts'] = MyTextSanitizer::getInstance();
 
+/** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler                  = xoops_getHandler('module');
 $configHandler                  = xoops_getHandler('config');
 $GLOBALS['myalbumModule']       = $moduleHandler->getByDirname($GLOBALS['mydirname']);
@@ -29,8 +30,8 @@ xoops_load('pagenav');
 xoops_load('xoopslists');
 xoops_load('xoopsformloader');
 
-include_once $GLOBALS['xoops']->path('class' . DS . 'xoopsmailer.php');
-include_once $GLOBALS['xoops']->path('class' . DS . 'tree.php');
+require_once $GLOBALS['xoops']->path('class/xoopsmailer.php');
+require_once $GLOBALS['xoops']->path('class/tree.php');
 
 /** @var MyalbumCatHandler $catHandler */
 $catHandler         = xoops_getModuleHandler('cat');
@@ -60,7 +61,7 @@ $pathIcon16 = $GLOBALS['xoops']->url('www/' . $GLOBALS['xoopsModule']->getInfo('
 $pathIcon32 = $GLOBALS['xoops']->url('www/' . $GLOBALS['xoopsModule']->getInfo('sysicons32'));
 
 if (!isset($GLOBALS['xoopsTpl']) || !is_object($GLOBALS['xoopsTpl'])) {
-    include_once XOOPS_ROOT_PATH . '/class/template.php';
+    require_once XOOPS_ROOT_PATH . '/class/template.php';
     $GLOBALS['xoopsTpl'] = new XoopsTpl();
 }
 
@@ -76,7 +77,7 @@ if (isset($_GET['lid'])) {
 }
 
 if ($GLOBALS['myalbumModuleConfig']['tag']) {
-    include_once $GLOBALS['xoops']->path('modules' . DS . 'tag' . DS . 'include' . DS . 'formtag.php');
+    require_once $GLOBALS['xoops']->path('modules/tag/include/formtag.php');
 }
 
 extract($GLOBALS['myalbumModuleConfig']);

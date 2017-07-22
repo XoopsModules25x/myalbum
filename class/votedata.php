@@ -2,7 +2,7 @@
 
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
-include dirname(__DIR__) . '/include/read_configs.php';
+include __DIR__ . '/../include/read_configs.php';
 
 /**
  * Class for Blue Room Xcenter

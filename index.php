@@ -1,7 +1,7 @@
 <?php
 // ------------------------------------------------------------------------- //
 //                      myAlbum-P - XOOPS photo album                        //
-//                        <http://www.peak.ne.jp/>                           //
+//                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
 include __DIR__ . '/header.php';
@@ -44,7 +44,7 @@ foreach ($GLOBALS['myalbum_assign_globals'] as $key => $value) {
 
 $GLOBALS['xoopsTpl']->assign('subcategories', MyalbumPreview::getSubCategories(0, $GLOBALS['cattree']));
 
-$GLOBALS['xoopsTpl']->assign('category_options', MyalbumUtilities::getCategoryOptions());
+$GLOBALS['xoopsTpl']->assign('category_options', MyalbumUtility::getCategoryOptions());
 
 $criteria        = new Criteria('`status`', '0', '>');
 $photo_num_total = $photosHandler->getCount($criteria);

@@ -1,16 +1,16 @@
 <?php
 // ------------------------------------------------------------------------- //
 //                      myAlbum-P - XOOPS photo album                        //
-//                        <http://www.peak.ne.jp/>                           //
+//                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
-include_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 
 // From myalbum*
 if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
 
     // anti-CSRF
-    if (!xoops_refcheck()) {
+    if (!xoopsSecurity::checkReferer()) {
         die('XOOPS_URL is not included in your REFERER');
     }
 
@@ -23,11 +23,13 @@ if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
     if (!preg_match('/^myalbum(\d*)$/', $src_dirname, $regs)) {
         die('invalid dirname of myalbum: ' . htmlspecialchars($src_dirname));
     }
+    /** @var XoopsModuleHandler $moduleHandler */
+    $moduleHandler = xoops_getHandler('module');
     $module = $moduleHandler->getByDirname($src_dirname);
     if (!is_object($module)) {
         die('invalid module dirname:' . htmlspecialchars($src_dirname));
     }
-    $src_mid = $module->getvar('mid');
+    $src_mid = $module->getVar('mid');
 
     // authority check
     if (!$GLOBALS['xoopsUser']->isAdmin($src_mid)) {
@@ -65,8 +67,7 @@ if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
 
         // photos table
         $set_comments = $move_mode ? 'comments' : "'0'";
-        $sql          = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix($table_photos)
-                        . "(cid,title,ext,res_x,res_y,submitter,status,date,hits,rating,votes,comments) SELECT '$cid',title,ext,res_x,res_y,submitter,status,date,hits,rating,votes,$set_comments FROM $src_table_photos WHERE lid='$src_lid'";
+        $sql          = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix($table_photos) . "(cid,title,ext,res_x,res_y,submitter,status,date,hits,rating,votes,comments) SELECT '$cid',title,ext,res_x,res_y,submitter,status,date,hits,rating,votes,$set_comments FROM $src_table_photos WHERE lid='$src_lid'";
         $GLOBALS['xoopsDB']->query($sql) || die('DB error: INSERT photo table');
         $lid = $GLOBALS['xoopsDB']->getInsertId();
 
@@ -107,7 +108,7 @@ if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
                 $GLOBALS['xoopsDB']->prefix($table_text),
                 $GLOBALS['xoopsDB']->prefix($table_votedata)
             );
-            MyalbumUtilities::deletePhotos("lid='$src_lid'");
+            MyalbumUtility::deletePhotos("lid='$src_lid'");
             list($photos_dir, $thumbs_dir, $myalbum_mid, $table_photos, $table_text, $table_votedata) = array(
                 $saved_photos_dir,
                 $saved_thumbs_dir,
@@ -133,7 +134,7 @@ else {
         }
 
         // anti-CSRF
-        if (!xoops_refcheck()) {
+        if (!xoopsSecurity::checkReferer()) {
             die('XOOPS_URL is not included in your REFERER');
         }
 
@@ -176,10 +177,10 @@ else {
                 list($body) = $GLOBALS['xoopsDB']->fetchRow($brs);
                 fwrite($fp, $body);
                 fclose($fp);
-                MyalbumUtilities::createThumb($dst_file, $lid, $ext);
+                MyalbumUtility::createThumb($dst_file, $lid, $ext);
             } else {
                 @copy($src_file, $dst_file);
-                MyalbumUtilities::createThumb($src_file, $lid, $ext);
+                MyalbumUtility::createThumb($src_file, $lid, $ext);
             }
 
             list($width, $height, $type) = getimagesize($dst_file);
@@ -192,10 +193,10 @@ else {
     }
 }
 
-include_once dirname(__DIR__) . '/class/forms.php';
+require_once __DIR__ . '/../include/myalbum.forms.php';
 xoops_cp_header();
-$indexAdmin = new ModuleAdmin();
-echo $indexAdmin->addNavigation(basename(__FILE__));
+$adminObject = \Xmf\Module\Admin::getInstance();
+$adminObject->displayNavigation(basename(__FILE__));
 //myalbum_adminMenu(basename(__FILE__), 6);
 $GLOBALS['xoopsTpl']->assign('admin_title', sprintf(_AM_H3_FMT_IMPORTTO, $xoopsModule->name()));
 $GLOBALS['xoopsTpl']->assign('mydirname', $GLOBALS['mydirname']);
@@ -207,4 +208,4 @@ $GLOBALS['xoopsTpl']->assign('formb', MyalbumForms::getAdminFormImportImageManag
 $GLOBALS['xoopsTpl']->display('db:' . $GLOBALS['mydirname'] . '_cpanel_import.tpl');
 
 //  myalbum_footer_adminMenu();
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

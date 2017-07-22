@@ -3,19 +3,20 @@
 #
 
 CREATE TABLE myalbum_cat (
-  cid int(5) unsigned NOT NULL auto_increment,
-  pid int(5) unsigned NOT NULL default '0',
-  title varchar(50) NOT NULL default '',
-  imgurl varchar(150) NOT NULL default '',
-  weight int(5) unsigned NOT NULL default '0',
-  depth int(5) unsigned NOT NULL default '0',
-  description text,
-  allowed_ext varchar(255) NOT NULL default 'jpg|jpeg|gif|png',
-  PRIMARY KEY  (cid),
+  cid         INT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+  pid         INT(5) UNSIGNED NOT NULL DEFAULT '0',
+  title       VARCHAR(50)     NOT NULL DEFAULT '',
+  imgurl      VARCHAR(150)    NOT NULL DEFAULT '',
+  weight      INT(5) UNSIGNED NOT NULL DEFAULT '0',
+  depth       INT(5) UNSIGNED NOT NULL DEFAULT '0',
+  description TEXT,
+  allowed_ext VARCHAR(255)    NOT NULL DEFAULT 'jpg|jpeg|gif|png',
+  PRIMARY KEY (cid),
   KEY pid (pid),
   KEY weight (weight),
   KEY depth (depth)
-) ENGINE=INNODB;
+)
+  ENGINE = INNODB;
 # --------------------------------------------------------
 
 #
@@ -23,25 +24,26 @@ CREATE TABLE myalbum_cat (
 #
 
 CREATE TABLE myalbum_photos (
-  lid int(11) unsigned NOT NULL auto_increment,
-  cid int(5) unsigned NOT NULL default '0',
-  title varchar(100) NOT NULL default '',
-  ext varchar(10) NOT NULL default '',
-  res_x int(11) NOT NULL default '0',
-  res_y int(11) NOT NULL default '0',
-  submitter int(11) unsigned NOT NULL default '0',
-  status tinyint(2) NOT NULL default '0',
-  date int(10) NOT NULL default '0',
-  hits int(11) unsigned NOT NULL default '0',
-  rating double(6,4) NOT NULL default '0.0000',
-  votes int(11) unsigned NOT NULL default '0',
-  comments int(11) unsigned NOT NULL default '0',
-  tags varchar(255) NOT NULL default '',
-  PRIMARY KEY  (lid),
+  lid       INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  cid       INT(5) UNSIGNED  NOT NULL DEFAULT '0',
+  title     VARCHAR(100)     NOT NULL DEFAULT '',
+  ext       VARCHAR(10)      NOT NULL DEFAULT '',
+  res_x     INT(11)          NOT NULL DEFAULT '0',
+  res_y     INT(11)          NOT NULL DEFAULT '0',
+  submitter INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  status    TINYINT(2)       NOT NULL DEFAULT '0',
+  date      INT(10)          NOT NULL DEFAULT '0',
+  hits      INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  rating    DOUBLE(6, 4)     NOT NULL DEFAULT '0.0000',
+  votes     INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  comments  INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  tags      VARCHAR(255)     NOT NULL DEFAULT '',
+  PRIMARY KEY (lid),
   KEY cid (cid),
   KEY status (status),
   KEY title (title(40))
-) ENGINE=INNODB;
+)
+  ENGINE = INNODB;
 # --------------------------------------------------------
 
 #
@@ -49,10 +51,11 @@ CREATE TABLE myalbum_photos (
 #
 
 CREATE TABLE myalbum_text (
-  lid int(11) unsigned NOT NULL default '0',
-  description text NOT NULL,
+  lid         INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  description TEXT             NOT NULL,
   KEY lid (lid)
-) ENGINE=INNODB;
+)
+  ENGINE = INNODB;
 # --------------------------------------------------------
 
 #
@@ -60,14 +63,15 @@ CREATE TABLE myalbum_text (
 #
 
 CREATE TABLE myalbum_votedata (
-  ratingid int(11) unsigned NOT NULL auto_increment,
-  lid int(11) unsigned NOT NULL default '0',
-  ratinguser int(11) unsigned NOT NULL default '0',
-  rating tinyint(3) unsigned NOT NULL default '0',
-  ratinghostname varchar(60) NOT NULL default '',
-  ratingtimestamp int(10) NOT NULL default '0',
-  PRIMARY KEY  (ratingid),
+  ratingid        INT(11) UNSIGNED    NOT NULL AUTO_INCREMENT,
+  lid             INT(11) UNSIGNED    NOT NULL DEFAULT '0',
+  ratinguser      INT(11) UNSIGNED    NOT NULL DEFAULT '0',
+  rating          TINYINT(3) UNSIGNED NOT NULL DEFAULT '0',
+  ratinghostname  VARCHAR(60)         NOT NULL DEFAULT '',
+  ratingtimestamp INT(10)             NOT NULL DEFAULT '0',
+  PRIMARY KEY (ratingid),
   KEY ratinguser (ratinguser),
   KEY ratinghostname (ratinghostname)
-) ENGINE=INNODB;
+)
+  ENGINE = INNODB;
 

@@ -1,7 +1,7 @@
 <?php
 // ------------------------------------------------------------------------- //
 //                      myAlbum-P - XOOPS photo album                        //
-//                        <http://www.peak.ne.jp/>                           //
+//                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 $lid = '';
 include __DIR__ . '/header.php';
@@ -185,13 +185,13 @@ if (!empty($_POST['submit'])) {
         $tagHandler->updateByItem($_POST['tags'], $newid, $GLOBALS['myalbumModule']->getVar('dirname'), $cid);
     }
 
-    MyalbumUtilities::editPhoto($GLOBALS['photos_dir'] . "/$tmp_name", $GLOBALS['photos_dir'] . "/$newid.$ext");
+    MyalbumUtility::editPhoto($GLOBALS['photos_dir'] . "/$tmp_name", $GLOBALS['photos_dir'] . "/$newid.$ext");
     $dim = getimagesize($GLOBALS['photos_dir'] . "/$newid.$ext");
     $photo_obj->setVar('res_x', $dim[0]);
     $photo_obj->setVar('res_y', $dim[1]);
     @$photosHandler->insert($photo_obj, true);
 
-    if (!MyalbumUtilities::createThumb($GLOBALS['photos_dir'] . "/$newid.$ext", $newid, $ext)) {
+    if (!MyalbumUtility::createThumb($GLOBALS['photos_dir'] . "/$newid.$ext", $newid, $ext)) {
         $xoopsDB->query("DELETE FROM $table_photos WHERE lid=$newid");
         redirect_header('submit.php', 2, _ALBM_FILEREADERROR);
     }
@@ -223,7 +223,7 @@ if (!empty($_POST['submit'])) {
     }
 
     // Clear tempolary files
-    MyalbumUtilities::clearTempFiles($photos_dir);
+    MyalbumUtility::clearTempFiles($photos_dir);
 
     $redirect_uri = XOOPS_URL . "/modules/$moduleDirName/viewcat.php?cid=$cid&amp;orderby=dateD";
     if ($caller === 'imagemanager') {
@@ -236,10 +236,10 @@ if (!empty($_POST['submit'])) {
 
 if ($caller === 'imagemanager') {
     echo "<html><head>
-        <link rel='stylesheet' type='text/css' media='all' href='" . XOOPS_URL . "/xoops.css' />
-        <link rel='stylesheet' type='text/css' media='all' href='" . XOOPS_URL . "/modules/system/style.css' />
-        <meta http-equiv='content-type' content='text/html; charset='" . _CHARSET . "' />
-        <meta http-equiv='content-language' content='" . _LANGCODE . "' />
+        <link rel='stylesheet' type='text/css' media='all' href='" . XOOPS_URL . "/xoops.css' >
+        <link rel='stylesheet' type='text/css' media='all' href='" . XOOPS_URL . "/modules/system/style.css' >
+        <meta http-equiv='content-type' content='text/html; charset='" . _CHARSET . "' >
+        <meta http-equiv='content-language' content='" . _LANGCODE . "' >
         </head><body>\n";
 } else {
     include $GLOBALS['xoops']->path('header.php');
@@ -266,7 +266,7 @@ if ($caller !== 'imagemanager' && !empty($_POST['preview'])) {
         if ($uploader->fetchMedia($field) && $uploader->upload()) {
             $tmp_name     = $uploader->getSavedFileName();
             $preview_name = str_replace('tmp_', 'tmp_prev_', $tmp_name);
-            MyalbumUtilities::editPhoto($GLOBALS['photos_dir'] . "/$tmp_name", $GLOBALS['photos_dir'] . "/$lid.$ext");
+            MyalbumUtility::editPhoto($GLOBALS['photos_dir'] . "/$tmp_name", $GLOBALS['photos_dir'] . "/$lid.$ext");
             list($imgsrc, $width_spec, $ahref) = MyalbumPreview::getImageAttribsForPreview($preview_name);
         } else {
             @unlink($uploader->getSavedDestination());

@@ -1,6 +1,6 @@
 <?php
-include_once __DIR__ . '/admin_header.php';
-include_once __DIR__ . '/mygrouppermform.php';
+require_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/mygrouppermform.php';
 
 xoops_loadLanguage('admin', 'system');
 
@@ -10,8 +10,8 @@ if (!empty($_POST['submit'])) {
 }
 
 xoops_cp_header();
-$indexAdmin = new ModuleAdmin();
-echo $indexAdmin->addNavigation('groupperm_global.php');
+$adminObject = \Xmf\Module\Admin::getInstance();
+$adminObject->displayNavigation(basename(__FILE__));
 //myalbum_adminMenu(basename(__FILE__), 8);
 $GLOBALS['xoopsTpl']->assign('admin_title', $GLOBALS['myalbumModule']->name());
 $GLOBALS['xoopsTpl']->assign('mydirname', $GLOBALS['mydirname']);
@@ -25,4 +25,4 @@ if (isset($result_str)) {
 $GLOBALS['xoopsTpl']->display('db:' . $GLOBALS['mydirname'] . '_cpanel_permissions.tpl');
 
 //  myalbum_footer_adminMenu();
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

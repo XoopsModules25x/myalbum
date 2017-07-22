@@ -14,7 +14,7 @@
                         <td align='right'>
                             <{if $lang_add_photo}><a href="submit.php"><{$lang_add_photo}><img
                                 src="<{xoModuleIcons16 add.png}>" border="0"
-                                alt="<{$lang_add_photo}>" title="<{$lang_add_photo}>"/></a><{/if}>
+                                alt="<{$lang_add_photo}>" title="<{$lang_add_photo}>"></a><{/if}>
                         </td>
                     </tr>
                 </table>
@@ -33,7 +33,7 @@
                    onClick="window.open('<{$photo.ahref_photo}>','','width=<{$photo.window_x}>,height=<{$photo.window_y}>');return(false);"><img
                             src="<{$photo.imgsrc_photo}>" border="0" align="center" vspace="3" hspace="7"
                             alt="<{$photo.title}>" title="<{$photo.title}>"
-                            <{$photo.width_height}> /></a>
+                            <{$photo.width_height}> ></a>
                 <br>
                 <table width="100%" cellspacing="0" cellpadding="10" border="0">
                     <tr>
@@ -47,7 +47,7 @@
                                 <a href='<{$mod_url}>/editphoto.php?lid=<{$photo.lid}>'><img
                                             src='<{xoModuleIcons16 edit.png}>' border='0'
                                             alt='<{$lang_editthisphoto}>'
-                                            title='<{$lang_editthisphoto}>'/></a>
+                                            title='<{$lang_editthisphoto}>'></a>
                             <{/if}>
 
                             <{* PHOTO'S SUBJECT *}>
@@ -57,19 +57,19 @@
                             <{* NEW ICON *}>
                             <{if $photo.is_newphoto}>
                                 <img src='<{$mod_url}>/assets/images/newred.gif' border='0' alt='<{$lang_new}>'
-                                     title='<{$lang_new}>'/>
+                                     title='<{$lang_new}>'>
                             <{/if}>
 
                             <{* UPDATE ICON *}>
                             <{if $photo.is_updatedphoto}>
                                 <img src='<{$mod_url}>/assets/images/update.gif' border='0' alt='<{$lang_updated}>'
-                                     title='<{$lang_updated}>'/>
+                                     title='<{$lang_updated}>'>
                             <{/if}>
 
                             <{* POPULAR ICON *}>
                             <{if $photo.is_popularphoto}>
                                 <img src='<{$mod_url}>/assets/images/pop.gif' border='0' alt='<{$lang_popular}>'
-                                     title='<{$lang_popular}>'/>
+                                     title='<{$lang_popular}>'>
                             <{/if}>
                             <br>
 
@@ -81,16 +81,16 @@
                                 <a href='<{$xoops_url}>/userinfo.php?uid=<{$photo.submitter}>'>
                                     <img src='<{$mod_url}>/assets/images/submitter.gif' width='16' height='16'
                                          alt='<{$lang_submitter}>' title='<{$lang_submitter}>'
-                                         border='0'/>
+                                         border='0'>
                                 </a>
                                 <{$photo.submitter_name}>
                                 <a href='<{$mod_url}>/viewcat.php?uid=<{$photo.submitter}>'><img
                                             src='<{$mod_url}>/assets/images/myphotos.gif' width='16' height='16'
                                             alt='<{$photo.info_morephotos}>'
-                                            title='<{$photo.info_morephotos}>' border='0'/></a>
+                                            title='<{$photo.info_morephotos}>' border='0'></a>
                             <{else}>
                                 <img src='<{$mod_url}>/assets/images/submitter.gif' width='16' height='16'
-                                     alt='<{$lang_submitter}>' title='<{$lang_submitter}>'/>
+                                     alt='<{$lang_submitter}>' title='<{$lang_submitter}>'>
                                 <{$photo.submitter_name}>
                             <{/if}>
                             &nbsp; &nbsp;
@@ -100,13 +100,13 @@
                                 <a href='<{$mod_url}>/viewcat.php?cid=<{$photo.cid}>'><img
                                             src='<{xoModuleIcons16 topic.png}>' width='16' height='16'
                                             alt='<{$lang_category}>' title='<{$lang_category}>'
-                                            border='0'/><{$photo.cat_title}></a>
+                                            border='0'><{$photo.cat_title}></a>
                                 &nbsp; &nbsp;
                             <{/if}>
 
                             <{* LAST UPDATED *}>
                             <img src='<{$mod_url}>/assets/images/clock.gif' width='16' height='16'
-                                 alt='<{$lang_lastupdatec}>' title='<{$lang_lastupdatec}>'/><{$photo.datetime}>
+                                 alt='<{$lang_lastupdatec}>' title='<{$lang_lastupdatec}>'><{$photo.datetime}>
 
                             <br>
 
@@ -115,12 +115,12 @@
 
                             <{* HIT COUNTS *}>
                             <img src='<{$mod_url}>/assets/images/hits.gif' width='16' height='16'
-                                 alt='<{$lang_hitsc}>' title='<{$lang_hitsc}>'/><{$photo.hits}>
+                                 alt='<{$lang_hitsc}>' title='<{$lang_hitsc}>'><{$photo.hits}>
                             &nbsp;
 
                             <{* COMMENT COUNTS *}>
                             <img src='<{$mod_url}>/assets/images/comments.gif' width='16' height='16'
-                                 alt='<{$lang_commentsc}>' title='<{$lang_commentsc}>'/><{$photo.comments}>
+                                 alt='<{$lang_commentsc}>' title='<{$lang_commentsc}>'><{$photo.comments}>
                             &nbsp; &nbsp;
 
                             <{* RANK & RATING *}>
@@ -128,11 +128,11 @@
                                 <{if $photo.rating > 0}>
                                     <img src='<{$mod_url}>/assets/images/rank<{$photo.rank}>.gif'
                                          alt='<{$photo.rating}>' title='<{$photo.rating}>'
-                                         border='0'/><{$photo.info_votes}>
+                                         border='0'><{$photo.info_votes}>
                                 <{else}>
                                     <img src='<{$mod_url}>/assets/images/rank_none.gif'
                                          alt='<{$photo.info_votes}>' title='<{$photo.info_votes}>'
-                                         border='0'/><{$photo.info_votes}>
+                                         border='0'><{$photo.info_votes}>
                                 <{/if}>
                             <{/if}>
 
@@ -142,7 +142,7 @@
                                             src='<{$mod_url}>/assets/images/vote.gif'
                                             alt='<{$lang_ratethisphoto}>'
                                             title='<{$lang_ratethisphoto}>'
-                                            border='0'/><{$lang_ratethisphoto}></a>
+                                            border='0'><{$lang_ratethisphoto}></a>
                             <{/if}>
 
                             <br>

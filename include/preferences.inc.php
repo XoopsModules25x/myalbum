@@ -1,33 +1,21 @@
 <?php
-//
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                  Copyright (c) 2000-2016 XOOPS.org                        //
-//                       <https://xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-// Author: Kazumi Ono (AKA onokazu)                                          //
-// URL: http://www.myweb.ne.jp/, https://xoops.org/, http://jp.xoops.org/ //
-// Project: XOOPS Project                                                    //
-// ------------------------------------------------------------------------- //
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
+
+/**
+ * @copyright    XOOPS Project https://xoops.org/
+ * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @package
+ * @since
+ * @author       XOOPS Development Team, Kazumi Ono (AKA onokazu)
+ */
 
 if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($xoopsModule->mid())) {
     exit('Access Denied');
@@ -67,8 +55,8 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
         if (!is_object($confcat)) {
             redirect_header('admin.php?fct=preferences', 1);
         }
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-        include_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
+        require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+        require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
         $form           = new XoopsThemeForm(constant($confcat->getVar('confcat_name')), 'pref_form', 'admin.php?fct=preferences');
         $configHandler = xoops_getHandler('config');
         $criteria       = new CriteriaCompo();
@@ -162,6 +150,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                     break;
                 case 'startpage':
                     $ele           = new XoopsFormSelect($title, $config[$i]->getVar('conf_name'), $config[$i]->getConfValueForOutput());
+                    /** @var XoopsModuleHandler $moduleHandler */
                     $moduleHandler = xoops_getHandler('module');
                     $criteria      = new CriteriaCompo(new Criteria('hasmain', 1));
                     $criteria->add(new Criteria('isactive', 1));
@@ -183,6 +172,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                     $ele = new XoopsFormSelectUser($title, $config[$i]->getVar('conf_name'), false, $config[$i]->getConfValueForOutput(), 5, true);
                     break;
                 case 'module_cache':
+                    /** @var XoopsModuleHandler $moduleHandler */
                     $moduleHandler = xoops_getHandler('module');
                     $modules       = $moduleHandler->getObjects(new Criteria('hasmain', 1), true);
                     $currrent_val  = $config[$i]->getConfValueForOutput();
@@ -263,22 +253,23 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
         if ($count < 1) {
             redirect_header('admin.php?fct=preferences', 1);
         }
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+        require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
         $form          = new XoopsThemeForm(_MD_AM_MODCONFIG, 'pref_form', 'admin.php?fct=preferences');
+        /** @var XoopsModuleHandler $moduleHandler */
         $moduleHandler = xoops_getHandler('module');
         $module        = $moduleHandler->get($mod);
         if (file_exists(XOOPS_ROOT_PATH . '/modules/' . $module->getVar('dirname') . '/language/' . $xoopsConfig['language'] . '/modinfo.php')) {
-            include_once XOOPS_ROOT_PATH . '/modules/' . $module->getVar('dirname') . '/language/' . $xoopsConfig['language'] . '/modinfo.php';
+            require_once XOOPS_ROOT_PATH . '/modules/' . $module->getVar('dirname') . '/language/' . $xoopsConfig['language'] . '/modinfo.php';
         }
 
         // if has comments feature, need comment lang file
         if ($module->getVar('hascomments') == 1) {
-            include_once XOOPS_ROOT_PATH . '/language/' . $xoopsConfig['language'] . '/comment.php';
+            require_once XOOPS_ROOT_PATH . '/language/' . $xoopsConfig['language'] . '/comment.php';
         }
         // RMV-NOTIFY
         // if has notification feature, need notification lang file
         if ($module->getVar('hasnotification') == 1) {
-            include_once XOOPS_ROOT_PATH . '/language/' . $xoopsConfig['language'] . '/notification.php';
+            require_once XOOPS_ROOT_PATH . '/language/' . $xoopsConfig['language'] . '/notification.php';
         }
 
         $modname = $module->getVar('name');
@@ -325,20 +316,20 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                     $ele = new XoopsFormRadioYN($title, $config[$i]->getVar('conf_name'), $config[$i]->getConfValueForOutput(), _YES, _NO);
                     break;
                 case 'group':
-                    include_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
+                    require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
                     $ele = new XoopsFormSelectGroup($title, $config[$i]->getVar('conf_name'), false, $config[$i]->getConfValueForOutput(), 1, false);
                     break;
                 case 'group_multi':
-                    include_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
+                    require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
                     $ele = new XoopsFormSelectGroup($title, $config[$i]->getVar('conf_name'), false, $config[$i]->getConfValueForOutput(), 5, true);
                     break;
                 // RMV-NOTIFY: added 'user' and 'user_multi'
                 case 'user':
-                    include_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
+                    require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
                     $ele = new XoopsFormSelectUser($title, $config[$i]->getVar('conf_name'), false, $config[$i]->getConfValueForOutput(), 1, false);
                     break;
                 case 'user_multi':
-                    include_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
+                    require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
                     $ele = new XoopsFormSelectUser($title, $config[$i]->getVar('conf_name'), false, $config[$i]->getConfValueForOutput(), 5, true);
                     break;
                 case 'password':
@@ -456,6 +447,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                         $memberHandler     = xoops_getHandler('member');
                         $groups             = $memberHandler->getGroupList();
                         $modulepermHandler = xoops_getHandler('groupperm');
+                        /** @var XoopsModuleHandler $moduleHandler */
                         $moduleHandler      = xoops_getHandler('module');
                         $module             = $moduleHandler->getByDirname($new_value);
                         foreach ($groups as $groupid => $groupname) {

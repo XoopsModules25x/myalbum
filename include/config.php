@@ -1,6 +1,6 @@
 <?php
 
-include_once __DIR__ . '/common.php';
+require_once __DIR__ . '/common.php';
 
 $uploadFolders = array(
     _ALBM_UPLOAD_PATH,

@@ -2,7 +2,7 @@
 if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($xoopsModule->mid())) {
     exit('Access Denied');
 }
-include_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
 include XOOPS_ROOT_PATH . '/modules/system/admin/blocksadmin/blocksadmin.php';
 
 $moduleDirName = basename(dirname(__DIR__));
@@ -27,7 +27,7 @@ if (isset($_GET['op'])) {
 
 if (isset($previewblock)) {
     xoops_cp_header();
-    include_once XOOPS_ROOT_PATH . '/class/template.php';
+    require_once XOOPS_ROOT_PATH . '/class/template.php';
     $xoopsTpl = new XoopsTpl();
     $xoopsTpl->xoops_setCaching(0);
     if (isset($bid)) {
@@ -47,8 +47,8 @@ if (isset($previewblock)) {
     $myts = MyTextSanitizer::getInstance();
     $myblock->setVar('title', $myts->stripSlashesGPC($btitle));
     $myblock->setVar('content', $myts->stripSlashesGPC($bcontent));
-    $dummyhtml = '<html><head><meta http-equiv="content-type" content="text/html; charset=' . _CHARSET . '" /><meta http-equiv="content-language" content="' . _LANGCODE . '" /><title>' . $xoopsConfig['sitename']
-                 . '</title><link rel="stylesheet" type="text/css" media="all" href="' . getcss($xoopsConfig['theme_set']) . '" /></head><body><table><tr><th>' . $myblock->getVar('title') . '</th></tr><tr><td>' . $myblock->getContent('S', $bctype)
+    $dummyhtml = '<html><head><meta http-equiv="content-type" content="text/html; charset=' . _CHARSET . '" ><meta http-equiv="content-language" content="' . _LANGCODE . '" ><title>' . $xoopsConfig['sitename']
+                 . '</title><link rel="stylesheet" type="text/css" media="all" href="' . getcss($xoopsConfig['theme_set']) . '" ></head><body><table><tr><th>' . $myblock->getVar('title') . '</th></tr><tr><td>' . $myblock->getContent('S', $bctype)
                  . '</td></tr></table></body></html>';
 
     $dummyfile = '_dummyfile_' . time() . '.tpl';
@@ -235,7 +235,7 @@ function myblocksadmin_update_block(
             $sql = sprintf('INSERT INTO %s (block_id, module_id) VALUES (%u, %d)', $db->prefix('block_module_link'), $bid, (int)$bmid);
             $db->query($sql);
         }
-        include_once XOOPS_ROOT_PATH . '/class/template.php';
+        require_once XOOPS_ROOT_PATH . '/class/template.php';
         $xoopsTpl = new XoopsTpl();
         $xoopsTpl->xoops_setCaching(2);
         if ($myblock->getVar('template') != '') {

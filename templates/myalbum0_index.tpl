@@ -1,6 +1,6 @@
 <{strip}>
 <div style="float:right;"><a href="<{$rss}>"><img border='0'
-                                                  src='<{$xoops_url}>/modules/<{$mydirname}>/assets/images/rss.gif'/></a>
+                                                  src='<{$xoops_url}>/modules/<{$mydirname}>/assets/images/rss.gif'></a>
 </div>
 <table width="100%" cellspacing="0" class="outer">
     <tr>
@@ -9,7 +9,7 @@
                 <{include file="db:myalbum0_header.tpl"}>
                 <br>
                     <{include file="db:myalbum0_categories.tpl"}>
-                    <hr/>
+                    <hr>
                     <form name='cid_select' action='<{$mod_url}>/viewcat.php' method='GET'
                           style='margin:0;text-align:center;'>
                         <select name='cid' onchange='submit();'>
@@ -19,7 +19,7 @@
                         <{$photo_global_sum}> &nbsp; &nbsp;
                         <{if $lang_add_photo}><a href="submit.php"><{$lang_add_photo}><img
                             src="<{xoModuleIcons16 add.png}>" border="0" alt="<{$lang_add_photo}>"
-                            title="<{$lang_add_photo}>"/>
+                            title="<{$lang_add_photo}>">
                             </a><{/if}>
                     </form>
         </td>
@@ -41,7 +41,7 @@
                             </td>
                         </tr>
                     </table>
-                    <hr/>
+                    <hr>
                 <{/if}>
                 <table width='100%' cellspacing='0' cellpadding='10' border='0'>
                     <{foreach from=$photos item=photo}>
@@ -49,7 +49,7 @@
                     <{/foreach}>
                 </table>
                 <{if $photonavdisp }>
-                    <hr/>
+                    <hr>
                     <table border='0' cellpadding='0' cellspacing='0' width='100%'>
                         <tr>
                             <td align='left'>

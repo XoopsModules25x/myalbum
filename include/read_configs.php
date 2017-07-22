@@ -10,6 +10,7 @@ if (preg_match('/^myalbum(\d*)$/', $GLOBALS['mydirname'], $regs)) {
 }
 
 global $xoopsConfig, $xoopsDB, $xoopsUser;
+/** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($GLOBALS['mydirname']);
 

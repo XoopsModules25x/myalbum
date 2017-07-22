@@ -31,7 +31,7 @@ if (!defined('MYALBUM_BLOCK_TOPNEWS_INCLUDED')) {
         // Category limitation
         if ($cat_limitation) {
             if ($cat_limit_recursive) {
-                include_once XOOPS_ROOT_PATH . '/class/xoopstree.php';
+                require_once XOOPS_ROOT_PATH . '/class/xoopstree.php';
                 $cattree  = new XoopsTree($GLOBALS['xoopsDB']->prefix($table_cat), 'cid', 'pid');
                 $children = $cattree->getAllChildId($cat_limitation);
                 $whr_cat  = 'cid IN (';
@@ -48,8 +48,7 @@ if (!defined('MYALBUM_BLOCK_TOPNEWS_INCLUDED')) {
 
         $block           = array();
         $GLOBALS['myts'] = MyTextSanitizer::getInstance();
-        $result          = $xoopsDB->query('SELECT lid , cid , title , ext , res_x , res_y , submitter , status , date AS unixtime , hits , rating , votes , comments FROM ' . $xoopsDB->prefix($table_photos)
-                                           . " WHERE status>0 AND $whr_cat ORDER BY unixtime DESC", $photos_num, 0);
+        $result          = $xoopsDB->query('SELECT lid , cid , title , ext , res_x , res_y , submitter , status , date AS unixtime , hits , rating , votes , comments FROM ' . $xoopsDB->prefix($table_photos) . " WHERE status>0 AND $whr_cat ORDER BY unixtime DESC", $photos_num, 0);
         $count           = 1;
         while (false !== ($photo = $xoopsDB->fetchArray($result))) {
             $photo['title'] = $GLOBALS['myts']->displayTarea($photo['title']);
@@ -109,7 +108,7 @@ if (!defined('MYALBUM_BLOCK_TOPNEWS_INCLUDED')) {
         $cat_limit_recursive = empty($options[4]) ? 0 : 1;
         $cols                = empty($options[6]) ? 1 : (int)$options[6];
 
-        include_once XOOPS_ROOT_PATH . '/class/xoopstree.php';
+        require_once XOOPS_ROOT_PATH . '/class/xoopstree.php';
         $cattree = new XoopsTree($xoopsDB->prefix("{$moduleDirName }_cat"), 'cid', 'pid');
 
         ob_start();
@@ -119,20 +118,20 @@ if (!defined('MYALBUM_BLOCK_TOPNEWS_INCLUDED')) {
 
         return '
         ' . _ALBM_TEXT_DISP . " &nbsp;
-        <input type='hidden' name='options[0]' value='{$moduleDirName }' />
-        <input type='text' size='4' name='options[1]' value='$photos_num' style='text-align:right;' />
+        <input type='hidden' name='options[0]' value='{$moduleDirName }' >
+        <input type='text' size='4' name='options[1]' value='$photos_num' style='text-align:right;' >
         <br>
         " . _ALBM_TEXT_STRLENGTH . " &nbsp;
-        <input type='text' size='6' name='options[2]' value='$title_max_length' style='text-align:right;' />
+        <input type='text' size='6' name='options[2]' value='$title_max_length' style='text-align:right;' >
         <br>
         " . _ALBM_TEXT_CATLIMITATION . " &nbsp; $catselbox
         " . _ALBM_TEXT_CATLIMITRECURSIVE . "
-        <input type='radio' name='options[4]' value='1' " . ($cat_limit_recursive ? 'checked' : '') . '/>' . _YES . "
-        <input type='radio' name='options[4]' value='0' " . ($cat_limit_recursive ? '' : 'checked') . '/>' . _NO . "
+        <input type='radio' name='options[4]' value='1' " . ($cat_limit_recursive ? 'checked' : '') . '>' . _YES . "
+        <input type='radio' name='options[4]' value='0' " . ($cat_limit_recursive ? '' : 'checked') . '>' . _NO . "
         <br>
-        <input type='hidden' name='options[5]' value='' />
+        <input type='hidden' name='options[5]' value='' >
         " . _ALBM_TEXT_COLS . "&nbsp;
-        <input type='text' size='2' name='options[6]' value='$cols' style='text-align:right;' />
+        <input type='text' size='2' name='options[6]' value='$cols' style='text-align:right;' >
         <br>
         \n";
     }

@@ -1,10 +1,10 @@
 <?php
 // ------------------------------------------------------------------------- //
 //                      myAlbum-P - XOOPS photo album                        //
-//                        <http://www.peak.ne.jp/>                           //
+//                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
-include_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 /** @var MyalbumCatHandler $catHandler */
 $catHandler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
 /** @var MyalbumPhotosHandler $photosHandler */
@@ -19,15 +19,14 @@ $cid    = isset($_GET['cid']) ? (int)$_GET['cid'] : 0;
 if ($action === 'insert') {
 
     // anti-CSRF (Double Check)
-    $xsecurity = new XoopsSecurity;
-    if (!$xsecurity->checkReferer()) {
+    if (!XoopsSecurity::checkReferer()) {
         die('XOOPS_URL is not included in your REFERER');
     }
 
     // newly insert
     $sql  = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix($table_cat) . ' SET ';
     $cols = array('pid' => 'I:N:0', 'title' => '50:E:1', 'imgurl' => '150:E:0', 'weight' => 'I:N:0');
-    $sql .= MyalbumUtilities::mysqliGetSqlSet($cols);
+    $sql .= MyalbumUtility::mysqliGetSqlSet($cols);
     $GLOBALS['xoopsDB']->query($sql) || die('DB Error: insert category');
 
     // Check if cid == pid
@@ -40,8 +39,7 @@ if ($action === 'insert') {
 } elseif ($action === 'update' && !empty($_POST['cid'])) {
 
     // anti-CSRF (Double Check)
-    $xsecurity = new XoopsSecurity;
-    if (!$xsecurity->checkReferer()) {
+    if (!XoopsSecurity::checkReferer()) {
         die('XOOPS_URL is not included in your REFERER');
     }
 
@@ -63,14 +61,13 @@ if ($action === 'insert') {
     // update
     $sql  = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table_cat) . ' SET ';
     $cols = array('pid' => 'I:N:0', 'title' => '50:E:1', 'imgurl' => '150:E:0', 'weight' => 'I:N:0');
-    $sql .= MyalbumUtilities::mysqliGetSqlSet($cols) . " WHERE cid='$cid'";
+    $sql .= MyalbumUtility::mysqliGetSqlSet($cols) . " WHERE cid='$cid'";
     $GLOBALS['xoopsDB']->query($sql) || die('DB Error: update category');
     redirect_header('main.php', 1, _AM_CAT_UPDATED);
 } elseif (!empty($_POST['delcat'])) {
 
     // anti-CSRF (Double Check)
-    $xsecurity = new XoopsSecurity;
-    if (!$xsecurity->checkReferer()) {
+    if (!XoopsSecurity::checkReferer()) {
         die('XOOPS_URL is not included in your REFERER');
     }
 
@@ -90,7 +87,7 @@ if ($action === 'insert') {
     $whr .= "$cid)";
     xoops_notification_deletebyitem($myalbum_mid, 'category', $cid);
     $criteria = new Criteria('`cid`', '(' . implode(',', $children) . ')', 'IN');
-    MyalbumUtilities::deletePhotos($criteria);
+    MyalbumUtility::deletePhotos($criteria);
     $GLOBALS['xoopsDB']->query('DELETE FROM ' . $GLOBALS['xoopsDB']->prefix($table_cat) . " WHERE $whr")
     || die('DB error: DELETE cat table');
     redirect_header('main.php', 2, _ALBM_CATDELETED);
@@ -108,8 +105,8 @@ if (!is_object($xoopsModule)) {
     redirect_header("$mod_url/", 1, _NOPERM);
 }
 //echo "<h3 style='text-align:left;'>".sprintf( _AM_H3_FMT_CATEGORIES , $xoopsModule->name() )."</h3>\n" ;
-$indexAdmin = new ModuleAdmin();
-echo $indexAdmin->addNavigation(basename(__FILE__));
+$adminObject = \Xmf\Module\Admin::getInstance();
+$adminObject->displayNavigation(basename(__FILE__));
 
 if ($disp === 'edit' && $cid > 0) {
 
@@ -142,14 +139,14 @@ if ($disp === 'edit' && $cid > 0) {
     $link_admission = $waiting > 0 ? sprintf(_AM_CAT_FMT_NEEDADMISSION, $waiting) : '';
 
     // Top links
-    //  echo "<p><a href='?disp=new&cid=0'>"._AM_CAT_LINK_MAKETOPCAT."<img src='../assets/images/cat_add.gif' width='18' height='15' alt='"._AM_CAT_LINK_MAKETOPCAT."' title='"._AM_CAT_LINK_MAKETOPCAT."' /></a> &nbsp;  &nbsp; <a href='admission.php' style='color:red;'>$link_admission</a></p>\n" ;
-    $indexAdmin->addItemButton(_AM_CAT_LINK_MAKETOPCAT, '?disp=new&cid=0', 'add', '');
-    echo $indexAdmin->renderButton('left', '');
+    //  echo "<p><a href='?disp=new&cid=0'>"._AM_CAT_LINK_MAKETOPCAT."<img src='../assets/images/cat_add.gif' width='18' height='15' alt='"._AM_CAT_LINK_MAKETOPCAT."' title='"._AM_CAT_LINK_MAKETOPCAT."' ></a> &nbsp;  &nbsp; <a href='admission.php' style='color:red;'>$link_admission</a></p>\n" ;
+    $adminObject->addItemButton(_AM_CAT_LINK_MAKETOPCAT, '?disp=new&cid=0', 'add', '');
+    $adminObject->displayButton('left', '');
 
     // TH
     echo "
     <form name='MainForm' action='' method='post' style='margin:10px;'>
-    <input type='hidden' name='delcat' value='' />
+    <input type='hidden' name='delcat' value='' >
     <table width='75%' class='outer' cellpadding='4' cellspacing='1'>
       <tr valign='middle'>
         <th>" . _AM_CAT_TH_TITLE . '</th>
@@ -184,16 +181,16 @@ if ($disp === 'edit' && $cid > 0) {
             <td class='$oddeven' align='center' nowrap='nowrap'>" . $weight . "</td>
             <td class='$oddeven' nowrap='nowrap' align='right'>
               <a href='photomanager.php?cid=$cid'>$photos_num</a>
-              <a href='../submit.php?cid=$cid'><img src='" . $pathIcon16 . "/add.png' width='16' height='16' alt='" . _AM_CAT_LINK_ADDPHOTOS . "' title='" . _AM_CAT_LINK_ADDPHOTOS . "' /></a></td>
+              <a href='../submit.php?cid=$cid'><img src='" . $pathIcon16 . "/add.png' width='16' height='16' alt='" . _AM_CAT_LINK_ADDPHOTOS . "' title='" . _AM_CAT_LINK_ADDPHOTOS . "' ></a></td>
             <td class='$oddeven' align='center' nowrap='nowrap'>
               &nbsp;
-              <a href='?disp=edit&amp;cid=$cid'><img src='" . $pathIcon16 . "/edit.png' width='16' height='16' alt='" . _AM_CAT_LINK_EDIT . "' title='" . _AM_CAT_LINK_EDIT . "' /></a>
+              <a href='?disp=edit&amp;cid=$cid'><img src='" . $pathIcon16 . "/edit.png' width='16' height='16' alt='" . _AM_CAT_LINK_EDIT . "' title='" . _AM_CAT_LINK_EDIT . "' ></a>
               &nbsp;
-              <a href='?disp=new&amp;cid=$cid'><img src='" . $pathIcon16 . "/folder_add.png' width='16' height='16' alt='" . _AM_CAT_LINK_MAKESUBCAT . "' title='" . _AM_CAT_LINK_MAKESUBCAT . "' /></a>
+              <a href='?disp=new&amp;cid=$cid'><img src='" . $pathIcon16 . "/folder_add.png' width='16' height='16' alt='" . _AM_CAT_LINK_MAKESUBCAT . "' title='" . _AM_CAT_LINK_MAKESUBCAT . "' ></a>
               &nbsp;
-              <input type='button' value='" . _DELETE . "' onclick='if ($del_confirm) {document.MainForm.delcat.value=\"$cid\"; submit();}' />
+              <input type='button' value='" . _DELETE . "' onclick='if ($del_confirm) {document.MainForm.delcat.value=\"$cid\"; submit();}' >
             </td>
-            <td class='$oddeven' align='center'><img src='$imgsrc4show' height='16' /></td>
+            <td class='$oddeven' align='center'><img src='$imgsrc4show' height='16' ></td>
           </tr>\n";
         }
     }
@@ -201,7 +198,7 @@ if ($disp === 'edit' && $cid > 0) {
     // Table footer
     echo "
       <!-- <tr>
-        <td colspan='4' align='right' class='foot'><input type='submit' name='batch_update' value='" . _AM_CAT_BTN_BATCH . "' /></td>
+        <td colspan='4' align='right' class='foot'><input type='submit' name='batch_update' value='" . _AM_CAT_BTN_BATCH . "' ></td>
       </tr> -->
     </table>
     </form>
@@ -210,4 +207,4 @@ if ($disp === 'edit' && $cid > 0) {
 
 //myalbum_footer_adminMenu();
 //xoops_cp_footer();
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

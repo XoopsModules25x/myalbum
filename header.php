@@ -1,39 +1,35 @@
 <?php
-// ------------------------------------------------------------------------- //
-//                XOOPS - PHP Content Management System                      //
-//                       <https://xoops.org/>                             //
-// ------------------------------------------------------------------------- //
-// Based on:                                     //
-// myPHPNUKE Web Portal System - http://myphpnuke.com/               //
-// PHP-NUKE Web Portal System - http://phpnuke.org/              //
-// Thatware - http://thatware.org/                       //
-// ------------------------------------------------------------------------- //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-// ------------------------------------------------------------------------- //
-include dirname(dirname(__DIR__)) . '/mainfile.php';
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
+
+/**
+ * @copyright    {@link https://xoops.org/ XOOPS Project}
+ * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @package
+ * @since
+ * @author       XOOPS Development Team
+ */
+
+include __DIR__ . '/../../mainfile.php';
 $moduleDirName = basename(__DIR__);
 
 $GLOBALS['mydirname'] = basename(__DIR__);
 include XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/read_configs.php";
 include XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/get_perms.php";
-include_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/class/utilities.php";
-include_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/class/preview.php";
-include_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/class/myuploader.php";
+require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/class/utility.php";
+require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/class/preview.php";
+require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/class/myuploader.php";
 
 $GLOBALS['myts'] = MyTextSanitizer::getInstance();
 
+/** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler                  = xoops_getHandler('module');
 $configHandler                  = xoops_getHandler('config');
 $GLOBALS['myalbumModule']       = $moduleHandler->getByDirname($GLOBALS['mydirname']);
@@ -48,8 +44,8 @@ xoops_load('pagenav');
 xoops_load('xoopslists');
 xoops_load('xoopsformloader');
 
-include_once $GLOBALS['xoops']->path('class/xoopsmailer.php');
-include_once $GLOBALS['xoops']->path('class/tree.php');
+require_once $GLOBALS['xoops']->path('class/xoopsmailer.php');
+require_once $GLOBALS['xoops']->path('class/tree.php');
 
 /** @var MyalbumCatHandler $catHandler */
 $catHandler         = xoops_getModuleHandler('cat');
@@ -59,13 +55,13 @@ $GLOBALS['cattree'] = new XoopsObjectTree($cats, 'cid', 'pid', 0);
 xoops_loadLanguage('main', $moduleDirName);
 
 if ($GLOBALS['myalbumModuleConfig']['tag']) {
-    include_once $GLOBALS['xoops']->path('modules' . DS . 'tag' . DS . 'include' . DS . 'formtag.php');
+    require_once $GLOBALS['xoops']->path('modules/tag/include/formtag.php');
 }
 
 extract($GLOBALS['myalbumModuleConfig']);
 
 if (!isset($GLOBALS['xoopsTpl']) || !is_object($GLOBALS['xoopsTpl'])) {
-    include_once XOOPS_ROOT_PATH . '/class/template.php';
+    require_once XOOPS_ROOT_PATH . '/class/template.php';
     $GLOBALS['xoopsTpl'] = new XoopsTpl();
 }
 

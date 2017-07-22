@@ -1,7 +1,7 @@
 <?php
 // ------------------------------------------------------------------------- //
 //                      myAlbum-P - XOOPS photo album                        //
-//                        <http://www.peak.ne.jp/>                           //
+//                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
 // constants
@@ -35,7 +35,7 @@ class MyalbumUtility extends XoopsObject
                 }
             }
         } catch (Exception $e) {
-            echo 'Caught exception: ', $e->getMessage(), "\n", '<br/>';
+            echo 'Caught exception: ', $e->getMessage(), "\n", '<br>';
         }
     }
 
@@ -54,7 +54,7 @@ class MyalbumUtility extends XoopsObject
         //                return copy($file, $folder);
         //            }
         //        } catch (Exception $e) {
-        //            echo 'Caught exception: ', $e->getMessage(), "\n", "<br/>";
+        //            echo 'Caught exception: ', $e->getMessage(), "\n", "<br>";
         //        }
         //        return false;
     }

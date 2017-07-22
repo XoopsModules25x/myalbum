@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__DIR__) . '/include/read_configs.php';
+require_once __DIR__ . '/../include/read_configs.php';
 
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 /**

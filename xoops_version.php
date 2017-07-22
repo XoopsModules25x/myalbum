@@ -1,29 +1,21 @@
 <?php
-//
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                  Copyright (c) 2000-2016 XOOPS.org                        //
-//                       <https://xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
+
+/**
+ * @copyright    {@link https://xoops.org/ XOOPS Project}
+ * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @package
+ * @since
+ * @author       XOOPS Development Team
+ */
 
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
@@ -37,11 +29,15 @@ $_SESSION['myalbum_mydirname'] = $moduleDirName;
 
 // ------------------- Informations ------------------- //
 $modversion = array(
+    'version'             => 3.08,
+    'module_status'       => 'Beta 1',
+    'release_date'        => '2017/07/20', //yyyy/mm/dd
+    //    'release'             => '2015-04-04',
     'name'                => _ALBM_MYALBUM_NAME . $myalbum_number,
     'description'         => _ALBM_MYALBUM_DESC,
     'official'            => 0, //1 indicates supported by XOOPS Dev Team, 0 means 3rd party supported
-    'author'              => 'GIJoe, http://xoops.peak.ne.jp<br />Updates: Wishcraft=Simon Roberts, montuy337513 alias black_beard',
-    'credits'             => 'Original: Daniel Branco<br />(http://bluetopia.homeip.net)<br />Kazumi Ono<br />(http://www.mywebaddons.com/)<br />Wishcraft=Simon Roberts<br />Chronolabs Co-op.(http://www.chronolabs.coop/)<br />The XOOPS Project, Chronolabs Co-op - http://www.chronolabs.coop/',
+    'author'              => 'GIJoe, http://xoops.peak.ne.jp<br>Updates: Wishcraft=Simon Roberts, montuy337513 alias black_beard',
+    'credits'             => 'Original: Daniel Branco<br>(http://bluetopia.homeip.net)<br>Kazumi Ono<br>(http://www.mywebaddons.com/)<br>Wishcraft=Simon Roberts<br>Chronolabs Co-op.(http://www.chronolabs.coop/)<br>The XOOPS Project, Chronolabs Co-op - http://www.chronolabs.coop/',
     'author_mail'         => '',
     'author_website_url'  => 'https://xoops.org',
     'author_website_name' => 'XOOPS',
@@ -55,26 +51,22 @@ $modversion = array(
     'manual'              => 'link to manual file',
     'manual_file'         => XOOPS_URL . "/modules/$moduleDirName/docs/install.txt",
     'min_php'             => '5.5',
-    'min_xoops'           => '2.5.8',
+    'min_xoops'           => '2.5.9',
     'min_admin'           => '1.2',
-    'min_db'              => array('mysql' => '5.0.7', 'mysqli' => '5.0.7'),
+    'min_db'              => array('mysql' => '5.5'),
     // images
     'image'               => 'assets/images/logoModule.png', //'assets/images/module_logo.png',
     //    'iconsmall'           => 'assets/images/iconsmall.png',
     //    'iconbig'             => 'assets/images/iconbig.png',
     'dirname'             => $moduleDirName,
     //Frameworks
-    'dirmoduleadmin'      => 'Frameworks/moduleclasses/moduleadmin',
-    'sysicons16'          => 'Frameworks/moduleclasses/icons/16',
-    'sysicons32'          => 'Frameworks/moduleclasses/icons/32',
+    //    'dirmoduleadmin'      => 'Frameworks/moduleclasses/moduleadmin',
+    //    'sysicons16'          => 'Frameworks/moduleclasses/icons/16',
+    //    'sysicons32'          => 'Frameworks/moduleclasses/icons/32',
     // Local path icons
     'modicons16'          => 'assets/images/icons/16',
     'modicons32'          => 'assets/images/icons/32',
     //About
-    'version'             => 3.08,
-    'module_status'       => 'Beta 1',
-    'release_date'        => '2016/08/23', //yyyy/mm/dd
-    //    'release'             => '2015-04-04',
     'demo_site_url'       => 'http://www.xoops.org',
     'demo_site_name'      => 'XOOPS Demo Site',
     'support_url'         => 'https://xoops.org/modules/newbb',

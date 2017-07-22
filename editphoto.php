@@ -1,7 +1,7 @@
 <?php
 // ------------------------------------------------------------------------- //
 //                      myAlbum-P - XOOPS photo album                        //
-//                        <http://www.peak.ne.jp/>                           //
+//                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
 include __DIR__ . '/header.php';
@@ -53,7 +53,7 @@ if (!empty($_POST['conf_delete'])) {
     }
 
     include XOOPS_ROOT_PATH . '/include/cp_functions.php';
-    include_once $GLOBALS['xoops']->path('header.php');
+    require_once $GLOBALS['xoops']->path('header.php');
 
     $ext = $photo_obj->getVar('ext');
     if (!in_array(strtolower($ext), $myalbum_normal_exts)) {
@@ -63,11 +63,11 @@ if (!empty($_POST['conf_delete'])) {
     echo '
     <h4>' . _ALBM_PHOTODEL . "</h4>
     <div>
-        <img src='" . $photo_obj->getThumbsURL() . "' />
+        <img src='" . $photo_obj->getThumbsURL() . "' >
         <br>
         <form action='" . $photo_obj->getEditURL() . "' method='post'>
-            <input type='submit' name='do_delete' value='" . _YES . "' />
-            <input type='submit' name='cancel_delete' value=" . _NO . " />
+            <input type='submit' name='do_delete' value='" . _YES . "' >
+            <input type='submit' name='cancel_delete' value=" . _NO . " >
         </form>
     </div>
     \n";
@@ -148,24 +148,24 @@ if (!empty($_POST['submit'])) {
             $tmp_name  = $uploader->getSavedFileName();
             $ext       = substr(strrchr($tmp_name, '.'), 1);
 
-            MyalbumUtilities::editPhoto($GLOBALS['photos_dir'] . "/$tmp_name", $GLOBALS['photos_dir'] . "/$lid.$ext");
+            MyalbumUtility::editPhoto($GLOBALS['photos_dir'] . "/$tmp_name", $GLOBALS['photos_dir'] . "/$lid.$ext");
             $dim = getimagesize($GLOBALS['photos_dir'] . "/$lid.$ext");
             if (!$dim) {
                 $dim = array(0, 0);
             }
 
-            if (!MyalbumUtilities::createThumb($GLOBALS['photos_dir'] . "/$lid.$ext", $lid, $ext)) {
+            if (!MyalbumUtility::createThumb($GLOBALS['photos_dir'] . "/$lid.$ext", $lid, $ext)) {
                 redirect_header('editphoto.php?lid=$lid', 10, _ALBM_FILEERROR);
             }
 
-            MyalbumUtilities::updatePhoto($lid, $cid, $title, $desc_text, $valid, $ext, $dim[0], $dim[1]);
+            MyalbumUtility::updatePhoto($lid, $cid, $title, $desc_text, $valid, $ext, $dim[0], $dim[1]);
             exit;
         } else {
             $uploader->getErrors(true);
-            include_once $GLOBALS['xoops']->path('header.php');
+            require_once $GLOBALS['xoops']->path('header.php');
             echo "<p><strong>::Errors occured::</strong></p>\n";
             echo $uploader->getErrors(true);
-            include_once $GLOBALS['xoops']->path('footer.php');
+            require_once $GLOBALS['xoops']->path('footer.php');
             exit;
         }
     } else { //update without file upload
@@ -182,7 +182,7 @@ if (!empty($_POST['submit'])) {
             $tagHandler = xoops_getModuleHandler('tag', 'tag');
             $tagHandler->updateByItem($_POST['tags'], $lid, $GLOBALS['myalbumModule']->getVar('dirname'), $cid);
         }
-        MyalbumUtilities::updatePhoto($lid, $cid, $title, $desc_text, $valid);
+        MyalbumUtility::updatePhoto($lid, $cid, $title, $desc_text, $valid);
         exit;
     }
 }
@@ -193,7 +193,7 @@ if (!strpos($photo_obj->getEditURL(), $_SERVER['REQUEST_URI'])) {
 }
 
 // Editing Display
-include_once $GLOBALS['xoops']->path('header.php');
+require_once $GLOBALS['xoops']->path('header.php');
 MyalbumPreview::header();
 
 // Display
@@ -236,9 +236,9 @@ $file_form->setExtra("size='70'");
 if ($myalbum_canrotate) {
     $rotate_radio = new XoopsFormRadio(_ALBM_RADIO_ROTATETITLE, 'rotate', 'rot0');
     $rotate_radio->addOption('rot0', _ALBM_RADIO_ROTATE0 . ' &nbsp; ');
-    $rotate_radio->addOption('rot90', "<img src='assets/images/icon_rotate90.gif' alt='" . _ALBM_RADIO_ROTATE90 . "' title='" . _ALBM_RADIO_ROTATE90 . "' /> &nbsp; ");
-    $rotate_radio->addOption('rot180', "<img src='assets/images/icon_rotate180.gif' alt='" . _ALBM_RADIO_ROTATE180 . "' title='" . _ALBM_RADIO_ROTATE180 . "' /> &nbsp; ");
-    $rotate_radio->addOption('rot270', "<img src='assets/images/icon_rotate270.gif' alt='" . _ALBM_RADIO_ROTATE270 . "' title='" . _ALBM_RADIO_ROTATE270 . "' /> &nbsp; ");
+    $rotate_radio->addOption('rot90', "<img src='assets/images/icon_rotate90.gif' alt='" . _ALBM_RADIO_ROTATE90 . "' title='" . _ALBM_RADIO_ROTATE90 . "' > &nbsp; ");
+    $rotate_radio->addOption('rot180', "<img src='assets/images/icon_rotate180.gif' alt='" . _ALBM_RADIO_ROTATE180 . "' title='" . _ALBM_RADIO_ROTATE180 . "' > &nbsp; ");
+    $rotate_radio->addOption('rot270', "<img src='assets/images/icon_rotate270.gif' alt='" . _ALBM_RADIO_ROTATE270 . "' title='" . _ALBM_RADIO_ROTATE270 . "' > &nbsp; ");
 }
 
 $op_hidden      = new XoopsFormHidden('op', 'submit');

@@ -1,10 +1,10 @@
 <?php
 // ------------------------------------------------------------------------- //
 //                      myAlbum-P - XOOPS photo album                        //
-//                        <http://www.peak.ne.jp/>                           //
+//                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
-include_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 
 // GPCS vars
 $GLOBALS['submitter'] = empty($_POST['submitter']) ? $my_uid : (int)$_POST['submitter'];
@@ -72,7 +72,7 @@ if (isset($_POST['submit']) && $_POST['submit'] !== '') {
 
     $dir_h = opendir($dir);
     if ($dir_h === false) {
-        redirect_header('batch.php', 3, _ALBM_MES_INVALIDDIRECTORY . "<br />$dir4edit");
+        redirect_header('batch.php', 3, _ALBM_MES_INVALIDDIRECTORY . "<br >$dir4edit");
     }
     $filecount = 1;
     while (false !== ($file_name = readdir($dir_h))) {
@@ -107,7 +107,7 @@ if (isset($_POST['submit']) && $_POST['submit'] !== '') {
             if ($lid = $photosHandler->insert($photo)) {
                 print " &nbsp; <a href='../photo.php?lid=$lid' target='_blank'>$file_path</a>\n";
                 copy($file_path, $GLOBALS['photos_dir'] . DS . "$lid.$ext");
-                MyalbumUtilities::createThumb($GLOBALS['photos_dir'] . DS . "$lid.$ext", $lid, $ext);
+                MyalbumUtility::createThumb($GLOBALS['photos_dir'] . DS . "$lid.$ext", $lid, $ext);
                 $text = $textHandler->create();
                 $text->setVar('lid', $lid);
                 $text->setVar('description', $desc4save);
@@ -131,8 +131,8 @@ if (isset($_POST['submit']) && $_POST['submit'] !== '') {
 }
 
 xoops_cp_header();
-$indexAdmin = new ModuleAdmin();
-echo $indexAdmin->addNavigation(basename(__FILE__));
+$adminObject = \Xmf\Module\Admin::getInstance();
+$adminObject->displayNavigation(basename(__FILE__));
 //myalbum_adminMenu(basename(__FILE__), 4);
 $GLOBALS['xoopsTpl']->assign('admin_title', sprintf(_AM_H3_FMT_BATCHREGISTER, $GLOBALS['myalbumModule']->name()));
 $GLOBALS['xoopsTpl']->assign('mydirname', $GLOBALS['mydirname']);
@@ -147,4 +147,4 @@ $GLOBALS['xoopsTpl']->display('db:' . $GLOBALS['mydirname'] . '_cpanel_batch.tpl
 
 // check $GLOBALS['myalbumModule']
 //  myalbum_footer_adminMenu();
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

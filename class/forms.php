@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class MyalbumUtilities
+ * Class MyalbumUtility
  */
 class MyalbumForms extends XoopsObject
 {
@@ -59,7 +59,7 @@ class MyalbumForms extends XoopsObject
         }
 
         // Options for Selecting a category in myAlbum-P
-        $myalbum_cat_options = MyalbumUtilities::getCategoryOptions('title', 0, '--', '----');
+        $myalbum_cat_options = MyalbumUtility::getCategoryOptions('title', 0, '--', '----');
 
         $form = '<h4>' . _AM_FMT_EXPORTTOIMAGEMANAGER . "</h4>
 <form name='ImageManager' action='export.php' method='POST'>
@@ -74,10 +74,10 @@ class MyalbumForms extends XoopsObject
 " . _AM_FMT_EXPORTIMDSTCAT . "
 <br>
 <br>
-<input type='checkbox' name='use_thumb' value='1' checked />" . _AM_CB_EXPORTTHUMB . "
+<input type='checkbox' name='use_thumb' value='1' checked >" . _AM_CB_EXPORTTHUMB . "
 <br>
 <br>
-<input type='submit' name='imagemanager_export' value='" . _GO . "' onclick='return confirm(\"" . _AM_MB_EXPORTCONFIRM . "\");' />
+<input type='submit' name='imagemanager_export' value='" . _GO . "' onclick='return confirm(\"" . _AM_MB_EXPORTCONFIRM . "\");' >
 </form>\n";
 
         return $form;
@@ -131,19 +131,19 @@ class MyalbumForms extends XoopsObject
                 continue;
             }
 
-            $myalbum_cat_options = MyalbumUtilities::getCategoryOptions('title', 0, '--', '----', $GLOBALS['xoopsDB']->prefix("{$src_dirname}_cat"), $GLOBALS['xoopsDB']->prefix("{$src_dirname}_photos"));
+            $myalbum_cat_options = MyalbumUtility::getCategoryOptions('title', 0, '--', '----', $GLOBALS['xoopsDB']->prefix("{$src_dirname}_cat"), $GLOBALS['xoopsDB']->prefix("{$src_dirname}_photos"));
 
             $frm .= '<p>
                 <h4>' . sprintf(_AM_FMT_IMPORTFROMMYALBUMP, $module->name()) . "</h4>
                 <form name='$src_dirname' action='import.php' method='POST'>
-                <input type='hidden' name='src_dirname' value='$src_dirname' />
-                <input type='radio' name='copyormove' value='copy' checked />" . _AM_RADIO_IMPORTCOPY . " &nbsp;
-                <input type='radio' name='copyormove' value='move' />" . _AM_RADIO_IMPORTMOVE . "<br><br>
-                <!-- <input type='checkbox' name='import_recursively' />" . _AM_CB_IMPORTRECURSIVELY . "<br><br> -->
+                <input type='hidden' name='src_dirname' value='$src_dirname' >
+                <input type='radio' name='copyormove' value='copy' checked >" . _AM_RADIO_IMPORTCOPY . " &nbsp;
+                <input type='radio' name='copyormove' value='move' >" . _AM_RADIO_IMPORTMOVE . "<br><br>
+                <!-- <input type='checkbox' name='import_recursively' >" . _AM_CB_IMPORTRECURSIVELY . "<br><br> -->
                 <select name='cid'>
                     $myalbum_cat_options
                 </select>
-                <input type='submit' name='myalbum_import' value='" . _GO . "' onclick='return confirm(\"" . _AM_MB_IMPORTCONFIRM . "\");' />
+                <input type='submit' name='myalbum_import' value='" . _GO . "' onclick='return confirm(\"" . _AM_MB_IMPORTCONFIRM . "\");' >
                 </form>\n";
 
             $frm .= '<br></p>';
@@ -173,7 +173,7 @@ class MyalbumForms extends XoopsObject
                 <select name='imgcat_id'>
                     $imgcat_options
                 </select>
-                <input type='submit' name='imagemanager_import' value='" . _GO . "' onclick='return confirm(\"" . _AM_MB_IMPORTCONFIRM . "\");' />
+                <input type='submit' name='imagemanager_import' value='" . _GO . "' onclick='return confirm(\"" . _AM_MB_IMPORTCONFIRM . "\");' >
                 </form>\n";
             $frm .= '<br></p>';
         }
@@ -265,9 +265,9 @@ class MyalbumForms extends XoopsObject
             if ($myalbum_canrotate) {
                 $rotate_radio = new XoopsFormRadio(_ALBM_RADIO_ROTATETITLE, 'rotate', 'rot0');
                 $rotate_radio->addOption('rot0', _ALBM_RADIO_ROTATE0 . ' &nbsp; ');
-                $rotate_radio->addOption('rot90', "<img src='assets/images/icon_rotate90.gif' alt='" . _ALBM_RADIO_ROTATE90 . "' title='" . _ALBM_RADIO_ROTATE90 . "' /> &nbsp; ");
-                $rotate_radio->addOption('rot180', "<img src='assets/images/icon_rotate180.gif' alt='" . _ALBM_RADIO_ROTATE180 . "' title='" . _ALBM_RADIO_ROTATE180 . "' /> &nbsp; ");
-                $rotate_radio->addOption('rot270', "<img src='assets/images/icon_rotate270.gif' alt='" . _ALBM_RADIO_ROTATE270 . "' title='" . _ALBM_RADIO_ROTATE270 . "' /> &nbsp; ");
+                $rotate_radio->addOption('rot90', "<img src='assets/images/icon_rotate90.gif' alt='" . _ALBM_RADIO_ROTATE90 . "' title='" . _ALBM_RADIO_ROTATE90 . "' > &nbsp; ");
+                $rotate_radio->addOption('rot180', "<img src='assets/images/icon_rotate180.gif' alt='" . _ALBM_RADIO_ROTATE180 . "' title='" . _ALBM_RADIO_ROTATE180 . "' > &nbsp; ");
+                $rotate_radio->addOption('rot270', "<img src='assets/images/icon_rotate270.gif' alt='" . _ALBM_RADIO_ROTATE270 . "' title='" . _ALBM_RADIO_ROTATE270 . "' > &nbsp; ");
             }
         }
         $op_hidden      = new XoopsFormHidden('op', 'submit');

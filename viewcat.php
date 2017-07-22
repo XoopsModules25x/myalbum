@@ -1,7 +1,7 @@
 <?php
 // ------------------------------------------------------------------------- //
 //                      myAlbum-P - XOOPS photo album                        //
-//                        <http://www.peak.ne.jp/>                           //
+//                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
 include __DIR__ . '/header.php';
@@ -76,14 +76,14 @@ if ($cid > 0) {
     // Category Specified
     $GLOBALS['xoopsTpl']->assign('category_id', $cid);
     $GLOBALS['xoopsTpl']->assign('subcategories', MyalbumPreview::getSubCategories($cid, $GLOBALS['cattree']));
-    $GLOBALS['xoopsTpl']->assign('category_options', MyalbumUtilities::getCategoryOptions());
+    $GLOBALS['xoopsTpl']->assign('category_options', MyalbumUtility::getCategoryOptions());
 
     foreach ($GLOBALS['cattree']->getAllChild($cid) as $child) {
         $cids[$child->getVar('cid')] = $child->getVar('cid');
     }
     array_push($cids, $cid);
     $criteria        = new CriteriaCompo(new Criteria('`status`', '0', '>'));
-    $photo_total_sum = MyalbumUtilities::getTotalCount($cids, $criteria);
+    $photo_total_sum = MyalbumUtility::getTotalCount($cids, $criteria);
     if (!empty($cids)) {
         foreach ($cids as $index => $child) {
             $childcat = $catHandler->get($child);
@@ -97,7 +97,7 @@ if ($cid > 0) {
         $catpath .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid=' . $cat->getVar('cid') . "' >" . $cat->getVar('title') . '</a>';
     }
     $catpath   = str_replace('>>', " <span class='fg2'>&raquo;&raquo;</span> ", $catpath);
-    $sub_title = preg_replace("/\'\>/", "'><img src='$mod_url/assets/images/folder16.gif' alt='' />", $catpath);
+    $sub_title = preg_replace("/\'\>/", "'><img src='$mod_url/assets/images/folder16.gif' alt='' >", $catpath);
     $sub_title = preg_replace('/^(.+)folder16/', '$1folder_open', $sub_title);
     $GLOBALS['xoopsTpl']->assign('album_sub_title', $sub_title);
     $criteria->add(new Criteria('`cid`', $cid));
@@ -113,7 +113,7 @@ if ($cid > 0) {
         $criteria = new CriteriaCompo(new Criteria('`status`', '0', '>'));
         $criteria->add(new Criteria('`submitter`', $uid));
         $GLOBALS['xoopsTpl']->assign('uid', $uid);
-        $GLOBALS['xoopsTpl']->assign('album_sub_title', "<img src='$mod_url/assets/images/myphotos.gif' alt='' />" . MyalbumPreview::getNameFromUid($uid));
+        $GLOBALS['xoopsTpl']->assign('album_sub_title', "<img src='$mod_url/assets/images/myphotos.gif' alt='' >" . MyalbumPreview::getNameFromUid($uid));
     }
 } else {
     $criteria = new CriteriaCompo(new Criteria('`status`', '0', '>'));
@@ -163,10 +163,11 @@ if ($photo_small_sum > 0) {
     // Display photos
     $count = 1;
 
-    include_once __DIR__ . '/class/preview.php';
+    require_once __DIR__ . '/class/preview.php';
 
     foreach ($photosHandler->getObjects($criteria, true) as $lid => $photo) {
 //        echo __LINE__.' - '.$function_assigning.' - '.$lid.'<br>';
+//        $photo = $function_assigning($photo) + array('count' => ++$count, true);
         $photo = call_user_func($function_assigning, $photo) + array('count' => ++$count, true);
 
         $GLOBALS['xoopsTpl']->append('photos', $photo);

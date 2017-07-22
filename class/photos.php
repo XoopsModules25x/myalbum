@@ -2,7 +2,7 @@
 
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
-include dirname(__DIR__) . '/include/read_configs.php';
+include __DIR__ . '/../include/read_configs.php';
 
 /**
  * Class for Blue Room Xcenter
@@ -40,6 +40,7 @@ class MyalbumPhotos extends XoopsObject
      */
     public function getURL()
     {
+        /** @var XoopsModuleHandler $moduleHandler */
         $moduleHandler = xoops_getHandler('module');
         $configHandler = xoops_getHandler('config');
         if (!isset($GLOBALS['myalbumModule'])) {
@@ -67,8 +68,7 @@ class MyalbumPhotos extends XoopsObject
                                                                                                                                                                   '(',
                                                                                                                                                                   '&',
                                                                                                                                                                   '#'
-                                                                                                                                                              ), '-', $this->getVar('title')) . '/' . $this->getVar('lid') . ',' . $this->getVar('cid')
-                          . $GLOBALS['myalbumModuleConfig']['endofurl'];
+                                                                                                                                                              ), '-', $this->getVar('title')) . '/' . $this->getVar('lid') . ',' . $this->getVar('cid') . $GLOBALS['myalbumModuleConfig']['endofurl'];
         } else {
             $url = $GLOBALS['mod_url'] . '/photo.php?lid=' . $this->getVar('lid') . '&cid=' . $this->getVar('cid');
         }
@@ -81,6 +81,7 @@ class MyalbumPhotos extends XoopsObject
      */
     public function getEditURL()
     {
+        /** @var XoopsModuleHandler $moduleHandler */
         $moduleHandler = xoops_getHandler('module');
         $configHandler = xoops_getHandler('config');
         if (!isset($GLOBALS['myalbumModule'])) {
@@ -108,8 +109,7 @@ class MyalbumPhotos extends XoopsObject
                                                                                                                                                                   '(',
                                                                                                                                                                   '&',
                                                                                                                                                                   '#'
-                                                                                                                                                              ), '-', $this->getVar('title')) . '/edit,' . $this->getVar('lid') . ','
-                          . $this->getVar('cid') . $GLOBALS['myalbumModuleConfig']['endofurl'];
+                                                                                                                                                              ), '-', $this->getVar('title')) . '/edit,' . $this->getVar('lid') . ',' . $this->getVar('cid') . $GLOBALS['myalbumModuleConfig']['endofurl'];
         } else {
             $url = $GLOBALS['mod_url'] . '/editphoto.php?lid=' . $this->getVar('lid') . '&cid=' . $this->getVar('cid');
         }
@@ -122,6 +122,7 @@ class MyalbumPhotos extends XoopsObject
      */
     public function getRateURL()
     {
+        /** @var XoopsModuleHandler $moduleHandler */
         $moduleHandler = xoops_getHandler('module');
         $configHandler = xoops_getHandler('config');
         if (!isset($GLOBALS['myalbumModule'])) {
@@ -149,8 +150,7 @@ class MyalbumPhotos extends XoopsObject
                                                                                                                                                                   '(',
                                                                                                                                                                   '&',
                                                                                                                                                                   '#'
-                                                                                                                                                              ), '-', $this->getVar('title')) . '/rate,' . $this->getVar('lid') . ','
-                          . $this->getVar('cid') . $GLOBALS['myalbumModuleConfig']['endofurl'];
+                                                                                                                                                              ), '-', $this->getVar('title')) . '/rate,' . $this->getVar('lid') . ',' . $this->getVar('cid') . $GLOBALS['myalbumModuleConfig']['endofurl'];
         } else {
             $url = $GLOBALS['mod_url'] . '/ratephoto.php?lid=' . $this->getVar('lid') . '&cid=' . $this->getVar('cid');
         }
@@ -163,6 +163,7 @@ class MyalbumPhotos extends XoopsObject
      */
     public function getThumbsURL()
     {
+        /** @var XoopsModuleHandler $moduleHandler */
         $moduleHandler = xoops_getHandler('module');
         $configHandler = xoops_getHandler('config');
         if (!isset($GLOBALS['myalbumModule'])) {
@@ -182,6 +183,7 @@ class MyalbumPhotos extends XoopsObject
      */
     public function getPhotoURL()
     {
+        /** @var XoopsModuleHandler $moduleHandler */
         $moduleHandler = xoops_getHandler('module');
         $configHandler = xoops_getHandler('config');
         if (!isset($GLOBALS['myalbumModule'])) {
