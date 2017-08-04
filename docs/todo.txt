@@ -17,7 +17,7 @@ phppp
 feature request:
 1 group permission for categories and items
 2 featured photos (like digest in forum/articles, judeged by moderators)
-3 watermark 
+3 watermark
 4 random display
 
 
@@ -45,7 +45,7 @@ $ - previous text (title / description)
 
 =templatize submit.php and editphoto.php
 
------------- 
+------------
 
 =IMAGE TYPES=
   file system (original)

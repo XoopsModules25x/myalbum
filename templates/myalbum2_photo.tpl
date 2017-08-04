@@ -33,7 +33,7 @@
                    onClick="window.open('<{$photo.ahref_photo}>','','width=<{$photo.window_x}>,height=<{$photo.window_y}>');return(false);"><img
                             src="<{$photo.imgsrc_photo}>" border="0" align="center" vspace="3" hspace="7"
                             alt="<{$photo.title}>" title="<{$photo.title}>"
-                            <{$photo.width_height}> ></a>
+                            <{$photo.width_height}>></a>
                 <br>
                 <table width="100%" cellspacing="0" cellpadding="10" border="0">
                     <tr>

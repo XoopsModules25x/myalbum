@@ -129,7 +129,7 @@ foreach ($numbers as $number) {
     if ($number < 1) {
         continue;
     }
-    $selected = $number == $num ? 'selected' : '';
+    $selected    = $number == $num ? 'selected' : '';
     $num_options .= "<option value='$number' $selected>" . sprintf(_ALBM_FMT_PHOTONUM, $number) . "</option>\n";
 }
 
@@ -181,7 +181,7 @@ echo "
 </form>
 <p align='center' style='margin:0;'>
   $photonavinfo
-  <a href='../submit.php?cid=$cid'><img src='" . $pathIcon16 . "/add.png' width='18' height='15' alt='" . _AM_CAT_LINK_ADDPHOTOS . "' title='" . _AM_CAT_LINK_ADDPHOTOS . "' ></a>
+  <a href='../submit.php?cid=$cid'><img src='" . $pathIcon16 . "/add.png' width='18' height='15' alt='" . _AM_CAT_LINK_ADDPHOTOS . "' title='" . _AM_CAT_LINK_ADDPHOTOS . "'></a>
 </p>
 <form name='MainForm' action='?num=$num&cid=$cid' method='POST' style='margin-top:0;'>
 <table width='100%' border='0' cellspacing='0' cellpadding='4'>
@@ -207,8 +207,8 @@ while (false !== (list($lid, $title, $submitter, $ext, $w, $h, $status) = $xoops
 
     $bgcolor = $status ? '#FFFFFF' : '#FFEEEE';
 
-    $editbutton     = "<a href='" . XOOPS_URL . "/modules/$moduleDirName/editphoto.php?lid=$lid' target='_blank'><img src='" . $pathIcon16 . "/edit.png'  border='0' alt='" . _ALBM_EDITTHISPHOTO . "' title='" . _ALBM_EDITTHISPHOTO . "' ></a>  ";
-    $deadlinkbutton = is_readable("$photos_dir/{$lid}.{$ext}") ? '' : "<img src='" . XOOPS_URL . "/modules/$moduleDirName/assets/images/deadlink.gif' border='0' alt='" . _ALBM_AM_DEADLINKMAINPHOTO . "' title='" . _ALBM_AM_DEADLINKMAINPHOTO . "' >";
+    $editbutton     = "<a href='" . XOOPS_URL . "/modules/$moduleDirName/editphoto.php?lid=$lid' target='_blank'><img src='" . $pathIcon16 . "/edit.png'  border='0' alt='" . _ALBM_EDITTHISPHOTO . "' title='" . _ALBM_EDITTHISPHOTO . "'></a>  ";
+    $deadlinkbutton = is_readable("$photos_dir/{$lid}.{$ext}") ? '' : "<img src='" . XOOPS_URL . "/modules/$moduleDirName/assets/images/deadlink.gif' border='0' alt='" . _ALBM_AM_DEADLINKMAINPHOTO . "' title='" . _ALBM_AM_DEADLINKMAINPHOTO . "'>";
 
     if ($col == 0) {
         echo "\t<tr>\n";
@@ -219,13 +219,13 @@ while (false !== (list($lid, $title, $submitter, $ext, $w, $h, $status) = $xoops
             <table border='0' cellpadding='0' cellmargin='0'>
                 <tr>
                     <td></td>
-                    <td><img src='../assets/images/pixel_trans.gif' width='$myalbum_thumbsize' height='1' alt='' ></td>
+                    <td><img src='../assets/images/pixel_trans.gif' width='$myalbum_thumbsize' height='1' alt=''></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td><img src='../assets/images/pixel_trans.gif' width='1' height='$myalbum_thumbsize' alt='' ></td>
-                    <td align='center'><a href='$ahref_photo' target='_blank'><img src='$imgsrc_thumb' $widthheight border='0' alt='$title' title='$title' ></a></td>
-                    <td><img src='../assets/images/pixel_trans.gif' width='1' height='$myalbum_thumbsize' alt='' ></td>
+                    <td><img src='../assets/images/pixel_trans.gif' width='1' height='$myalbum_thumbsize' alt=''></td>
+                    <td align='center'><a href='$ahref_photo' target='_blank'><img src='$imgsrc_thumb' $widthheight border='0' alt='$title' title='$title'></a></td>
+                    <td><img src='../assets/images/pixel_trans.gif' width='1' height='$myalbum_thumbsize' alt=''></td>
                 </tr>
                 <tr>
                     <td></td>
@@ -248,13 +248,13 @@ echo "
 </tr>
 <tr>
     <td align='left'>
-        <input type='button' value='" . _ALBM_BTN_SELECTNONE . "' onclick=\"with(document.MainForm){for (var i=0;i<length;i++) {if (elements[i].type=='checkbox') {elements[i].checked=false;}}}\" >
+        <input type='button' value='" . _ALBM_BTN_SELECTNONE . "' onclick=\"with(document.MainForm){for (var i=0;i<length;i++) {if (elements[i].type=='checkbox') {elements[i].checked=false;}}}\">
         &nbsp;
-        <input type='button' value='" . _ALBM_BTN_SELECTALL . "' onclick=\"with(document.MainForm){for (var i=0;i<length;i++) {if (elements[i].type=='checkbox') {elements[i].checked=true;}}}\" >
+        <input type='button' value='" . _ALBM_BTN_SELECTALL . "' onclick=\"with(document.MainForm){for (var i=0;i<length;i++) {if (elements[i].type=='checkbox') {elements[i].checked=true;}}}\">
     </td>
     <td align='right'>
-        <input type='hidden' name='action' value='' >
-        " . _ALBM_AM_LABEL_REMOVE . "<input type='button' value='" . _ALBM_AM_BUTTON_REMOVE . "' onclick='if (confirm(\"" . _ALBM_AM_JS_REMOVECONFIRM . "\")) {document.MainForm.action.value=\"delete\"; submit();}' >
+        <input type='hidden' name='action' value=''>
+        " . _ALBM_AM_LABEL_REMOVE . "<input type='button' value='" . _ALBM_AM_BUTTON_REMOVE . "' onclick='if (confirm(\"" . _ALBM_AM_JS_REMOVECONFIRM . "\")) {document.MainForm.action.value=\"delete\"; submit();}'>
     </td>
 </tr>
 </table>
@@ -265,7 +265,7 @@ echo "
     </tr>
     <tr>
         <td class='head'>" . _AM_TH_TITLE . "</td>
-        <td class='even'><input type='text' name='new_title' size='50' ></td>
+        <td class='even'><input type='text' name='new_title' size='50'></td>
     </tr>
     <tr valign='top'>
         <td class='head'>" . _AM_TH_DESCRIPTION . "</td>
@@ -293,7 +293,7 @@ echo "
     </tr>
     <tr>
         <td class='head'></td>
-        <td class='even'><input type='submit' name='update' value='" . _ALBM_AM_BUTTON_UPDATE . "' onclick='return confirm(\"" . _AM_JS_UPDATECONFIRM . "\")' tabindex='1' ></td>
+        <td class='even'><input type='submit' name='update' value='" . _ALBM_AM_BUTTON_UPDATE . "' onclick='return confirm(\"" . _AM_JS_UPDATECONFIRM . "\")' tabindex='1'></td>
     </tr>
 </table>
 </form>

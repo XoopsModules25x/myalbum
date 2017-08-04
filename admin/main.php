@@ -121,6 +121,7 @@ if ($disp === 'edit' && $cid > 0) {
     $cat_array = array('cid' => 0, 'pid' => $cid, 'weight' => 0, 'title' => '', 'imgurl' => 'http://');
     echo MyalbumForms::getAdminFormDisplayEdit($cat_array, _AM_CAT_MENU_NEW, 'insert');
 } else {
+
     // Listing
     $live_cids = array(0 => '0');
     foreach ($cattree->getAllChild($cid, array()) as $child) {
@@ -139,14 +140,14 @@ if ($disp === 'edit' && $cid > 0) {
     $link_admission = $waiting > 0 ? sprintf(_AM_CAT_FMT_NEEDADMISSION, $waiting) : '';
 
     // Top links
-    //  echo "<p><a href='?disp=new&cid=0'>"._AM_CAT_LINK_MAKETOPCAT."<img src='../assets/images/cat_add.gif' width='18' height='15' alt='"._AM_CAT_LINK_MAKETOPCAT."' title='"._AM_CAT_LINK_MAKETOPCAT."' ></a> &nbsp;  &nbsp; <a href='admission.php' style='color:red;'>$link_admission</a></p>\n" ;
+    //  echo "<p><a href='?disp=new&cid=0'>"._AM_CAT_LINK_MAKETOPCAT."<img src='../assets/images/cat_add.gif' width='18' height='15' alt='"._AM_CAT_LINK_MAKETOPCAT."' title='"._AM_CAT_LINK_MAKETOPCAT."'></a> &nbsp;  &nbsp; <a href='admission.php' style='color:red;'>$link_admission</a></p>\n" ;
     $adminObject->addItemButton(_AM_CAT_LINK_MAKETOPCAT, '?disp=new&cid=0', 'add', '');
     $adminObject->displayButton('left', '');
 
     // TH
     echo "
     <form name='MainForm' action='' method='post' style='margin:10px;'>
-    <input type='hidden' name='delcat' value='' >
+    <input type='hidden' name='delcat' value=''>
     <table width='75%' class='outer' cellpadding='4' cellspacing='1'>
       <tr valign='middle'>
         <th>" . _AM_CAT_TH_TITLE . '</th>
@@ -181,16 +182,16 @@ if ($disp === 'edit' && $cid > 0) {
             <td class='$oddeven' align='center' nowrap='nowrap'>" . $weight . "</td>
             <td class='$oddeven' nowrap='nowrap' align='right'>
               <a href='photomanager.php?cid=$cid'>$photos_num</a>
-              <a href='../submit.php?cid=$cid'><img src='" . $pathIcon16 . "/add.png' width='16' height='16' alt='" . _AM_CAT_LINK_ADDPHOTOS . "' title='" . _AM_CAT_LINK_ADDPHOTOS . "' ></a></td>
+              <a href='../submit.php?cid=$cid'><img src='" . $pathIcon16 . "/add.png' width='16' height='16' alt='" . _AM_CAT_LINK_ADDPHOTOS . "' title='" . _AM_CAT_LINK_ADDPHOTOS . "'></a></td>
             <td class='$oddeven' align='center' nowrap='nowrap'>
               &nbsp;
-              <a href='?disp=edit&amp;cid=$cid'><img src='" . $pathIcon16 . "/edit.png' width='16' height='16' alt='" . _AM_CAT_LINK_EDIT . "' title='" . _AM_CAT_LINK_EDIT . "' ></a>
+              <a href='?disp=edit&amp;cid=$cid'><img src='" . $pathIcon16 . "/edit.png' width='16' height='16' alt='" . _AM_CAT_LINK_EDIT . "' title='" . _AM_CAT_LINK_EDIT . "'></a>
               &nbsp;
-              <a href='?disp=new&amp;cid=$cid'><img src='" . $pathIcon16 . "/folder_add.png' width='16' height='16' alt='" . _AM_CAT_LINK_MAKESUBCAT . "' title='" . _AM_CAT_LINK_MAKESUBCAT . "' ></a>
+              <a href='?disp=new&amp;cid=$cid'><img src='" . $pathIcon16 . "/folder_add.png' width='16' height='16' alt='" . _AM_CAT_LINK_MAKESUBCAT . "' title='" . _AM_CAT_LINK_MAKESUBCAT . "'></a>
               &nbsp;
-              <input type='button' value='" . _DELETE . "' onclick='if ($del_confirm) {document.MainForm.delcat.value=\"$cid\"; submit();}' >
+              <input type='button' value='" . _DELETE . "' onclick='if ($del_confirm) {document.MainForm.delcat.value=\"$cid\"; submit();}'>
             </td>
-            <td class='$oddeven' align='center'><img src='$imgsrc4show' height='16' ></td>
+            <td class='$oddeven' align='center'><img src='$imgsrc4show' height='16'></td>
           </tr>\n";
         }
     }
@@ -198,7 +199,7 @@ if ($disp === 'edit' && $cid > 0) {
     // Table footer
     echo "
       <!-- <tr>
-        <td colspan='4' align='right' class='foot'><input type='submit' name='batch_update' value='" . _AM_CAT_BTN_BATCH . "' ></td>
+        <td colspan='4' align='right' class='foot'><input type='submit' name='batch_update' value='" . _AM_CAT_BTN_BATCH . "'></td>
       </tr> -->
     </table>
     </form>

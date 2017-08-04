@@ -63,11 +63,11 @@ if (!empty($_POST['conf_delete'])) {
     echo '
     <h4>' . _ALBM_PHOTODEL . "</h4>
     <div>
-        <img src='" . $photo_obj->getThumbsURL() . "' >
+        <img src='" . $photo_obj->getThumbsURL() . "'>
         <br>
         <form action='" . $photo_obj->getEditURL() . "' method='post'>
-            <input type='submit' name='do_delete' value='" . _YES . "' >
-            <input type='submit' name='cancel_delete' value=" . _NO . " >
+            <input type='submit' name='do_delete' value='" . _YES . "'>
+            <input type='submit' name='cancel_delete' value=" . _NO . ">
         </form>
     </div>
     \n";
@@ -236,9 +236,9 @@ $file_form->setExtra("size='70'");
 if ($myalbum_canrotate) {
     $rotate_radio = new XoopsFormRadio(_ALBM_RADIO_ROTATETITLE, 'rotate', 'rot0');
     $rotate_radio->addOption('rot0', _ALBM_RADIO_ROTATE0 . ' &nbsp; ');
-    $rotate_radio->addOption('rot90', "<img src='assets/images/icon_rotate90.gif' alt='" . _ALBM_RADIO_ROTATE90 . "' title='" . _ALBM_RADIO_ROTATE90 . "' > &nbsp; ");
-    $rotate_radio->addOption('rot180', "<img src='assets/images/icon_rotate180.gif' alt='" . _ALBM_RADIO_ROTATE180 . "' title='" . _ALBM_RADIO_ROTATE180 . "' > &nbsp; ");
-    $rotate_radio->addOption('rot270', "<img src='assets/images/icon_rotate270.gif' alt='" . _ALBM_RADIO_ROTATE270 . "' title='" . _ALBM_RADIO_ROTATE270 . "' > &nbsp; ");
+    $rotate_radio->addOption('rot90', "<img src='assets/images/icon_rotate90.gif' alt='" . _ALBM_RADIO_ROTATE90 . "' title='" . _ALBM_RADIO_ROTATE90 . "'> &nbsp; ");
+    $rotate_radio->addOption('rot180', "<img src='assets/images/icon_rotate180.gif' alt='" . _ALBM_RADIO_ROTATE180 . "' title='" . _ALBM_RADIO_ROTATE180 . "'> &nbsp; ");
+    $rotate_radio->addOption('rot270', "<img src='assets/images/icon_rotate270.gif' alt='" . _ALBM_RADIO_ROTATE270 . "' title='" . _ALBM_RADIO_ROTATE270 . "'> &nbsp; ");
 }
 
 $op_hidden      = new XoopsFormHidden('op', 'submit');

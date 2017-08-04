@@ -1,15 +1,15 @@
 <{strip}>
-<table width="100%" cellspacing="0" class="outer">
-    <tr>
-        <td class="even">
-            <br>
+    <table width="100%" cellspacing="0" class="outer">
+        <tr>
+            <td class="even">
+                <br>
                 <{include file="db:myalbum_header.tpl"}>
                 <br>
 
-                    <div align="center">
+                <div align="center">
 
-                        <{* Start Category Loop *}>
-                        <{foreach item=ranking from=$rankings}>
+                    <{* Start Category Loop *}>
+                    <{foreach item=ranking from=$rankings}>
                         <table class="outer">
                             <tr>
                                 <th colspan="6" align="center"><{$ranking.title}> (<{$lang_sortby}>)</th>
@@ -54,14 +54,14 @@
 
                         </table>
                         <br>
-                            <{/foreach}>
-                            <{* End Category Loop *}>
+                    <{/foreach}>
+                    <{* End Category Loop *}>
 
-                    </div>
-        </td>
-    </tr>
-</table>
-<br>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <br>
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
         <tr>
             <td align="center">
@@ -69,4 +69,4 @@
             </td>
         </tr>
     </table>
-    <{/strip}>
+<{/strip}>

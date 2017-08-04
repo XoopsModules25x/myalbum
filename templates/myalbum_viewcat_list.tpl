@@ -1,13 +1,13 @@
 <{strip}>
-<div style="float:right;">
-    <a href="<{$rss}>">
-        <img border='0' src='<{$xoops_url}>/modules/<{$mydirname}>/assets/images/rss.gif'>
-    </a>
-</div>
-<table width="100%" cellspacing="0" class="outer">
-    <tr>
-        <td class="even">
-            <br>
+    <div style="float:right;">
+        <a href="<{$rss}>">
+            <img border='0' src='<{$xoops_url}>/modules/<{$mydirname}>/assets/images/rss.gif'>
+        </a>
+    </div>
+    <table width="100%" cellspacing="0" class="outer">
+        <tr>
+            <td class="even">
+                <br>
                 <{include file="db:myalbum_header.tpl"}>
                 <table border='0' cellpadding='0' cellspacing='0' width='100%'>
                     <tr>
@@ -29,10 +29,10 @@
                     <hr>
                     <{include file="db:myalbum_categories.tpl"}>
                 <{/if}>
-        </td>
-    </tr>
-</table>
-<br>
+            </td>
+        </tr>
+    </table>
+    <br>
     <{if $photo_small_sum < 1 }>
         <div align="center">
             <{$lang_nomatch}>
@@ -76,58 +76,58 @@
                                 <img src="assets/images/down.gif" border="0" align="middle" alt="">
                             </a>)
                             <br>
-                                <strong><{$lang_cursortedby}></strong>
-                                <br>
-                                    <br>
-                                        <table border='0' cellpadding='0' cellspacing='0' width='100%'>
-                                            <tr>
-                                                <td align='left'>
-                                                    <{$photonavinfo}>
-                                                </td>
-                                                <td align='right'>
-                                                    <{$photonav}>
-                                                </td>
-                                            </tr>
-                                        </table>
+                            <strong><{$lang_cursortedby}></strong>
+                            <br>
+                            <br>
+                            <table border='0' cellpadding='0' cellspacing='0' width='100%'>
+                                <tr>
+                                    <td align='left'>
+                                        <{$photonavinfo}>
+                                    </td>
+                                    <td align='right'>
+                                        <{$photonav}>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                         <hr>
                     <{/if}>
                     <br>
-                        <table width='100%' cellspacing='0' cellpadding='10' border='0'>
-                            <{foreach from=$photos item=photo}>
-                                <{include file="db:myalbum_photo_in_list.tpl"}>
-                            <{/foreach}>
-                        </table>
+                    <table width='100%' cellspacing='0' cellpadding='10' border='0'>
+                        <{foreach from=$photos item=photo}>
+                            <{include file="db:myalbum_photo_in_list.tpl"}>
+                        <{/foreach}>
+                    </table>
 
-                        <{if $photo_small_sum > 1 }>
-                            <hr>
-                            <div align="center">
-                                <table border='0' cellpadding='0' cellspacing='0' width='100%'>
-                                    <tr>
-                                        <td align='left'>
-                                            <{$photonavinfo}>
-                                        </td>
-                                        <td align='right'>
-                                            <{$photonav}>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        <{/if}>
+                    <{if $photo_small_sum > 1 }>
+                        <hr>
+                        <div align="center">
+                            <table border='0' cellpadding='0' cellspacing='0' width='100%'>
+                                <tr>
+                                    <td align='left'>
+                                        <{$photonavinfo}>
+                                    </td>
+                                    <td align='right'>
+                                        <{$photonav}>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    <{/if}>
 
                 </td>
             </tr>
         </table>
     <{/if}>
     <br>
-        <table width="100%" cellspacing="0" cellpadding="0" border="0">
-            <tr>
-                <td align="center">
-                    <br>
-                        <{include file='db:system_notification_select.tpl'}>
-                        <br>
-                            <{include file="db:myalbum_footer.tpl"}>
-                </td>
-            </tr>
-        </table>
-        <{/strip}>
+    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+            <td align="center">
+                <br>
+                <{include file='db:system_notification_select.tpl'}>
+                <br>
+                <{include file="db:myalbum_footer.tpl"}>
+            </td>
+        </tr>
+    </table>
+<{/strip}>

@@ -119,20 +119,20 @@ if (!defined('MYALBUM_BLOCK_TOPHITS_INCLUDED')) {
 
         return '
         ' . _ALBM_TEXT_DISP . " &nbsp;
-        <input type='hidden' name='options[0]' value='{$moduleDirName }' >
-        <input type='text' size='4' name='options[1]' value='$photos_num' style='text-align:right;' >
+        <input type='hidden' name='options[0]' value='{$moduleDirName }'>
+        <input type='text' size='4' name='options[1]' value='$photos_num' style='text-align:right;'>
         <br>
         " . _ALBM_TEXT_STRLENGTH . " &nbsp;
-        <input type='text' size='6' name='options[2]' value='$title_max_length' style='text-align:right;' >
+        <input type='text' size='6' name='options[2]' value='$title_max_length' style='text-align:right;'>
         <br>
         " . _ALBM_TEXT_CATLIMITATION . " &nbsp; $catselbox
         " . _ALBM_TEXT_CATLIMITRECURSIVE . "
         <input type='radio' name='options[4]' value='1' " . ($cat_limit_recursive ? 'checked' : '') . '>' . _YES . "
         <input type='radio' name='options[4]' value='0' " . ($cat_limit_recursive ? '' : 'checked') . '>' . _NO . "
         <br>
-        <input type='hidden' name='options[5]' value='' >
+        <input type='hidden' name='options[5]' value=''>
         " . _ALBM_TEXT_COLS . "&nbsp;
-        <input type='text' size='2' name='options[6]' value='$cols' style='text-align:right;' >
+        <input type='text' size='2' name='options[6]' value='$cols' style='text-align:right;'>
         <br>
         \n";
     }

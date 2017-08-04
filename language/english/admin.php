@@ -125,4 +125,39 @@ if (defined('FOR_XOOPS_LANG_CHECKER') || !defined('MYALBUM_AM_LOADED')) {
     define('_AM_H4_DIRECTORIES', 'Directories/Folders');
     define('_AM_LABEL_NOTHING', 'Nothing');
     define('_AM_TH_THUMBNAIL', 'Thumbnail');
+
+    // server Info -----------------------------------------------
+    define('_AM_WFDOWNLOADS_DOWN_IMAGEINFO', 'Server status');
+    define('_AM_WFDOWNLOADS_DOWN_NOTSET', 'Upload path not set');
+    define('_AM_WFDOWNLOADS_DOWN_SERVERPATH', 'Server path to XOOPS root: ');
+    define('_AM_WFDOWNLOADS_DOWN_UPLOADPATH', 'Current upload path: ');
+
+    define('_AM_WFDOWNLOADS_DOWN_METAVERSION', "<span style='font-weight: bold;'>Downloads meta version:</span> ");
+    define('_AM_WFDOWNLOADS_DOWN_SPHPINI', "<span style='font-weight: bold;'>Information taken from PHP ini file:</span>");
+    define('_AM_WFDOWNLOADS_DOWN_SAFEMODESTATUS', 'Safe mode status: ');
+    define('_AM_WFDOWNLOADS_DOWN_REGISTERGLOBALS', 'Register globals: ');
+    define('_AM_WFDOWNLOADS_DOWN_SERVERUPLOADSTATUS', 'Server uploads status: ');
+    define('_AM_WFDOWNLOADS_DOWN_MAXUPLOADSIZE', 'Max upload size permitted (upload_max_filesize directive in php.ini): ');
+    define('_AM_WFDOWNLOADS_DOWN_MAXPOSTSIZE', 'Max post size permitted (post_max_size directive in php.ini): ');
+    define('_AM_WFDOWNLOADS_DOWN_SAFEMODEPROBLEMS', ' (This may cause problems)');
+    define('_AM_WFDOWNLOADS_DOWN_GDLIBSTATUS', 'GD library support: ');
+    define('_AM_WFDOWNLOADS_DOWN_GDLIBVERSION', 'GD Library version: ');
+    define('_AM_WFDOWNLOADS_DOWN_GDON', "<span style='font-weight: bold;'>Enabled</span> (Thumbsnails available)");
+    define('_AM_WFDOWNLOADS_DOWN_GDOFF', "<span style='font-weight: bold;'>Disabled</span> (No thumbnails available)");
+    define('_AM_WFDOWNLOADS_DOWN_OFF', "<span style='font-weight: bold;'>OFF</span>");
+    define('_AM_WFDOWNLOADS_DOWN_ON', "<span style='font-weight: bold;'>ON</span>");
+    define('_AM_WFDOWNLOADS_DOWN_CATIMAGE', 'Category images');
+    define('_AM_WFDOWNLOADS_DOWN_SCREENSHOTS', 'Screenshot images');
+    define('_AM_WFDOWNLOADS_DOWN_MAINIMAGEDIR', 'Main images');
+    define('_AM_WFDOWNLOADS_DOWN_FCATIMAGE', 'Category image path');
+    define('_AM_WFDOWNLOADS_DOWN_FSCREENSHOTS', 'Screenshot image path');
+    define('_AM_WFDOWNLOADS_DOWN_FMAINIMAGEDIR', 'Main image path');
+    define('_AM_WFDOWNLOADS_DOWN_FUPLOADIMAGETO', 'Upload image: ');
+    define('_AM_WFDOWNLOADS_DOWN_FUPLOADPATH', 'Upload path:');
+    define('_AM_WFDOWNLOADS_DOWN_FUPLOADURL', 'Upload URL:');
+    define('_AM_WFDOWNLOADS_DOWN_FOLDERSELECTION', 'Select upload destination');
+    define('_AM_WFDOWNLOADS_DOWN_FSHOWSELECTEDIMAGE', 'Display selected image');
+    define('_AM_WFDOWNLOADS_DOWN_FUPLOADIMAGE', 'Upload new image to selected destination');
+
+    define('_AM_WFDOWNLOADS_DOWN_UPLOADPATHDSC', 'Note. Upload path *MUST* contain the full server path of your upload folder.');
 }

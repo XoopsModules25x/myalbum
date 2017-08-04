@@ -88,7 +88,7 @@ if (!$GLOBALS['xoopsTpl']->is_cached('db:' . $GLOBALS['mydirname'] . '_rss.tpl')
         array_push($cids, $cid);
         $criteria        = new CriteriaCompo(new Criteria('`status`', '0', '>'));
         $photo_total_sum = MyalbumUtility::getTotalCount($cids, $criteria);
-        $sub_title       = preg_replace("/\'\>/", "'><img src='$mod_url/assets/images/folder16.gif' alt='' >", $GLOBALS['cattree']->getNicePathFromId($cid, 'title', "viewcat.php?num=$num"));
+        $sub_title       = preg_replace("/\'\>/", "'><img src='$mod_url/assets/images/folder16.gif' alt=''>", $GLOBALS['cattree']->getNicePathFromId($cid, 'title', "viewcat.php?num=$num"));
         $sub_title       = preg_replace('/^(.+)folder16/', '$1folder_open', $sub_title);
         $criteria->add(new Criteria('`cid`', $cid));
     } elseif ($uid != 0) {

@@ -25,7 +25,7 @@ if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
     }
     /** @var XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
-    $module = $moduleHandler->getByDirname($src_dirname);
+    $module        = $moduleHandler->getByDirname($src_dirname);
     if (!is_object($module)) {
         die('invalid module dirname:' . htmlspecialchars($src_dirname));
     }

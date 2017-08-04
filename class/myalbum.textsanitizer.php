@@ -106,10 +106,10 @@ if (!class_exists('MyAlbumTextSanitizer')) {
             $replacements = array();
 
             $patterns[]     = "/\[siteimg align=(['\"]?)(left|center|right)\\1]([^\"\(\)\?\&'<>]*)\[\/siteimg\]/sU";
-            $replacements[] = '<img src="' . XOOPS_URL . '/\\3" align="\\2" alt="" >';
+            $replacements[] = '<img src="' . XOOPS_URL . '/\\3" align="\\2" alt="">';
 
             $patterns[]     = "/\[siteimg]([^\"\(\)\?\&'<>]*)\[\/siteimg\]/sU";
-            $replacements[] = '<img src="' . XOOPS_URL . '/\\1" alt="" >';
+            $replacements[] = '<img src="' . XOOPS_URL . '/\\1" alt="">';
 
             return preg_replace($patterns, $replacements, $text);
         }
