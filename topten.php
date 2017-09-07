@@ -50,22 +50,22 @@ $GLOBALS['xoopsTpl']->assign('lang_vote', _ALBM_VOTE);
 
 $criteria = new Criteria('`pid`', '0');
 $criteria->setOrder('`title`');
-$rankings = array();
+$rankings = [];
 $i        = 0;
 foreach ($catHandler->getObjects($criteria, true) as $cid => $cat) {
     if ($rate == 1) {
-        $rankings[$i] = array(
+        $rankings[$i] = [
             'title' => sprintf(_ALBM_TOP10, $GLOBALS['myts']->htmlSpecialChars($cat->getVar('title'))),
             'count' => $i
-        );
+        ];
     } else {
-        $rankings[$i] = array(
+        $rankings[$i] = [
             'title' => sprintf(_ALBM_POPULARTOP10, $GLOBALS['myts']->htmlSpecialChars($cat->getVar('title'))),
             'count' => $i
-        );
+        ];
     }
 
-    $whr_cid = array($cid => $cid);
+    $whr_cid = [$cid => $cid];
     // get all child cat ids for a given cat id
     foreach ($GLOBALS['cattree']->getAllChild($cid) as $children) {
         $whr_cid[$children->getVar('cid')] = $children->getVar('cid');
@@ -100,7 +100,7 @@ foreach ($catHandler->getObjects($criteria, true) as $cid => $cat) {
 
         $catpath = str_replace('>>', " <span class='fg2'>&raquo;&raquo;</span> ", $catpath);
 
-        $rankings[$i]['photo'][] = array(
+        $rankings[$i]['photo'][] = [
             'lid'            => $lid,
             'cid'            => $photo->getVar('cid'),
             'rank'           => $rank,
@@ -111,7 +111,7 @@ foreach ($catHandler->getObjects($criteria, true) as $cid => $cat) {
             'hits'           => $photo->getVar('hits'),
             'rating'         => number_format($photo->getVar('rating'), 2),
             'votes'          => $photo->getVar('votes')
-        );
+        ];
 
         ++$rank;
     }

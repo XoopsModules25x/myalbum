@@ -99,11 +99,11 @@ if (!class_exists('MyAlbumTextSanitizer')) {
          **/
         public function postCodeDecode($text)
         {
-            $removal_tags = array('[summary]', '[/summary]', '[pagebreak]');
+            $removal_tags = ['[summary]', '[/summary]', '[pagebreak]'];
             $text         = str_replace($removal_tags, '', $text);
 
-            $patterns     = array();
-            $replacements = array();
+            $patterns     = [];
+            $replacements = [];
 
             $patterns[]     = "/\[siteimg align=(['\"]?)(left|center|right)\\1]([^\"\(\)\?\&'<>]*)\[\/siteimg\]/sU";
             $replacements[] = '<img src="' . XOOPS_URL . '/\\3" align="\\2" alt="">';
@@ -140,8 +140,8 @@ if (!class_exists('MyAlbumTextSanitizer')) {
         {
             $text = preg_replace("/(\015\012)|(\015)|(\012)/", '<br>', $text);
             if ($this->nbsp) {
-                $patterns = array('  ', '\"');
-                $replaces = array(' &nbsp;', '"');
+                $patterns = ['  ', '\"'];
+                $replaces = [' &nbsp;', '"'];
                 //              $text     = substr(preg_replace('/\>.*\</esU', "str_replace(\$patterns,\$replaces,'\\0')", ">$text<"), 1, -1);
                 $text = substr(preg_replace_callback('/\>.*\</sU', function ($m) {
                     return str_replace($patterns, $replaces, $m[0]);

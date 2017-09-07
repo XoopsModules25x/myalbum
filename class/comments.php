@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../include/read_configs.php';
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 /**
  * Class for Blue Room Xcenter

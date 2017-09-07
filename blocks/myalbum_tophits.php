@@ -46,7 +46,7 @@ if (!defined('MYALBUM_BLOCK_TOPHITS_INCLUDED')) {
             $whr_cat = '1';
         }
 
-        $block           = array();
+        $block           = [];
         $GLOBALS['myts'] = MyTextSanitizer::getInstance();
         $result          = $xoopsDB->query('SELECT lid , cid , title , ext , res_x , res_y , submitter , status , date AS unixtime , hits , rating , votes , comments FROM ' . $xoopsDB->prefix($table_photos) . " WHERE status>0 AND $whr_cat ORDER BY hits DESC", $photos_num, 0);
 

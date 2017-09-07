@@ -1,6 +1,6 @@
 <?php
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 include __DIR__ . '/../include/read_configs.php';
 
@@ -54,21 +54,21 @@ class MyalbumPhotos extends XoopsObject
             /** @var MyalbumCatHandler $catHandler */
             $catHandler = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
             $cat        = $catHandler->get($this->getVar('cid'));
-            $url        = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . str_replace(array(
+            $url        = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . str_replace([
                                                                                                                '_',
                                                                                                                ' ',
                                                                                                                ')',
                                                                                                                '(',
                                                                                                                '&',
                                                                                                                '#'
-                                                                                                           ), '-', $cat->getVar('title')) . '/' . str_replace(array(
+                                                                                                           ], '-', $cat->getVar('title')) . '/' . str_replace([
                                                                                                                                                                   '_',
                                                                                                                                                                   ' ',
                                                                                                                                                                   ')',
                                                                                                                                                                   '(',
                                                                                                                                                                   '&',
                                                                                                                                                                   '#'
-                                                                                                                                                              ), '-', $this->getVar('title')) . '/' . $this->getVar('lid') . ',' . $this->getVar('cid') . $GLOBALS['myalbumModuleConfig']['endofurl'];
+                                                                                                                                                              ], '-', $this->getVar('title')) . '/' . $this->getVar('lid') . ',' . $this->getVar('cid') . $GLOBALS['myalbumModuleConfig']['endofurl'];
         } else {
             $url = $GLOBALS['mod_url'] . '/photo.php?lid=' . $this->getVar('lid') . '&cid=' . $this->getVar('cid');
         }
@@ -95,21 +95,21 @@ class MyalbumPhotos extends XoopsObject
             /** @var MyalbumCatHandler $catHandler */
             $catHandler = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
             $cat        = $catHandler->get($this->getVar('cid'));
-            $url        = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . str_replace(array(
+            $url        = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . str_replace([
                                                                                                                '_',
                                                                                                                ' ',
                                                                                                                ')',
                                                                                                                '(',
                                                                                                                '&',
                                                                                                                '#'
-                                                                                                           ), '-', $cat->getVar('title')) . '/' . str_replace(array(
+                                                                                                           ], '-', $cat->getVar('title')) . '/' . str_replace([
                                                                                                                                                                   '_',
                                                                                                                                                                   ' ',
                                                                                                                                                                   ')',
                                                                                                                                                                   '(',
                                                                                                                                                                   '&',
                                                                                                                                                                   '#'
-                                                                                                                                                              ), '-', $this->getVar('title')) . '/edit,' . $this->getVar('lid') . ',' . $this->getVar('cid') . $GLOBALS['myalbumModuleConfig']['endofurl'];
+                                                                                                                                                              ], '-', $this->getVar('title')) . '/edit,' . $this->getVar('lid') . ',' . $this->getVar('cid') . $GLOBALS['myalbumModuleConfig']['endofurl'];
         } else {
             $url = $GLOBALS['mod_url'] . '/editphoto.php?lid=' . $this->getVar('lid') . '&cid=' . $this->getVar('cid');
         }
@@ -136,21 +136,21 @@ class MyalbumPhotos extends XoopsObject
             /** @var MyalbumCatHandler $catHandler */
             $catHandler = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
             $cat        = $catHandler->get($this->getVar('cid'));
-            $url        = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . str_replace(array(
+            $url        = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . str_replace([
                                                                                                                '_',
                                                                                                                ' ',
                                                                                                                ')',
                                                                                                                '(',
                                                                                                                '&',
                                                                                                                '#'
-                                                                                                           ), '-', $cat->getVar('title')) . '/' . str_replace(array(
+                                                                                                           ], '-', $cat->getVar('title')) . '/' . str_replace([
                                                                                                                                                                   '_',
                                                                                                                                                                   ' ',
                                                                                                                                                                   ')',
                                                                                                                                                                   '(',
                                                                                                                                                                   '&',
                                                                                                                                                                   '#'
-                                                                                                                                                              ), '-', $this->getVar('title')) . '/rate,' . $this->getVar('lid') . ',' . $this->getVar('cid') . $GLOBALS['myalbumModuleConfig']['endofurl'];
+                                                                                                                                                              ], '-', $this->getVar('title')) . '/rate,' . $this->getVar('lid') . ',' . $this->getVar('cid') . $GLOBALS['myalbumModuleConfig']['endofurl'];
         } else {
             $url = $GLOBALS['mod_url'] . '/ratephoto.php?lid=' . $this->getVar('lid') . '&cid=' . $this->getVar('cid');
         }
@@ -300,16 +300,16 @@ class MyalbumPhotosHandler extends XoopsPersistableObjectHandler
                 $criteria            = new Criteria('`lid`', "('" . implode("','", $ids) . "')", 'IN');
                 $photos              = $this->getObjects($criteria, true);
                 foreach ($photos as $lid => $photo) {
-                    $notificationHandler->triggerEvent('global', 0, 'new_photo', array(
+                    $notificationHandler->triggerEvent('global', 0, 'new_photo', [
                         'PHOTO_TITLE' => $photo->getVar('title'),
                         'PHOTO_URI'   => $photo->getURL()
-                    ));
+                    ]);
                     if ($photo->getVar('title') > 0 && is_object($cats[$photo->getVar('cid')])) {
-                        $notificationHandler->triggerEvent('category', $photo->getVar('cid'), 'new_photo', array(
+                        $notificationHandler->triggerEvent('category', $photo->getVar('cid'), 'new_photo', [
                             'PHOTO_TITLE'    => $photo->getVar('title'),
                             'CATEGORY_TITLE' => $cats[$photo->getVar('cid')]->getVar('title'),
                             'PHOTO_URI'      => $photo->getURL()
-                        ));
+                        ]);
                     }
                 }
                 break;

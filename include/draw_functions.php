@@ -6,7 +6,7 @@ function myalbum_header()
     global $mod_url, $moduleDirName;
 
     $tpl = new XoopsTpl();
-    $tpl->assign(array('mod_url' => $mod_url));
+    $tpl->assign(['mod_url' => $mod_url]);
     $tpl->display("db:{$moduleDirName }_header.tpl");
 }
 
@@ -16,7 +16,7 @@ function myalbum_footer()
     global $mod_copyright, $moduleDirName;
 
     $tpl = new XoopsTpl();
-    $tpl->assign(array('mod_copyright' => $mod_copyright));
+    $tpl->assign(['mod_copyright' => $mod_copyright]);
     $tpl->display("db:{$moduleDirName }_footer.tpl");
 }
 
@@ -138,10 +138,10 @@ function myalbum_get_array_for_photo_assign($photo, $summary = false)
         require_once XOOPS_ROOT_PATH . '/modules/tag/include/tagbar.php';
         $tagbar = tagBar($lid, $cid);
     } else {
-        $tagbar = array();
+        $tagbar = [];
     }
 
-    return array(
+    return [
         'tagbar'          => $tagbar,
         'lid'             => $lid,
         'cid'             => $cid,
@@ -174,7 +174,7 @@ function myalbum_get_array_for_photo_assign($photo, $summary = false)
         'info_morephotos' => sprintf(_ALBM_MOREPHOTOS, $submitter_name),
         'cat_title'       => $GLOBALS['myts']->htmlSpecialChars($cat_title),
         'status'          => $status
-    );
+    ];
 }
 
 // Get photo's array to assign into template (light version)
@@ -221,10 +221,10 @@ function myalbum_get_array_for_photo_assign_light($photo, $summary = false)
         require_once XOOPS_ROOT_PATH . '/modules/tag/include/tagbar.php';
         $tagbar = tagBar($lid, $cid);
     } else {
-        $tagbar = array();
+        $tagbar = [];
     }
 
-    return array(
+    return [
         'tagbar'          => $tagbar,
         'lid'             => $lid,
         'cid'             => $cid,
@@ -245,7 +245,7 @@ function myalbum_get_array_for_photo_assign_light($photo, $summary = false)
         'votes'           => $votes,
         'comments'        => $comments,
         'is_normal_image' => $is_normal_image
-    );
+    ];
 }
 
 // get list of sub categories in header space
@@ -257,7 +257,7 @@ function myalbum_get_array_for_photo_assign_light($photo, $summary = false)
  */
 function myalbum_get_sub_categories($parent_id, $cattree)
 {
-    $ret      = array();
+    $ret      = [];
     $criteria = new Criteria('`status`', '0', '>');
     $criterib = new Criteria('`pid`', $parent_id, '=');
     $criterib->setSort('cid');
@@ -270,16 +270,16 @@ function myalbum_get_sub_categories($parent_id, $cattree)
     foreach ($cats as $cid => $cat) {
         extract($cat->toArray());
         // Show first child of this category
-        $subcat = array();
+        $subcat = [];
         $arr    = $GLOBALS['cattree']->getFirstChild($cid);
         foreach ($arr as $child) {
-            $subcat[] = array(
+            $subcat[] = [
                 'cid'              => $child->getVar('cid'),
                 'title'            => $child->getVar('title'),
                 'weight'           => $child->getVar('weight'),
                 'photo_small_sum'  => myalbum_get_photo_small_sum_from_cat($child->getVar('cid'), $criteria),
                 'number_of_subcat' => count($GLOBALS['cattree']->getFirstChild($child->getVar('cid')))
-            );
+            ];
         }
 
         // Category's banner default
@@ -288,8 +288,8 @@ function myalbum_get_sub_categories($parent_id, $cattree)
         }
 
         // Total sum of photos
-        $cids = array();
-        foreach ($GLOBALS['cattree']->getAllChild($cid, array()) as $children) {
+        $cids = [];
+        foreach ($GLOBALS['cattree']->getAllChild($cid, []) as $children) {
             $cids[] = $children->getVar('cid');
         }
 
@@ -297,7 +297,7 @@ function myalbum_get_sub_categories($parent_id, $cattree)
 
         $photo_total_sum = myalbum_get_photo_total_sum_from_cats($cids, $criteria);
 
-        $ret[] = array(
+        $ret[] = [
             'cid'             => $cid,
             'imgurl'          => $GLOBALS['myts']->htmlSpecialChars($imgurl),
             'photo_small_sum' => myalbum_get_photo_small_sum_from_cat($cid, $criteria),
@@ -305,7 +305,7 @@ function myalbum_get_sub_categories($parent_id, $cattree)
             'title'           => $title,
             'weight'          => $weight,
             'subcategories'   => $subcat
-        );
+        ];
     }
 
     return $ret;
@@ -324,12 +324,12 @@ function myalbum_get_img_attribs_for_preview($preview_name)
     $ext = substr(strrchr($preview_name, '.'), 1);
 
     if (in_array(strtolower($ext), $myalbum_normal_exts)) {
-        return array("$photos_url/$preview_name", "width='$myalbum_thumbsize'", "$photos_url/$preview_name");
+        return ["$photos_url/$preview_name", "width='$myalbum_thumbsize'", "$photos_url/$preview_name"];
     } else {
         if (file_exists("$mod_path/assets/images/icons/$ext.gif")) {
-            return array("$mod_url/assets/images/icons/mp3.gif", '', "$photos_url/$preview_name");
+            return ["$mod_url/assets/images/icons/mp3.gif", '', "$photos_url/$preview_name"];
         } else {
-            return array("$mod_url/assets/images/icons/default.gif", '', "$photos_url/$preview_name");
+            return ["$mod_url/assets/images/icons/default.gif", '', "$photos_url/$preview_name"];
         }
     }
 }

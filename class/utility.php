@@ -121,7 +121,7 @@ class MyalbumUtility extends XoopsObject
             }
         }
 
-        if (!$success) {
+        if (false === $success) {
             $module->setErrors(sprintf(_AM_ALBM_ERROR_BAD_XOOPS, $requiredVer, $currentVer));
         }
 
@@ -256,10 +256,10 @@ class MyalbumUtility extends XoopsObject
                 break;
         }
 
-        return array(
+        return [
             $new_w,
             $new_h
-        );
+        ];
     }
 
     // create_thumb Wrapper
@@ -950,19 +950,19 @@ class MyalbumUtility extends XoopsObject
                 $notificationHandler = xoops_getHandler('notification');
 
                 // Global Notification
-                $notificationHandler->triggerEvent('global', 0, 'new_photo', array(
+                $notificationHandler->triggerEvent('global', 0, 'new_photo', [
                     'PHOTO_TITLE' => $title,
                     'PHOTO_URI'   => $photo->getURL()
-                ));
+                ]);
 
                 // Category Notification
 
                 $cat_title = $cat->getVar('title');
-                $notificationHandler->triggerEvent('category', $cid, 'new_photo', array(
+                $notificationHandler->triggerEvent('category', $cid, 'new_photo', [
                     'PHOTO_TITLE'    => $title,
                     'CATEGORY_TITLE' => $cat_title,
                     'PHOTO_URI'      => $photo->getURL()
-                ));
+                ]);
             }
         }
 
@@ -1048,27 +1048,27 @@ class MyalbumUtility extends XoopsObject
             $table_name_photos = $GLOBALS['xoopsDB']->prefix($GLOBALS['table_photos']);
         }
 
-        $cats[0] = array(
+        $cats[0] = [
             'cid'      => 0,
             'pid'      => -1,
             'next_key' => -1,
             'depth'    => 0,
             'title'    => '',
             'num'      => 0
-        );
+        ];
 
         $rs = $GLOBALS['xoopsDB']->query("SELECT c.title,c.cid,c.pid,COUNT(p.lid) AS num FROM $table_name_cat c LEFT JOIN $table_name_photos p ON c.cid=p.cid GROUP BY c.cid ORDER BY pid ASC,$order DESC");
 
         $key = 1;
         while (false !== (list($title, $cid, $pid, $num) = $GLOBALS['xoopsDB']->fetchRow($rs))) {
-            $cats[$key] = array(
+            $cats[$key] = [
                 'cid'      => (int)$cid,
                 'pid'      => (int)$pid,
                 'next_key' => $key + 1,
                 'depth'    => 0,
                 'title'    => $GLOBALS['myts']->htmlSpecialChars($title),
                 'num'      => (int)$num
-            );
+            ];
             ++$key;
         }
         $sizeofcats = $key;

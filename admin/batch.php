@@ -93,7 +93,7 @@ if (isset($_POST['submit']) && $_POST['submit'] !== '') {
             if (!in_array(strtolower($ext), $myalbum_normal_exts)) {
                 list($w, $h) = getimagesize($file_path);
             } else {
-                list($w, $h) = array(0, 0);
+                list($w, $h) = [0, 0];
             }
             $photo = $photosHandler->create();
             $photo->setVar('cid', $cid);

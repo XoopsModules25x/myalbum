@@ -46,7 +46,7 @@ if (count($cats) > 0) {
     // select box for category
     $cat_options  = "<option value='0'>--</option>\n";
     $prs          = $xoopsDB->query("SELECT cid,COUNT(lid) FROM $table_photos WHERE status>0 AND $whr_ext GROUP BY cid");
-    $photo_counts = array();
+    $photo_counts = [];
     while (false !== (list($c, $p) = $xoopsDB->fetchRow($prs))) {
         $photo_counts[$c] = $p;
     }
@@ -117,7 +117,7 @@ if (count($cats) > 0) {
                 $xcodebl = "[$img_tag align=left]$pdir/{$lid}.{$ext}[/$img_tag]";
                 $xcodebc = "[$img_tag]$pdir/{$lid}.{$ext}[/$img_tag]";
                 $xcodebr = "[$img_tag align=right]$pdir/{$lid}.{$ext}[/$img_tag]";
-                $xoopsTpl->append('photos', array(
+                $xoopsTpl->append('photos', [
                     'lid'        => $lid,
                     'ext'        => $ext,
                     'res_x'      => $res_x,
@@ -135,7 +135,7 @@ if (count($cats) > 0) {
                     'xcodebr'    => $xcodebr,
                     'is_normal'  => $is_normal,
                     'count'      => ++$i
-                ));
+                ]);
             }
         } else {
             $xoopsTpl->assign('image_total', 0);

@@ -70,7 +70,7 @@ if ($global_perms & GPERM_INSERTABLE) {
 $GLOBALS['xoopsTpl']->assign('lang_album_main', _ALBM_MAIN);
 
 if ($cid > 0) {
-    $cids    = array();
+    $cids    = [];
     $catpath = '';
     $cat     = $catHandler->get($cid);
     // Category Specified
@@ -168,7 +168,7 @@ if ($photo_small_sum > 0) {
     foreach ($photosHandler->getObjects($criteria, true) as $lid => $photo) {
         //echo __LINE__.' - '.$function_assigning.' - '.$lid.'<br>';
 //        $photo = $function_assigning($photo) + array('count' => ++$count, true);
-        $photo = call_user_func($function_assigning, $photo) + array('count' => ++$count, true);
+        $photo = call_user_func($function_assigning, $photo) + ['count' => ++$count, true];
 
         $GLOBALS['xoopsTpl']->append('photos', $photo);
     }

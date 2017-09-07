@@ -1,8 +1,8 @@
 <?php
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
-$GLOBALS['myalbum_assign_globals'] = array(
+$GLOBALS['myalbum_assign_globals'] = [
     'lang_total'           => _ALBM_CAPTION_TOTAL,
     'mod_url'              => $mod_url,
     'mod_copyright'        => $mod_copyright,
@@ -28,4 +28,4 @@ $GLOBALS['myalbum_assign_globals'] = array(
     'colsoftableview'      => $myalbum_colsoftableview,
     'canrateview'          => $GLOBALS['global_perms'] & GPERM_RATEVIEW,
     'canratevote'          => $GLOBALS['global_perms'] & GPERM_RATEVOTE
-);
+];

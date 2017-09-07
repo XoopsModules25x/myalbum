@@ -1,6 +1,6 @@
 <?php
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 $GLOBALS['mydirname'] = basename(dirname(__DIR__));
 if (preg_match('/^myalbum(\d*)$/', $GLOBALS['mydirname'], $regs)) {
@@ -101,7 +101,7 @@ if (isset($GLOBALS['myalbum_imagingpipe'])) {
     }
 }
 // Normal Extensions of Image
-$GLOBALS['myalbum_normal_exts'] = array('jpg', 'jpeg', 'gif', 'png');
+$GLOBALS['myalbum_normal_exts'] = ['jpg', 'jpeg', 'gif', 'png'];
 
 // Allowed extensions & MIME types
 if (empty($GLOBALS['myalbum_allowedexts'])) {
@@ -110,7 +110,7 @@ if (empty($GLOBALS['myalbum_allowedexts'])) {
     $GLOBALS['array_allowed_exts'] = explode('|', $GLOBALS['myalbum_allowedexts']);
 }
 if (empty($GLOBALS['myalbum_allowedmime'])) {
-    $GLOBALS['array_allowed_mimetypes'] = array();
+    $GLOBALS['array_allowed_mimetypes'] = [];
 } else {
     $GLOBALS['array_allowed_mimetypes'] = explode('|', $GLOBALS['myalbum_allowedmime']);
 }

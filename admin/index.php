@@ -21,7 +21,7 @@ $textHandler     = xoops_getModuleHandler('text');
 $votedataHandler = xoops_getModuleHandler('votedata');
 $groupHandler    = xoops_getHandler('group');
 
-$netpbm_pipes = array(
+$netpbm_pipes = [
     'jpegtopnm',
     'giftopnm',
     'pngtopnm',
@@ -31,7 +31,7 @@ $netpbm_pipes = array(
     'ppmtogif',
     'pnmscale',
     'pnmflip'
-);
+];
 
 // PATH_SEPARATOR
 if (!defined('PATH_SEPARATOR')) {
@@ -112,7 +112,7 @@ if ($myalbum_imagingpipe == PIPEID_IMAGICK) {
 } elseif ($myalbum_imagingpipe == PIPEID_NETPBM) {
     $adminObject->addInfoBoxLine($title, '<label>' . _AM_MB_PIPEFORIMAGES . ': NetPBM : %s</label>', "Path: $myalbum_netpbmpath", 'Brown');
     foreach ($netpbm_pipes as $pipe) {
-        $ret_array = array();
+        $ret_array = [];
         exec("{$myalbum_netpbmpath}$pipe --version 2>&1", $ret_array);
         if (count($ret_array) < 1) {
             $adminObject->addInfoBoxLine($title, '<label>' . _AM_MB_PIPEFORIMAGES . ': NetPBM : %s</label>', "Error: {$myalbum_netpbmpath}{$pipe} can't be executed", 'Red');

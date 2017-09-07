@@ -94,7 +94,7 @@ if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
             $GLOBALS['xoopsDB']->query($sql);
 
             // delete source photos
-            list($photos_dir, $thumbs_dir, $myalbum_mid, $table_photos, $table_text, $table_votedata, $saved_photos_dir, $saved_thumbs_dir, $saved_myalbum_mid, $saved_table_photos, $saved_table_text, $saved_table_votedata) = array(
+            list($photos_dir, $thumbs_dir, $myalbum_mid, $table_photos, $table_text, $table_votedata, $saved_photos_dir, $saved_thumbs_dir, $saved_myalbum_mid, $saved_table_photos, $saved_table_text, $saved_table_votedata) = [
                 $src_photos_dir,
                 $src_thumbs_dir,
                 $src_mid,
@@ -107,16 +107,16 @@ if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
                 $GLOBALS['xoopsDB']->prefix($table_photos),
                 $GLOBALS['xoopsDB']->prefix($table_text),
                 $GLOBALS['xoopsDB']->prefix($table_votedata)
-            );
+            ];
             MyalbumUtility::deletePhotos("lid='$src_lid'");
-            list($photos_dir, $thumbs_dir, $myalbum_mid, $table_photos, $table_text, $table_votedata) = array(
+            list($photos_dir, $thumbs_dir, $myalbum_mid, $table_photos, $table_text, $table_votedata) = [
                 $saved_photos_dir,
                 $saved_thumbs_dir,
                 $saved_myalbum_mid,
                 $saved_table_photos,
                 $saved_table_text,
                 $saved_table_votedata
-            );
+            ];
         }
 
         ++$import_count;

@@ -3,7 +3,7 @@
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
  which is considered copyrighted (c) material of the original comment or credit authors.
- 
+
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
@@ -19,7 +19,8 @@
  * @version         $Id: myalbum1.php 11905 2013-08-14 05:25:33Z beckmi $
  * @package         tag
  */
-if (!defined('XOOPS_ROOT_PATH')) { exit(); }
+
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 /**
  * Get item fields:
@@ -42,7 +43,7 @@ function myalbum1_tag_iteminfo(&$items)
         return false;
     }
     
-    $items_id = array();
+    $items_id = [];
     foreach (array_keys($items) as $cat_id) {
         // Some handling here to build the link upon catid
         // catid is not used in myalbum1, so just skip it
@@ -59,14 +60,14 @@ function myalbum1_tag_iteminfo(&$items)
         foreach (array_keys($items[$cat_id]) as $item_id) {
             $item_obj =& $items_obj[$item_id];
             $text = $text_handler->get($item_id);
-            $items[$cat_id][$item_id] = array(
+            $items[$cat_id][$item_id] = [
                 "title"     => $item_obj->getVar("title"),
                 "uid"       => $item_obj->getVar("submitter"),
                 "link"      => "photo.php?lid={$item_id}&cid=".$item_obj->getVar("cid"),
                 "time"      => $item_obj->getVar("date"),
                 "tags"      => tag_parse_tag($item_obj->getVar("tags", "n")),
-                "content"   => $GLOBALS['myts']->displayTarea($text->getVar('description'),1,1,1,1,1,1),
-            );
+                "content"   => $GLOBALS['myts']->displayTarea($text->getVar('description'), 1, 1, 1, 1, 1, 1),
+            ];
         }
     }
     unset($items_obj);
@@ -84,7 +85,7 @@ function myalbum1_tag_synchronization($mid)
     $link_handler =& xoops_getmodulehandler("link", "tag");
         
     /* clear tag-item links */
-    if (version_compare( mysql_get_server_info(), "4.1.0", "ge" )):
+    if (version_compare(mysql_get_server_info(), "4.1.0", "ge")):
     $sql =  "    DELETE FROM {$link_handler->table}" .
             "    WHERE " .
             "        tag_modid = {$mid}" .
@@ -94,8 +95,7 @@ function myalbum1_tag_synchronization($mid)
             "                FROM {$item_handler->table} " .
             "                WHERE {$item_handler->table}.approved > 0" .
             "            ) " .
-            "        )";
-    else:
+            "        )"; else:
     $sql =  "    DELETE {$link_handler->table} FROM {$link_handler->table}" .
             "    LEFT JOIN {$item_handler->table} AS aa ON {$link_handler->table}.tag_itemid = aa.{$item_handler->keyName} " .
             "    WHERE " .

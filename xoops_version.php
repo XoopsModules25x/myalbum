@@ -17,7 +17,7 @@
  * @author       XOOPS Development Team
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 $moduleDirName = basename(__DIR__);
 if (preg_match('/^myalbum(\d*)$/', $moduleDirName, $regs)) {
@@ -28,7 +28,7 @@ if (preg_match('/^myalbum(\d*)$/', $moduleDirName, $regs)) {
 $_SESSION['myalbum_mydirname'] = $moduleDirName;
 
 // ------------------- Informations ------------------- //
-$modversion = array(
+$modversion = [
     'version'             => 3.08,
     'module_status'       => 'Beta 1',
     'release_date'        => '2017/07/20', //yyyy/mm/dd
@@ -53,7 +53,7 @@ $modversion = array(
     'min_php'             => '5.5',
     'min_xoops'           => '2.5.9',
     'min_admin'           => '1.2',
-    'min_db'              => array('mysql' => '5.5'),
+    'min_db'              => ['mysql' => '5.5'],
     // images
     'image'               => 'assets/images/logoModule.png', //'assets/images/module_logo.png',
     //    'iconsmall'           => 'assets/images/iconsmall.png',
@@ -98,7 +98,7 @@ $modversion = array(
     'onUpdate'            => 'include/onupdate.php'
     //  'onUninstall'         => 'include/onuninstall.php'
 
-);
+];
 
 //$modversion['author_realname']        = 'GIJoe';
 //$modversion['author_website_url']     = 'http://xoops.peak.ne.jp';
@@ -116,7 +116,7 @@ $modversion['tables'][2] = "{$moduleDirName }_text";
 $modversion['tables'][3] = "{$moduleDirName }_votedata";
 
 // ------------------- Blocks ------------------- //
-$modversion['blocks'][] = array(
+$modversion['blocks'][] = [
     'file'        => $moduleDirName . '_rphoto.php',
     'name'        => _ALBM_BNAME_RANDOM . $myalbum_number,
     'description' => 'Shows a random photo',
@@ -124,9 +124,9 @@ $modversion['blocks'][] = array(
     'edit_func'   => 'b_myalbum_rphoto_edit',
     'options'     => $moduleDirName . '|140|1||1|60|1',
     'template'    => $moduleDirName . '_block_rphoto.tpl'
-);
+];
 
-$modversion['blocks'][] = array(
+$modversion['blocks'][] = [
     'file'        => $moduleDirName . '_topnews.php',
     'name'        => _ALBM_BNAME_RECENT . $myalbum_number,
     'description' => 'Shows recently added photos',
@@ -134,9 +134,9 @@ $modversion['blocks'][] = array(
     'edit_func'   => 'b_myalbum_topnews_edit',
     'options'     => $moduleDirName . '|10|20||1||1',
     'template'    => $moduleDirName . '_block_topnews.tpl'
-);
+];
 
-$modversion['blocks'][] = array(
+$modversion['blocks'][] = [
     'file'        => $moduleDirName . '_tophits.php',
     'name'        => _ALBM_BNAME_HITS . $myalbum_number,
     'description' => 'Shows most viewed photos',
@@ -144,9 +144,9 @@ $modversion['blocks'][] = array(
     'edit_func'   => 'b_myalbum_tophits_edit',
     'options'     => $moduleDirName . '|10|20||1||1',
     'template'    => $moduleDirName . '_block_tophits.tpl'
-);
+];
 
-$modversion['blocks'][] = array(
+$modversion['blocks'][] = [
     'file'        => $moduleDirName . '_topnews.php',
     'name'        => _ALBM_BNAME_RECENT_P . $myalbum_number,
     'description' => 'Shows recently added photos',
@@ -154,9 +154,9 @@ $modversion['blocks'][] = array(
     'edit_func'   => 'b_myalbum_topnews_edit',
     'options'     => $moduleDirName . '|5|20||1||1',
     'template'    => $moduleDirName . '_block_topnews_p.tpl'
-);
+];
 
-$modversion['blocks'][] = array(
+$modversion['blocks'][] = [
     'file'        => $moduleDirName . '_tophits.php',
     'name'        => _ALBM_BNAME_HITS_P . $myalbum_number,
     'description' => 'Shows most viewed photos',
@@ -164,9 +164,9 @@ $modversion['blocks'][] = array(
     'edit_func'   => 'b_myalbum_tophits_edit',
     'options'     => $moduleDirName . '|5|20||1||1',
     'template'    => $moduleDirName . '_block_tophits_p.tpl'
-);
+];
 
-$modversion['blocks'][] = array(
+$modversion['blocks'][] = [
     'file'        => $moduleDirName . '_block_tag.php',
     'name'        => $modversion['name'] . ' Tag Cloud',
     'description' => 'Show tag cloud',
@@ -174,9 +174,9 @@ $modversion['blocks'][] = array(
     'edit_func'   => $moduleDirName . '_tag_block_cloud_edit',
     'options'     => '100|0|150|80',
     'template'    => $moduleDirName . '_tag_block_cloud.tpl'
-);
+];
 
-$modversion['blocks'][] = array(
+$modversion['blocks'][] = [
     'file'        => $moduleDirName . '_block_tag.php',
     'name'        => $modversion['name'] . ' Top Tags',
     'description' => 'Show top tags',
@@ -184,7 +184,7 @@ $modversion['blocks'][] = array(
     'edit_func'   => $moduleDirName . '_tag_block_top_edit',
     'options'     => '50|30|c',
     'template'    => $moduleDirName . '_tag_block_top.tpl'
-);
+];
 
 // Menu
 $modversion['hasMain'] = 1;
@@ -224,7 +224,7 @@ foreach ($editorHandler->getList(false) as $id => $val) {
     $options[$val] = $id;
 }
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'editor',
     'title'       => '_ALBM_CFG_EDITOR',
     'description' => '_ALBM_CFG_DESCEDITOR',
@@ -232,173 +232,173 @@ $modversion['config'][] = array(
     'valuetype'   => 'text',
     'default'     => 'tinymce',
     'options'     => $options
-);
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'myalbum_photospath',
     'title'       => '_ALBM_CFG_PHOTOSPATH',
     'description' => '_ALBM_CFG_DESCPHOTOSPATH',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => "/uploads/{$moduleDirName}/photos{$myalbum_number}",
-    'options'     => array()
-);
-$modversion['config'][] = array(
+    'options'     => []
+];
+$modversion['config'][] = [
     'name'        => 'myalbum_thumbspath',
     'title'       => '_ALBM_CFG_THUMBSPATH',
     'description' => '_ALBM_CFG_DESCTHUMBSPATH',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => "/uploads/{$moduleDirName}/thumbs{$myalbum_number}",
-    'options'     => array()
-);
-$modversion['config'][] = array(
+    'options'     => []
+];
+$modversion['config'][] = [
     'name'        => 'myalbum_imagingpipe',
     'title'       => '_ALBM_CFG_IMAGINGPIPE',
     'description' => '_ALBM_CFG_DESCIMAGINGPIPE',
     'formtype'    => 'select',
     'valuetype'   => 'int',
     'default'     => '0',
-    'options'     => array('GD' => 0, 'ImageMagick' => 1, 'NetPBM' => 2)
-);
-$modversion['config'][] = array(
+    'options'     => ['GD' => 0, 'ImageMagick' => 1, 'NetPBM' => 2]
+];
+$modversion['config'][] = [
     'name'        => 'myalbum_forcegd2',
     'title'       => '_ALBM_CFG_FORCEGD2',
     'description' => '_ALBM_CFG_DESCFORCEGD2',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => '0',
-    'options'     => array()
-);
-$modversion['config'][] = array(
+    'options'     => []
+];
+$modversion['config'][] = [
     'name'        => 'myalbum_imagickpath',
     'title'       => '_ALBM_CFG_IMAGICKPATH',
     'description' => '_ALBM_CFG_DESCIMAGICKPATH',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => '',
-    'options'     => array()
-);
-$modversion['config'][] = array(
+    'options'     => []
+];
+$modversion['config'][] = [
     'name'        => 'myalbum_netpbmpath',
     'title'       => '_ALBM_CFG_NETPBMPATH',
     'description' => '_ALBM_CFG_DESCNETPBMPATH',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => '',
-    'options'     => array()
-);
-$modversion['config'][] = array(
+    'options'     => []
+];
+$modversion['config'][] = [
     'name'        => 'myalbum_width',
     'title'       => '_ALBM_CFG_WIDTH',
     'description' => '_ALBM_CFG_DESCWIDTH',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
     'default'     => '1024',
-    'options'     => array()
-);
-$modversion['config'][] = array(
+    'options'     => []
+];
+$modversion['config'][] = [
     'name'        => 'myalbum_height',
     'title'       => '_ALBM_CFG_HEIGHT',
     'description' => '_ALBM_CFG_DESCHEIGHT',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
     'default'     => '1024',
-    'options'     => array()
-);
-$modversion['config'][] = array(
+    'options'     => []
+];
+$modversion['config'][] = [
     'name'        => 'myalbum_fsize',
     'title'       => '_ALBM_CFG_FSIZE',
     'description' => '_ALBM_CFG_DESCFSIZE',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
     'default'     => '100000',
-    'options'     => array()
-);
-$modversion['config'][] = array(
+    'options'     => []
+];
+$modversion['config'][] = [
     'name'        => 'myalbum_middlepixel',
     'title'       => '_ALBM_CFG_MIDDLEPIXEL',
     'description' => '_ALBM_CFG_DESCMIDDLEPIXEL',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => '480x480',
-    'options'     => array()
-);
-$modversion['config'][] = array(
+    'options'     => []
+];
+$modversion['config'][] = [
     'name'        => 'myalbum_allownoimage',
     'title'       => '_ALBM_CFG_ALLOWNOIMAGE',
     'description' => '',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => '1',
-    'options'     => array()
-);
-$modversion['config'][] = array(
+    'options'     => []
+];
+$modversion['config'][] = [
     'name'        => 'myalbum_makethumb',
     'title'       => '_ALBM_CFG_MAKETHUMB',
     'description' => '_ALBM_CFG_DESCMAKETHUMB',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => '0',
-    'options'     => array()
-);
-$modversion['config'][] = array(
+    'options'     => []
+];
+$modversion['config'][] = [
     'name'        => 'myalbum_thumbsize',
     'title'       => '_ALBM_CFG_THUMBSIZE',
     'description' => '',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
     'default'     => '140',
-    'options'     => array()
-);
-$modversion['config'][] = array(
+    'options'     => []
+];
+$modversion['config'][] = [
     'name'        => 'myalbum_thumbrule',
     'title'       => '_ALBM_CFG_THUMBRULE',
     'description' => '',
     'formtype'    => 'select',
     'valuetype'   => 'text',
     'default'     => 'w',
-    'options'     => array(
+    'options'     => [
         '_ALBUM_OPT_CALCFROMWIDTH'   => 'w',
         '_ALBUM_OPT_CALCFROMHEIGHT'  => 'h',
         '_ALBUM_OPT_CALCWHINSIDEBOX' => 'b'
-    )
-);
-$modversion['config'][] = array(
+    ]
+];
+$modversion['config'][] = [
     'name'        => 'myalbum_popular',
     'title'       => '_ALBM_CFG_POPULAR',
     'description' => '',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
     'default'     => '100',
-    'options'     => array()
-);
-$modversion['config'][] = array(
+    'options'     => []
+];
+$modversion['config'][] = [
     'name'        => 'myalbum_newdays',
     'title'       => '_ALBM_CFG_NEWDAYS',
     'description' => '',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
     'default'     => '7',
-    'options'     => array()
-);
-$modversion['config'][] = array(
+    'options'     => []
+];
+$modversion['config'][] = [
     'name'        => 'myalbum_newphotos',
     'title'       => '_ALBM_CFG_NEWPHOTOS',
     'description' => '',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
     'default'     => '10',
-    'options'     => array()
-);
-$modversion['config'][] = array(
+    'options'     => []
+];
+$modversion['config'][] = [
     'name'        => 'myalbum_defaultorder',
     'title'       => '_ALBM_CFG_DEFAULTORDER',
     'description' => '',
     'formtype'    => 'select',
     'valuetype'   => 'text',
     'default'     => 'dateD',
-    'options'     => array(
+    'options'     => [
         'cat_id ASC'    => 'cidA',
         'photo_id ASC'  => 'lidA',
         'title ASC'     => 'titleA',
@@ -411,134 +411,134 @@ $modversion['config'][] = array(
         'date DESC'     => 'dateD',
         'hits DESC'     => 'hitsD',
         'rating DESC'   => 'ratingD'
-    )
-);
-$modversion['config'][] = array(
+    ]
+];
+$modversion['config'][] = [
     'name'        => 'myalbum_perpage',
     'title'       => '_ALBM_CFG_PERPAGE',
     'description' => '_ALBM_CFG_DESCPERPAGE',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => '10|20|50|100',
-    'options'     => array()
-);
-$modversion['config'][] = array(
+    'options'     => []
+];
+$modversion['config'][] = [
     'name'        => 'myalbum_addposts',
     'title'       => '_ALBM_CFG_ADDPOSTS',
     'description' => '_ALBM_CFG_DESCADDPOSTS',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
     'default'     => '1',
-    'options'     => array()
-);
-$modversion['config'][] = array(
+    'options'     => []
+];
+$modversion['config'][] = [
     'name'        => 'myalbum_catonsubmenu',
     'title'       => '_ALBM_CFG_CATONSUBMENU',
     'description' => '',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => '0',
-    'options'     => array()
-);
-$modversion['config'][] = array(
+    'options'     => []
+];
+$modversion['config'][] = [
     'name'        => 'myalbum_nameoruname',
     'title'       => '_ALBM_CFG_NAMEORUNAME',
     'description' => '_ALBM_CFG_DESCNAMEORUNAME',
     'formtype'    => 'select',
     'valuetype'   => 'text',
     'default'     => 'uname',
-    'options'     => array('_ALBM_OPT_USENAME' => 'name', '_ALBM_OPT_USEUNAME' => 'uname')
-);
-$modversion['config'][] = array(
+    'options'     => ['_ALBM_OPT_USENAME' => 'name', '_ALBM_OPT_USEUNAME' => 'uname']
+];
+$modversion['config'][] = [
     'name'        => 'myalbum_viewcattype',
     'title'       => '_ALBM_CFG_VIEWCATTYPE',
     'description' => '',
     'formtype'    => 'select',
     'valuetype'   => 'text',
     'default'     => 'list',
-    'options'     => array('_ALBM_OPT_VIEWLIST' => 'list', '_ALBM_OPT_VIEWTABLE' => 'table')
-);
-$modversion['config'][] = array(
+    'options'     => ['_ALBM_OPT_VIEWLIST' => 'list', '_ALBM_OPT_VIEWTABLE' => 'table']
+];
+$modversion['config'][] = [
     'name'        => 'myalbum_colsoftableview',
     'title'       => '_ALBM_CFG_COLSOFTABLEVIEW',
     'description' => '',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
     'default'     => '4',
-    'options'     => array()
-);
-$modversion['config'][] = array(
+    'options'     => []
+];
+$modversion['config'][] = [
     'name'        => 'myalbum_allowedexts',
     'title'       => '_ALBM_CFG_ALLOWEDEXTS',
     'description' => '_ALBM_CFG_DESCALLOWEDEXTS',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'jpg|jpeg|gif|png',
-    'options'     => array()
-);
-$modversion['config'][] = array(
+    'options'     => []
+];
+$modversion['config'][] = [
     'name'        => 'myalbum_allowedmime',
     'title'       => '_ALBM_CFG_ALLOWEDMIME',
     'description' => '_ALBM_CFG_DESCALLOWEDMIME',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'image/gif|image/pjpeg|image/jpeg|image/x-png|image/png',
-    'options'     => array()
-);
-$modversion['config'][] = array(
+    'options'     => []
+];
+$modversion['config'][] = [
     'name'        => 'myalbum_usesiteimg',
     'title'       => '_ALBM_CFG_USESITEIMG',
     'description' => '_ALBM_CFG_DESCUSESITEIMG',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => '0',
-    'options'     => array()
-);
-$modversion['config'][] = array(
+    'options'     => []
+];
+$modversion['config'][] = [
     'name'        => 'tag',
     'title'       => '_ALBM_CFG_TAG',
     'description' => '_ALBM_CFG_DESCTAG',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => '0',
-    'options'     => array()
-);
-$modversion['config'][] = array(
+    'options'     => []
+];
+$modversion['config'][] = [
     'name'        => 'htaccess',
     'title'       => '_ALBM_CFG_HTACCESS',
     'description' => '_ALBM_CFG_DESCHTACCESS',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => '0',
-    'options'     => array()
-);
-$modversion['config'][] = array(
+    'options'     => []
+];
+$modversion['config'][] = [
     'name'        => 'baseurl',
     'title'       => '_ALBM_CFG_BASEOFURL',
     'description' => '_ALBM_CFG_DESCBASEOFURL',
     'formtype'    => 'text',
     'valuetype'   => 'text',
     'default'     => 'gallery',
-    'options'     => array()
-);
-$modversion['config'][] = array(
+    'options'     => []
+];
+$modversion['config'][] = [
     'name'        => 'endofurl',
     'title'       => '_ALBM_CFG_ENDOFURL',
     'description' => '_ALBM_CFG_DESCENDOFURL',
     'formtype'    => 'text',
     'valuetype'   => 'text',
     'default'     => '.html',
-    'options'     => array()
-);
-$modversion['config'][] = array(
+    'options'     => []
+];
+$modversion['config'][] = [
     'name'        => 'endofrss',
     'title'       => '_ALBM_CFG_ENDOFRSS',
     'description' => '_ALBM_CFG_DESCENDOFRSS',
     'formtype'    => 'text',
     'valuetype'   => 'text',
     'default'     => '.rss',
-    'options'     => array()
-);
+    'options'     => []
+];
 
 // Search
 $modversion['hasSearch']      = 1;
@@ -556,25 +556,25 @@ $modversion['comments']['callback']['update']  = 'myalbum_comments_update';
 
 // ------------------- Templates ------------------- //
 
-$modversion['templates'] = array(
-    array('file' => $moduleDirName . '_photo.tpl', 'description' => ''),
-    array('file' => $moduleDirName . '_viewcat_list.tpl', 'description' => ''),
-    array('file' => $moduleDirName . '_viewcat_table.tpl', 'description' => ''),
-    array('file' => $moduleDirName . '_index.tpl', 'description' => ''),
-    array('file' => $moduleDirName . '_ratephoto.tpl', 'description' => ''),
-    array('file' => $moduleDirName . '_topten.tpl', 'description' => ''),
-    array('file' => $moduleDirName . '_photo_in_list.tpl', 'description' => ''),
-    array('file' => $moduleDirName . '_header.tpl', 'description' => ''),
-    array('file' => $moduleDirName . '_footer.tpl', 'description' => ''),
-    array('file' => $moduleDirName . '_categories.tpl', 'description' => ''),
-    array('file' => $moduleDirName . '_imagemanager.tpl', 'description' => ''),
-    array('file' => $moduleDirName . '_cpanel_admission.tpl', 'description' => ''),
-    array('file' => $moduleDirName . '_cpanel_batch.tpl', 'description' => ''),
-    array('file' => $moduleDirName . '_cpanel_export.tpl', 'description' => ''),
-    array('file' => $moduleDirName . '_cpanel_import.tpl', 'description' => ''),
-    array('file' => $moduleDirName . '_cpanel_permissions.tpl', 'description' => ''),
-    array('file' => $moduleDirName . '_rss.tpl', 'description' => '')
-);
+$modversion['templates'] = [
+    ['file' => $moduleDirName . '_photo.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_viewcat_list.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_viewcat_table.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_index.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_ratephoto.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_topten.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_photo_in_list.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_header.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_footer.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_categories.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_imagemanager.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_cpanel_admission.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_cpanel_batch.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_cpanel_export.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_cpanel_import.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_cpanel_permissions.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_rss.tpl', 'description' => '']
+];
 
 //Install
 $modversion['onInstall'] = 'include/oninstall.inc.php';
@@ -585,33 +585,33 @@ $modversion['hasNotification']             = 1;
 $modversion['notification']['lookup_file'] = 'include/notification.inc.php';
 $modversion['notification']['lookup_func'] = "{$moduleDirName }_notify_iteminfo";
 
-$modversion['notification']['category'][] = array(
+$modversion['notification']['category'][] = [
     'name'           => 'global',
     'title'          => _MI_MYALBUM_GLOBAL_NOTIFY,
     'description'    => _MI_MYALBUM_GLOBAL_NOTIFYDSC,
-    'subscribe_from' => array('index.php', 'viewcat.php', 'photo.php')
-);
+    'subscribe_from' => ['index.php', 'viewcat.php', 'photo.php']
+];
 
-$modversion['notification']['category'][] = array(
+$modversion['notification']['category'][] = [
     'name'           => 'category',
     'title'          => _MI_MYALBUM_CATEGORY_NOTIFY,
     'description'    => _MI_MYALBUM_CATEGORY_NOTIFYDSC,
-    'subscribe_from' => array('viewcat.php', 'photo.php'),
+    'subscribe_from' => ['viewcat.php', 'photo.php'],
     'item_name'      => 'cid',
     'allow_bookmark' => 1
-);
+];
 
-$modversion['notification']['category'][] = array(
+$modversion['notification']['category'][] = [
     'name'           => 'photo',
     'title'          => _MI_MYALBUM_PHOTO_NOTIFY,
     'caption'        => _MI_MYALBUM_GLOBAL_NEWPHOTO_NOTIFYCAP,
     'description'    => _MI_MYALBUM_PHOTO_NOTIFYDSC,
-    'subscribe_from' => array('photo.php'),
+    'subscribe_from' => ['photo.php'],
     'item_name'      => 'lid',
     'allow_bookmark' => 1
-);
+];
 
-$modversion['notification']['event'][] = array(
+$modversion['notification']['event'][] = [
     'name'          => 'new_photo',
     'category'      => 'global',
     'title'         => _MI_MYALBUM_GLOBAL_NEWPHOTO_NOTIFY,
@@ -619,9 +619,9 @@ $modversion['notification']['event'][] = array(
     'description'   => _MI_MYALBUM_GLOBAL_NEWPHOTO_NOTIFYDSC,
     'mail_template' => 'global_newphoto_notify',
     'mail_subject'  => _MI_MYALBUM_GLOBAL_NEWPHOTO_NOTIFYSBJ
-);
+];
 
-$modversion['notification']['event'][] = array(
+$modversion['notification']['event'][] = [
     'name'          => 'new_photo',
     'category'      => 'category',
     'title'         => _MI_MYALBUM_CATEGORY_NEWPHOTO_NOTIFY,
@@ -629,4 +629,4 @@ $modversion['notification']['event'][] = array(
     'description'   => _MI_MYALBUM_CATEGORY_NEWPHOTO_NOTIFYDSC,
     'mail_template' => 'category_newphoto_notify',
     'mail_subject'  => _MI_MYALBUM_CATEGORY_NEWPHOTO_NOTIFYSBJ
-);
+];

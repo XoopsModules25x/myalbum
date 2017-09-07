@@ -44,9 +44,11 @@ $GLOBALS['xoopsTpl']->caching        = 2;
 $GLOBALS['xoopsTpl']->cache_lifetime = 3600;
 if (!$GLOBALS['xoopsTpl']->is_cached('db:' . $GLOBALS['mydirname'] . '_rss.tpl')) {
     xoops_load('XoopsLocal');
-    $GLOBALS['xoopsTpl']->assign('channel_title', XoopsLocal::convert_encoding(htmlspecialchars($xoopsConfig['sitename'] . (is_object($cat) ? ' : ' . $cat->getVar('title') . ' : ' . $GLOBALS['myalbumModule']->getVar('name') : ' : '
+    $GLOBALS['xoopsTpl']->assign('channel_title', XoopsLocal::convert_encoding(htmlspecialchars(
+        $xoopsConfig['sitename'] . (is_object($cat) ? ' : ' . $cat->getVar('title') . ' : ' . $GLOBALS['myalbumModule']->getVar('name') : ' : '
                                                                                                                                                                                                                                   . $GLOBALS['myalbumModule']->getVar('name')),
-                                                                                                ENT_QUOTES)));
+                                                                                                ENT_QUOTES
+    )));
     $GLOBALS['xoopsTpl']->assign('channel_link', XOOPS_URL . '/');
     $GLOBALS['xoopsTpl']->assign('channel_desc', XoopsLocal::convert_encoding(htmlspecialchars($xoopsConfig['slogan'], ENT_QUOTES)));
     $GLOBALS['xoopsTpl']->assign('channel_lastbuild', formatTimestamp(time(), 'rss'));
@@ -112,14 +114,14 @@ if (!$GLOBALS['xoopsTpl']->is_cached('db:' . $GLOBALS['mydirname'] . '_rss.tpl')
     foreach ($photosHandler->getObjects($criteria, true) as $lid => $photo) {
         $text = $textHandler->get($lid);
         $cat  = $catHandler->get($photo->getVar('cid'));
-        $GLOBALS['xoopsTpl']->append('items', array(
+        $GLOBALS['xoopsTpl']->append('items', [
             'title'       => XoopsLocal::convert_encoding(htmlspecialchars($photo->getVar('title'), ENT_QUOTES)),
             'category'    => XoopsLocal::convert_encoding(htmlspecialchars($cat->getVar('title'), ENT_QUOTES)),
             'link'        => XoopsLocal::convert_encoding(htmlspecialchars($photo->getURL())),
             'guid'        => XoopsLocal::convert_encoding(htmlspecialchars($photo->getURL())),
             'pubdate'     => formatTimestamp($photo->getVar('date'), 'rss'),
             'description' => XoopsLocal::convert_encoding(htmlspecialchars(sprintf(_ALBM_RSS_DESC, $photo->getThumbsURL(), $GLOBALS['myts']->displayTarea($text->getVar('description'), 1, 1, 1, 1, 1, 1)), ENT_QUOTES))
-        ));
+        ]);
     }
 }
 $GLOBALS['xoopsTpl']->display('db:' . $GLOBALS['mydirname'] . '_rss.tpl');

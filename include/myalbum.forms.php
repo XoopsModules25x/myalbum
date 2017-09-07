@@ -18,7 +18,7 @@ function myalbum_admin_form_admission()
     $dir_text         = new XoopsFormText(_ALBM_PHOTOPATH, 'dir', 50, 255, $GLOBALS['dir4edit']);
     $dir_tray->addElement($dir_text);
     $dir_tray->addElement(new XoopsFormLabel(_ALBM_DESC_PHOTOPATH));
-    $html_configs           = array();
+    $html_configs           = [];
     $html_configs['name']   = 'desc_text';
     $html_configs['value']  = $GLOBALS['desc4edit'];
     $html_configs['rows']   = 35;
@@ -87,7 +87,7 @@ function myalbum_admin_form_groups()
 {
     global $xoopsModule;
 
-    $global_perms_array = array(
+    $global_perms_array = [
         GPERM_INSERTABLE                     => _ALBM_GPERM_G_INSERTABLE,
         GPERM_SUPERINSERT | GPERM_INSERTABLE => _ALBM_GPERM_G_SUPERINSERT,
         //      GPERM_EDITABLE => _ALBM_GPERM_G_EDITABLE ,
@@ -96,7 +96,7 @@ function myalbum_admin_form_groups()
         GPERM_SUPERDELETE | GPERM_DELETABLE  => _ALBM_GPERM_G_SUPERDELETE,
         GPERM_RATEVIEW                       => _ALBM_GPERM_G_RATEVIEW,
         GPERM_RATEVOTE | GPERM_RATEVIEW      => _ALBM_GPERM_G_RATEVOTE
-    );
+    ];
 
     $form = new MyXoopsGroupPermForm('', $xoopsModule->mid(), 'myalbum_global', _AM_ALBM_GROUPPERM_GLOBALDESC);
     foreach ($global_perms_array as $perm_id => $perm_name) {
@@ -246,7 +246,7 @@ function myalbum_user_form_submit($caller = '', $photo, $lid)
 
     $cat_select = new XoopsFormLabel(_ALBM_PHOTOCAT, $GLOBALS['cattree']->makeSelBox('cid', 'title', '--', (isset($_REQUEST['cid']) ? (int)$_REQUEST['cid'] : null), false));
 
-    $html_configs           = array();
+    $html_configs           = [];
     $html_configs['name']   = 'desc_text';
     $html_configs['value']  = $photo['description'];
     $html_configs['rows']   = 35;

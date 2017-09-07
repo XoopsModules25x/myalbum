@@ -1,6 +1,6 @@
 <?php
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 /**
  * @param $keywords
@@ -48,15 +48,15 @@ function myalbum_search($keywords, $andor, $limit, $offset, $userid)
 
     $sql    = "$sql $whr ORDER BY l.date DESC";
     $result = $xoopsDB->query($sql, $limit, $offset);
-    $ret    = array();
+    $ret    = [];
     while (false !== ($myrow = $xoopsDB->fetchArray($result))) {
-        $ret[] = array(
+        $ret[] = [
             'image' => 'assets/images/pict.gif',
             'link'  => 'photo.php?lid=' . $myrow['lid'],
             'title' => $myrow['title'],
             'time'  => $myrow['date'],
             'uid'   => $myrow['submitter']
-        );
+        ];
     }
 
     return $ret;

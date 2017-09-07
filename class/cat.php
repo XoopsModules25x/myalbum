@@ -1,5 +1,5 @@
 <?php
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 include __DIR__ . '/../include/read_configs.php';
 
@@ -55,14 +55,14 @@ class MyalbumCat extends XoopsObject
             $GLOBALS['myalbumModuleConfig'] = $configHandler->getConfigList($GLOBALS['myalbumModule']->getVar('mid'));
         }
         if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
-            return XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . str_replace(array(
+            return XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . str_replace([
                                                                                                         '_',
                                                                                                         ' ',
                                                                                                         ')',
                                                                                                         '(',
                                                                                                         '&',
                                                                                                         '#'
-                                                                                                    ), '-', $this->getVar('title')) . '/cat,' . $this->getVar('cid') . ',' . $uid . ',' . $num . ',' . $pos . ',' . $view . $GLOBALS['myalbumModuleConfig']['endofurl'];
+                                                                                                    ], '-', $this->getVar('title')) . '/cat,' . $this->getVar('cid') . ',' . $uid . ',' . $num . ',' . $pos . ',' . $view . $GLOBALS['myalbumModuleConfig']['endofurl'];
         } else {
             return XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?cid=' . $this->getVar('cid') . '&uid=' . $uid . '&num=' . $num . '&pos=' . $pos . '&view=' . $view;
         }

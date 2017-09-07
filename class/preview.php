@@ -11,7 +11,7 @@ class MyalbumPreview extends XoopsObject
         global $mod_url, $moduleDirName;
 
         $tpl = new XoopsTpl();
-        $tpl->assign(array('mod_url' => $mod_url));
+        $tpl->assign(['mod_url' => $mod_url]);
         $tpl->display("db:{$moduleDirName }_header.tpl");
     }
 
@@ -21,7 +21,7 @@ class MyalbumPreview extends XoopsObject
         global $mod_copyright, $moduleDirName;
 
         $tpl = new XoopsTpl();
-        $tpl->assign(array('mod_copyright' => $mod_copyright));
+        $tpl->assign(['mod_copyright' => $mod_copyright]);
         $tpl->display("db:{$moduleDirName }_footer.tpl");
     }
 
@@ -148,10 +148,10 @@ class MyalbumPreview extends XoopsObject
             require_once XOOPS_ROOT_PATH . '/modules/tag/include/tagbar.php';
             $tagbar = tagBar($lid, $cid);
         } else {
-            $tagbar = array();
+            $tagbar = [];
         }
 
-        return array(
+        return [
             'tagbar'          => $tagbar,
             'lid'             => $lid,
             'cid'             => $cid,
@@ -184,7 +184,7 @@ class MyalbumPreview extends XoopsObject
             'info_morephotos' => sprintf(_ALBM_MOREPHOTOS, $submitter_name),
             'cat_title'       => $GLOBALS['myts']->htmlSpecialChars($cat_title),
             'status'          => $status
-        );
+        ];
     }
 
     // Get photo's array to assign into template (light version)
@@ -236,10 +236,10 @@ class MyalbumPreview extends XoopsObject
             require_once XOOPS_ROOT_PATH . '/modules/tag/include/tagbar.php';
             $tagbar = tagBar($lid, $cid);
         } else {
-            $tagbar = array();
+            $tagbar = [];
         }
 
-        return array(
+        return [
             'tagbar'          => $tagbar,
             'lid'             => $lid,
             'cid'             => $cid,
@@ -260,7 +260,7 @@ class MyalbumPreview extends XoopsObject
             'votes'           => $votes,
             'comments'        => $comments,
             'is_normal_image' => $is_normal_image
-        );
+        ];
     }
 
     // get list of sub categories in header space
@@ -272,7 +272,7 @@ class MyalbumPreview extends XoopsObject
      */
     public static function getSubCategories($parent_id, $cattree)
     {
-        $ret      = array();
+        $ret      = [];
         $criteria = new Criteria('`status`', '0', '>');
         $criterib = new Criteria('`pid`', $parent_id, '=');
         $criterib->setSort('cid');
@@ -286,16 +286,16 @@ class MyalbumPreview extends XoopsObject
         foreach ($cats as $cid => $cat) {
             extract($cat->toArray());
             // Show first child of this category
-            $subcat = array();
+            $subcat = [];
             $arr    = $GLOBALS['cattree']->getFirstChild($cid);
             foreach ($arr as $child) {
-                $subcat[] = array(
+                $subcat[] = [
                     'cid'              => $child->getVar('cid'),
                     'title'            => $child->getVar('title'),
                     'weight'           => $child->getVar('weight'),
                     'photo_small_sum'  => MyalbumUtility::getCategoryCount($child->getVar('cid'), $criteria),
                     'number_of_subcat' => count($GLOBALS['cattree']->getFirstChild($child->getVar('cid')))
-                );
+                ];
             }
 
             // Category's banner default
@@ -304,8 +304,8 @@ class MyalbumPreview extends XoopsObject
             }
 
             // Total sum of photos
-            $cids = array();
-            foreach ($GLOBALS['cattree']->getAllChild($cid, array()) as $children) {
+            $cids = [];
+            foreach ($GLOBALS['cattree']->getAllChild($cid, []) as $children) {
                 $cids[] = $children->getVar('cid');
             }
 
@@ -313,7 +313,7 @@ class MyalbumPreview extends XoopsObject
 
             $photo_total_sum = MyalbumUtility::getTotalCount($cids, $criteria);
 
-            $ret[] = array(
+            $ret[] = [
                 'cid'             => $cid,
                 'imgurl'          => $GLOBALS['myts']->htmlSpecialChars($imgurl),
                 'photo_small_sum' => MyalbumUtility::getCategoryCount($cid, $criteria),
@@ -321,7 +321,7 @@ class MyalbumPreview extends XoopsObject
                 'title'           => $title,
                 'weight'          => $weight,
                 'subcategories'   => $subcat
-            );
+            ];
         }
 
         return $ret;
@@ -340,12 +340,12 @@ class MyalbumPreview extends XoopsObject
         $ext = substr(strrchr($preview_name, '.'), 1);
 
         if (in_array(strtolower($ext), $myalbum_normal_exts)) {
-            return array("$photos_url/$preview_name", "width='$myalbum_thumbsize'", "$photos_url/$preview_name");
+            return ["$photos_url/$preview_name", "width='$myalbum_thumbsize'", "$photos_url/$preview_name"];
         } else {
             if (file_exists("$mod_path/assets/images/icons/$ext.gif")) {
-                return array("$mod_url/assets/images/icons/mp3.gif", '', "$photos_url/$preview_name");
+                return ["$mod_url/assets/images/icons/mp3.gif", '', "$photos_url/$preview_name"];
             } else {
-                return array("$mod_url/assets/images/icons/default.gif", '', "$photos_url/$preview_name");
+                return ["$mod_url/assets/images/icons/default.gif", '', "$photos_url/$preview_name"];
             }
         }
     }

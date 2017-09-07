@@ -122,11 +122,23 @@ if (!empty($_POST['submit'])) {
     // Check if file uploaded
     if ($_FILES[$field]['tmp_name'] != '' && $_FILES[$field]['tmp_name'] !== 'none') {
         if ($GLOBALS['myalbumModuleConfig']['myalbum_canresize']) {
-            $uploader = new MyXoopsMediaUploader($GLOBALS['photos_dir'], explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']), $GLOBALS['myalbumModuleConfig']['myalbum_fsize'], null, null,
-                                                 explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedexts']));
+            $uploader = new MyXoopsMediaUploader(
+                $GLOBALS['photos_dir'],
+                explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']),
+                $GLOBALS['myalbumModuleConfig']['myalbum_fsize'],
+                null,
+                null,
+                                                 explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedexts'])
+            );
         } else {
-            $uploader = new MyXoopsMediaUploader($GLOBALS['photos_dir'], explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']), $GLOBALS['myalbumModuleConfig']['myalbum_fsize'], $GLOBALS['myalbumModuleConfig']['myalbum_width'],
-                                                 $GLOBALS['myalbumModuleConfig']['myalbum_height'], explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedexts']));
+            $uploader = new MyXoopsMediaUploader(
+                $GLOBALS['photos_dir'],
+                explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']),
+                $GLOBALS['myalbumModuleConfig']['myalbum_fsize'],
+                $GLOBALS['myalbumModuleConfig']['myalbum_width'],
+                                                 $GLOBALS['myalbumModuleConfig']['myalbum_height'],
+                explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedexts'])
+            );
         }
 
         $uploader->setPrefix('tmp_');
@@ -151,7 +163,7 @@ if (!empty($_POST['submit'])) {
             MyalbumUtility::editPhoto($GLOBALS['photos_dir'] . "/$tmp_name", $GLOBALS['photos_dir'] . "/$lid.$ext");
             $dim = getimagesize($GLOBALS['photos_dir'] . "/$lid.$ext");
             if (!$dim) {
-                $dim = array(0, 0);
+                $dim = [0, 0];
             }
 
             if (!MyalbumUtility::createThumb($GLOBALS['photos_dir'] . "/$lid.$ext", $lid, $ext)) {
@@ -220,7 +232,7 @@ $cat_tray->addElement($cat_select);
 $cat_tray->addElement($cat_link);
 
 $text                   = $textHandler->get($lid);
-$html_configs           = array();
+$html_configs           = [];
 $html_configs['name']   = 'desc_text';
 $html_configs['value']  = $text->getVar('description');
 $html_configs['rows']   = 35;
@@ -245,7 +257,7 @@ $op_hidden      = new XoopsFormHidden('op', 'submit');
 $counter_hidden = new XoopsFormHidden('fieldCounter', 1);
 $status_hidden  = new XoopsFormHidden('old_status', $photo_for_tpl['status']);
 $valid_or_not   = empty($photo['status']) ? 0 : 1;
-$valid_box      = new XoopsFormCheckBox(_ALBM_VALIDPHOTO, 'valid', array($valid_or_not));
+$valid_box      = new XoopsFormCheckBox(_ALBM_VALIDPHOTO, 'valid', [$valid_or_not]);
 $valid_box->addOption('1', '&nbsp;');
 
 $submit_button  = new XoopsFormButton('', 'submit', _SUBMIT, 'submit');

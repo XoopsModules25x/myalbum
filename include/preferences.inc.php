@@ -73,8 +73,13 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                     $myts = MyTextSanitizer::getInstance();
                     if ($config[$i]->getVar('conf_valuetype') === 'array') {
                         // this is exceptional.. only when value type is arrayneed a smarter way for this
-                        $ele = ($config[$i]->getVar('conf_value') != '') ? new XoopsFormTextArea($title, $config[$i]->getVar('conf_name'), $myts->htmlspecialchars(implode('|', $config[$i]->getConfValueForOutput())), 5,
-                                                                                                 50) : new XoopsFormTextArea($title, $config[$i]->getVar('conf_name'), '', 5, 50);
+                        $ele = ($config[$i]->getVar('conf_value') != '') ? new XoopsFormTextArea(
+                            $title,
+                            $config[$i]->getVar('conf_name'),
+                            $myts->htmlspecialchars(implode('|', $config[$i]->getConfValueForOutput())),
+                            5,
+                                                                                                 50
+                        ) : new XoopsFormTextArea($title, $config[$i]->getVar('conf_name'), '', 5, 50);
                     } else {
                         $ele = new XoopsFormTextArea($title, $config[$i]->getVar('conf_name'), $myts->htmlspecialchars($config[$i]->getConfValueForOutput()), 5, 50);
                     }
@@ -104,12 +109,15 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                     break;
                 case 'theme':
                 case 'theme_multi':
-                    $ele     = ($config[$i]->getVar('conf_formtype') !== 'theme_multi') ? new XoopsFormSelect($title, $config[$i]->getVar('conf_name'), $config[$i]->getConfValueForOutput()) : new XoopsFormSelect($title,
+                    $ele     = ($config[$i]->getVar('conf_formtype') !== 'theme_multi') ? new XoopsFormSelect($title, $config[$i]->getVar('conf_name'), $config[$i]->getConfValueForOutput()) : new XoopsFormSelect(
+                        $title,
                                                                                                                                                                                                                    $config[$i]->getVar('conf_name'),
                                                                                                                                                                                                                    $config[$i]->getConfValueForOutput(),
-                                                                                                                                                                                                                   5, true);
+                                                                                                                                                                                                                   5,
+                        true
+                    );
                     $handle  = opendir(XOOPS_THEME_PATH . '/');
-                    $dirlist = array();
+                    $dirlist = [];
                     while (false !== ($file = readdir($handle))) {
                         if (is_dir(XOOPS_THEME_PATH . '/' . $file) && !preg_match("/^[.]{1,2}$/", $file)
                             && strtolower($file) !== 'cvs'
@@ -176,7 +184,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                     $moduleHandler = xoops_getHandler('module');
                     $modules       = $moduleHandler->getObjects(new Criteria('hasmain', 1), true);
                     $currrent_val  = $config[$i]->getConfValueForOutput();
-                    $cache_options = array(
+                    $cache_options = [
                         '0'      => _NOCACHE,
                         '30'     => sprintf(_SECONDS, 30),
                         '60'     => _MINUTE,
@@ -187,7 +195,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                         '86400'  => _DAY,
                         '259200' => sprintf(_DAYS, 3),
                         '604800' => _WEEK
-                    );
+                    ];
                     if (count($modules) > 0) {
                         $ele = new XoopsFormElementTray($title, '<br>');
                         foreach (array_keys($modules) as $mid) {
@@ -203,7 +211,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                     break;
                 case 'site_cache':
                     $ele = new XoopsFormSelect($title, $config[$i]->getVar('conf_name'), $config[$i]->getConfValueForOutput());
-                    $ele->addOptionArray(array(
+                    $ele->addOptionArray([
                                              '0'      => _NOCACHE,
                                              '30'     => sprintf(_SECONDS, 30),
                                              '60'     => _MINUTE,
@@ -214,7 +222,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                                              '86400'  => _DAY,
                                              '259200' => sprintf(_DAYS, 3),
                                              '604800' => _WEEK
-                                         ));
+                                         ]);
                     break;
                 case 'password':
                     $myts = MyTextSanitizer::getInstance();
@@ -286,8 +294,13 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                     $myts = MyTextSanitizer::getInstance();
                     if ($config[$i]->getVar('conf_valuetype') === 'array') {
                         // this is exceptional.. only when value type is arrayneed a smarter way for this
-                        $ele = ($config[$i]->getVar('conf_value') != '') ? new XoopsFormTextArea($title, $config[$i]->getVar('conf_name'), $myts->htmlspecialchars(implode('|', $config[$i]->getConfValueForOutput())), 5,
-                                                                                                 50) : new XoopsFormTextArea($title, $config[$i]->getVar('conf_name'), '', 5, 50);
+                        $ele = ($config[$i]->getVar('conf_value') != '') ? new XoopsFormTextArea(
+                            $title,
+                            $config[$i]->getVar('conf_name'),
+                            $myts->htmlspecialchars(implode('|', $config[$i]->getConfValueForOutput())),
+                            5,
+                                                                                                 50
+                        ) : new XoopsFormTextArea($title, $config[$i]->getVar('conf_name'), '', 5, 50);
                     } else {
                         $ele = new XoopsFormTextArea($title, $config[$i]->getVar('conf_name'), $myts->htmlspecialchars($config[$i]->getConfValueForOutput()), 5, 50);
                     }

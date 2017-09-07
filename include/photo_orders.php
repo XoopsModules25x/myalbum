@@ -1,18 +1,18 @@
 <?php
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
-$myalbum_orders = array(
-    'cidA'    => array('cid ASC', _ALBM_CIDASC),
-    'lidA'    => array('lid ASC', _ALBM_LIDASC),
-    'titleA'  => array('title ASC', _ALBM_TITLEATOZ),
-    'dateA'   => array('date ASC', _ALBM_DATEOLD),
-    'hitsA'   => array('hits ASC', _ALBM_POPULARITYLTOM),
-    'ratingA' => array('rating ASC', _ALBM_RATINGLTOH),
-    'cidD'    => array('cid DESC', _ALBM_CIDDESC),
-    'lidD'    => array('lid DESC', _ALBM_LIDDESC),
-    'titleD'  => array('title DESC', _ALBM_TITLEZTOA),
-    'dateD'   => array('date DESC', _ALBM_DATENEW),
-    'hitsD'   => array('hits DESC', _ALBM_POPULARITYMTOL),
-    'ratingD' => array('rating DESC', _ALBM_RATINGHTOL)
-);
+$myalbum_orders = [
+    'cidA'    => ['cid ASC', _ALBM_CIDASC],
+    'lidA'    => ['lid ASC', _ALBM_LIDASC],
+    'titleA'  => ['title ASC', _ALBM_TITLEATOZ],
+    'dateA'   => ['date ASC', _ALBM_DATEOLD],
+    'hitsA'   => ['hits ASC', _ALBM_POPULARITYLTOM],
+    'ratingA' => ['rating ASC', _ALBM_RATINGLTOH],
+    'cidD'    => ['cid DESC', _ALBM_CIDDESC],
+    'lidD'    => ['lid DESC', _ALBM_LIDDESC],
+    'titleD'  => ['title DESC', _ALBM_TITLEZTOA],
+    'dateD'   => ['date DESC', _ALBM_DATENEW],
+    'hitsD'   => ['hits DESC', _ALBM_POPULARITYMTOL],
+    'ratingD' => ['rating DESC', _ALBM_RATINGHTOL]
+];

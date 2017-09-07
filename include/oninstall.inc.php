@@ -1,6 +1,6 @@
 <?php
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 $moduleDirName = $_SESSION['myalbum_mydirname'];
 require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/language/english/myalbum_constants.php";

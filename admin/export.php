@@ -35,7 +35,7 @@ if (!empty($_POST['imagemanager_export']) && !empty($_POST['imgcat_id']) && !emp
     list($imgcat_storetype, $imgcat_maxsize) = $xoopsDB->fetchRow($crs);
 
     // mime type look up
-    $mime_types = array('gif' => 'image/gif', 'png' => 'image/png', 'jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg');
+    $mime_types = ['gif' => 'image/gif', 'png' => 'image/png', 'jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg'];
 
     // INSERT loop
     $srs          = $xoopsDB->query("SELECT lid,ext,title,date,status FROM $src_table_photos WHERE cid='$src_cid'");

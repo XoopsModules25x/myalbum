@@ -1,12 +1,14 @@
 <?php
 
-if( ! defined( 'XOOPS_ROOT_PATH' ) ) exit ;
+defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
-$mydirname = basename( dirname( dirname( __FILE__ ) ) ) ;
-if( ! preg_match( '/^(\D+)(\d*)$/' , $mydirname , $regs ) ) echo ( "invalid dirname: " . htmlspecialchars( $mydirname ) ) ;
-$mydirnumber = $regs[2] === '' ? '' : intval( $regs[2] ) ;
+$mydirname = basename(dirname(dirname(__FILE__))) ;
+if (! preg_match('/^(\D+)(\d*)$/', $mydirname, $regs)) {
+    echo("invalid dirname: " . htmlspecialchars($mydirname)) ;
+}
+$mydirnumber = $regs[2] === '' ? '' : intval($regs[2]) ;
 
-eval( '
+eval('
 
 function b_sitemap_'.$mydirname.'(){
 	$xoopsDB = Database::getInstance();
@@ -16,4 +18,4 @@ function b_sitemap_'.$mydirname.'(){
 	return $block;
 }
 
-' ) ;
+') ;

@@ -1,6 +1,6 @@
 <?php
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 $moduleDirName = basename(dirname(__DIR__));
 
@@ -22,7 +22,7 @@ if (!function_exists('b_waiting_myalbum_base')) {
     function b_waiting_myalbum_base($moduleDirName)
     {
         $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
-        $block   = array();
+        $block   = [];
 
         // get $mydirnumber
         if (!preg_match('/^(\D+)(\d*)$/', $moduleDirName, $regs)) {

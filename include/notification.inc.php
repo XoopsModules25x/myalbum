@@ -17,7 +17,7 @@
  * @author       XOOPS Development Team
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 $moduleDirName = basename(dirname(__DIR__));
 if (!preg_match('/^myalbum\d*$/', $moduleDirName)) {

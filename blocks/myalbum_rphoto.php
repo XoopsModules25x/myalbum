@@ -51,7 +51,7 @@ if (!defined('MYALBUM_BLOCK_RPHOTO_INCLUDED')) {
         // $whr_ext = "ext IN ('" . implode( "','" , $myalbum_normal_exts ) . "')" ;
         $whr_ext = '1';
 
-        $block           = array();
+        $block           = [];
         $GLOBALS['myts'] = MyTextSanitizer::getInstance();
         // Get number of photo
         $result = $xoopsDB->query('SELECT count(lid) FROM ' . $xoopsDB->prefix($table_photos) . " WHERE status>0 AND $whr_cat AND $whr_ext");
@@ -64,8 +64,8 @@ if (!defined('MYALBUM_BLOCK_RPHOTO_INCLUDED')) {
             $result = $xoopsDB->query('SELECT lid , cid , title , ext , res_x , res_y , submitter , status , date AS unixtime , hits , rating , votes , comments FROM ' . $xoopsDB->prefix($table_photos) . " WHERE status>0 AND $whr_cat AND $whr_ext");
         } else {
             $result   = $xoopsDB->query('SELECT lid FROM ' . $xoopsDB->prefix($table_photos) . " WHERE status>0 AND $whr_cat AND $whr_ext");
-            $lids     = array();
-            $sel_lids = array();
+            $lids     = [];
+            $sel_lids = [];
             while (false !== (list($lid) = $xoopsDB->fetchRow($result))) {
                 $lids[] = $lid;
             }

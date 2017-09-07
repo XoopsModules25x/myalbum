@@ -25,7 +25,7 @@ if ($action === 'insert') {
 
     // newly insert
     $sql  = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix($table_cat) . ' SET ';
-    $cols = array('pid' => 'I:N:0', 'title' => '50:E:1', 'imgurl' => '150:E:0', 'weight' => 'I:N:0');
+    $cols = ['pid' => 'I:N:0', 'title' => '50:E:1', 'imgurl' => '150:E:0', 'weight' => 'I:N:0'];
     $sql .= MyalbumUtility::mysqliGetSqlSet($cols);
     $GLOBALS['xoopsDB']->query($sql) || die('DB Error: insert category');
 
@@ -60,7 +60,7 @@ if ($action === 'insert') {
 
     // update
     $sql  = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table_cat) . ' SET ';
-    $cols = array('pid' => 'I:N:0', 'title' => '50:E:1', 'imgurl' => '150:E:0', 'weight' => 'I:N:0');
+    $cols = ['pid' => 'I:N:0', 'title' => '50:E:1', 'imgurl' => '150:E:0', 'weight' => 'I:N:0'];
     $sql .= MyalbumUtility::mysqliGetSqlSet($cols) . " WHERE cid='$cid'";
     $GLOBALS['xoopsDB']->query($sql) || die('DB Error: update category');
     redirect_header('main.php', 1, _AM_CAT_UPDATED);
@@ -118,13 +118,13 @@ if ($disp === 'edit' && $cid > 0) {
 } elseif ($disp === 'new') {
 
     // New
-    $cat_array = array('cid' => 0, 'pid' => $cid, 'weight' => 0, 'title' => '', 'imgurl' => 'http://');
+    $cat_array = ['cid' => 0, 'pid' => $cid, 'weight' => 0, 'title' => '', 'imgurl' => 'http://'];
     echo MyalbumForms::getAdminFormDisplayEdit($cat_array, _AM_CAT_MENU_NEW, 'insert');
 } else {
 
     // Listing
-    $live_cids = array(0 => '0');
-    foreach ($cattree->getAllChild($cid, array()) as $child) {
+    $live_cids = [0 => '0'];
+    foreach ($cattree->getAllChild($cid, []) as $child) {
         $cat_tree_array[$child->getVar('cid')] = $child->toArray();
         $live_cids[$child->getVar('cid')]      = $child->getVar('cid');
     }

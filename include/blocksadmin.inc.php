@@ -104,9 +104,9 @@ if ($op === 'order') {
             $visible[$i] = 1;
         }
 
-        $bmodule[$i] = (isset($bmodule[$i]) && is_array($bmodule[$i])) ? $bmodule[$i] : array(-1);
+        $bmodule[$i] = (isset($bmodule[$i]) && is_array($bmodule[$i])) ? $bmodule[$i] : [-1];
 
-        myblocksadmin_update_block($i, $side[$i], $weight[$i], $visible[$i], $title[$i], '', '', $bcachetime[$i], $bmodule[$i], array());
+        myblocksadmin_update_block($i, $side[$i], $weight[$i], $visible[$i], $title[$i], '', '', $bcachetime[$i], $bmodule[$i], []);
 
         //      if ( $oldweight[$i] != $weight[$i] || $oldvisible[$i] != $visible[$i] || $oldside[$i] != $side[$i] )
         //      order_block($bid[$i], $weight[$i], $visible[$i], $side[$i]); GIJ
@@ -122,10 +122,10 @@ if ($op === 'save') {
 
 if ($op === 'update') {
     $bcachetime = isset($bcachetime) ? (int)$bcachetime : 0;
-    $options    = isset($options) ? $options : array();
+    $options    = isset($options) ? $options : [];
     $bcontent   = isset($bcontent) ? $bcontent : '';
     $bctype     = isset($bctype) ? $bctype : '';
-    $bmodule    = (isset($bmodule) && is_array($bmodule)) ? $bmodule : array(-1); // GIJ +
+    $bmodule    = (isset($bmodule) && is_array($bmodule)) ? $bmodule : [-1]; // GIJ +
     $msg        = myblocksadmin_update_block($bid, $bside, $bweight, $bvisible, $btitle, $bcontent, $bctype, $bcachetime, $bmodule, $options); // GIJ c
     redirect_header('myblocksadmin.php', 1, $msg); // GIJ +
 }
@@ -183,7 +183,7 @@ function myblocksadmin_update_block(
     $bctype,
     $bcachetime,
     $bmodule,
-    $options = array()
+    $options = []
 ) {
     global $xoopsConfig;
     if (empty($bmodule)) {

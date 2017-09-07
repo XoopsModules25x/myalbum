@@ -54,7 +54,7 @@ if (!empty($_POST['submit'])) {
     $record_counter = 0;
     while (false !== (list($lid, $ext, $w, $h) = $xoopsDB->fetchRow($result))) {
         ++$record_counter;
-        echo ($record_counter + $start - 1) . ') ';
+        echo($record_counter + $start - 1) . ') ';
         printf(_AM_FMT_CHECKING, "$lid.$ext");
 
         // Check if the main image exists
