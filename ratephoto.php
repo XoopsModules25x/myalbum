@@ -31,7 +31,7 @@ if (isset($_POST['submit'])) {
         redirect_header($photo_obj->getRateURL(), 4, _ALBM_NORATING);
     }
 
-    if ($ratinguser != 0) {
+    if (0 != $ratinguser) {
 
         // Check if Photo POSTER is voting
         $criteria = new CriteriaCompo(new Criteria('`lid`', $lid, '='));

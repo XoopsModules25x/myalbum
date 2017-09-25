@@ -13,7 +13,7 @@ if (!defined('MYALBUM_BLOCK_TOPHITS_INCLUDED')) {
         global $xoopsDB, $table_photos, $mod_url, $myalbum_normal_exts, $myts;
 
         // For myAlbum-P < 2.70
-        if (strncmp($options[0], 'myalbum', 7) != 0) {
+        if (0 != strncmp($options[0], 'myalbum', 7)) {
             $title_max_length = (int)$options[1];
             $photos_num       = (int)$options[0];
             $moduleDirName    = 'myalbum';
@@ -96,7 +96,7 @@ if (!defined('MYALBUM_BLOCK_TOPHITS_INCLUDED')) {
         global $xoopsDB;
 
         // For myAlbum-P < 2.70
-        if (strncmp($options[0], 'myalbum', 7) != 0) {
+        if (0 != strncmp($options[0], 'myalbum', 7)) {
             $title_max_length = (int)$options[1];
             $photos_num       = (int)$options[0];
             $moduleDirName    = 'myalbum';

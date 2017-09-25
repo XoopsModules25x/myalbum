@@ -205,7 +205,7 @@ class MyalbumPhotos extends XoopsObject
      */
     public function toArray($justVar = false)
     {
-        if ($justVar === true) {
+        if (true === $justVar) {
             return parent::toArray();
         }
         /** @var MyalbumCatHandler $catHandler */

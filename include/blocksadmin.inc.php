@@ -19,7 +19,7 @@ if (isset($_POST)) {
 }
 
 if (isset($_GET['op'])) {
-    if ($_GET['op'] === 'edit' || $_GET['op'] === 'delete' || $_GET['op'] === 'delete_ok' || $_GET['op'] === 'clone' || $_GET['op'] === 'previewpopup') {
+    if ('edit' === $_GET['op'] || 'delete' === $_GET['op'] || 'delete_ok' === $_GET['op'] || 'clone' === $_GET['op'] || 'previewpopup' === $_GET['op']) {
         $op  = $_GET['op'];
         $bid = isset($_GET['bid']) ? (int)$_GET['bid'] : 0;
     }
@@ -36,7 +36,7 @@ if (isset($previewblock)) {
         $myblock             = new XoopsBlock($bid);
         $block['name']       = $myblock->getVar('name');
     } else {
-        if ($op === 'save') {
+        if ('save' === $op) {
             $block['form_title'] = _AM_SYSTEM_BLOCKS_ADDBLOCK;
         } else {
             $block['form_title'] = _AM_SYSTEM_BLOCKS_CLONEBLOCK;
@@ -79,7 +79,7 @@ if (isset($previewblock)) {
     exit();
 }
 
-if ($op === 'previewpopup') {
+if ('previewpopup' === $op) {
     $file = str_replace('..', '', XOOPS_CACHE_PATH . '/' . trim($_GET['file']));
     if (file_exists($file)) {
         include $file;
@@ -88,14 +88,14 @@ if ($op === 'previewpopup') {
     exit();
 }
 
-if ($op === 'list') {
+if ('list' === $op) {
     xoops_cp_header();
     list_blocks();
     xoops_cp_footer();
     exit();
 }
 
-if ($op === 'order') {
+if ('order' === $op) {
     foreach (array_keys($bid) as $i) {
         if ($side[$i] < 0) {
             $visible[$i] = 0;
@@ -115,12 +115,12 @@ if ($op === 'order') {
     redirect_header('myblocksadmin.php', 1, _AM_DBUPDATED);
 }
 
-if ($op === 'save') {
+if ('save' === $op) {
     save_block($bside, $bweight, $bvisible, $btitle, $bcontent, $bctype, $bmodule, $bcachetime, $domains);
     exit();
 }
 
-if ($op === 'update') {
+if ('update' === $op) {
     $bcachetime = isset($bcachetime) ? (int)$bcachetime : 0;
     $options    = isset($options) ? $options : [];
     $bcontent   = isset($bcontent) ? $bcontent : '';
@@ -130,19 +130,19 @@ if ($op === 'update') {
     redirect_header('myblocksadmin.php', 1, $msg); // GIJ +
 }
 
-if ($op === 'delete_ok') {
+if ('delete_ok' === $op) {
     delete_block_ok($bid);
     exit();
 }
 
-if ($op === 'delete') {
+if ('delete' === $op) {
     xoops_cp_header();
     delete_block($bid);
     xoops_cp_footer();
     exit();
 }
 
-if ($op === 'edit') {
+if ('edit' === $op) {
     xoops_cp_header();
     edit_block($bid);
     xoops_cp_footer();
@@ -206,7 +206,7 @@ function myblocksadmin_update_block(
         $options = implode('|', $options);
         $myblock->setVar('options', $options);
     }
-    if ($myblock->getVar('block_type') === 'C') {
+    if ('C' === $myblock->getVar('block_type')) {
         switch ($bctype) {
             case 'H':
                 $name = _AM_SYSTEM_BLOCKS_CUSTOMHTML;
@@ -227,7 +227,7 @@ function myblocksadmin_update_block(
         $myblock->setVar('c_type', 'H');
     }
     $msg = _AM_DBUPDATED;
-    if ($myblock->store() !== false) {
+    if (false !== $myblock->store()) {
         $db  = XoopsDatabaseFactory::getDatabaseConnection();
         $sql = sprintf('DELETE FROM %s WHERE block_id = %u', $db->prefix('block_module_link'), $bid);
         $db->query($sql);
@@ -238,7 +238,7 @@ function myblocksadmin_update_block(
         require_once XOOPS_ROOT_PATH . '/class/template.php';
         $xoopsTpl = new XoopsTpl();
         $xoopsTpl->xoops_setCaching(2);
-        if ($myblock->getVar('template') != '') {
+        if ('' != $myblock->getVar('template')) {
             if ($xoopsTpl->is_cached('db:' . $myblock->getVar('template'))) {
                 if (!$xoopsTpl->clear_cache('db:' . $myblock->getVar('template'))) {
                     $msg = 'Unable to clear cache for block ID' . $bid;

@@ -6,7 +6,7 @@ $mydirname = basename(dirname(dirname(__FILE__))) ;
 if (! preg_match('/^(\D+)(\d*)$/', $mydirname, $regs)) {
     echo("invalid dirname: " . htmlspecialchars($mydirname)) ;
 }
-$mydirnumber = $regs[2] === '' ? '' : intval($regs[2]) ;
+$mydirnumber = '' === $regs[2] ? '' : intval($regs[2]) ;
 
 eval('
 

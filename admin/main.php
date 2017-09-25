@@ -16,7 +16,7 @@ $action = isset($_POST['action']) ? $_POST['action'] : '';
 $disp   = isset($_GET['disp']) ? $_GET['disp'] : '';
 $cid    = isset($_GET['cid']) ? (int)$_GET['cid'] : 0;
 
-if ($action === 'insert') {
+if ('insert' === $action) {
 
     // anti-CSRF (Double Check)
     if (!XoopsSecurity::checkReferer()) {
@@ -36,7 +36,7 @@ if ($action === 'insert') {
     }
 
     redirect_header('main.php', 1, _AM_CAT_INSERTED);
-} elseif ($action === 'update' && !empty($_POST['cid'])) {
+} elseif ('update' === $action && !empty($_POST['cid'])) {
 
     // anti-CSRF (Double Check)
     if (!XoopsSecurity::checkReferer()) {
@@ -47,7 +47,7 @@ if ($action === 'insert') {
     $pid = (int)$_POST['pid'];
 
     // Check if new pid was a child of cid
-    if ($pid != 0) {
+    if (0 != $pid) {
         foreach ($cattree->getAllChild($cid) as $child) {
             $children[$child->getVar('cid')] = $child->getVar('cid');
         }
@@ -108,14 +108,14 @@ if (!is_object($xoopsModule)) {
 $adminObject = \Xmf\Module\Admin::getInstance();
 $adminObject->displayNavigation(basename(__FILE__));
 
-if ($disp === 'edit' && $cid > 0) {
+if ('edit' === $disp && $cid > 0) {
 
     // Editing
     $sql       = 'SELECT cid,pid,weight,title,imgurl FROM ' . $GLOBALS['xoopsDB']->prefix($table_cat) . " WHERE cid='$cid'";
     $crs       = $GLOBALS['xoopsDB']->query($sql);
     $cat_array = $GLOBALS['xoopsDB']->fetchArray($crs);
     echo MyalbumForms::getAdminFormDisplayEdit($cat_array, _AM_CAT_MENU_EDIT, 'update');
-} elseif ($disp === 'new') {
+} elseif ('new' === $disp) {
 
     // New
     $cat_array = ['cid' => 0, 'pid' => $cid, 'weight' => 0, 'title' => '', 'imgurl' => 'http://'];
@@ -162,7 +162,7 @@ if ($disp === 'edit' && $cid > 0) {
     $oddeven = 'odd';
     if (isset($cat_tree_array)) {
         foreach ($cat_tree_array as $cid => $cat_node) {
-            $oddeven = $oddeven === 'odd' ? 'even' : 'odd';
+            $oddeven = 'odd' === $oddeven ? 'even' : 'odd';
             extract($cat_node);
             $prefix      = '';
             $prefix      = str_repeat('&nbsp;--', $catHandler->prefixDepth($cid, 0));
@@ -170,7 +170,7 @@ if ($disp === 'edit' && $cid > 0) {
             $del_confirm = 'confirm("' . sprintf(_AM_CAT_FMT_CATDELCONFIRM, $title) . '")';
             $criteria    = new Criteria('`cid`', $cid);
             $photos_num  = $photosHandler->getCount($criteria);
-            if ($imgurl && $imgurl !== 'http://') {
+            if ($imgurl && 'http://' !== $imgurl) {
                 $imgsrc4show = $GLOBALS['myts']->htmlSpecialChars($imgurl);
             } else {
                 $imgsrc4show = '../assets/images/pixel_trans.gif';

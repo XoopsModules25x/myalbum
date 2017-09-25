@@ -14,7 +14,7 @@ $num     = empty($_GET['num']) ? 20 : (int)$_GET['num'];
 $txt     = empty($_GET['txt']) ? '' : $GLOBALS['myts']->stripSlashesGPC(trim($_GET['txt']));
 
 // Database actions
-if (!empty($_POST['action']) && $_POST['action'] === 'delete' && isset($_POST['ids']) && is_array($_POST['ids'])) {
+if (!empty($_POST['action']) && 'delete' === $_POST['action'] && isset($_POST['ids']) && is_array($_POST['ids'])) {
 
     // remove records
 
@@ -93,12 +93,12 @@ if (!empty($_POST['action']) && $_POST['action'] === 'delete' && isset($_POST['i
 $whr = '1 ';
 
 // Limitation by category's id
-if ($cid != 0) {
+if (0 != $cid) {
     $whr .= "AND l.cid=$cid ";
 }
 
 // Search by free word
-if ($txt != '') {
+if ('' != $txt) {
     $keywords = explode(' ', $txt);
     foreach ($keywords as $keyword) {
         $whr .= "AND (CONCAT( l.title , l.ext , c.title ) LIKE '%" . addslashes($keyword) . "%') ";
@@ -210,7 +210,7 @@ while (false !== (list($lid, $title, $submitter, $ext, $w, $h, $status) = $xoops
     $editbutton     = "<a href='" . XOOPS_URL . "/modules/$moduleDirName/editphoto.php?lid=$lid' target='_blank'><img src='" . $pathIcon16 . "/edit.png'  border='0' alt='" . _ALBM_EDITTHISPHOTO . "' title='" . _ALBM_EDITTHISPHOTO . "'></a>  ";
     $deadlinkbutton = is_readable("$photos_dir/{$lid}.{$ext}") ? '' : "<img src='" . XOOPS_URL . "/modules/$moduleDirName/assets/images/deadlink.gif' border='0' alt='" . _ALBM_AM_DEADLINKMAINPHOTO . "' title='" . _ALBM_AM_DEADLINKMAINPHOTO . "'>";
 
-    if ($col == 0) {
+    if (0 == $col) {
         echo "\t<tr>\n";
     }
 

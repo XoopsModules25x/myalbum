@@ -21,7 +21,7 @@ $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
 /** @var MyalbumCatHandler $catHandler */
 $catHandler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
 if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
-    if ($cid == 0) {
+    if (0 == $cid) {
         $url = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/cat,' . $cid . ',' . $uid . ',' . $num . ',' . $pos . ',' . $view . '.html';
     } else {
         $cat = $catHandler->get($cid);
@@ -48,7 +48,7 @@ if (isset($_GET['orderby']) && isset($myalbum_orders[$_GET['orderby']])) {
     }
 }
 
-if ($view === 'table') {
+if ('table' === $view) {
     $GLOBALS['xoopsOption']['template_main'] = "{$moduleDirName }_viewcat_table.tpl";
     $function_assigning                      = 'MyalbumPreview::getArrayForPhotoAssignLight';
 } else {
@@ -101,7 +101,7 @@ if ($cid > 0) {
     $sub_title = preg_replace('/^(.+)folder16/', '$1folder_open', $sub_title);
     $GLOBALS['xoopsTpl']->assign('album_sub_title', $sub_title);
     $criteria->add(new Criteria('`cid`', $cid));
-} elseif ($uid != 0) {
+} elseif (0 != $uid) {
 
     // This means 'my photo'
     if ($uid < 0) {

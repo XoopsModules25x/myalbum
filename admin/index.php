@@ -43,10 +43,10 @@ if (!defined('PATH_SEPARATOR')) {
 }
 
 // Check the path to binaries of imaging packages
-if (trim($myalbum_imagickpath) !== '' && substr($myalbum_imagickpath, -1) !== '/') {
+if ('' !== trim($myalbum_imagickpath) && '/' !== substr($myalbum_imagickpath, -1)) {
     $myalbum_imagickpath .= '/';
 }
-if (trim($myalbum_netpbmpath) !== '' && substr($myalbum_netpbmpath, -1) !== '/') {
+if ('' !== trim($myalbum_netpbmpath) && '/' !== substr($myalbum_netpbmpath, -1)) {
     $myalbum_netpbmpath .= '/';
 }
 
@@ -77,12 +77,12 @@ $rs                   = ini_get('file_uploads');
 $tmp_dirs             = explode(PATH_SEPARATOR, ini_get('upload_tmp_dir'));
 $error_upload_tmp_dir = false;
 foreach ($tmp_dirs as $dir) {
-    if ($dir !== '' && (!is_writable($dir) || !is_readable($dir)) && $error_upload_tmp_dir === false) {
+    if ('' !== $dir && (!is_writable($dir) || !is_readable($dir)) && false === $error_upload_tmp_dir) {
         $adminObject->addInfoBoxLine($title, "<label>'upload_tmp_dir': %s</label>", "Error: upload_tmp_dir ($dir) is not writable nor readable", 'Red');
         $error_upload_tmp_dir = true;
     }
 }
-if ($error_upload_tmp_dir === false) {
+if (false === $error_upload_tmp_dir) {
     $adminObject->addInfoBoxLine($title, "<label>'upload_tmp_dir': %s</label>", 'ok - ' . ini_get('upload_tmp_dir'), 'Green');
 }
 
@@ -101,7 +101,7 @@ $adminObject->addInfoBoxLine($title, '<label>' . _AM_MB_COMMENTSTABLE . ': ' . $
 // Config
 $title = _AM_H4_CONFIG;
 $adminObject->addInfoBox($title);
-if ($myalbum_imagingpipe == PIPEID_IMAGICK) {
+if (PIPEID_IMAGICK == $myalbum_imagingpipe) {
     $adminObject->addInfoBoxLine($title, '<label>' . _AM_MB_PIPEFORIMAGES . ': ImageMagick : %s</label>', "Path: $myalbum_imagickpath", 'Brown');
     exec("{$myalbum_imagickpath}convert --help", $ret_array);
     if (count($ret_array) < 1) {
@@ -109,7 +109,7 @@ if ($myalbum_imagingpipe == PIPEID_IMAGICK) {
     } else {
         $adminObject->addInfoBoxLine($title, '<label>' . _AM_MB_PIPEFORIMAGES . ': ImageMagick : %s</label>', "{$ret_array[0]} &nbsp; Ok", 'Green');
     }
-} elseif ($myalbum_imagingpipe == PIPEID_NETPBM) {
+} elseif (PIPEID_NETPBM == $myalbum_imagingpipe) {
     $adminObject->addInfoBoxLine($title, '<label>' . _AM_MB_PIPEFORIMAGES . ': NetPBM : %s</label>', "Path: $myalbum_netpbmpath", 'Brown');
     foreach ($netpbm_pipes as $pipe) {
         $ret_array = [];
@@ -139,9 +139,9 @@ if ($myalbum_imagingpipe == PIPEID_IMAGICK) {
 $title = _AM_H4_DIRECTORIES;
 $adminObject->addInfoBox($title);
 
-if (substr($myalbum_photospath, -1) === '/') {
+if ('/' === substr($myalbum_photospath, -1)) {
     $adminObject->addInfoBoxLine($title, '<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_photospath %s</label>", _AM_ERR_LASTCHAR, 'Red');
-} elseif (ord($myalbum_photospath) != 0x2f) {
+} elseif (0x2f != ord($myalbum_photospath)) {
     $adminObject->addInfoBoxLine($title, '<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_photospath %s</label>", _AM_ERR_FIRSTCHAR, 'Red');
 } elseif (!is_dir($GLOBALS['photos_dir'])) {
     //    if ($safe_mode_flag) {
@@ -162,9 +162,9 @@ if (substr($myalbum_photospath, -1) === '/') {
 
 // thumbs
 if ($myalbum_makethumb) {
-    if (substr($myalbum_thumbspath, -1) === '/') {
+    if ('/' === substr($myalbum_thumbspath, -1)) {
         $adminObject->addInfoBoxLine($title, '<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_thumbspath %s</label>", _AM_ERR_LASTCHAR, 'Red');
-    } elseif (ord($myalbum_thumbspath) != 0x2f) {
+    } elseif (0x2f != ord($myalbum_thumbspath)) {
         $adminObject->addInfoBoxLine($title, '<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_thumbspath %s</label>", _AM_ERR_FIRSTCHAR, 'Red');
     } elseif (!is_dir($GLOBALS['thumbs_dir'])) {
         //        if ($safe_mode_flag) {

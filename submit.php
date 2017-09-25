@@ -97,19 +97,19 @@ if (!empty($_POST['submit'])) {
 
     // Check if upload file name specified
     $field = $_POST['xoops_upload_file'][0];
-    if (empty($field) || $field == '') {
+    if (empty($field) || '' == $field) {
         die('UPLOAD error: file name not specified');
     }
     $field = $_POST['xoops_upload_file'][0];
 
-    if ($_FILES[$field]['name'] == '') {
+    if ('' == $_FILES[$field]['name']) {
         // No photo uploaded
 
-        if (trim($_POST['title']) === '') {
+        if ('' === trim($_POST['title'])) {
             $_POST['title'] = 'no title';
         }
 
-        if ($preview_name != '' && is_readable("$photos_dir/$preview_name")) {
+        if ('' != $preview_name && is_readable("$photos_dir/$preview_name")) {
             $tmp_name = $preview_name;
         } else {
             if (empty($myalbum_allownoimage)) {
@@ -119,7 +119,7 @@ if (!empty($_POST['submit'])) {
                 $tmp_name = 'pixel_trans.gif';
             }
         }
-    } elseif ($_FILES[$field]['tmp_name'] == '') {
+    } elseif ('' == $_FILES[$field]['tmp_name']) {
         // Fail to upload (wrong file name etc.)
         redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/submit.php', 2, _ALBM_FILEERROR);
     } else {
@@ -149,7 +149,7 @@ if (!empty($_POST['submit'])) {
         if ($uploader->fetchMedia($field) && $uploader->upload()) {
 
             // The original file name will be the title if title is empty
-            if (trim($_POST['title']) === '') {
+            if ('' === trim($_POST['title'])) {
                 $_POST['title'] = $uploader->getMediaName();
             }
 
@@ -238,7 +238,7 @@ if (!empty($_POST['submit'])) {
     MyalbumUtility::clearTempFiles($photos_dir);
 
     $redirect_uri = XOOPS_URL . "/modules/$moduleDirName/viewcat.php?cid=$cid&amp;orderby=dateD";
-    if ($caller === 'imagemanager') {
+    if ('imagemanager' === $caller) {
         $redirect_uri = XOOPS_URL . "/modules/$moduleDirName/close.php";
     }
     redirect_header($redirect_uri, 2, _ALBM_RECEIVED);
@@ -246,7 +246,7 @@ if (!empty($_POST['submit'])) {
 
 // Editing Display
 
-if ($caller === 'imagemanager') {
+if ('imagemanager' === $caller) {
     echo "<html><head>
         <link rel='stylesheet' type='text/css' media='all' href='" . XOOPS_URL . "/xoops.css'>
         <link rel='stylesheet' type='text/css' media='all' href='" . XOOPS_URL . "/modules/system/style.css'>
@@ -259,7 +259,7 @@ if ($caller === 'imagemanager') {
 }
 
 // Preview
-if ($caller !== 'imagemanager' && !empty($_POST['preview'])) {
+if ('imagemanager' !== $caller && !empty($_POST['preview'])) {
     $photo['description'] = $GLOBALS['myts']->stripSlashesGPC($_POST['desc_text']);
     $photo['title']       = $GLOBALS['myts']->stripSlashesGPC($_POST['title']);
     $photo['cid']         = empty($_POST['cid']) ? 0 : (int)$_POST['cid'];
@@ -298,7 +298,7 @@ if ($caller !== 'imagemanager' && !empty($_POST['preview'])) {
             $width_spec = "width='$myalbum_thumbsize' height='$myalbum_thumbsize'";
             $ahref      = '';
         }
-    } elseif ($preview_name != '' && is_readable("$photos_dir/$preview_name")) {
+    } elseif ('' != $preview_name && is_readable("$photos_dir/$preview_name")) {
         // old preview
         list($imgsrc, $width_spec, $ahref) = MyalbumPreview::getImageAttribsForPreview($preview_name);
     } else {
@@ -350,7 +350,7 @@ $GLOBALS['xoopsTpl']->assign('mydirname', $GLOBALS['mydirname']);
 
 echo MyalbumForms::getUserFormSubmit($caller, $photo, $lid);
 
-if ($caller === 'imagemanager') {
+if ('imagemanager' === $caller) {
     echo '</body></html>';
 } else {
     MyalbumPreview::footer();

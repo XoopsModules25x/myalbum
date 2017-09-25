@@ -37,13 +37,13 @@ $photosHandler = xoops_getModuleHandler('photos');
 /** @var MyalbumTextHandler $textHandler */
 $textHandler   = xoops_getModuleHandler('text');
 
-if (isset($_POST['submit']) && $_POST['submit'] !== '') {
+if (isset($_POST['submit']) && '' !== $_POST['submit']) {
     ob_start();
 
     // Check Directory
     $dir = $GLOBALS['myts']->stripSlashesGPC($_POST['dir']);
     if (empty($dir) || !is_dir($dir)) {
-        if (ord($dir) !== 0x2f) {
+        if (0x2f !== ord($dir)) {
             $dir = "/$dir";
         }
         $prefix = XOOPS_ROOT_PATH;
@@ -58,7 +58,7 @@ if (isset($_POST['submit']) && $_POST['submit'] !== '') {
             redirect_header('batch.php', 3, _ALBM_MES_INVALIDDIRECTORY . "<br>$dir4edit");
         }
     }
-    if (substr($dir, -1) === '/') {
+    if ('/' === substr($dir, -1)) {
         $dir = substr($dir, 0, -1);
     }
 
@@ -71,7 +71,7 @@ if (isset($_POST['submit']) && $_POST['submit'] !== '') {
     }
 
     $dir_h = opendir($dir);
-    if ($dir_h === false) {
+    if (false === $dir_h) {
         redirect_header('batch.php', 3, _ALBM_MES_INVALIDDIRECTORY . "<br>$dir4edit");
     }
     $filecount = 1;

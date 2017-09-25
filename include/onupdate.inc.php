@@ -6,11 +6,11 @@ $moduleDirName = basename(dirname(__DIR__));
 if (!preg_match('/^(\D+)(\d*)$/', $moduleDirName, $regs)) {
     echo('invalid dirname: ' . htmlspecialchars($moduleDirName));
 }
-$mydirnumber = $regs[2] === '' ? '' : (int)$regs[2];
+$mydirnumber = '' === $regs[2] ? '' : (int)$regs[2];
 
 // referer check
 $ref = xoops_getenv('HTTP_REFERER');
-if ($ref == '' || strpos($ref, XOOPS_URL . '/modules/system/admin.php') == 0) {
+if ('' == $ref || 0 == strpos($ref, XOOPS_URL . '/modules/system/admin.php')) {
     /* module specific part */
     $db = XoopsDatabaseFactory::getDatabaseConnection();
 

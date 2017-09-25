@@ -40,11 +40,11 @@ class MyalbumPreview extends XoopsObject
             $poster        = $memberHandler->getUser($uid);
 
             if (is_object($poster)) {
-                if ($myalbum_nameoruname === 'uname') {
+                if ('uname' === $myalbum_nameoruname) {
                     $name = $poster->uname();
                 } else {
                     $name = htmlspecialchars($poster->name());
-                    if ($name == '') {
+                    if ('' == $name) {
                         $name = $poster->uname();
                     }
                 }
@@ -112,7 +112,7 @@ class MyalbumPreview extends XoopsObject
 
         // Voting stats
         if ($rating > 0) {
-            if ($votes == 1) {
+            if (1 == $votes) {
                 $votestring = _ALBM_ONEVOTE;
             } else {
                 $votestring = sprintf(_ALBM_NUMVOTES, $votes);
@@ -178,8 +178,8 @@ class MyalbumPreview extends XoopsObject
             'info_votes'      => $info_votes,
             'comments'        => $comments,
             'is_normal_image' => $is_normal_image,
-            'is_newphoto'     => $date > time() - 86400 * $myalbum_newdays && $status == 1,
-            'is_updatedphoto' => $date > time() - 86400 * $myalbum_newdays && $status == 2,
+            'is_newphoto'     => $date > time() - 86400 * $myalbum_newdays && 1 == $status,
+            'is_updatedphoto' => $date > time() - 86400 * $myalbum_newdays && 2 == $status,
             'is_popularphoto' => $hits >= $myalbum_popular,
             'info_morephotos' => sprintf(_ALBM_MOREPHOTOS, $submitter_name),
             'cat_title'       => $GLOBALS['myts']->htmlSpecialChars($cat_title),
@@ -221,7 +221,7 @@ class MyalbumPreview extends XoopsObject
             $is_normal_image = true;
             // Width of thumb
             $width_spec = "width='$myalbum_thumbsize'";
-            if ($myalbum_makethumb && $ext !== 'gif') {
+            if ($myalbum_makethumb && 'gif' !== $ext) {
                 // if thumb images was made, 'width' and 'height' will not set.
                 $width_spec = '';
             }
@@ -299,7 +299,7 @@ class MyalbumPreview extends XoopsObject
             }
 
             // Category's banner default
-            if ($imgurl === 'http://') {
+            if ('http://' === $imgurl) {
                 $imgurl = '';
             }
 

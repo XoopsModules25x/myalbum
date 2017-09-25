@@ -55,14 +55,14 @@ if ($GLOBALS['myalbum_addposts'] < 0) {
 
 // Path to Main Photo & Thumbnail ;
 if (isset($GLOBALS['myalbum_photospath'])) {
-    if (ord($GLOBALS['myalbum_photospath']) != 0x2f) {
+    if (0x2f != ord($GLOBALS['myalbum_photospath'])) {
         $GLOBALS['myalbum_photospath'] = DS . $GLOBALS['myalbum_photospath'];
     }
 } else {
     $GLOBALS['myalbum_photospath'] = '/uploads/photos/';
 }
 if (isset($GLOBALS['myalbum_thumbspath'])) {
-    if (ord($GLOBALS['myalbum_thumbspath']) != 0x2f) {
+    if (0x2f != ord($GLOBALS['myalbum_thumbspath'])) {
         $GLOBALS['myalbum_thumbspath'] = DS . $GLOBALS['myalbum_thumbspath'];
     }
 } else {

@@ -32,7 +32,7 @@ $GLOBALS['xoopsTpl']->assign('xoConfig', $GLOBALS['myalbumModuleConfig']);
 $GLOBALS['xoopsTpl']->assign('mydirname', $GLOBALS['mydirname']);
 
 //generates top 10 charts by rating and hits for each main category
-if ($rate == 1) {
+if (1 == $rate) {
     $lang_sortby = _ALBM_RATING;
     unset($_GET['hit']);
 } else {
@@ -53,7 +53,7 @@ $criteria->setOrder('`title`');
 $rankings = [];
 $i        = 0;
 foreach ($catHandler->getObjects($criteria, true) as $cid => $cat) {
-    if ($rate == 1) {
+    if (1 == $rate) {
         $rankings[$i] = [
             'title' => sprintf(_ALBM_TOP10, $GLOBALS['myts']->htmlSpecialChars($cat->getVar('title'))),
             'count' => $i
@@ -72,7 +72,7 @@ foreach ($catHandler->getObjects($criteria, true) as $cid => $cat) {
     }
     $criteria = new CriteriaCompo(new Criteria('`status`', '0', '>'));
     $criteria->add(new Criteria('`cid`', '(' . implode(',', $whr_cid) . ')', 'IN'));
-    if ($rate == 1) {
+    if (1 == $rate) {
         $criteria->setSort('rating');
         $criteria->setOrder('DESC');
     } else {

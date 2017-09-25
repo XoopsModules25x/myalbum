@@ -11,12 +11,12 @@ $pos = empty($_GET['pos']) ? 0 : (int)$_GET['pos'];
 $num = empty($_GET['num']) ? 10 : (int)$_GET['num'];
 $txt = empty($_GET['txt']) ? '' : $GLOBALS['myts']->stripSlashesGPC(trim($_GET['txt']));
 
-if (!empty($_POST['action']) && $_POST['action'] === 'admit' && isset($_POST['ids']) && is_array($_POST['ids'])) {
+if (!empty($_POST['action']) && 'admit' === $_POST['action'] && isset($_POST['ids']) && is_array($_POST['ids'])) {
     /** @var MyalbumPhotosHandler $photosHandler */
     $photosHandler = xoops_getModuleHandler('photos');
     @$photosHandler->setStatus($_POST['ids'], 1);
     redirect_header('admission.php', 2, _ALBM_AM_ADMITTING);
-} elseif (!empty($_POST['action']) && $_POST['action'] === 'delete' && isset($_POST['ids']) && is_array($_POST['ids'])) {
+} elseif (!empty($_POST['action']) && 'delete' === $_POST['action'] && isset($_POST['ids']) && is_array($_POST['ids'])) {
 
     // remove records
 
@@ -35,7 +35,7 @@ $photosHandler = xoops_getModuleHandler('photos');
 
 // extracting by free word
 $criteria = new CriteriaCompo(new Criteria('`status`', '0', '<='));
-if ($txt !== '') {
+if ('' !== $txt) {
     $keywords = explode(' ', $txt);
     foreach ($keywords as $keyword) {
         $criteria->add(new Criteria('CONCAT( l.title , l.ext )', '%' . $keyword . '%', 'LIKE'), 'AND');

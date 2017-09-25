@@ -94,13 +94,13 @@ if (!empty($_POST['submit'])) {
     if ($isadmin) {
         $valid = empty($_POST['valid']) ? 0 : (int)$_POST['valid'];
         if (empty($_POST['old_status'])) {
-            if ($valid == 0) {
+            if (0 == $valid) {
                 $valid = null;
             } else {
                 $valid = 1;
             }
         } else {
-            if ($valid == 0) {
+            if (0 == $valid) {
                 $valid = 1;
             } else {
                 $valid = 2;
@@ -114,13 +114,13 @@ if (!empty($_POST['submit'])) {
 
     // Check if upload file name specified
     $field = $_POST['xoops_upload_file'][0];
-    if (empty($field) || $field == '') {
+    if (empty($field) || '' == $field) {
         die('UPLOAD error: file name not specified');
     }
     $field = $_POST['xoops_upload_file'][0];
 
     // Check if file uploaded
-    if ($_FILES[$field]['tmp_name'] != '' && $_FILES[$field]['tmp_name'] !== 'none') {
+    if ('' != $_FILES[$field]['tmp_name'] && 'none' !== $_FILES[$field]['tmp_name']) {
         if ($GLOBALS['myalbumModuleConfig']['myalbum_canresize']) {
             $uploader = new MyXoopsMediaUploader(
                 $GLOBALS['photos_dir'],
@@ -150,7 +150,7 @@ if (!empty($_POST['submit'])) {
             @unlink($GLOBALS['thumbs_dir'] . "/$lid.gif");
 
             // The original file name will be the title if title is empty
-            if (trim($_POST['title']) === '') {
+            if ('' === trim($_POST['title'])) {
                 $_POST['title'] = $uploader->getMediaName();
             }
 
@@ -182,7 +182,7 @@ if (!empty($_POST['submit'])) {
         }
     } else { //update without file upload
         // Check if title is blank
-        if (trim($_POST['title']) === '') {
+        if ('' === trim($_POST['title'])) {
             $_POST['title'] = 'no title';
         }
         $title     = $GLOBALS['myts']->stripSlashesGPC($_POST['title']);

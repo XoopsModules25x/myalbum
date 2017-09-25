@@ -68,7 +68,7 @@ class MyalbumUtility extends XoopsObject
         $dir = opendir($src);
         //    @mkdir($dst);
         while (false !== ($file = readdir($dir))) {
-            if (($file !== '.') && ($file !== '..')) {
+            if (('.' !== $file) && ('..' !== $file)) {
                 if (is_dir($src . '/' . $file)) {
                     self::recurseCopy($src . '/' . $file, $dst . '/' . $file);
                 } else {
@@ -283,9 +283,9 @@ class MyalbumUtility extends XoopsObject
             return static::createThumbsFromIcons($src_path, $node, $ext);
         }
 
-        if ($GLOBALS[$moduleDirName . '_imagingpipe'] == PIPEID_IMAGICK) {
+        if (PIPEID_IMAGICK == $GLOBALS[$moduleDirName . '_imagingpipe']) {
             return static::createThumbsWithImagick($src_path, $node, $ext);
-        } elseif ($GLOBALS[$moduleDirName . '_imagingpipe'] == PIPEID_NETPBM) {
+        } elseif (PIPEID_NETPBM == $GLOBALS[$moduleDirName . '_imagingpipe']) {
             return static::createThumbsWithNetpbm($src_path, $node, $ext);
         } else {
             return static::createThumbsWithGd($src_path, $node, $ext);
@@ -419,7 +419,7 @@ class MyalbumUtility extends XoopsObject
         global $thumbs_dir;
         $moduleDirName = basename(dirname(__DIR__));
         // Check the path to binaries of imaging packages
-        if (trim($GLOBALS[$moduleDirName . '_imagickpath']) != '' && substr($GLOBALS[$moduleDirName . '_imagickpath'], -1) !== '/') {
+        if ('' != trim($GLOBALS[$moduleDirName . '_imagickpath']) && '/' !== substr($GLOBALS[$moduleDirName . '_imagickpath'], -1)) {
             $GLOBALS[$moduleDirName . '_imagickpath'] .= '/';
         }
 
@@ -464,7 +464,7 @@ class MyalbumUtility extends XoopsObject
         global $thumbs_dir;
         $moduleDirName = basename(dirname(__DIR__));
         // Check the path to binaries of imaging packages
-        if (trim($GLOBALS[$moduleDirName . '_netpbmpath']) != '' && substr($GLOBALS[$moduleDirName . '_netpbmpath'], -1) != DIRECTORY_SEPARATOR) {
+        if ('' != trim($GLOBALS[$moduleDirName . '_netpbmpath']) && DIRECTORY_SEPARATOR != substr($GLOBALS[$moduleDirName . '_netpbmpath'], -1)) {
             $GLOBALS[$moduleDirName . '_netpbmpath'] .= DIRECTORY_SEPARATOR;
         }
 
@@ -533,9 +533,9 @@ class MyalbumUtility extends XoopsObject
             rename($src_path, $dst_path);
         }
 
-        if ($GLOBALS[$moduleDirName . '_imagingpipe'] == PIPEID_IMAGICK) {
+        if (PIPEID_IMAGICK == $GLOBALS[$moduleDirName . '_imagingpipe']) {
             static::editPhotoWithImagick($src_path, $dst_path);
-        } elseif ($GLOBALS[$moduleDirName . '_imagingpipe'] == PIPEID_NETPBM) {
+        } elseif (PIPEID_NETPBM == $GLOBALS[$moduleDirName . '_imagingpipe']) {
             static::editPhotoWithNetpbm($src_path, $dst_path);
         } else {
             if ($GLOBALS[$moduleDirName . '_forcegd2']) {
@@ -664,7 +664,7 @@ class MyalbumUtility extends XoopsObject
     {
         $moduleDirName = basename(dirname(__DIR__));
         // Check the path to binaries of imaging packages
-        if (trim($GLOBALS[$moduleDirName . '_imagickpath']) != '' && substr($GLOBALS[$moduleDirName . '_imagickpath'], -1) != DIRECTORY_SEPARATOR) {
+        if ('' != trim($GLOBALS[$moduleDirName . '_imagickpath']) && DIRECTORY_SEPARATOR != substr($GLOBALS[$moduleDirName . '_imagickpath'], -1)) {
             $GLOBALS[$moduleDirName . '_imagickpath'] .= DIRECTORY_SEPARATOR;
         }
 
@@ -696,7 +696,7 @@ class MyalbumUtility extends XoopsObject
         }
 
         // Do Modify and check success
-        if ($option != '') {
+        if ('' != $option) {
             exec("{$GLOBALS[$moduleDirName.'_imagickpath']}convert $option $src_path $dst_path");
         }
 
@@ -724,7 +724,7 @@ class MyalbumUtility extends XoopsObject
     {
         $moduleDirName = basename(dirname(__DIR__));
         // Check the path to binaries of imaging packages
-        if (trim($GLOBALS[$moduleDirName . '_netpbmpath']) != '' && substr($GLOBALS[$moduleDirName . '_netpbmpath'], -1) != DIRECTORY_SEPARATOR) {
+        if ('' != trim($GLOBALS[$moduleDirName . '_netpbmpath']) && DIRECTORY_SEPARATOR != substr($GLOBALS[$moduleDirName . '_netpbmpath'], -1)) {
             $GLOBALS[$moduleDirName . '_netpbmpath'] .= DIRECTORY_SEPARATOR;
         }
 
@@ -822,7 +822,7 @@ class MyalbumUtility extends XoopsObject
 
         $ret        = 0;
         $prefix_len = strlen($prefix);
-        while (($file = readdir($dir)) !== false) {
+        while (false !== ($file = readdir($dir))) {
             if (0 === strpos($file, $prefix)) {
                 if (@unlink("$dir_path/$file")) {
                     ++$ret;
@@ -945,7 +945,7 @@ class MyalbumUtility extends XoopsObject
         if (null !== $valid) {
             $photo->setVar('status', $valid);
             // Trigger Notification
-            if ($valid == 1) {
+            if (1 == $valid) {
                 /** @var XoopsNotificationHandler $notificationHandler */
                 $notificationHandler = xoops_getHandler('notification');
 
@@ -969,13 +969,13 @@ class MyalbumUtility extends XoopsObject
         $photo->setVar('cid', $cid);
         $photo->setVar('title', $title);
 
-        if ($ext != '') {
+        if ('' != $ext) {
             $photo->setVar('ext', $ext);
         }
-        if ($x != '') {
+        if ('' != $x) {
             $photo->setVar('res_x', $x);
         }
-        if ($y != '') {
+        if ('' != $y) {
             $photo->setVar('res_y', $y);
         }
 
@@ -1129,7 +1129,7 @@ class MyalbumUtility extends XoopsObject
         $html = $GLOBALS['myts']->displayTarea($html, 1, 1, 1, 1, 1, 1, 1);
         $ret  = '';
         $i    = 0;
-        if ($html != '') {
+        if ('' != $html) {
             if ($i < 4) {
                 foreach (explode('.', strip_tags($html)) as $raw) {
                     if ($i < 4) {

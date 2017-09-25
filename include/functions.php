@@ -201,9 +201,9 @@ function myalbum_create_thumb($src_path, $node, $ext)
         return myalbum_copy_thumbs_from_icons($src_path, $node, $ext);
     }
 
-    if ($myalbum_imagingpipe == PIPEID_IMAGICK) {
+    if (PIPEID_IMAGICK == $myalbum_imagingpipe) {
         return myalbum_create_thumbs_by_imagick($src_path, $node, $ext);
-    } elseif ($myalbum_imagingpipe == PIPEID_NETPBM) {
+    } elseif (PIPEID_NETPBM == $myalbum_imagingpipe) {
         return myalbum_create_thumbs_by_netpbm($src_path, $node, $ext);
     } else {
         return myalbum_create_thumbs_by_gd($src_path, $node, $ext);
@@ -248,7 +248,7 @@ function myalbum_create_thumbs_by_gd($src_path, $node, $ext)
     $bundled_2 = false;
     if (!$myalbum_forcegd2 && function_exists('gd_info')) {
         $gd_info = gd_info();
-        if (substr($gd_info['GD Version'], 0, 10) === 'bundled (2') {
+        if ('bundled (2' === substr($gd_info['GD Version'], 0, 10)) {
             $bundled_2 = true;
         }
     }
@@ -331,7 +331,7 @@ function myalbum_create_thumbs_by_imagick($src_path, $node, $ext)
     global $myalbum_imagickpath, $thumbs_dir;
 
     // Check the path to binaries of imaging packages
-    if (trim($myalbum_imagickpath) != '' && substr($myalbum_imagickpath, -1) !== '/') {
+    if ('' != trim($myalbum_imagickpath) && '/' !== substr($myalbum_imagickpath, -1)) {
         $myalbum_imagickpath .= '/';
     }
 
@@ -375,7 +375,7 @@ function myalbum_create_thumbs_by_netpbm($src_path, $node, $ext)
     global $myalbum_netpbmpath, $thumbs_dir;
 
     // Check the path to binaries of imaging packages
-    if (trim($myalbum_netpbmpath) != '' && substr($myalbum_netpbmpath, -1) != DIRECTORY_SEPARATOR) {
+    if ('' != trim($myalbum_netpbmpath) && DIRECTORY_SEPARATOR != substr($myalbum_netpbmpath, -1)) {
         $myalbum_netpbmpath .= DIRECTORY_SEPARATOR;
     }
 
@@ -444,9 +444,9 @@ function myalbum_modify_photo($src_path, $dst_path)
         rename($src_path, $dst_path);
     }
 
-    if ($myalbum_imagingpipe == PIPEID_IMAGICK) {
+    if (PIPEID_IMAGICK == $myalbum_imagingpipe) {
         myalbum_modify_photo_by_imagick($src_path, $dst_path);
-    } elseif ($myalbum_imagingpipe == PIPEID_NETPBM) {
+    } elseif (PIPEID_NETPBM == $myalbum_imagingpipe) {
         myalbum_modify_photo_by_netpbm($src_path, $dst_path);
     } else {
         if ($myalbum_forcegd2) {
@@ -576,7 +576,7 @@ function myalbum_modify_photo_by_imagick($src_path, $dst_path)
     global $myalbum_width, $myalbum_height, $myalbum_imagickpath;
 
     // Check the path to binaries of imaging packages
-    if (trim($myalbum_imagickpath) != '' && substr($myalbum_imagickpath, -1) != DIRECTORY_SEPARATOR) {
+    if ('' != trim($myalbum_imagickpath) && DIRECTORY_SEPARATOR != substr($myalbum_imagickpath, -1)) {
         $myalbum_imagickpath .= DIRECTORY_SEPARATOR;
     }
 
@@ -608,7 +608,7 @@ function myalbum_modify_photo_by_imagick($src_path, $dst_path)
     }
 
     // Do Modify and check success
-    if ($option != '') {
+    if ('' != $option) {
         exec("{$myalbum_imagickpath}convert $option $src_path $dst_path");
     }
 
@@ -636,7 +636,7 @@ function myalbum_modify_photo_by_netpbm($src_path, $dst_path)
     global $myalbum_width, $myalbum_height, $myalbum_netpbmpath;
 
     // Check the path to binaries of imaging packages
-    if (trim($myalbum_netpbmpath) != '' && substr($myalbum_netpbmpath, -1) != DIRECTORY_SEPARATOR) {
+    if ('' != trim($myalbum_netpbmpath) && DIRECTORY_SEPARATOR != substr($myalbum_netpbmpath, -1)) {
         $myalbum_netpbmpath .= DIRECTORY_SEPARATOR;
     }
 
@@ -733,8 +733,8 @@ function myalbum_clear_tmp_files($dir_path, $prefix = 'tmp_')
 
     $ret        = 0;
     $prefix_len = strlen($prefix);
-    while (($file = readdir($dir)) !== false) {
-        if (strncmp($file, $prefix, $prefix_len) === 0) {
+    while (false !== ($file = readdir($dir))) {
+        if (0 === strncmp($file, $prefix, $prefix_len)) {
             if (@unlink("$dir_path/$file")) {
                 ++$ret;
             }
@@ -828,7 +828,7 @@ function myalbum_update_photo($lid, $cid, $title, $desc, $valid = null, $ext = '
     if (isset($valid)) {
         $photo->setVar('status', $valid);
         // Trigger Notification
-        if ($valid == 1) {
+        if (1 == $valid) {
             $notificationHandler = xoops_getHandler('notification');
 
             // Global Notification
@@ -848,13 +848,13 @@ function myalbum_update_photo($lid, $cid, $title, $desc, $valid = null, $ext = '
     $photo->setVar('cid', $cid);
     $photo->setVar('title', $title);
 
-    if ($ext != '') {
+    if ('' != $ext) {
         $photo->setVar('ext', $ext);
     }
-    if ($x != '') {
+    if ('' != $x) {
         $photo->setVar('res_x', $x);
     }
-    if ($y != '') {
+    if ('' != $y) {
         $photo->setVar('res_y', $y);
     }
 
@@ -996,7 +996,7 @@ function extractSummary($html)
     $html = $GLOBALS['myts']->displayTarea($html, 1, 1, 1, 1, 1, 1, 1);
     $ret  = '';
     $i    = 0;
-    if ($html != '') {
+    if ('' != $html) {
         if ($i < 4) {
             foreach (explode('.', strip_tags($html)) as $raw) {
                 if ($i < 4) {

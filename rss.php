@@ -18,7 +18,7 @@ $textHandler   = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
 /** @var MyalbumCatHandler $catHandler */
 $catHandler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
 if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
-    if ($cid == 0) {
+    if (0 == $cid) {
         $url = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/rss,' . $cid . ',' . $uid . ',' . $num . ',' . $pos . ',' . $view . $GLOBALS['myalbumModuleConfig']['endofrss'];
     } else {
         $cat = $catHandler->get($cid);
@@ -93,7 +93,7 @@ if (!$GLOBALS['xoopsTpl']->is_cached('db:' . $GLOBALS['mydirname'] . '_rss.tpl')
         $sub_title       = preg_replace("/\'\>/", "'><img src='$mod_url/assets/images/folder16.gif' alt=''>", $GLOBALS['cattree']->getNicePathFromId($cid, 'title', "viewcat.php?num=$num"));
         $sub_title       = preg_replace('/^(.+)folder16/', '$1folder_open', $sub_title);
         $criteria->add(new Criteria('`cid`', $cid));
-    } elseif ($uid != 0) {
+    } elseif (0 != $uid) {
 
         // This means 'my photo'
         if ($uid < 0) {

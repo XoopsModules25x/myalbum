@@ -209,7 +209,7 @@ if (isset($myalbum_catonsubmenu) && $myalbum_catonsubmenu) {
     $criteria   = new Criteria('`pid`', 0);
     /** @var MyalbumCatHandler $catHandler */
     $catHandler = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
-    if ($catHandler->getCount($criteria) !== false) {
+    if (false !== $catHandler->getCount($criteria)) {
         foreach ($catHandler->getObjects($criteria, true) as $cid => $cat) {
             $modversion['sub'][$subcount]['name']  = ' - ' . $cat->getVar('title');
             $modversion['sub'][$subcount++]['url'] = "viewcat.php?cid=$cid";

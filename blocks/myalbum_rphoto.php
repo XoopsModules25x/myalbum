@@ -13,7 +13,7 @@ if (!defined('MYALBUM_BLOCK_RPHOTO_INCLUDED')) {
         global $xoopsDB, $mod_url, $table_photos, $myalbum_normal_exts;
 
         // For myAlbum-P < 2.70
-        if (strncmp($options[0], 'myalbum', 7) != 0) {
+        if (0 != strncmp($options[0], 'myalbum', 7)) {
             $photos_num    = (int)$options[1];
             $box_size      = (int)$options[0];
             $moduleDirName = 'myalbum';
@@ -129,7 +129,7 @@ if (!defined('MYALBUM_BLOCK_RPHOTO_INCLUDED')) {
         global $xoopsDB;
 
         // For myAlbum-P < 2.70
-        if (strncmp($options[0], 'myalbum', 7) != 0) {
+        if (0 != strncmp($options[0], 'myalbum', 7)) {
             $photos_num    = (int)$options[1];
             $box_size      = (int)$options[0];
             $moduleDirName = 'myalbum';

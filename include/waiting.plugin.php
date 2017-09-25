@@ -28,7 +28,7 @@ if (!function_exists('b_waiting_myalbum_base')) {
         if (!preg_match('/^(\D+)(\d*)$/', $moduleDirName, $regs)) {
             echo('invalid dirname: ' . htmlspecialchars($moduleDirName));
         }
-        $mydirnumber = $regs[2] === '' ? '' : (int)$regs[2];
+        $mydirnumber = '' === $regs[2] ? '' : (int)$regs[2];
 
         $result = $xoopsDB->query('SELECT COUNT(*) FROM ' . $xoopsDB->prefix("myalbum{$mydirnumber}_photos") . ' WHERE status=0');
         if ($result) {

@@ -49,7 +49,7 @@ if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
     $src_table_text     = $GLOBALS['xoopsDB']->prefix("{$src_dirname}_text");
     $src_table_votedata = $GLOBALS['xoopsDB']->prefix("{$src_dirname}_votedata");
 
-    if (isset($_POST['copyormove']) && $_POST['copyormove'] === 'move') {
+    if (isset($_POST['copyormove']) && 'move' === $_POST['copyormove']) {
         $move_mode = true;
     } else {
         $move_mode = false;
@@ -168,9 +168,9 @@ else {
             $GLOBALS['xoopsDB']->query($sql);
 
             $dst_file = "$photos_dir/{$lid}.{$ext}";
-            if ($imgcat_storetype === 'db') {
+            if ('db' === $imgcat_storetype) {
                 $fp = fopen($dst_file, 'wb');
-                if ($fp === false) {
+                if (false === $fp) {
                     continue;
                 }
                 $brs = $GLOBALS['xoopsDB']->query('SELECT image_body FROM  ' . $GLOBALS['xoopsDB']->prefix('imagebody') . " WHERE image_id='$image_id'");

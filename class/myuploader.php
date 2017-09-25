@@ -144,12 +144,12 @@ class MyXoopsMediaUploader
 
             return false;
         }
-        if ($this->mediaName == '') {
+        if ('' == $this->mediaName) {
             $this->setErrors('Filename Is Empty');
 
             return false;
         }
-        if ($this->mediaTmpName === 'none' || !is_uploaded_file($this->mediaTmpName) || $this->mediaSize == 0) {
+        if ('none' === $this->mediaTmpName || !is_uploaded_file($this->mediaTmpName) || 0 == $this->mediaSize) {
             $this->setErrors('No file uploaded');
 
             return false;
@@ -252,7 +252,7 @@ class MyXoopsMediaUploader
      */
     public function upload($chmod = 0644)
     {
-        if ($this->uploadDir == '') {
+        if ('' == $this->uploadDir) {
             $this->setErrors('Upload directory not set');
 
             return false;

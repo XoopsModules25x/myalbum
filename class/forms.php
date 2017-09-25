@@ -281,7 +281,7 @@ class MyalbumForms extends XoopsObject
         $preview_button = new XoopsFormButton('', 'preview', _PREVIEW, 'submit');
         $reset_button   = new XoopsFormButton('', 'reset', _CANCEL, 'reset');
         $submit_tray    = new XoopsFormElementTray('');
-        if ($caller !== 'imagemanager') {
+        if ('imagemanager' !== $caller) {
             $submit_tray->addElement($preview_button);
         }
         $submit_tray->addElement($submit_button);

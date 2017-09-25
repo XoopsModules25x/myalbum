@@ -45,9 +45,9 @@ if (!empty($_POST['imagemanager_export']) && !empty($_POST['imgcat_id']) && !emp
         $dst_file = XOOPS_UPLOAD_PATH . "/{$dst_node}.{$ext}";
         $src_file = empty($_POST['use_thumb']) ? "$photos_dir/{$lid}.{$ext}" : "$thumbs_dir/{$lid}.{$ext}";
 
-        if ($imgcat_storetype === 'db') {
+        if ('db' === $imgcat_storetype) {
             $fp = fopen($src_file, 'rb');
-            if ($fp === false) {
+            if (false === $fp) {
                 continue;
             }
             $body = addslashes(fread($fp, filesize($src_file)));

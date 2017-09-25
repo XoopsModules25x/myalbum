@@ -124,7 +124,7 @@ class MyalbumCatHandler extends XoopsPersistableObjectHandler
     {
         $cat = parent::get($cid);
         ++$depth;
-        if ($cat->getVar('pid') != 0) {
+        if (0 != $cat->getVar('pid')) {
             $depth = $this->prefixDepth($cat->getVar('pid'), $depth);
         } else {
             $depth--;
