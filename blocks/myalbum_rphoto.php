@@ -52,7 +52,7 @@ if (!defined('MYALBUM_BLOCK_RPHOTO_INCLUDED')) {
         $whr_ext = '1';
 
         $block           = [];
-        $GLOBALS['myts'] = MyTextSanitizer::getInstance();
+        $GLOBALS['myts'] = \MyTextSanitizer::getInstance();
         // Get number of photo
         $result = $xoopsDB->query('SELECT count(lid) FROM ' . $xoopsDB->prefix($table_photos) . " WHERE status>0 AND $whr_cat AND $whr_ext");
         list($numrows) = $xoopsDB->fetchRow($result);

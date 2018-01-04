@@ -190,7 +190,7 @@ switch ($op) {
             // next mark
             if ($ids[$numrows - 1] != $lid) {
                 $photo_nav .= "<a href='photo.php?lid=" . $ids[$pos + 1] . "'><b>" . _ALBM_NEXT . '</b></a>&nbsp;&nbsp;';
-                $photo_nav .= "<a href='photo.php?lid=" . $ids[$numrows - 1] . "'><b> &gt;]</b></a>";
+                $photo_nav .= "<a href='photo.php?lid=" . $ids[$numrows - 1] . "'><b> >]</b></a>";
             }
         }
 

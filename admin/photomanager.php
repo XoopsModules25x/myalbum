@@ -39,7 +39,7 @@ if (!empty($_POST['action']) && 'delete' === $_POST['action'] && isset($_POST['i
 
     // set clause for text table
     if (!empty($_POST['new_desc_text'])) {
-        $set_for_text = "description='" . $GLOBALS['myts']->makeTareaData4Save($_POST['new_desc_text']) . "'";
+        $set_for_text = "description='" . $GLOBALS['myts']->addSlashes($_POST['new_desc_text']) . "'";
     }
 
     // set clause for photos table
@@ -47,7 +47,7 @@ if (!empty($_POST['action']) && 'delete' === $_POST['action'] && isset($_POST['i
 
     // new_title
     if (!empty($_POST['new_title'])) {
-        $set .= "title='" . $GLOBALS['myts']->makeTboxData4Save($_POST['new_title']) . "',";
+        $set .= "title='" . $GLOBALS['myts']->addSlashes($_POST['new_title']) . "',";
     }
 
     // new_cid

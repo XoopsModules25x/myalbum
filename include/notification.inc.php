@@ -20,7 +20,7 @@
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 $moduleDirName = basename(dirname(__DIR__));
-if (!preg_match('/^myalbum\d*$/', $moduleDirName)) {
+if (!preg_match('/^Myalbum\d*$/', $moduleDirName)) {
     die('invalid dirname of myalbum: ' . htmlspecialchars($moduleDirName));
 }
 

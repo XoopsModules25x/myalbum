@@ -33,7 +33,7 @@ function xoops_module_install_' . $moduleDirName . '( $module )
     }
     
     require_once $GLOBALS["xoops"]->path("modules/' . $moduleDirName . '/include/config.php");
-    require_once $GLOBALS["xoops"]->path("modules/' . $moduleDirName . '/class/utility.php");
+    require_once $GLOBALS["xoops"]->path("modules/' . $moduleDirName . '/class/Utility.php");
     foreach (array_keys($uploadFolders) as $i) {
         MyalbumUtility::createFolder($uploadFolders[$i]);
     }

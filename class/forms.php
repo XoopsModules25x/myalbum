@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class MyalbumUtility
+ * Class Utilityity
  */
 class MyalbumForms extends XoopsObject
 {

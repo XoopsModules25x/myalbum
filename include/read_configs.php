@@ -17,7 +17,7 @@ $module        = $moduleHandler->getByDirname($GLOBALS['mydirname']);
 // module information
 $GLOBALS['mod_url']       = XOOPS_URL . "/modules/{$GLOBALS['mydirname']}";
 $GLOBALS['mod_path']      = XOOPS_ROOT_PATH . "/modules/{$GLOBALS['mydirname']}";
-$GLOBALS['mod_copyright'] = "<a href='https://xoops.org/'><strong>myAlbum-P " . $module->getInfo('version') . " by XOOPS</strong></a>";
+$GLOBALS['mod_copyright'] = "<a href='https://xoops.org/'><strong>myAlbum-P " . $module->getInfo('version') . ' by XOOPS</strong></a>';
 
 // global language file
 xoops_loadLanguage('myalbum_constants', $GLOBALS['mydirname']);

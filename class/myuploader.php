@@ -170,7 +170,7 @@ class MyXoopsMediaUploader
      **/
     public function setTargetFileName($value)
     {
-        $this->targetFileName = (string)trim($value);
+        $this->targetFileName = trim($value);
     }
 
     /**
@@ -180,7 +180,7 @@ class MyXoopsMediaUploader
      **/
     public function setPrefix($value)
     {
-        $this->prefix = (string)trim($value);
+        $this->prefix = trim($value);
     }
 
     /**

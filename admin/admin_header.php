@@ -13,7 +13,7 @@ if (!defined('_CHARSET_ISO')) {
     define('_CHARSET_ISO', 'ISO-8859-1');
 }
 
-$GLOBALS['myts'] = MyTextSanitizer::getInstance();
+$GLOBALS['myts'] = \MyTextSanitizer::getInstance();
 
 /** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler                  = xoops_getHandler('module');

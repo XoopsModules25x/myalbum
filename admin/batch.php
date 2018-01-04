@@ -63,7 +63,7 @@ if (isset($_POST['submit']) && '' !== $_POST['submit']) {
     }
 
     $title4save = $GLOBALS['myts']->htmlSpecialChars($_POST['title']);
-    $desc4save  = $GLOBALS['myts']->makeTareaData4Save($_POST['desc']);
+    $desc4save  = $GLOBALS['myts']->addSlashes($_POST['desc']);
 
     $date = strtotime($_POST['post_date']);
     if ($date == -1) {

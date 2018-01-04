@@ -12,6 +12,7 @@ if (!class_exists('XoopsGTicket')) {
         public $_errors       = [];
         public $_latest_token = '';
         public $messages      = [];
+        const PBKDF2_SALT_BYTES = 24;
 
         /**
          * XoopsGTicket constructor.
@@ -122,7 +123,11 @@ if (!class_exists('XoopsGTicket')) {
             global $xoopsModule;
 
             if ('' === $salt) {
-                $salt = '$2y$07$' . strtr(base64_encode(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM)), '+', '.');
+                if (version_compare(PHP_VERSION, '7.0.0') >= 0 && function_exists('random_bytes')) {
+                    $salt = '$2y$07$' . str_replace('+', '.', base64_encode(random_bytes(self::PBKDF2_SALT_BYTES)));
+                } elseif (function_exists('mcrypt_create_iv')) {
+                    $salt = '$2y$07$' . str_replace('+', '.', base64_encode(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM)));
+                }
             }
             // create a token
             list($usec, $sec) = explode(' ', microtime());

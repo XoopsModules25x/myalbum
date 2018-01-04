@@ -36,7 +36,7 @@ function myalbum_adminMenu ($page, $currentoption = 0)
           #buttonbar a:hover span { background-position:100% -150px; }
           </style>";
 
-    $GLOBALS['myts'] = MyTextSanitizer::getInstance();
+    $GLOBALS['myts'] = \MyTextSanitizer::getInstance();
     $tblColors = Array();
     if (file_exists(XOOPS_ROOT_PATH . '/modules/'.$GLOBALS['myalbumModule']->getVar('dirname').'/language/' . $GLOBALS['xoopsConfig']['language'] . '/modinfo.php')) {
         require_once XOOPS_ROOT_PATH . '/modules/'.$GLOBALS['myalbumModule']->getVar('dirname').'/language/' . $GLOBALS['xoopsConfig']['language'] . '/modinfo.php';

@@ -23,11 +23,11 @@ $moduleDirName = basename(__DIR__);
 $GLOBALS['mydirname'] = basename(__DIR__);
 include XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/read_configs.php";
 include XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/get_perms.php";
-require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/class/utility.php";
+require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/class/Utility.php";
 require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/class/preview.php";
 require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/class/myuploader.php";
 
-$GLOBALS['myts'] = MyTextSanitizer::getInstance();
+$GLOBALS['myts'] = \MyTextSanitizer::getInstance();
 
 /** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler                  = xoops_getHandler('module');
