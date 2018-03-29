@@ -1,10 +1,10 @@
 <?php
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 $moduleDirName = basename(dirname(__DIR__));
 if (!preg_match('/^(\D+)(\d*)$/', $moduleDirName, $regs)) {
-    echo('invalid dirname: ' . htmlspecialchars($moduleDirName));
+    echo('invalid dirname: ' . htmlspecialchars($moduleDirName, ENT_QUOTES | ENT_HTML5));
 }
 $mydirnumber = '' === $regs[2] ? '' : (int)$regs[2];
 
@@ -12,7 +12,7 @@ $mydirnumber = '' === $regs[2] ? '' : (int)$regs[2];
 $ref = xoops_getenv('HTTP_REFERER');
 if ('' == $ref || 0 == strpos($ref, XOOPS_URL . '/modules/system/admin.php')) {
     /* module specific part */
-    $db = XoopsDatabaseFactory::getDatabaseConnection();
+    $db = \XoopsDatabaseFactory::getDatabaseConnection();
 
     // 2.8 -> 2.9
     $check_result = $db->query('SELECT weight FROM ' . $db->prefix("myalbum{$mydirnumber}_cat"));
@@ -31,7 +31,7 @@ if ('' == $ref || 0 == strpos($ref, XOOPS_URL . '/modules/system/admin.php')) {
     include __DIR__ . '/updateblock.inc.php';
 }
 
-function xoops_module_update_myalbum(XoopsModule $module, $oldversion = null)
+function xoops_module_update_myalbum(\XoopsModule $module, $oldversion = null)
 {
     //create upload directories, if needed
     $moduleDirName = $module->getVar('dirname');

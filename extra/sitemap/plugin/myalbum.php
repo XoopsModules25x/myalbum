@@ -1,10 +1,10 @@
 <?php
 
-defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 $mydirname = basename(dirname(__DIR__)) ;
 if (! preg_match('/^(\D+)(\d*)$/', $mydirname, $regs)) {
-    echo('invalid dirname: ' . htmlspecialchars($mydirname)) ;
+    echo('invalid dirname: ' . htmlspecialchars($mydirname, ENT_QUOTES | ENT_HTML5)) ;
 }
 $mydirnumber = '' === $regs[2] ? '' : (int)$regs[2];
 

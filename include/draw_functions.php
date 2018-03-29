@@ -5,7 +5,7 @@ function myalbum_header()
 {
     global $mod_url, $moduleDirName;
 
-    $tpl = new XoopsTpl();
+    $tpl = new \XoopsTpl();
     $tpl->assign(['mod_url' => $mod_url]);
     $tpl->display("db:{$moduleDirName }_header.tpl");
 }
@@ -15,7 +15,7 @@ function myalbum_footer()
 {
     global $mod_copyright, $moduleDirName;
 
-    $tpl = new XoopsTpl();
+    $tpl = new \XoopsTpl();
     $tpl->assign(['mod_copyright' => $mod_copyright]);
     $tpl->display("db:{$moduleDirName }_footer.tpl");
 }
@@ -38,7 +38,7 @@ function myalbum_get_name_from_uid($uid)
             if ('uname' === $myalbum_nameoruname) {
                 $name = $poster->uname();
             } else {
-                $name = htmlspecialchars($poster->name());
+                $name = htmlspecialchars($poster->name(), ENT_QUOTES | ENT_HTML5);
                 if ('' == $name) {
                     $name = $poster->uname();
                 }
@@ -258,8 +258,8 @@ function myalbum_get_array_for_photo_assign_light($photo, $summary = false)
 function myalbum_get_sub_categories($parent_id, $cattree)
 {
     $ret      = [];
-    $criteria = new Criteria('`status`', '0', '>');
-    $criterib = new Criteria('`pid`', $parent_id, '=');
+    $criteria = new \Criteria('`status`', '0', '>');
+    $criterib = new \Criteria('`pid`', $parent_id, '=');
     $criterib->setSort('cid');
     $criterib->setOrder('DESC');
 

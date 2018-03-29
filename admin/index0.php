@@ -84,7 +84,7 @@ if ('insert' === $action) {
     }
     $whr .= "$cid)";
     xoops_notification_deletebyitem($myalbum_mid, 'category', $cid);
-    $criteria = new Criteria('`cid`', '(' . implode(',', $children) . ')', 'IN');
+    $criteria = new \Criteria('`cid`', '(' . implode(',', $children) . ')', 'IN');
     myalbum_delete_photos($criteria);
     $GLOBALS['xoopsDB']->query('DELETE FROM ' . $GLOBALS['xoopsDB']->prefix($table_cat) . " WHERE $whr")
     || die('DB error: DELETE cat table');
@@ -126,14 +126,14 @@ if ('edit' === $disp && $cid > 0) {
         $cat_tree_array[$child->getVar('cid')] = $child->toArray();
         $live_cids[$child->getVar('cid')]      = $child->getVar('cid');
     }
-    $criteria = new CriteriaCompo(new Criteria('`pid`', '(' . implode(',', $live_cids) . ')', 'NOT IN'));
+    $criteria = new \CriteriaCompo(new \Criteria('`pid`', '(' . implode(',', $live_cids) . ')', 'NOT IN'));
     if (false !== $catHandler->getCount($criteria)) {
         $GLOBALS['xoopsDB']->queryF('UPDATE ' . $GLOBALS['xoopsDB']->prefix($table_cat) . " SET pid='0' " . $criteria->renderWhere());
         redirect_header('dashboard.php', 0, 'A Ghost Category found.');
     }
 
     // Waiting Admission
-    $criteria       = new Criteria('`status`', '0');
+    $criteria       = new \Criteria('`status`', '0');
     $waiting        = $photosHandler->getCount($criteria);
     $link_admission = $waiting > 0 ? sprintf(_AM_CAT_FMT_NEEDADMISSION, $waiting) : '';
 
@@ -169,7 +169,7 @@ if ('edit' === $disp && $cid > 0) {
             $prefix      = str_repeat('&nbsp;--', $catHandler->prefixDepth($cid, 0));
             $cid         = (int)$cid;
             $del_confirm = 'confirm("' . sprintf(_AM_CAT_FMT_CATDELCONFIRM, $title) . '")';
-            $criteria    = new Criteria('`cid`', $cid);
+            $criteria    = new \Criteria('`cid`', $cid);
             $photos_num  = $photosHandler->getCount($criteria);
             if ($imgurl && 'http://' !== $imgurl) {
                 $imgsrc4show = $GLOBALS['myts']->htmlSpecialChars($imgurl);

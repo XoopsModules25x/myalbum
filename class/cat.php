@@ -1,5 +1,5 @@
 <?php
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 include __DIR__ . '/../include/read_configs.php';
 
@@ -106,9 +106,9 @@ class MyalbumCat extends XoopsObject
 class MyalbumCatHandler extends XoopsPersistableObjectHandler
 {
     /**
-     * @param null|XoopsDatabase $db
+     * @param null|\XoopsDatabase $db
      */
-    public function __construct(XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db)
     {
         $this->db = $db;
         parent::__construct($db, $GLOBALS['table_cat'], 'MyalbumCat', 'cid', 'title');
@@ -142,9 +142,9 @@ class MyalbumCatHandler extends XoopsPersistableObjectHandler
 class Myalbum0CatHandler extends MyalbumCatHandler
 {
     /**
-     * @param null|XoopsDatabase $db
+     * @param null|\XoopsDatabase $db
      */
-    public function __construct(XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db)
     {
         parent::__construct($db);
     }
@@ -156,9 +156,9 @@ class Myalbum0CatHandler extends MyalbumCatHandler
 class Myalbum1CatHandler extends MyalbumCatHandler
 {
     /**
-     * @param null|XoopsDatabase $db
+     * @param null|\XoopsDatabase $db
      */
-    public function __construct(XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db)
     {
         parent::__construct($db);
     }
@@ -170,9 +170,9 @@ class Myalbum1CatHandler extends MyalbumCatHandler
 class Myalbum2CatHandler extends MyalbumCatHandler
 {
     /**
-     * @param null|XoopsDatabase $db
+     * @param null|\XoopsDatabase $db
      */
-    public function __construct(XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db)
     {
         parent::__construct($db);
     }

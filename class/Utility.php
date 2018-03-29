@@ -22,11 +22,11 @@ require_once __DIR__ . '/forms.php';
  */
 class Utility extends \XoopsObject
 {
-    use common\VersionChecks; //checkVerXoops, checkVerPhp Traits
+    use Common\VersionChecks; //checkVerXoops, checkVerPhp Traits
 
-    use common\ServerStats; // getServerStats Trait
+    use Common\ServerStats; // getServerStats Trait
 
-    use common\FilesManagement; // Files Management Trait
+    use Common\FilesManagement; // Files Management Trait
 
     //--------------- Custom module methods -----------------------------
 
@@ -723,7 +723,7 @@ class Utility extends \XoopsObject
         //        $votedataHandler = xoops_getModuleHandler('votedata', $moduleDirName);
         require_once __DIR__ . '/votedata.php';
         $votedataHandler = VotedataHandler::getInstance();
-        $criteria        = new CriteriaCompo(new Criteria('`lid`', $lid));
+        $criteria        = new \CriteriaCompo(new \Criteria('`lid`', $lid));
         $votes           = $votedataHandler->getObjects($criteria, true);
         $votesDB         = $votedataHandler->getCount($criteria);
         $totalrating     = 0;
@@ -754,9 +754,9 @@ class Utility extends \XoopsObject
     public static function getCategoryCount($cid, CriteriaElement $criteria = null)
     {
         if (is_object($criteria)) {
-            $criteria = new CriteriaCompo($criteria);
+            $criteria = new \CriteriaCompo($criteria);
         }
-        $criteria->add(new Criteria('`cid`', $cid));
+        $criteria->add(new \Criteria('`cid`', $cid));
         /** @var PhotosHandler $photoHandler */
         //        $photoHandler = xoops_getModuleHandler('photos', $GLOBALS[$moduleDirName.'_dirname']);
         require_once __DIR__ . '/photos.php';
@@ -776,9 +776,9 @@ class Utility extends \XoopsObject
     public static function getTotalCount($cids, CriteriaElement $criteria = null)
     {
         if (is_object($criteria)) {
-            $criteria = new CriteriaCompo($criteria);
+            $criteria = new \CriteriaCompo($criteria);
         }
-        $criteria->add(new Criteria('`cid`', '(' . implode(',', $cids) . ',0)', 'IN'));
+        $criteria->add(new \Criteria('`cid`', '(' . implode(',', $cids) . ',0)', 'IN'));
         /** @var MyalbumPhotosHandler $photoHandler */
         //        $photoHandler = xoops_getModuleHandler('photos', $GLOBALS[$moduleDirName.'_dirname']);
         require_once __DIR__ . '/photos.php';

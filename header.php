@@ -23,7 +23,7 @@ $moduleDirName = basename(__DIR__);
 $GLOBALS['mydirname'] = basename(__DIR__);
 include XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/read_configs.php";
 include XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/get_perms.php";
-require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/class/Utility.php";
+//require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/class/Utility.php";
 require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/class/preview.php";
 require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/class/myuploader.php";
 
@@ -50,7 +50,7 @@ require_once $GLOBALS['xoops']->path('class/tree.php');
 /** @var MyalbumCatHandler $catHandler */
 $catHandler         = xoops_getModuleHandler('cat');
 $cats               = $catHandler->getObjects(null, true);
-$GLOBALS['cattree'] = new XoopsObjectTree($cats, 'cid', 'pid', 0);
+$GLOBALS['cattree'] = new \XoopsObjectTree($cats, 'cid', 'pid', 0);
 
 xoops_loadLanguage('main', $moduleDirName);
 
@@ -62,7 +62,7 @@ extract($GLOBALS['myalbumModuleConfig']);
 
 if (!isset($GLOBALS['xoopsTpl']) || !is_object($GLOBALS['xoopsTpl'])) {
     require_once XOOPS_ROOT_PATH . '/class/template.php';
-    $GLOBALS['xoopsTpl'] = new XoopsTpl();
+    $GLOBALS['xoopsTpl'] = new \XoopsTpl();
 }
 
 include XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/assign_globals.php";

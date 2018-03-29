@@ -19,7 +19,7 @@
  * @version         $Id: myalbum.php 11905 2013-08-14 05:25:33Z beckmi $
  * @package         tag
  */
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Get item fields:
@@ -51,9 +51,9 @@ function myalbum_tag_iteminfo(&$items)
             $items_id[] = (int)$item_id;
         }
     }
-    $item_handler =& xoops_getModuleHandler('photos', 'myalbum');
-    $text_handler =& xoops_getModuleHandler('text', 'myalbum');
-    $items_obj = $item_handler->getObjects(new Criteria('lid', '(' . implode(', ', $items_id) . ')', 'IN'), true);
+    $item_handler = xoops_getModuleHandler('photos', 'myalbum');
+    $text_handler = xoops_getModuleHandler('text', 'myalbum');
+    $items_obj = $item_handler->getObjects(new \Criteria('lid', '(' . implode(', ', $items_id) . ')', 'IN'), true);
     
     foreach (array_keys($items) as $cat_id) {
         foreach (array_keys($items[$cat_id]) as $item_id) {
@@ -80,8 +80,8 @@ function myalbum_tag_iteminfo(&$items)
  */
 function myalbum_tag_synchronization($mid)
 {
-    $item_handler =& xoops_getModuleHandler('photos', 'myalbum');
-    $link_handler =& xoops_getModuleHandler('link', 'tag');
+    $item_handler = xoops_getModuleHandler('photos', 'myalbum');
+    $link_handler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Link'); //@var \XoopsModules\Tag\Handler $tagHandler
         
     /* clear tag-item links */
     if (version_compare(mysql_get_server_info(), '4.1.0', 'ge')):

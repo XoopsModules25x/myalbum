@@ -1,5 +1,5 @@
 <?php
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 include __DIR__ . '/../include/read_configs.php';
 
@@ -46,9 +46,9 @@ class MyalbumTextHandler extends XoopsPersistableObjectHandler
 {
     /**
      * MyalbumTextHandler constructor.
-     * @param null|XoopsDatabase $db
+     * @param null|\XoopsDatabase $db
      */
-    public function __construct(XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db)
     {
         $this->db = $db;
         parent::__construct($db, $GLOBALS['table_text'], 'MyalbumText', 'lid', 'description');
@@ -73,9 +73,9 @@ class Myalbum0TextHandler extends MyalbumTextHandler
 {
     /**
      * Myalbum0TextHandler constructor.
-     * @param null|XoopsDatabase $db
+     * @param null|\XoopsDatabase $db
      */
-    public function __construct(XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db)
     {
         parent::__construct($db);
     }
@@ -88,9 +88,9 @@ class Myalbum1TextHandler extends MyalbumTextHandler
 {
     /**
      * Myalbum1TextHandler constructor.
-     * @param null|XoopsDatabase $db
+     * @param null|\XoopsDatabase $db
      */
-    public function __construct(XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db)
     {
         parent::__construct($db);
     }
@@ -103,9 +103,9 @@ class Myalbum2TextHandler extends MyalbumTextHandler
 {
     /**
      * Myalbum2TextHandler constructor.
-     * @param null|XoopsDatabase $db
+     * @param null|\XoopsDatabase $db
      */
-    public function __construct(XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db)
     {
         parent::__construct($db);
     }

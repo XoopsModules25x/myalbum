@@ -10,7 +10,7 @@ class MyalbumPreview extends XoopsObject
     {
         global $mod_url, $moduleDirName;
 
-        $tpl = new XoopsTpl();
+        $tpl = new \XoopsTpl();
         $tpl->assign(['mod_url' => $mod_url]);
         $tpl->display("db:{$moduleDirName }_header.tpl");
     }
@@ -20,7 +20,7 @@ class MyalbumPreview extends XoopsObject
     {
         global $mod_copyright, $moduleDirName;
 
-        $tpl = new XoopsTpl();
+        $tpl = new \XoopsTpl();
         $tpl->assign(['mod_copyright' => $mod_copyright]);
         $tpl->display("db:{$moduleDirName }_footer.tpl");
     }
@@ -43,7 +43,7 @@ class MyalbumPreview extends XoopsObject
                 if ('uname' === $myalbum_nameoruname) {
                     $name = $poster->uname();
                 } else {
-                    $name = htmlspecialchars($poster->name());
+                    $name = htmlspecialchars($poster->name(), ENT_QUOTES | ENT_HTML5);
                     if ('' == $name) {
                         $name = $poster->uname();
                     }
@@ -273,8 +273,8 @@ class MyalbumPreview extends XoopsObject
     public static function getSubCategories($parent_id, $cattree)
     {
         $ret      = [];
-        $criteria = new Criteria('`status`', '0', '>');
-        $criterib = new Criteria('`pid`', $parent_id, '=');
+        $criteria = new \Criteria('`status`', '0', '>');
+        $criterib = new \Criteria('`pid`', $parent_id, '=');
         $criterib->setSort('cid');
         $criterib->setOrder('DESC');
 

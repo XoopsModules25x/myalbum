@@ -141,19 +141,19 @@ if (!empty($_POST['submit'])) {
 }
 
 // Make form objects
-$form = new XoopsThemeForm(_AM_FORM_RECORDMAINTENANCE, 'batchupload', 'redothumbs.php');
+$form = new \XoopsThemeForm(_AM_FORM_RECORDMAINTENANCE, 'batchupload', 'redothumbs.php');
 $form->setExtra("enctype='multipart/form-data'");
 
-$start_text      = new XoopsFormText(_AM_TEXT_RECORDFORSTARTING, 'start', 20, 20, $start);
-$size_text       = new XoopsFormText(_AM_TEXT_NUMBERATATIME . "<br><br><span style='font-weight:normal'>" . _AM_LABEL_DESCNUMBERATATIME . '</span>', 'size', 20, 20, $size);
-$forceredo_radio = new XoopsFormRadioYN(_AM_RADIO_FORCEREDO, 'forceredo', $forceredo);
-$removerec_radio = new XoopsFormRadioYN(_AM_RADIO_REMOVEREC, 'removerec', $removerec);
-$resize_radio    = new XoopsFormRadioYN(_AM_RADIO_RESIZE . " ({$myalbum_width}x{$myalbum_height})", 'resize', $resize);
+$start_text      = new \XoopsFormText(_AM_TEXT_RECORDFORSTARTING, 'start', 20, 20, $start);
+$size_text       = new \XoopsFormText(_AM_TEXT_NUMBERATATIME . "<br><br><span style='font-weight:normal'>" . _AM_LABEL_DESCNUMBERATATIME . '</span>', 'size', 20, 20, $size);
+$forceredo_radio = new \XoopsFormRadioYN(_AM_RADIO_FORCEREDO, 'forceredo', $forceredo);
+$removerec_radio = new \XoopsFormRadioYN(_AM_RADIO_REMOVEREC, 'removerec', $removerec);
+$resize_radio    = new \XoopsFormRadioYN(_AM_RADIO_RESIZE . " ({$myalbum_width}x{$myalbum_height})", 'resize', $resize);
 
 if (isset($record_counter) && $record_counter < $size) {
-    $submit_button = new XoopsFormLabel('', _AM_MB_FINISHED . " &nbsp; <a href='redothumbs.php'>" . _AM_LINK_RESTART . '</a>');
+    $submit_button = new \XoopsFormLabel('', _AM_MB_FINISHED . " &nbsp; <a href='redothumbs.php'>" . _AM_LINK_RESTART . '</a>');
 } else {
-    $submit_button = new XoopsFormButton('', 'submit', _AM_SUBMIT_NEXT, 'submit');
+    $submit_button = new \XoopsFormButton('', 'submit', _AM_SUBMIT_NEXT, 'submit');
 }
 
 // Render forms

@@ -34,11 +34,11 @@ if (!empty($_POST['action']) && 'admit' === $_POST['action'] && isset($_POST['id
 $photosHandler = xoops_getModuleHandler('photos');
 
 // extracting by free word
-$criteria = new CriteriaCompo(new Criteria('`status`', '0', '<='));
+$criteria = new \CriteriaCompo(new \Criteria('`status`', '0', '<='));
 if ('' !== $txt) {
     $keywords = explode(' ', $txt);
     foreach ($keywords as $keyword) {
-        $criteria->add(new Criteria('CONCAT( l.title , l.ext )', '%' . $keyword . '%', 'LIKE'), 'AND');
+        $criteria->add(new \Criteria('CONCAT( l.title , l.ext )', '%' . $keyword . '%', 'LIKE'), 'AND');
     }
 }
 xoops_cp_header();
@@ -57,11 +57,11 @@ $GLOBALS['xoopsTpl']->assign('pos', $pos);
 $numrows = $photosHandler->getCount($criteria);
 
 // Page Navigation
-$nav      = new XoopsPageNav($numrows, $num, $pos, 'pos', "num=$num&txt=" . urlencode($txt));
+$nav      = new \XoopsPageNav($numrows, $num, $pos, 'pos', "num=$num&txt=" . urlencode($txt));
 $nav_html = $nav->renderNav(10);
 $GLOBALS['xoopsTpl']->assign('nav_html', $nav_html);
 
-$criteria = new Criteria('`status`', '0', '<=');
+$criteria = new \Criteria('`status`', '0', '<=');
 $criteria->setStart($pos);
 $criteria->setLimit($num);
 

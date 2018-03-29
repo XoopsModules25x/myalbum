@@ -48,7 +48,7 @@ $GLOBALS['xoopsTpl']->assign('lang_hits', _ALBM_HITS);
 $GLOBALS['xoopsTpl']->assign('lang_rating', _ALBM_RATING);
 $GLOBALS['xoopsTpl']->assign('lang_vote', _ALBM_VOTE);
 
-$criteria = new Criteria('`pid`', '0');
+$criteria = new \Criteria('`pid`', '0');
 $criteria->setOrder('`title`');
 $rankings = [];
 $i        = 0;
@@ -70,8 +70,8 @@ foreach ($catHandler->getObjects($criteria, true) as $cid => $cat) {
     foreach ($GLOBALS['cattree']->getAllChild($cid) as $children) {
         $whr_cid[$children->getVar('cid')] = $children->getVar('cid');
     }
-    $criteria = new CriteriaCompo(new Criteria('`status`', '0', '>'));
-    $criteria->add(new Criteria('`cid`', '(' . implode(',', $whr_cid) . ')', 'IN'));
+    $criteria = new \CriteriaCompo(new \Criteria('`status`', '0', '>'));
+    $criteria->add(new \Criteria('`cid`', '(' . implode(',', $whr_cid) . ')', 'IN'));
     if (1 == $rate) {
         $criteria->setSort('rating');
         $criteria->setOrder('DESC');

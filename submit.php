@@ -193,7 +193,7 @@ if (!empty($_POST['submit'])) {
 
     if ($GLOBALS['myalbumModuleConfig']['tag']) {
         /** @var TagTagHandler $tagHandler */
-        $tagHandler = xoops_getModuleHandler('tag', 'tag');
+        $tagHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Tag'); // xoops_getModuleHandler('tag', 'tag');
         $tagHandler->updateByItem($_POST['tags'], $newid, $GLOBALS['myalbumModule']->getVar('dirname'), $cid);
     }
 
@@ -318,7 +318,7 @@ if ('imagemanager' !== $caller && !empty($_POST['preview'])) {
         'imgsrc_thumb'   => $imgsrc,
         'ahref_photo'    => $ahref
     ];
-    $tpl           = new XoopsTpl();
+    $tpl           = new \XoopsTpl();
     include __DIR__ . '/include/assign_globals.php';
     $tpl->assign($myalbum_assign_globals);
     $tpl->assign('photo', $photo_for_tpl);

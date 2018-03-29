@@ -66,7 +66,7 @@ if (isset($_POST['submit']) && '' !== $_POST['submit']) {
     $desc4save  = $GLOBALS['myts']->addSlashes($_POST['desc']);
 
     $date = strtotime($_POST['post_date']);
-    if ($date == -1) {
+    if (-1 == $date) {
         $date = time();
     }
 

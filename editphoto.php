@@ -191,7 +191,7 @@ if (!empty($_POST['submit'])) {
         $ext       = $_POST['ext'];
         if ($GLOBALS['myalbumModuleConfig']['tag']) {
             /** @var TagTagHandler $tagHandler */
-            $tagHandler = xoops_getModuleHandler('tag', 'tag');
+            $tagHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Tag'); // xoops_getModuleHandler('tag', 'tag');
             $tagHandler->updateByItem($_POST['tags'], $lid, $GLOBALS['myalbumModule']->getVar('dirname'), $cid);
         }
         MyalbumUtility::updatePhoto($lid, $cid, $title, $desc_text, $valid);
@@ -210,7 +210,7 @@ MyalbumPreview::header();
 
 // Display
 $photo_for_tpl = MyalbumPreview::getArrayForPhotoAssign($photo_obj);
-$tpl           = new XoopsTpl();
+$tpl           = new \XoopsTpl();
 include __DIR__ . '/include/assign_globals.php';
 $tpl->assign($myalbum_assign_globals);
 $tpl->assign('photo', $photo_for_tpl);
@@ -219,15 +219,15 @@ $tpl->display("db:{$moduleDirName }_photo_in_list.tpl");
 echo "</table>\n";
 
 // Show the form
-$form = new XoopsThemeForm(_ALBM_PHOTOEDITUPLOAD, 'uploadphoto', XOOPS_URL . '/modules/' . $moduleDirName . "/editphoto.php?lid=$lid");
+$form = new \XoopsThemeForm(_ALBM_PHOTOEDITUPLOAD, 'uploadphoto', XOOPS_URL . '/modules/' . $moduleDirName . "/editphoto.php?lid=$lid");
 $form->setExtra("enctype='multipart/form-data'");
 
-$title_text = new XoopsFormText(_ALBM_PHOTOTITLE, 'title', 50, 255, $photo_obj->getVar('title'));
+$title_text = new \XoopsFormText(_ALBM_PHOTOTITLE, 'title', 50, 255, $photo_obj->getVar('title'));
 
-$cat_select = new XoopsFormLabel('', $GLOBALS['cattree']->makeSelBox('cid', 'title', '-', $photo_obj->getVar('cid')));
+$cat_select = new \XoopsFormLabel('', $GLOBALS['cattree']->makeSelBox('cid', 'title', '-', $photo_obj->getVar('cid')));
 
-$cat_link = new XoopsFormLabel("<a href='javascript:location.href=\"" . XOOPS_URL . '/modules/' . $moduleDirName . "/viewcat.php?cid=\"+document.uploadphoto.cid.value;'>" . _GO . '</a>');
-$cat_tray = new XoopsFormElementTray(_ALBM_PHOTOCAT, '&nbsp;');
+$cat_link = new \XoopsFormLabel("<a href='javascript:location.href=\"" . XOOPS_URL . '/modules/' . $moduleDirName . "/viewcat.php?cid=\"+document.uploadphoto.cid.value;'>" . _GO . '</a>');
+$cat_tray = new \XoopsFormElementTray(_ALBM_PHOTOCAT, '&nbsp;');
 $cat_tray->addElement($cat_select);
 $cat_tray->addElement($cat_link);
 
@@ -240,35 +240,35 @@ $html_configs['cols']   = 60;
 $html_configs['width']  = '100%';
 $html_configs['height'] = '400px';
 $html_configs['editor'] = $GLOBALS['myalbumModuleConfig']['editor'];
-$desc_tarea             = new XoopsFormEditor(_ALBM_PHOTODESC, $html_configs['name'], $html_configs);
+$desc_tarea             = new \XoopsFormEditor(_ALBM_PHOTODESC, $html_configs['name'], $html_configs);
 
-$file_form = new XoopsFormFile(_ALBM_SELECTFILE, 'photofile', $myalbum_fsize);
+$file_form = new \XoopsFormFile(_ALBM_SELECTFILE, 'photofile', $myalbum_fsize);
 $file_form->setExtra("size='70'");
 
 if ($myalbum_canrotate) {
-    $rotate_radio = new XoopsFormRadio(_ALBM_RADIO_ROTATETITLE, 'rotate', 'rot0');
+    $rotate_radio = new \XoopsFormRadio(_ALBM_RADIO_ROTATETITLE, 'rotate', 'rot0');
     $rotate_radio->addOption('rot0', _ALBM_RADIO_ROTATE0 . ' &nbsp; ');
     $rotate_radio->addOption('rot90', "<img src='assets/images/icon_rotate90.gif' alt='" . _ALBM_RADIO_ROTATE90 . "' title='" . _ALBM_RADIO_ROTATE90 . "'> &nbsp; ");
     $rotate_radio->addOption('rot180', "<img src='assets/images/icon_rotate180.gif' alt='" . _ALBM_RADIO_ROTATE180 . "' title='" . _ALBM_RADIO_ROTATE180 . "'> &nbsp; ");
     $rotate_radio->addOption('rot270', "<img src='assets/images/icon_rotate270.gif' alt='" . _ALBM_RADIO_ROTATE270 . "' title='" . _ALBM_RADIO_ROTATE270 . "'> &nbsp; ");
 }
 
-$op_hidden      = new XoopsFormHidden('op', 'submit');
-$counter_hidden = new XoopsFormHidden('fieldCounter', 1);
-$status_hidden  = new XoopsFormHidden('old_status', $photo_for_tpl['status']);
+$op_hidden      = new \XoopsFormHidden('op', 'submit');
+$counter_hidden = new \XoopsFormHidden('fieldCounter', 1);
+$status_hidden  = new \XoopsFormHidden('old_status', $photo_for_tpl['status']);
 $valid_or_not   = empty($photo['status']) ? 0 : 1;
-$valid_box      = new XoopsFormCheckBox(_ALBM_VALIDPHOTO, 'valid', [$valid_or_not]);
+$valid_box      = new \XoopsFormCheckBox(_ALBM_VALIDPHOTO, 'valid', [$valid_or_not]);
 $valid_box->addOption('1', '&nbsp;');
 
-$submit_button  = new XoopsFormButton('', 'submit', _SUBMIT, 'submit');
-$preview_button = new XoopsFormButton('', 'preview', _PREVIEW, 'submit');
-$reset_button   = new XoopsFormButton('', 'reset', _CANCEL, 'reset');
-$submit_tray    = new XoopsFormElementTray('');
+$submit_button  = new \XoopsFormButton('', 'submit', _SUBMIT, 'submit');
+$preview_button = new \XoopsFormButton('', 'preview', _PREVIEW, 'submit');
+$reset_button   = new \XoopsFormButton('', 'reset', _CANCEL, 'reset');
+$submit_tray    = new \XoopsFormElementTray('');
 $submit_tray->addElement($preview_button);
 $submit_tray->addElement($submit_button);
 $submit_tray->addElement($reset_button);
 if ($global_perms & GPERM_DELETABLE) {
-    $delete_button = new XoopsFormButton('', 'conf_delete', _DELETE, 'submit');
+    $delete_button = new \XoopsFormButton('', 'conf_delete', _DELETE, 'submit');
     $submit_tray->addElement($delete_button);
 }
 

@@ -17,7 +17,7 @@
  * @author       XOOPS Development Team
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 include __DIR__ . '/preloads/autoloader.php';
 
@@ -25,7 +25,7 @@ $moduleDirName = basename(__DIR__);
 if (preg_match('/^myalbum(\d*)$/', $moduleDirName, $regs)) {
     $myalbum_number = $regs[1];
 } else {
-    echo 'invalid dirname of myalbum: ' . htmlspecialchars($moduleDirName);
+    echo 'invalid dirname of myalbum: ' . htmlspecialchars($moduleDirName, ENT_QUOTES | ENT_HTML5);
 }
 $_SESSION['myalbum_mydirname'] = $moduleDirName;
 
@@ -208,7 +208,7 @@ if ($GLOBALS['global_perms'] & 256) { // GPERM_RATEVIEW
     $modversion['sub'][$subcount++]['url'] = 'topten.php?rate=1';
 }
 if (isset($myalbum_catonsubmenu) && $myalbum_catonsubmenu) {
-    $criteria   = new Criteria('`pid`', 0);
+    $criteria   = new \Criteria('`pid`', 0);
     /** @var MyalbumCatHandler $catHandler */
     $catHandler = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
     if (false !== $catHandler->getCount($criteria)) {

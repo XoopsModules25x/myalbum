@@ -6,18 +6,18 @@
 function myalbum_admin_form_admission()
 {
     // Make form objects
-    $form       = new XoopsThemeForm(_ALBM_PHOTOBATCHUPLOAD, 'batchupload', 'batch.php');
-    $title_text = new XoopsFormText('', 'title', 50, 255, $GLOBALS['title4edit']);
-    $title_tray = new XoopsFormElementTray(_AM_TH_TITLE, '<br><br>');
+    $form       = new \XoopsThemeForm(_ALBM_PHOTOBATCHUPLOAD, 'batchupload', 'batch.php');
+    $title_text = new \XoopsFormText('', 'title', 50, 255, $GLOBALS['title4edit']);
+    $title_tray = new \XoopsFormElementTray(_AM_TH_TITLE, '<br><br>');
     $title_tray->addElement($title_text);
-    $title_tray->addElement(new XoopsFormLabel('', _ALBM_BATCHBLANK));
-    $cat_select       = new XoopsFormLabel(_AM_TH_CATEGORIES, $GLOBALS['cattree']->makeSelBox('cid', 'title', '--', null, false));
-    $submitter_select = new XoopsFormSelectUser(_AM_TH_SUBMITTER, 'submitter', false, $GLOBALS['submitter']);
-    $date_text        = new XoopsFormText(_AM_TH_DATE, 'post_date', 20, 20, formatTimestamp(time(), _ALBM_DTFMT_YMDHI));
-    $dir_tray         = new XoopsFormElementTray(_ALBM_TEXT_DIRECTORY, '<br><br>');
-    $dir_text         = new XoopsFormText(_ALBM_PHOTOPATH, 'dir', 50, 255, $GLOBALS['dir4edit']);
+    $title_tray->addElement(new \XoopsFormLabel('', _ALBM_BATCHBLANK));
+    $cat_select       = new \XoopsFormLabel(_AM_TH_CATEGORIES, $GLOBALS['cattree']->makeSelBox('cid', 'title', '--', null, false));
+    $submitter_select = new \XoopsFormSelectUser(_AM_TH_SUBMITTER, 'submitter', false, $GLOBALS['submitter']);
+    $date_text        = new \XoopsFormText(_AM_TH_DATE, 'post_date', 20, 20, formatTimestamp(time(), _ALBM_DTFMT_YMDHI));
+    $dir_tray         = new \XoopsFormElementTray(_ALBM_TEXT_DIRECTORY, '<br><br>');
+    $dir_text         = new \XoopsFormText(_ALBM_PHOTOPATH, 'dir', 50, 255, $GLOBALS['dir4edit']);
     $dir_tray->addElement($dir_text);
-    $dir_tray->addElement(new XoopsFormLabel(_ALBM_DESC_PHOTOPATH));
+    $dir_tray->addElement(new \XoopsFormLabel(_ALBM_DESC_PHOTOPATH));
     $html_configs           = [];
     $html_configs['name']   = 'desc_text';
     $html_configs['value']  = $GLOBALS['desc4edit'];
@@ -26,8 +26,8 @@ function myalbum_admin_form_admission()
     $html_configs['width']  = '100%';
     $html_configs['height'] = '400px';
     $html_configs['editor'] = $GLOBALS['myalbumModuleConfig']['editor'];
-    $desc_tarea             = new XoopsFormEditor(_ALBM_PHOTODESC, $html_configs['name'], $html_configs);
-    $submit_button          = new XoopsFormButton('', 'submit', _SUBMIT, 'submit');
+    $desc_tarea             = new \XoopsFormEditor(_ALBM_PHOTODESC, $html_configs['name'], $html_configs);
+    $submit_button          = new \XoopsFormButton('', 'submit', _SUBMIT, 'submit');
     $form->addElement($title_tray);
     $form->addElement($desc_tarea);
     $form->addElement($cat_select);
@@ -51,7 +51,7 @@ function myalbum_admin_form_export()
                                                  . $GLOBALS['xoopsDB']->prefix('image')
                                                  . ' i GROUP BY c.imgcat_id ORDER BY c.imgcat_weight');
     $imgcat_options = '';
-    while (list($imgcat_id, $imgcat_name, $imgcat_storetype, $imgcat_sum) = $GLOBALS['xoopsDB']->fetchRow($irs)) {
+    while (false !== (list($imgcat_id, $imgcat_name, $imgcat_storetype, $imgcat_sum) = $GLOBALS['xoopsDB']->fetchRow($irs))) {
         $imgcat_options .= "<option value='$imgcat_id'>$imgcat_storetype : $imgcat_name ($imgcat_sum)</option>\n";
     }
 
@@ -115,7 +115,7 @@ function myalbum_admin_form_import_myalbum()
     $moduleHandler = xoops_getHandler('module');
     $mrs           = $GLOBALS['xoopsDB']->query('SELECT dirname FROM ' . $GLOBALS['xoopsDB']->prefix('modules') . " WHERE dirname LIKE 'myalbum%'");
     $frm           = '';
-    while (list($src_dirname) = $GLOBALS['xoopsDB']->fetchRow($mrs)) {
+    while (false !== (list($src_dirname) = $GLOBALS['xoopsDB']->fetchRow($mrs))) {
         if ($GLOBALS['mydirname'] == $src_dirname) {
             continue;
         }
@@ -161,7 +161,7 @@ function myalbum_admin_form_import_imagemanager()
         // only when user has admin right of system 'imagemanager'
         $irs            = $GLOBALS['xoopsDB']->query('SELECT c.imgcat_id,c.imgcat_name,COUNT(i.image_id) AS imgcat_sum FROM ' . $GLOBALS['xoopsDB']->prefix('imagecategory') . ' c NATURAL LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('image') . ' i GROUP BY c.imgcat_id ORDER BY c.imgcat_weight');
         $imgcat_options = '';
-        while (list($imgcat_id, $imgcat_name, $imgcat_sum) = $GLOBALS['xoopsDB']->fetchRow($irs)) {
+        while (false !== (list($imgcat_id, $imgcat_name, $imgcat_sum) = $GLOBALS['xoopsDB']->fetchRow($irs))) {
             $imgcat_options .= "<option value='$imgcat_id'>$imgcat_name ($imgcat_sum)</option>\n";
         }
         $frm .= '<p>
@@ -192,28 +192,28 @@ function myalbum_admin_form_display_edit($cat_array, $form_title, $action)
     extract($cat_array);
 
     // Beggining of XoopsForm
-    $form = new XoopsThemeForm($form_title, 'MainForm', '');
+    $form = new \XoopsThemeForm($form_title, 'MainForm', '');
 
     // Hidden
-    $form->addElement(new XoopsFormHidden('action', $action));
-    $form->addElement(new XoopsFormHidden('cid', $cid));
+    $form->addElement(new \XoopsFormHidden('action', $action));
+    $form->addElement(new \XoopsFormHidden('cid', $cid));
 
     // Title
-    $form->addElement(new XoopsFormText(_AM_CAT_TH_TITLE, 'title', 30, 50, $GLOBALS['myts']->htmlSpecialChars($title)), true);
+    $form->addElement(new \XoopsFormText(_AM_CAT_TH_TITLE, 'title', 30, 50, $GLOBALS['myts']->htmlSpecialChars($title)), true);
 
     // Weight
-    $form->addElement(new XoopsFormText(_AM_CAT_TH_WEIGHT, 'weight', 30, 50, $weight));
+    $form->addElement(new \XoopsFormText(_AM_CAT_TH_WEIGHT, 'weight', 30, 50, $weight));
 
     // Image URL
-    $form->addElement(new XoopsFormText(_AM_CAT_TH_IMGURL, 'imgurl', 50, 150, $GLOBALS['myts']->htmlSpecialChars($imgurl)));
+    $form->addElement(new \XoopsFormText(_AM_CAT_TH_IMGURL, 'imgurl', 50, 150, $GLOBALS['myts']->htmlSpecialChars($imgurl)));
 
     // Parent Category
-    $form->addElement(new XoopsFormLabel(_ALBM_PHOTOCAT, $GLOBALS['cattree']->makeSelBox('pid', 'title', '--', $pid, true)));
+    $form->addElement(new \XoopsFormLabel(_ALBM_PHOTOCAT, $GLOBALS['cattree']->makeSelBox('pid', 'title', '--', $pid, true)));
 
     // Buttons
-    $button_tray = new XoopsFormElementTray('', '&nbsp;');
-    $button_tray->addElement(new XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
-    $button_tray->addElement(new XoopsFormButton('', 'reset', _CANCEL, 'reset'));
+    $button_tray = new \XoopsFormElementTray('', '&nbsp;');
+    $button_tray->addElement(new \XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
+    $button_tray->addElement(new \XoopsFormButton('', 'reset', _CANCEL, 'reset'));
     $form->addElement($button_tray);
 
     // End of XoopsForm
@@ -231,20 +231,20 @@ function myalbum_user_form_submit($caller = '', $photo, $lid)
 {
     // Show the form
     extract($GLOBALS['myalbumModuleConfig']);
-    $form        = new XoopsThemeForm(_ALBM_PHOTOUPLOAD, 'uploadphoto', "submit.php?caller=$caller");
+    $form        = new \XoopsThemeForm(_ALBM_PHOTOUPLOAD, 'uploadphoto', "submit.php?caller=$caller");
     $pixels_text = "$myalbum_width x $myalbum_height";
     if (isset($myalbum_canresize)) {
         if ($myalbum_canresize) {
             $pixels_text .= ' (auto resize)';
         }
     }
-    $pixels_label = new XoopsFormLabel(_ALBM_MAXPIXEL, $pixels_text);
-    $size_label   = new XoopsFormLabel(_ALBM_MAXSIZE, $myalbum_fsize . (empty($file_uploads_off) ? '' : ' &nbsp; <strong>"file_uploads" off</strong>'));
+    $pixels_label = new \XoopsFormLabel(_ALBM_MAXPIXEL, $pixels_text);
+    $size_label   = new \XoopsFormLabel(_ALBM_MAXSIZE, $myalbum_fsize . (empty($file_uploads_off) ? '' : ' &nbsp; <strong>"file_uploads" off</strong>'));
     $form->setExtra("enctype='multipart/form-data'");
 
-    $title_text = new XoopsFormText(_ALBM_PHOTOTITLE, 'title', 50, 255, $photo['title']);
+    $title_text = new \XoopsFormText(_ALBM_PHOTOTITLE, 'title', 50, 255, $photo['title']);
 
-    $cat_select = new XoopsFormLabel(_ALBM_PHOTOCAT, $GLOBALS['cattree']->makeSelBox('cid', 'title', '--', (isset($_REQUEST['cid']) ? (int)$_REQUEST['cid'] : null), false));
+    $cat_select = new \XoopsFormLabel(_ALBM_PHOTOCAT, $GLOBALS['cattree']->makeSelBox('cid', 'title', '--', (isset($_REQUEST['cid']) ? (int)$_REQUEST['cid'] : null), false));
 
     $html_configs           = [];
     $html_configs['name']   = 'desc_text';
@@ -254,30 +254,30 @@ function myalbum_user_form_submit($caller = '', $photo, $lid)
     $html_configs['width']  = '100%';
     $html_configs['height'] = '400px';
     $html_configs['editor'] = $GLOBALS['myalbumModuleConfig']['editor'];
-    $desc_tarea             = new XoopsFormEditor(_ALBM_PHOTODESC, $html_configs['name'], $html_configs);
+    $desc_tarea             = new \XoopsFormEditor(_ALBM_PHOTODESC, $html_configs['name'], $html_configs);
 
-    $file_form = new XoopsFormFile(_ALBM_SELECTFILE, 'photofile', $myalbum_fsize);
+    $file_form = new \XoopsFormFile(_ALBM_SELECTFILE, 'photofile', $myalbum_fsize);
     $file_form->setExtra("size='70'");
     if (isset($myalbum_canrotate)) {
         if ($myalbum_canrotate) {
-            $rotate_radio = new XoopsFormRadio(_ALBM_RADIO_ROTATETITLE, 'rotate', 'rot0');
+            $rotate_radio = new \XoopsFormRadio(_ALBM_RADIO_ROTATETITLE, 'rotate', 'rot0');
             $rotate_radio->addOption('rot0', _ALBM_RADIO_ROTATE0 . ' &nbsp; ');
             $rotate_radio->addOption('rot90', "<img src='assets/images/icon_rotate90.gif' alt='" . _ALBM_RADIO_ROTATE90 . "' title='" . _ALBM_RADIO_ROTATE90 . "'> &nbsp; ");
             $rotate_radio->addOption('rot180', "<img src='assets/images/icon_rotate180.gif' alt='" . _ALBM_RADIO_ROTATE180 . "' title='" . _ALBM_RADIO_ROTATE180 . "'> &nbsp; ");
             $rotate_radio->addOption('rot270', "<img src='assets/images/icon_rotate270.gif' alt='" . _ALBM_RADIO_ROTATE270 . "' title='" . _ALBM_RADIO_ROTATE270 . "'> &nbsp; ");
         }
     }
-    $op_hidden      = new XoopsFormHidden('op', 'submit');
-    $counter_hidden = new XoopsFormHidden('fieldCounter', 1);
+    $op_hidden      = new \XoopsFormHidden('op', 'submit');
+    $counter_hidden = new \XoopsFormHidden('fieldCounter', 1);
     if (!isset($preview_name)) {
         $preview_name = '';
     }
-    $preview_hidden = new XoopsFormHidden('preview_name', htmlspecialchars($preview_name), ENT_QUOTES);
+    $preview_hidden = new \XoopsFormHidden('preview_name', htmlspecialchars($preview_name, ENT_QUOTES | ENT_HTML5), ENT_QUOTES);
 
-    $submit_button  = new XoopsFormButton('', 'submit', _SUBMIT, 'submit');
-    $preview_button = new XoopsFormButton('', 'preview', _PREVIEW, 'submit');
-    $reset_button   = new XoopsFormButton('', 'reset', _CANCEL, 'reset');
-    $submit_tray    = new XoopsFormElementTray('');
+    $submit_button  = new \XoopsFormButton('', 'submit', _SUBMIT, 'submit');
+    $preview_button = new \XoopsFormButton('', 'preview', _PREVIEW, 'submit');
+    $reset_button   = new \XoopsFormButton('', 'reset', _CANCEL, 'reset');
+    $submit_tray    = new \XoopsFormElementTray('');
     if ('imagemanager' !== $caller) {
         $submit_tray->addElement($preview_button);
     }

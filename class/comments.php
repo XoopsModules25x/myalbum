@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../include/read_configs.php';
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Class for Blue Room Xcenter
@@ -52,9 +52,9 @@ class MyalbumCommentsHandler extends XoopsPersistableObjectHandler
 {
     /**
      * MyalbumCommentsHandler constructor.
-     * @param null|XoopsDatabase $db
+     * @param null|\XoopsDatabase $db
      */
-    public function __construct(XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db)
     {
         $this->db = $db;
 
@@ -69,9 +69,9 @@ class Myalbum0CommentsHandler extends MyalbumCommentsHandler
 {
     /**
      * Myalbum0CommentsHandler constructor.
-     * @param null|XoopsDatabase $db
+     * @param null|\XoopsDatabase $db
      */
-    public function __construct(XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db)
     {
         parent::__construct($db);
     }
@@ -84,9 +84,9 @@ class Myalbum1CommentsHandler extends MyalbumCommentsHandler
 {
     /**
      * Myalbum1CommentsHandler constructor.
-     * @param null|XoopsDatabase $db
+     * @param null|\XoopsDatabase $db
      */
-    public function __construct(XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db)
     {
         parent::__construct($db);
     }
@@ -99,9 +99,9 @@ class Myalbum2CommentsHandler extends MyalbumCommentsHandler
 {
     /**
      * Myalbum2CommentsHandler constructor.
-     * @param null|XoopsDatabase $db
+     * @param null|\XoopsDatabase $db
      */
-    public function __construct(XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db)
     {
         parent::__construct($db);
     }

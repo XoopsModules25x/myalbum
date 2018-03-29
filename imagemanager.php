@@ -17,7 +17,7 @@ if (empty($_GET['target'])) {
 $num = empty($_GET['num']) ? 10 : (int)$_GET['num'];
 $cid = !isset($_GET['cid']) ? 0 : (int)$_GET['cid'];
 
-$xoopsTpl = new XoopsTpl();
+$xoopsTpl = new \XoopsTpl();
 $xoopsTpl->assign('lang_imgmanager', _IMGMANAGER);
 $xoopsTpl->assign('sitename', $xoopsConfig['sitename']);
 $target = htmlspecialchars($_GET['target'], ENT_QUOTES);
@@ -74,7 +74,7 @@ if (count($cats) > 0) {
             $xoopsTpl->assign('lang_imagename', _IMAGENAME);
 
             if ($total > $num) {
-                $nav = new XoopsPageNav($total, $num, $start, 'start', "target=$target&amp;cid=$cid&amp;num=$num");
+                $nav = new \XoopsPageNav($total, $num, $start, 'start', "target=$target&amp;cid=$cid&amp;num=$num");
                 $xoopsTpl->assign('pagenav', $nav->renderNav());
             }
 

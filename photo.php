@@ -145,8 +145,8 @@ switch ($op) {
             }
         }
 
-        $criteria = new CriteriaCompo(new Criteria('`status`', '0', '>'));
-        $criteria->add(new Criteria('cid', $photo_obj->getVar('cid')));
+        $criteria = new \CriteriaCompo(new \Criteria('`status`', '0', '>'));
+        $criteria->add(new \Criteria('cid', $photo_obj->getVar('cid')));
         $criteria->setOrder($myalbum_orders[$orderby][0]);
         // create category navigation
         $ids = [];

@@ -39,7 +39,7 @@ if (function_exists('mb_http_output')) {
 header('Content-Type:text/xml; charset=utf-8');
 
 require_once $GLOBALS['xoops']->path('class/template.php');
-$GLOBALS['xoopsTpl']                 = new XoopsTpl();
+$GLOBALS['xoopsTpl']                 = new \XoopsTpl();
 $GLOBALS['xoopsTpl']->caching        = 2;
 $GLOBALS['xoopsTpl']->cache_lifetime = 3600;
 if (!$GLOBALS['xoopsTpl']->is_cached('db:' . $GLOBALS['mydirname'] . '_rss.tpl')) {
@@ -88,22 +88,22 @@ if (!$GLOBALS['xoopsTpl']->is_cached('db:' . $GLOBALS['mydirname'] . '_rss.tpl')
             $cids[$child->getVar('cid')] = $child->getVar('cid');
         }
         array_push($cids, $cid);
-        $criteria        = new CriteriaCompo(new Criteria('`status`', '0', '>'));
+        $criteria        = new \CriteriaCompo(new \Criteria('`status`', '0', '>'));
         $photo_total_sum = MyalbumUtility::getTotalCount($cids, $criteria);
         $sub_title       = preg_replace("/\'\>/", "'><img src='$mod_url/assets/images/folder16.gif' alt=''>", $GLOBALS['cattree']->getNicePathFromId($cid, 'title', "viewcat.php?num=$num"));
         $sub_title       = preg_replace('/^(.+)folder16/', '$1folder_open', $sub_title);
-        $criteria->add(new Criteria('`cid`', $cid));
+        $criteria->add(new \Criteria('`cid`', $cid));
     } elseif (0 != $uid) {
 
         // This means 'my photo'
         if ($uid < 0) {
-            $criteria = new CriteriaCompo(new Criteria('`status`', '0', '>'));
+            $criteria = new \CriteriaCompo(new \Criteria('`status`', '0', '>'));
         } else {
-            $criteria = new CriteriaCompo(new Criteria('`status`', '0', '>'));
-            $criteria->add(new Criteria('`submitter`', $uid));
+            $criteria = new \CriteriaCompo(new \Criteria('`status`', '0', '>'));
+            $criteria->add(new \Criteria('`submitter`', $uid));
         }
     } else {
-        $criteria = new CriteriaCompo(new Criteria('`status`', '0', '>'));
+        $criteria = new \CriteriaCompo(new \Criteria('`status`', '0', '>'));
     }
 
     $criteria->setOrder($myalbum_orders[$orderby][0]);
@@ -117,8 +117,8 @@ if (!$GLOBALS['xoopsTpl']->is_cached('db:' . $GLOBALS['mydirname'] . '_rss.tpl')
         $GLOBALS['xoopsTpl']->append('items', [
             'title'       => XoopsLocal::convert_encoding(htmlspecialchars($photo->getVar('title'), ENT_QUOTES)),
             'category'    => XoopsLocal::convert_encoding(htmlspecialchars($cat->getVar('title'), ENT_QUOTES)),
-            'link'        => XoopsLocal::convert_encoding(htmlspecialchars($photo->getURL())),
-            'guid'        => XoopsLocal::convert_encoding(htmlspecialchars($photo->getURL())),
+            'link'        => XoopsLocal::convert_encoding(htmlspecialchars($photo->getURL(), ENT_QUOTES | ENT_HTML5)),
+            'guid'        => XoopsLocal::convert_encoding(htmlspecialchars($photo->getURL(), ENT_QUOTES | ENT_HTML5)),
             'pubdate'     => formatTimestamp($photo->getVar('date'), 'rss'),
             'description' => XoopsLocal::convert_encoding(htmlspecialchars(sprintf(_ALBM_RSS_DESC, $photo->getThumbsURL(), $GLOBALS['myts']->displayTarea($text->getVar('description'), 1, 1, 1, 1, 1, 1)), ENT_QUOTES))
         ]);

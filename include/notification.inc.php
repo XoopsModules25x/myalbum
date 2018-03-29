@@ -17,11 +17,11 @@
  * @author       XOOPS Development Team
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 $moduleDirName = basename(dirname(__DIR__));
 if (!preg_match('/^Myalbum\d*$/', $moduleDirName)) {
-    die('invalid dirname of myalbum: ' . htmlspecialchars($moduleDirName));
+    die('invalid dirname of myalbum: ' . htmlspecialchars($moduleDirName, ENT_QUOTES | ENT_HTML5));
 }
 
 eval('function ' . $moduleDirName . '_notify_iteminfo($not_category, $item_id)

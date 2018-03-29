@@ -46,7 +46,7 @@ $GLOBALS['xoopsTpl']->assign('subcategories', MyalbumPreview::getSubCategories(0
 
 $GLOBALS['xoopsTpl']->assign('category_options', MyalbumUtility::getCategoryOptions());
 
-$criteria        = new Criteria('`status`', '0', '>');
+$criteria        = new \Criteria('`status`', '0', '>');
 $photo_num_total = $photosHandler->getCount($criteria);
 
 $GLOBALS['xoopsTpl']->assign('photo_global_sum', sprintf(_ALBM_THEREARE, $photo_num_total));
@@ -63,7 +63,7 @@ if ($pos >= $photo_num_total) {
     $pos = 0;
 }
 if ($photo_num_total > $num) {
-    $nav      = new XoopsPageNav($photo_num_total, $num, $pos, 'pos', "num=$num");
+    $nav      = new \XoopsPageNav($photo_num_total, $num, $pos, 'pos', "num=$num");
     $nav_html = $nav->renderNav(10);
     $last     = $pos + $num;
     if ($last > $photo_num_total) {
@@ -77,7 +77,7 @@ if ($photo_num_total > $num) {
     $GLOBALS['xoopsTpl']->assign('photonavdisp', false);
 }
 
-$criteria = new Criteria('`status`', '0', '>');
+$criteria = new \Criteria('`status`', '0', '>');
 $criteria->setStart($pos);
 $criteria->setLimit($num);
 //$criteria->setSort('`date`');

@@ -1,6 +1,6 @@
 <?php
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 $myalbum_orders = [
     'cidA'    => ['cid ASC', _ALBM_CIDASC],

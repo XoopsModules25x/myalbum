@@ -33,7 +33,7 @@ if (!defined('MYALBUM_BLOCK_RPHOTO_INCLUDED')) {
         if ($cat_limitation) {
             if ($cat_limit_recursive) {
                 require_once XOOPS_ROOT_PATH . '/class/xoopstree.php';
-                $cattree  = new XoopsTree($GLOBALS['xoopsDB']->prefix($table_cat), 'cid', 'pid');
+                $cattree  = new \XoopsTree($GLOBALS['xoopsDB']->prefix($table_cat), 'cid', 'pid');
                 $children = $cattree->getAllChildId($cat_limitation);
                 $whr_cat  = 'cid IN (';
                 foreach ($children as $child) {
@@ -144,7 +144,7 @@ if (!defined('MYALBUM_BLOCK_RPHOTO_INCLUDED')) {
         $cols                = empty($options[6]) ? 1 : (int)$options[6];
 
         require_once XOOPS_ROOT_PATH . '/class/xoopstree.php';
-        $cattree = new XoopsTree($xoopsDB->prefix("{$moduleDirName }_cat"), 'cid', 'pid');
+        $cattree = new \XoopsTree($xoopsDB->prefix("{$moduleDirName }_cat"), 'cid', 'pid');
 
         ob_start();
         $cattree->makeMySelBox('title', 'title', $cat_limitation, 1, 'options[3]');

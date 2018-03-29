@@ -36,7 +36,7 @@ require_once $GLOBALS['xoops']->path('class/tree.php');
 /** @var MyalbumCatHandler $catHandler */
 $catHandler         = xoops_getModuleHandler('cat');
 $cats               = $catHandler->getObjects(null, true);
-$GLOBALS['cattree'] = new XoopsObjectTree($cats, 'cid', 'pid', 0);
+$GLOBALS['cattree'] = new \XoopsObjectTree($cats, 'cid', 'pid', 0);
 
 $xoopsModuleAdminPath = $GLOBALS['xoops']->path('www/' . $GLOBALS['xoopsModule']->getInfo('dirmoduleadmin'));
 require_once $xoopsModuleAdminPath . '/moduleadmin.php';
@@ -62,7 +62,7 @@ $pathIcon32 = $GLOBALS['xoops']->url('www/' . $GLOBALS['xoopsModule']->getInfo('
 
 if (!isset($GLOBALS['xoopsTpl']) || !is_object($GLOBALS['xoopsTpl'])) {
     require_once XOOPS_ROOT_PATH . '/class/template.php';
-    $GLOBALS['xoopsTpl'] = new XoopsTpl();
+    $GLOBALS['xoopsTpl'] = new \XoopsTpl();
 }
 
 $GLOBALS['xoopsTpl']->assign('pathImageIcon', $GLOBALS['myalbumImageIcon']);

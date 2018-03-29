@@ -1,6 +1,6 @@
 <?php
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 include __DIR__ . '/../include/read_configs.php';
 
@@ -260,9 +260,9 @@ class MyalbumPhotosHandler extends XoopsPersistableObjectHandler
     public $_dirname = null;
 
     /**
-     * @param null|XoopsDatabase $db
+     * @param null|\XoopsDatabase $db
      */
-    public function __construct(XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db)
     {
         $this->db       = $db;
         $this->_dirname = $GLOBALS['mydirname'];
@@ -297,8 +297,8 @@ class MyalbumPhotosHandler extends XoopsPersistableObjectHandler
                 $cats       = $catHandler->getObjects(null, true);
                 // Trigger Notification
                 $notificationHandler = xoops_getHandler('notification');
-                $criteria            = new Criteria('`lid`', "('" . implode("','", $ids) . "')", 'IN');
-                $photos              = $this->getObjects($criteria, true);
+                $criteria            = new \Criteria('`lid`', "('" . implode("','", $ids) . "')", 'IN');
+                $photos              =& $this->getObjects($criteria, true);
                 foreach ($photos as $lid => $photo) {
                     $notificationHandler->triggerEvent('global', 0, 'new_photo', [
                         'PHOTO_TITLE' => $photo->getVar('title'),
@@ -338,7 +338,7 @@ class MyalbumPhotosHandler extends XoopsPersistableObjectHandler
      *
      * @return bool
      */
-    public function delete(XoopsObject $photo, $force = true)
+    public function delete(\XoopsObject $photo, $force = true)
     {
         if (is_numeric($photo)) {
             $photo = $this->get($photo);
@@ -362,7 +362,7 @@ class MyalbumPhotosHandler extends XoopsPersistableObjectHandler
         $textHandler     = xoops_getModuleHandler('text', $this->_dirname);
         /** @var MyalbumCommentsHandler $commentsHandler */
         $commentsHandler = xoops_getModuleHandler('comments', $this->_dirname);
-        $criteria        = new Criteria('`lid`', $photo->getVar('lid'));
+        $criteria        = new \Criteria('`lid`', $photo->getVar('lid'));
         $votedataHandler->deleteAll($criteria, $force);
         $textHandler->deleteAll($criteria, $force);
 
@@ -376,7 +376,7 @@ class MyalbumPhotosHandler extends XoopsPersistableObjectHandler
      */
     public function getCountDeadPhotos($criteria = null)
     {
-        $objects = $this->getObjects($criteria, true);
+        $objects =& $this->getObjects($criteria, true);
         $i       = 0;
         foreach ($objects as $lid => $object) {
             if (!is_readable($GLOBALS['photos_dir'] . DS . $lid . '.' . $object->getVar('ext'))) {
@@ -394,7 +394,7 @@ class MyalbumPhotosHandler extends XoopsPersistableObjectHandler
      */
     public function getCountDeadThumbs($criteria = null)
     {
-        $objects = $this->getObjects($criteria, true);
+        $objects =& $this->getObjects($criteria, true);
         $i       = 0;
         foreach ($objects as $lid => $object) {
             if (!is_readable($GLOBALS['thumbs_dir'] . DS . $lid . '.' . $object->getVar('ext'))) {
@@ -412,7 +412,7 @@ class MyalbumPhotosHandler extends XoopsPersistableObjectHandler
      */
     public function getDeadPhotos($criteria = null)
     {
-        $objects = $this->getObjects($criteria, true);
+        $objects =& $this->getObjects($criteria, true);
         foreach ($objects as $lid => $object) {
             if (is_readable($GLOBALS['photos_dir'] . DS . $lid . '.' . $object->getVar('ext'))) {
                 unset($objects[$lid]);
@@ -429,7 +429,7 @@ class MyalbumPhotosHandler extends XoopsPersistableObjectHandler
      */
     public function getDeadThumbs($criteria = null)
     {
-        $objects = $this->getObjects($criteria, true);
+        $objects =& $this->getObjects($criteria, true);
         foreach ($objects as $lid => $object) {
             if (is_readable($GLOBALS['thumbs_dir'] . DS . $lid . '.' . $object->getVar('ext'))) {
                 unset($objects[$lid]);
@@ -446,9 +446,9 @@ class MyalbumPhotosHandler extends XoopsPersistableObjectHandler
 class Myalbum0PhotosHandler extends MyalbumPhotosHandler
 {
     /**
-     * @param null|XoopsDatabase $db
+     * @param null|\XoopsDatabase $db
      */
-    public function __construct(XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db)
     {
         parent::__construct($db);
     }
@@ -460,9 +460,9 @@ class Myalbum0PhotosHandler extends MyalbumPhotosHandler
 class Myalbum1PhotosHandler extends MyalbumPhotosHandler
 {
     /**
-     * @param null|XoopsDatabase $db
+     * @param null|\XoopsDatabase $db
      */
-    public function __construct(XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db)
     {
         parent::__construct($db);
     }
@@ -474,9 +474,9 @@ class Myalbum1PhotosHandler extends MyalbumPhotosHandler
 class Myalbum2PhotosHandler extends MyalbumPhotosHandler
 {
     /**
-     * @param null|XoopsDatabase $db
+     * @param null|\XoopsDatabase $db
      */
-    public function __construct(XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db)
     {
         parent::__construct($db);
     }

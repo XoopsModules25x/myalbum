@@ -89,14 +89,14 @@ if (false === $error_upload_tmp_dir) {
 // Tables
 $title = _AM_H4_TABLE;
 $adminObject->addInfoBox($title);
-$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MB_PHOTOSTABLE . ': ' . $GLOBALS['table_photos'] . ': %s photos</label>', $photosHandler->getCount(new Criteria('`status`', '0', '>'))), '', 'Purple');
+$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MB_PHOTOSTABLE . ': ' . $GLOBALS['table_photos'] . ': %s photos</label>', $photosHandler->getCount(new \Criteria('`status`', '0', '>'))), '', 'Purple');
 $adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MB_PHOTOSTABLE . ': ' . $GLOBALS['table_photos'] . ': %s dead photos</label>', $photosHandler->getCountDeadPhotos()), '', 'Red');
 $adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MB_PHOTOSTABLE . ': ' . $GLOBALS['table_photos'] . ': %s dead thumbs</label>', $photosHandler->getCountDeadThumbs()), '', 'Red');
 $adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MB_DESCRIPTIONTABLE . ': ' . $GLOBALS['table_text'] . ': %s descriptions</label>', $textHandler->getCount()), '', 'Purple');
 $adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MB_DESCRIPTIONTABLE . ': ' . $GLOBALS['table_text'] . ': %s bytes</label>', $textHandler->getBytes()), '', 'Orange');
 $adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MB_CATEGORIESTABLE . ': ' . $GLOBALS['table_cat'] . ': %s categories</label>', $catHandler->getCount()), '', 'Purple');
 $adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MB_VOTEDATATABLE . ': ' . $GLOBALS['table_votedata'] . ': %s votes</label>', $votedataHandler->getCount()), '', 'Purple');
-$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MB_COMMENTSTABLE . ': ' . $GLOBALS['table_comments'] . ': %s comments</label>', $commentsHandler->getCount(new Criteria('`com_modid`', $GLOBALS['myalbumModule']->getVar('mid'), '='))), '', 'Purple');
+$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MB_COMMENTSTABLE . ': ' . $GLOBALS['table_comments'] . ': %s comments</label>', $commentsHandler->getCount(new \Criteria('`com_modid`', $GLOBALS['myalbumModule']->getVar('mid'), '='))), '', 'Purple');
 
 // Config
 $title = _AM_H4_CONFIG;

@@ -18,16 +18,16 @@ if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
     $src_cid     = (int)$_POST['cid'];
     $src_dirname = empty($_POST['src_dirname']) ? '' : $_POST['src_dirname'];
     if ($moduleDirName === $src_dirname) {
-        die('source dirname is same as dest dirname: ' . htmlspecialchars($src_dirname));
+        die('source dirname is same as dest dirname: ' . htmlspecialchars($src_dirname, ENT_QUOTES | ENT_HTML5));
     }
     if (!preg_match('/^myalbum(\d*)$/', $src_dirname, $regs)) {
-        die('invalid dirname of myalbum: ' . htmlspecialchars($src_dirname));
+        die('invalid dirname of myalbum: ' . htmlspecialchars($src_dirname, ENT_QUOTES | ENT_HTML5));
     }
     /** @var XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     $module        = $moduleHandler->getByDirname($src_dirname);
     if (!is_object($module)) {
-        die('invalid module dirname:' . htmlspecialchars($src_dirname));
+        die('invalid module dirname:' . htmlspecialchars($src_dirname, ENT_QUOTES | ENT_HTML5));
     }
     $src_mid = $module->getVar('mid');
 

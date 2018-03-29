@@ -1,7 +1,7 @@
 <?php
 // $Id$
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 if (substr(XOOPS_VERSION, 6, 3) < 2.1) {
 
@@ -16,7 +16,7 @@ if (substr(XOOPS_VERSION, 6, 3) < 2.1) {
         /* $sql = "SELECT * FROM ".$xoopsDB->prefix('newblocks')." WHERE mid=".$mid." AND block_type ='D'";
         $fresult = $xoopsDB->query($sql);
         $n_funcnum = $count;
-        while ($fblock = $xoopsDB->fetchArray($fresult)) {
+        while (false !== ($fblock = $xoopsDB->fetchArray($fresult))) {
             $bnum = 0;
             for ($i = 1 ; $i <= $count ; ++$i) {
                 if (($modversion['blocks'][$i]['file'] == $fblock['func_file']) and ($modversion['blocks'][$i]['show_func'] == $fblock['show_func'])) {

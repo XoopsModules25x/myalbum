@@ -752,7 +752,7 @@ function myalbum_clear_tmp_files($dir_path, $prefix = 'tmp_')
 function myalbum_updaterating($lid)
 {
     $votedataHandler = xoops_getModuleHandler('votedata', $GLOBALS['mydirname']);
-    $criteria        = new CriteriaCompo(new Criteria('`lid`', $lid));
+    $criteria        = new \CriteriaCompo(new \Criteria('`lid`', $lid));
     $votes           = $votedataHandler->getObjects($criteria, true);
     $votesDB         = $votedataHandler->getCount($criteria);
     $totalrating     = 0;
@@ -779,9 +779,9 @@ function myalbum_updaterating($lid)
 function myalbum_get_photo_small_sum_from_cat($cid, Criteria $criteria = null)
 {
     if (is_object($criteria)) {
-        $criteria = new CriteriaCompo($criteria);
+        $criteria = new \CriteriaCompo($criteria);
     }
-    $criteria->add(new Criteria('`cid`', $cid));
+    $criteria->add(new \Criteria('`cid`', $cid));
     $photoHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
 
     return $photoHandler->getCount($criteria);
@@ -797,9 +797,9 @@ function myalbum_get_photo_small_sum_from_cat($cid, Criteria $criteria = null)
 function myalbum_get_photo_total_sum_from_cats($cids, $criteria = null)
 {
     if (is_object($criteria)) {
-        $criteria = new CriteriaCompo($criteria);
+        $criteria = new \CriteriaCompo($criteria);
     }
-    $criteria->add(new Criteria('`cid`', '(' . implode(',', $cids) . ',0)', 'IN'));
+    $criteria->add(new \Criteria('`cid`', '(' . implode(',', $cids) . ',0)', 'IN'));
     $photoHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
 
     return $photoHandler->getCount($criteria);
@@ -925,7 +925,7 @@ function myalbum_get_cat_options(
     $rs = $GLOBALS['xoopsDB']->query("SELECT c.title,c.cid,c.pid,COUNT(p.lid) AS num FROM $table_name_cat c LEFT JOIN $table_name_photos p ON c.cid=p.cid GROUP BY c.cid ORDER BY pid ASC,$order DESC");
 
     $key = 1;
-    while (list($title, $cid, $pid, $num) = $GLOBALS['xoopsDB']->fetchRow($rs)) {
+    while (false !== (list($title, $cid, $pid, $num) = $GLOBALS['xoopsDB']->fetchRow($rs))) {
         $cats[$key] = [
             'cid'      => (int)$cid,
             'pid'      => (int)$pid,

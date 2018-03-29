@@ -24,7 +24,7 @@ if (!empty($_POST['action']) && 'delete' === $_POST['action'] && isset($_POST['i
     }
 
     foreach ($_POST['ids'] as $lid) {
-        $criteria = new Criteria('lid', (int)$lid);
+        $criteria = new \Criteria('lid', (int)$lid);
         MyalbumUtility::deletePhotos($criteria);
     }
     redirect_header("photomanager.php?num=$num&cid=$cid", 2, _ALBM_DELETINGPHOTO);
@@ -63,7 +63,7 @@ if (!empty($_POST['action']) && 'delete' === $_POST['action'] && isset($_POST['i
     // new_post_date
     if (!empty($_POST['new_post_date'])) {
         $new_date = strtotime($_POST['new_post_date']);
-        if ($new_date != -1) {
+        if (-1 != $new_date) {
             $set .= "date='$new_date',";
         }
     }
@@ -111,7 +111,7 @@ list($numrows) = $xoopsDB->fetchRow($rs);
 $prs = $xoopsDB->query('SELECT l.lid, l.title, l.submitter, l.ext, l.res_x, l.res_y, l.status FROM ' . $GLOBALS['xoopsDB']->prefix($table_photos) . ' l LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix($table_cat) . " c ON l.cid=c.cid WHERE $whr ORDER BY l.lid DESC LIMIT $pos,$num");
 
 // Page Navigation
-$nav      = new XoopsPageNav($numrows, $num, $pos, 'pos', "num=$num&cid=$cid&txt=" . urlencode($txt));
+$nav      = new \XoopsPageNav($numrows, $num, $pos, 'pos', "num=$num&cid=$cid&txt=" . urlencode($txt));
 $nav_html = $nav->renderNav(10);
 
 // Information of page navigating

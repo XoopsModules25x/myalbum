@@ -1,6 +1,6 @@
 <?php
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 $GLOBALS['myalbum_assign_globals'] = [
     'lang_total'           => _ALBM_CAPTION_TOTAL,

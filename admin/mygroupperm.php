@@ -1,6 +1,6 @@
 <?php
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * @param XoopsDatabase $db
@@ -10,13 +10,13 @@
  *
  * @return bool
  */
-function myDeleteByModule(XoopsDatabase $db, $gperm_modid, $gperm_name = null, $gperm_itemid = null)
+function myDeleteByModule(\XoopsDatabase $db, $gperm_modid, $gperm_name = null, $gperm_itemid = null)
 {
-    $criteria = new CriteriaCompo(new Criteria('gperm_modid', (int)$gperm_modid));
+    $criteria = new \CriteriaCompo(new \Criteria('gperm_modid', (int)$gperm_modid));
     if (isset($gperm_name)) {
-        $criteria->add(new Criteria('gperm_name', $gperm_name));
+        $criteria->add(new \Criteria('gperm_name', $gperm_name));
         if (isset($gperm_itemid)) {
-            $criteria->add(new Criteria('gperm_itemid', (int)$gperm_itemid));
+            $criteria->add(new \Criteria('gperm_itemid', (int)$gperm_itemid));
         }
     }
     $sql = 'DELETE FROM ' . $db->prefix('group_permission') . ' ' . $criteria->renderWhere();

@@ -28,12 +28,12 @@ if (isset($_GET['op'])) {
 if (isset($previewblock)) {
     xoops_cp_header();
     require_once XOOPS_ROOT_PATH . '/class/template.php';
-    $xoopsTpl = new XoopsTpl();
+    $xoopsTpl = new \XoopsTpl();
     $xoopsTpl->caching=(0);
     if (isset($bid)) {
         $block['bid']        = $bid;
         $block['form_title'] = _AM_SYSTEM_BLOCKS_EDITBLOCK;
-        $myblock             = new XoopsBlock($bid);
+        $myblock             = new \XoopsBlock($bid);
         $block['name']       = $myblock->getVar('name');
     } else {
         if ('save' === $op) {
@@ -41,7 +41,7 @@ if (isset($previewblock)) {
         } else {
             $block['form_title'] = _AM_SYSTEM_BLOCKS_CLONEBLOCK;
         }
-        $myblock = new XoopsBlock();
+        $myblock = new \XoopsBlock();
         $myblock->setVar('block_type', 'C');
     }
     $myts = \MyTextSanitizer::getInstance();
@@ -192,7 +192,7 @@ function myblocksadmin_update_block(
         xoops_cp_footer();
         exit();
     }
-    $myblock = new XoopsBlock($bid);
+    $myblock = new \XoopsBlock($bid);
     // $myblock->setVar('side', $bside); GIJ -
     if ($bside >= 0) {
         $myblock->setVar('side', $bside);
@@ -228,7 +228,7 @@ function myblocksadmin_update_block(
     }
     $msg = _AM_DBUPDATED;
     if (false !== $myblock->store()) {
-        $db  = XoopsDatabaseFactory::getDatabaseConnection();
+        $db  = \XoopsDatabaseFactory::getDatabaseConnection();
         $sql = sprintf('DELETE FROM %s WHERE block_id = %u', $db->prefix('block_module_link'), $bid);
         $db->query($sql);
         foreach ($bmodule as $bmid) {
@@ -236,7 +236,7 @@ function myblocksadmin_update_block(
             $db->query($sql);
         }
         require_once XOOPS_ROOT_PATH . '/class/template.php';
-        $xoopsTpl = new XoopsTpl();
+        $xoopsTpl = new \XoopsTpl();
         $xoopsTpl->caching=(2);
         if ('' != $myblock->getVar('template')) {
             if ($xoopsTpl->is_cached('db:' . $myblock->getVar('template'))) {
