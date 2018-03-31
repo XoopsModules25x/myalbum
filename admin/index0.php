@@ -10,9 +10,9 @@ $catHandler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
 $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
 
 // GPCS vars
-$action = isset($_POST['action']) ? $_POST['action'] : '';
-$disp   = isset($_GET['disp']) ? $_GET['disp'] : '';
-$cid    = isset($_GET['cid']) ? (int)$_GET['cid'] : 0;
+$action = \Xmf\Request::getString('action', '', 'POST');
+$disp   = \Xmf\Request::getString('disp', '', 'GET');
+$cid    = \Xmf\Request::getInt('cid', 0, 'GET');
 
 if ('insert' === $action) {
 

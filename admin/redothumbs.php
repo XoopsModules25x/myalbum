@@ -7,15 +7,15 @@
 require_once __DIR__ . '/admin_header.php';
 
 // get and check $_POST['size']
-$start = isset($_POST['start']) ? (int)$_POST['start'] : 0;
-$size  = isset($_POST['size']) ? (int)$_POST['size'] : 10;
+$start = \Xmf\Request::getInt('start', 0, 'POST');
+$size  = \Xmf\Request::getInt('size', 10, 'POST');
 if ($size <= 0 || $size > 10000) {
     $size = 10;
 }
 
-$forceredo = isset($_POST['forceredo']) ? (int)$_POST['forceredo'] : false;
-$removerec = isset($_POST['removerec']) ? (int)$_POST['removerec'] : false;
-$resize    = isset($_POST['resize']) ? (int)$_POST['resize'] : false;
+$forceredo = \Xmf\Request::getInt('forceredo', false, 'POST');
+$removerec = \Xmf\Request::getInt('removerec', false, 'POST');
+$resize    = \Xmf\Request::getInt('resize', false, 'POST');
 
 // get flag of safe_mode
 //$safe_mode_flag = ini_get('safe_mode');

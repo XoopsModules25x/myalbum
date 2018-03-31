@@ -21,7 +21,7 @@ if (isset($_POST)) {
 if (isset($_GET['op'])) {
     if ('edit' === $_GET['op'] || 'delete' === $_GET['op'] || 'delete_ok' === $_GET['op'] || 'clone' === $_GET['op'] || 'previewpopup' === $_GET['op']) {
         $op  = $_GET['op'];
-        $bid = isset($_GET['bid']) ? (int)$_GET['bid'] : 0;
+        $bid = \Xmf\Request::getInt('bid', 0, 'GET');
     }
 }
 

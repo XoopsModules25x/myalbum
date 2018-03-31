@@ -253,7 +253,7 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
 
     if ('showmod' === $op) {
         $configHandler = xoops_getHandler('config');
-        $mod            = isset($_GET['mod']) ? (int)$_GET['mod'] : 0;
+        $mod            = \Xmf\Request::getInt('mod', 0, 'GET');
         if (empty($mod)) {
             header('Location: admin.php?fct=preferences');
             exit();
