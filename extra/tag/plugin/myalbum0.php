@@ -76,8 +76,8 @@ function myalbum0_tag_iteminfo(&$items)
 /**
  * Remove orphan tag-item links
  *
- * @return    boolean
- *
+ * @param $mid
+ * @return void
  */
 function myalbum0_tag_synchronization($mid)
 {

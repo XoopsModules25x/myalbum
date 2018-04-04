@@ -10,7 +10,7 @@ require_once __DIR__ . '/admin_header.php';
 if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
 
     // anti-CSRF
-    if (!xoopsSecurity::checkReferer()) {
+    if (!XoopsSecurity::checkReferer()) {
         die('XOOPS_URL is not included in your REFERER');
     }
 
@@ -108,7 +108,7 @@ if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
                 $GLOBALS['xoopsDB']->prefix($table_text),
                 $GLOBALS['xoopsDB']->prefix($table_votedata)
             ];
-            MyalbumUtility::deletePhotos("lid='$src_lid'");
+            Myalbum\Utility::deletePhotos("lid='$src_lid'");
             list($photos_dir, $thumbs_dir, $myalbum_mid, $table_photos, $table_text, $table_votedata) = [
                 $saved_photos_dir,
                 $saved_thumbs_dir,
@@ -134,7 +134,7 @@ else {
         }
 
         // anti-CSRF
-        if (!xoopsSecurity::checkReferer()) {
+        if (!XoopsSecurity::checkReferer()) {
             die('XOOPS_URL is not included in your REFERER');
         }
 
@@ -177,10 +177,10 @@ else {
                 list($body) = $GLOBALS['xoopsDB']->fetchRow($brs);
                 fwrite($fp, $body);
                 fclose($fp);
-                MyalbumUtility::createThumb($dst_file, $lid, $ext);
+                Myalbum\Utility::createThumb($dst_file, $lid, $ext);
             } else {
                 @copy($src_file, $dst_file);
-                MyalbumUtility::createThumb($src_file, $lid, $ext);
+                Myalbum\Utility::createThumb($src_file, $lid, $ext);
             }
 
             list($width, $height, $type) = getimagesize($dst_file);

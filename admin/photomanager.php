@@ -19,13 +19,13 @@ if (!empty($_POST['action']) && 'delete' === $_POST['action'] && isset($_POST['i
     // remove records
 
     // Double check for anti-CSRF
-    if (!xoopsSecurity::checkReferer()) {
+    if (!XoopsSecurity::checkReferer()) {
         die('XOOPS_URL is not included in your REFERER');
     }
 
     foreach ($_POST['ids'] as $lid) {
         $criteria = new \Criteria('lid', (int)$lid);
-        MyalbumUtility::deletePhotos($criteria);
+        Myalbum\Utility::deletePhotos($criteria);
     }
     redirect_header("photomanager.php?num=$num&cid=$cid", 2, _ALBM_DELETINGPHOTO);
 } elseif (isset($_POST['update']) && isset($_POST['ids']) && is_array($_POST['ids'])) {
@@ -33,7 +33,7 @@ if (!empty($_POST['action']) && 'delete' === $_POST['action'] && isset($_POST['i
     // batch update
 
     // Double check for anti-CSRF
-    if (!xoopsSecurity::checkReferer()) {
+    if (!XoopsSecurity::checkReferer()) {
         die('XOOPS_URL is not included in your REFERER');
     }
 
@@ -133,11 +133,11 @@ foreach ($numbers as $number) {
     $num_options .= "<option value='$number' $selected>" . sprintf(_ALBM_FMT_PHOTONUM, $number) . "</option>\n";
 }
 
-MyalbumUtility::getCategoryOptions();
+Myalbum\Utility::getCategoryOptions();
 
 // Options for Selecting a category
-$cat_options            = MyalbumUtility::getCategoryOptions('title', $cid, '--', '----');
-$cat_options_for_update = MyalbumUtility::getCategoryOptions('title', 0, '--', _AM_OPT_NOCHANGE);
+$cat_options            = Myalbum\Utility::getCategoryOptions('title', $cid, '--', '----');
+$cat_options_for_update = Myalbum\Utility::getCategoryOptions('title', 0, '--', _AM_OPT_NOCHANGE);
 
 // Options for Selecting a user
 $user_options = "<option value='0'>" . _AM_OPT_NOCHANGE . "</option>\n";

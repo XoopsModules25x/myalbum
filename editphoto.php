@@ -160,17 +160,17 @@ if (!empty($_POST['submit'])) {
             $tmp_name  = $uploader->getSavedFileName();
             $ext       = substr(strrchr($tmp_name, '.'), 1);
 
-            MyalbumUtility::editPhoto($GLOBALS['photos_dir'] . "/$tmp_name", $GLOBALS['photos_dir'] . "/$lid.$ext");
+            Myalbum\Utility::editPhoto($GLOBALS['photos_dir'] . "/$tmp_name", $GLOBALS['photos_dir'] . "/$lid.$ext");
             $dim = getimagesize($GLOBALS['photos_dir'] . "/$lid.$ext");
             if (!$dim) {
                 $dim = [0, 0];
             }
 
-            if (!MyalbumUtility::createThumb($GLOBALS['photos_dir'] . "/$lid.$ext", $lid, $ext)) {
+            if (!Myalbum\Utility::createThumb($GLOBALS['photos_dir'] . "/$lid.$ext", $lid, $ext)) {
                 redirect_header('editphoto.php?lid=$lid', 10, _ALBM_FILEERROR);
             }
 
-            MyalbumUtility::updatePhoto($lid, $cid, $title, $desc_text, $valid, $ext, $dim[0], $dim[1]);
+            Myalbum\Utility::updatePhoto($lid, $cid, $title, $desc_text, $valid, $ext, $dim[0], $dim[1]);
             exit;
         } else {
             $uploader->getErrors(true);
@@ -194,7 +194,7 @@ if (!empty($_POST['submit'])) {
             $tagHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Tag'); // xoops_getModuleHandler('tag', 'tag');
             $tagHandler->updateByItem($_POST['tags'], $lid, $GLOBALS['myalbumModule']->getVar('dirname'), $cid);
         }
-        MyalbumUtility::updatePhoto($lid, $cid, $title, $desc_text, $valid);
+        Myalbum\Utility::updatePhoto($lid, $cid, $title, $desc_text, $valid);
         exit;
     }
 }

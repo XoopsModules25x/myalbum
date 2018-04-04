@@ -70,7 +70,7 @@ if (isset($_POST['submit'])) {
     $vote->setVar('ratingtimestamp', $datetime);
     $votedataHandler->insert($vote, true) || die('DB error: INSERT votedata table');
     //All is well.  Calculate Score & Add to Summary (for quick retrieval & sorting) to DB.
-    MyalbumUtility::updateRating($lid);
+    Myalbum\Utility::updateRating($lid);
     $ratemessage = _ALBM_VOTEAPPRE . '<br>' . sprintf(_ALBM_THANKURATE, $xoopsConfig['sitename']);
     redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/index.php', 2, $ratemessage);
 } else {

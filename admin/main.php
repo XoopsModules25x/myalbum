@@ -26,7 +26,7 @@ if ('insert' === $action) {
     // newly insert
     $sql  = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix($table_cat) . ' SET ';
     $cols = ['pid' => 'I:N:0', 'title' => '50:E:1', 'imgurl' => '150:E:0', 'weight' => 'I:N:0'];
-    $sql .= MyalbumUtility::mysqliGetSqlSet($cols);
+    $sql .= Myalbum\Utility::mysqliGetSqlSet($cols);
     $GLOBALS['xoopsDB']->query($sql) || die('DB Error: insert category');
 
     // Check if cid == pid
@@ -61,7 +61,7 @@ if ('insert' === $action) {
     // update
     $sql  = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table_cat) . ' SET ';
     $cols = ['pid' => 'I:N:0', 'title' => '50:E:1', 'imgurl' => '150:E:0', 'weight' => 'I:N:0'];
-    $sql .= MyalbumUtility::mysqliGetSqlSet($cols) . " WHERE cid='$cid'";
+    $sql .= Myalbum\Utility::mysqliGetSqlSet($cols) . " WHERE cid='$cid'";
     $GLOBALS['xoopsDB']->query($sql) || die('DB Error: update category');
     redirect_header('main.php', 1, _AM_CAT_UPDATED);
 } elseif (!empty($_POST['delcat'])) {
@@ -87,7 +87,7 @@ if ('insert' === $action) {
     $whr .= "$cid)";
     xoops_notification_deletebyitem($myalbum_mid, 'category', $cid);
     $criteria = new \Criteria('`cid`', '(' . implode(',', $children) . ')', 'IN');
-    MyalbumUtility::deletePhotos($criteria);
+    Myalbum\Utility::deletePhotos($criteria);
     $GLOBALS['xoopsDB']->query('DELETE FROM ' . $GLOBALS['xoopsDB']->prefix($table_cat) . " WHERE $whr")
     || die('DB error: DELETE cat table');
     redirect_header('main.php', 2, _ALBM_CATDELETED);

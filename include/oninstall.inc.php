@@ -9,7 +9,7 @@ eval('
 function xoops_module_install_' . $moduleDirName . '( $module )
 {
     $modid = $module->getVar("mid") ;
-    $gpermHandler = xoops_getHandler("groupperm");
+    $grouppermHandler = xoops_getHandler("groupperm");
 
     $global_perms_array = array(
         GPERM_INSERTABLE => _ALBM_GPERM_G_INSERTABLE ,
@@ -23,19 +23,19 @@ function xoops_module_install_' . $moduleDirName . '( $module )
     ) ;
 
     foreach ($global_perms_array as $perms_id => $perms_name) {
-        $gperm = $gpermHandler->create();
+        $gperm = $grouppermHandler->create();
         $gperm->setVar("gperm_groupid", XOOPS_GROUP_ADMIN);
         $gperm->setVar("gperm_name", "myalbum_global");
         $gperm->setVar("gperm_modid", $modid);
         $gperm->setVar("gperm_itemid", $perms_id );
-        $gpermHandler->insert($gperm) ;
+        $grouppermHandler->insert($gperm) ;
         unset($gperm);
     }
     
     require_once $GLOBALS["xoops"]->path("modules/' . $moduleDirName . '/include/config.php");
     require_once $GLOBALS["xoops"]->path("modules/' . $moduleDirName . '/class/Utility.php");
     foreach (array_keys($uploadFolders) as $i) {
-        MyalbumUtility::createFolder($uploadFolders[$i]);
+        Myalbum\Utility::createFolder($uploadFolders[$i]);
     }
 
     
@@ -55,13 +55,13 @@ function xoops_module_install_myalbum(\XoopsModule $xoopsModule)
     require_once $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/include/config.php');
 
     foreach (array_keys($uploadFolders) as $i) {
-        MyalbumUtility::createFolder($uploadFolders[$i]);
+        Myalbum\Utility::createFolder($uploadFolders[$i]);
     }
 
     $file = _ALMB_ROOT_PATH . '/assets/images/blank.png';
     foreach (array_keys($copyFiles) as $i) {
         $dest = $copyFiles[$i] . '/blank.png';
-        MyalbumUtility::copyFile($file, $dest);
+        Myalbum\Utility::copyFile($file, $dest);
     }
 
     return true;

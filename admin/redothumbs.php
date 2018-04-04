@@ -61,7 +61,7 @@ if (!empty($_POST['submit'])) {
         if (!is_readable("$photos_dir/$lid.$ext")) {
             echo _AM_MB_PHOTONOTEXISTS . ' &nbsp; ';
             if ($removerec) {
-                MyalbumUtility::deletePhotos("lid='$lid'");
+                Myalbum\Utility::deletePhotos("lid='$lid'");
                 echo _AM_MB_RECREMOVED . "<br>\n";
             } else {
                 echo _AM_MB_SKIPPED . "<br>\n";
@@ -72,7 +72,7 @@ if (!empty($_POST['submit'])) {
         // Check if the file is normal image
         if (!in_array(strtolower($ext), $myalbum_normal_exts)) {
             if ($forceredo || !is_readable("$thumbs_dir/$lid.gif")) {
-                MyalbumUtility::createThumb("$photos_dir/$lid.$ext", $lid, $ext);
+                Myalbum\Utility::createThumb("$photos_dir/$lid.$ext", $lid, $ext);
                 echo _AM_MB_CREATEDTHUMBS . "<br>\n";
             } else {
                 echo _AM_MB_SKIPPED . "<br>\n";
@@ -89,7 +89,7 @@ if (!empty($_POST['submit'])) {
             $tmp_path = "$photos_dir/myalbum_tmp_photo";
             @unlink($tmp_path);
             rename("$photos_dir/$lid.$ext", $tmp_path);
-            MyalbumUtility::editPhoto($tmp_path, "$photos_dir/$lid.$ext");
+            Myalbum\Utility::editPhoto($tmp_path, "$photos_dir/$lid.$ext");
             @unlink($tmp_path);
             echo _AM_MB_PHOTORESIZED . ' &nbsp; ';
             list($true_w, $true_h) = getimagesize("$photos_dir/$lid.$ext");
@@ -107,13 +107,13 @@ if (!empty($_POST['submit'])) {
             list($thumbs_w, $thumbs_h) = getimagesize("$thumbs_dir/$lid.$ext");
             echo "{$thumbs_w}x{$thumbs_h} ... ";
             if ($forceredo) {
-                $retcode = MyalbumUtility::createThumb("$photos_dir/$lid.$ext", $lid, $ext);
+                $retcode = Myalbum\Utility::createThumb("$photos_dir/$lid.$ext", $lid, $ext);
             } else {
                 $retcode = 3;
             }
         } else {
             if ($myalbum_makethumb) {
-                $retcode = MyalbumUtility::createThumb("$photos_dir/$lid.$ext", $lid, $ext);
+                $retcode = Myalbum\Utility::createThumb("$photos_dir/$lid.$ext", $lid, $ext);
             } else {
                 $retcode = 3;
             }
@@ -168,7 +168,7 @@ if (!is_object($xoopsModule)) {
 }
 echo "<h3 style='text-align:left;'>" . sprintf(_AM_H3_FMT_RECORDMAINTENANCE, $xoopsModule->name()) . "</h3>\n";
 
-MyalbumUtility::openTable();
+Myalbum\Utility::openTable();
 $form->addElement($start_text);
 $form->addElement($size_text);
 $form->addElement($forceredo_radio);
@@ -176,7 +176,7 @@ $form->addElement($removerec_radio);
 $form->addElement($resize_radio);
 $form->addElement($submit_button);
 $form->display();
-MyalbumUtility::closeTable();
+Myalbum\Utility::closeTable();
 
 if (isset($result_str)) {
     echo "<br>\n";

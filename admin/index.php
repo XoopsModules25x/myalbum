@@ -1,4 +1,7 @@
 <?php
+
+use XoopsModules\Myalbum;
+
 require_once __DIR__ . '/admin_header.php';
 xoops_loadLanguage('admin');
 
@@ -191,7 +194,7 @@ if (!class_exists('MyAlbumUtility')) {
 }
 
 foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
-    MyAlbumUtility::createFolder($uploadFolders[$i]);
+    Myalbum\Utility::createFolder($uploadFolders[$i]);
     $indexAdmin->addConfigBoxLine($uploadFolders[$i], 'folder');
     //    $indexAdmin->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
 }

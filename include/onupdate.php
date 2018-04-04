@@ -17,6 +17,8 @@
  * @author       XOOPS Development Team
  */
 
+use XoopsModules\Myalbum;
+
 if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)
     || !$GLOBALS['xoopsUser']->IsAdmin()
 ) {
@@ -71,25 +73,12 @@ function xoops_module_update_myalbum(\XoopsModule $module, $previousVersion = nu
 
     /** @var Myalbum\Helper $helper */
     /** @var Myalbum\Utility $utility */
-    /** @var Myalbum\Configurator $configurator */
+    /** @var Myalbum\Common\Configurator $configurator */
     $helper  = Myalbum\Helper::getInstance();
     $utility = new Myalbum\Utility();
-    $configurator = new Myalbum\Configurator();
+    $configurator = new Myalbum\Common\Configurator();
 
     if ($previousVersion < 240) {
-
-        //rename column EXAMPLE
-        $tables     = new Tables();
-        $table      = 'myalbumx_categories';
-        $column     = 'ordre';
-        $newName    = 'order';
-        $attributes = "INT(5) NOT NULL DEFAULT '0'";
-        if ($tables->useTable($table)) {
-            $tables->alterColumn($table, $column, $attributes, $newName);
-            if (!$tables->executeQueue()) {
-                echo '<br>' . _AM_XXXXX_UPGRADEFAILED0 . ' ' . $migrate->getLastError();
-            }
-        }
 
         //delete old HTML templates
         if (count($configurator->templateFolders) > 0) {
@@ -136,7 +125,7 @@ function xoops_module_update_myalbum(\XoopsModule $module, $previousVersion = nu
         if (count($configurator->uploadFolders) > 0) {
             //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
             foreach (array_keys($configurator->uploadFolders) as $i) {
-                $utilityClass::createFolder($configurator->uploadFolders[$i]);
+                $utility::createFolder($configurator->uploadFolders[$i]);
             }
         }
 
@@ -145,7 +134,7 @@ function xoops_module_update_myalbum(\XoopsModule $module, $previousVersion = nu
             $file = __DIR__ . '/../assets/images/blank.png';
             foreach (array_keys($configurator->copyBlankFiles) as $i) {
                 $dest = $configurator->copyBlankFiles[$i] . '/blank.png';
-                $utilityClass::copyFile($file, $dest);
+                $utility::copyFile($file, $dest);
             }
         }
 
@@ -153,9 +142,9 @@ function xoops_module_update_myalbum(\XoopsModule $module, $previousVersion = nu
         $sql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('tplfile') . " WHERE `tpl_module` = '" . $module->getVar('dirname', 'n') . '\' AND `tpl_file` LIKE \'%.html%\'';
         $GLOBALS['xoopsDB']->queryF($sql);
 
-        /** @var XoopsGroupPermHandler $gpermHandler */
-        $gpermHandler = xoops_getHandler('groupperm');
-        return $gpermHandler->deleteByModule($module->getVar('mid'), 'item_read');
+        /** @var XoopsGroupPermHandler $grouppermHandler */
+        $grouppermHandler = xoops_getHandler('groupperm');
+        return $grouppermHandler->deleteByModule($module->getVar('mid'), 'item_read');
     }
     return true;
 }

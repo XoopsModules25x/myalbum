@@ -293,7 +293,7 @@ class MyalbumPreview extends XoopsObject
                     'cid'              => $child->getVar('cid'),
                     'title'            => $child->getVar('title'),
                     'weight'           => $child->getVar('weight'),
-                    'photo_small_sum'  => MyalbumUtility::getCategoryCount($child->getVar('cid'), $criteria),
+                    'photo_small_sum'  => Myalbum\Utility::getCategoryCount($child->getVar('cid'), $criteria),
                     'number_of_subcat' => count($GLOBALS['cattree']->getFirstChild($child->getVar('cid')))
                 ];
             }
@@ -311,12 +311,12 @@ class MyalbumPreview extends XoopsObject
 
             array_push($cids, $cid);
 
-            $photo_total_sum = MyalbumUtility::getTotalCount($cids, $criteria);
+            $photo_total_sum = Myalbum\Utility::getTotalCount($cids, $criteria);
 
             $ret[] = [
                 'cid'             => $cid,
                 'imgurl'          => $GLOBALS['myts']->htmlSpecialChars($imgurl),
-                'photo_small_sum' => MyalbumUtility::getCategoryCount($cid, $criteria),
+                'photo_small_sum' => Myalbum\Utility::getCategoryCount($cid, $criteria),
                 'photo_total_sum' => $photo_total_sum,
                 'title'           => $title,
                 'weight'          => $weight,

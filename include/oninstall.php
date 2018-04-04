@@ -17,6 +17,8 @@
  * @author       XOOPS Development Team
  */
 
+use XoopsModules\Myalbum;
+
 //require_once __DIR__ . '/setup.php';
 
 /**
@@ -29,7 +31,7 @@
 function xoops_module_pre_install_myalbum(\XoopsModule $module)
 {
     include __DIR__ . '/../preloads/autoloader.php';
-    /** @var \Utility $utility */
+    /** @var Myalbum\Utility $utility */
     $utility = new \XoopsModules\Myalbum\Utility();
     $xoopsSuccess = $utility::checkVerXoops($module);
     $phpSuccess   = $utility::checkVerPhp($module);
@@ -59,9 +61,9 @@ function xoops_module_install_myalbum(\XoopsModule $module)
     $moduleDirName = basename(dirname(__DIR__));
 
 
-    $helper       = latestnews\Helper::getInstance();
-    $utility      = new latestnews\Utility();
-    $configurator = new latestnews\Configurator();
+    $helper       = Myalbum\Helper::getInstance();
+    $utility      = new Myalbum\Utility();
+    $configurator = new Myalbum\Common\Configurator();
     // Load language files
     $helper->loadLanguage('admin');
     $helper->loadLanguage('modinfo');
@@ -70,19 +72,19 @@ function xoops_module_install_myalbum(\XoopsModule $module)
     global $xoopsModule;
     $moduleId     = $xoopsModule->getVar('mid');
     $moduleId2    = $helper->getModule()->mid();
-    $gpermHandler = xoops_getHandler('groupperm');
+    $grouppermHandler = xoops_getHandler('groupperm');
     // access rights ------------------------------------------
-    $gpermHandler->addRight($moduleDirName . '_approve', 1, XOOPS_GROUP_ADMIN, $moduleId);
-    $gpermHandler->addRight($moduleDirName . '_submit', 1, XOOPS_GROUP_ADMIN, $moduleId);
-    $gpermHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_ADMIN, $moduleId);
-    $gpermHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_USERS, $moduleId);
-    $gpermHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_ANONYMOUS, $moduleId);
+    $grouppermHandler->addRight($moduleDirName . '_approve', 1, XOOPS_GROUP_ADMIN, $moduleId);
+    $grouppermHandler->addRight($moduleDirName . '_submit', 1, XOOPS_GROUP_ADMIN, $moduleId);
+    $grouppermHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_ADMIN, $moduleId);
+    $grouppermHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_USERS, $moduleId);
+    $grouppermHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_ANONYMOUS, $moduleId);
 
     //  ---  CREATE FOLDERS ---------------
     if (count($configurator->uploadFolders) > 0) {
         //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
         foreach (array_keys($configurator->uploadFolders) as $i) {
-            $utilityClass::createFolder($configurator->uploadFolders[$i]);
+            $utility::createFolder($configurator->uploadFolders[$i]);
         }
     }
 
@@ -91,7 +93,7 @@ function xoops_module_install_myalbum(\XoopsModule $module)
         $file = __DIR__ . '/../assets/images/blank.png';
         foreach (array_keys($configurator->copyBlankFiles) as $i) {
             $dest = $configurator->copyBlankFiles[$i] . '/blank.png';
-            $utilityClass::copyFile($file, $dest);
+            $utility::copyFile($file, $dest);
         }
     }
     //delete .html entries from the tpl table
@@ -100,24 +102,3 @@ function xoops_module_install_myalbum(\XoopsModule $module)
 
     return true;
 }
-
-//======================================================
-
-$indexFile = 'index.html';
-$blankFile = $GLOBALS['xoops']->path('modules/randomquote/assets/images/icons/blank.gif');
-
-//Creation du dossier "uploads" pour le module à la racine du site
-$module_uploads = $GLOBALS['xoops']->path('uploads/randomquote');
-if (!is_dir($module_uploads)) {
-    mkdir($module_uploads, 0777);
-}
-chmod($module_uploads, 0777);
-copy($indexFile, $GLOBALS['xoops']->path('uploads/randomquote/index.html'));
-
-//Creation du fichier citas dans uploads
-$module_uploads = $GLOBALS['xoops']->path('uploads/randomquote/citas');
-if (!is_dir($module_uploads)) {
-    mkdir($module_uploads, 0777);
-}
-chmod($module_uploads, 0777);
-copy($indexFile, $GLOBALS['xoops']->path('uploads/randomquote/citas/index.html'));

@@ -76,14 +76,14 @@ if ($cid > 0) {
     // Category Specified
     $GLOBALS['xoopsTpl']->assign('category_id', $cid);
     $GLOBALS['xoopsTpl']->assign('subcategories', MyalbumPreview::getSubCategories($cid, $GLOBALS['cattree']));
-    $GLOBALS['xoopsTpl']->assign('category_options', MyalbumUtility::getCategoryOptions());
+    $GLOBALS['xoopsTpl']->assign('category_options', Myalbum\Utility::getCategoryOptions());
 
     foreach ($GLOBALS['cattree']->getAllChild($cid) as $child) {
         $cids[$child->getVar('cid')] = $child->getVar('cid');
     }
     array_push($cids, $cid);
     $criteria        = new \CriteriaCompo(new \Criteria('`status`', '0', '>'));
-    $photo_total_sum = MyalbumUtility::getTotalCount($cids, $criteria);
+    $photo_total_sum = Myalbum\Utility::getTotalCount($cids, $criteria);
     if (!empty($cids)) {
         foreach ($cids as $index => $child) {
             $childcat = $catHandler->get($child);

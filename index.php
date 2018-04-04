@@ -44,7 +44,7 @@ foreach ($GLOBALS['myalbum_assign_globals'] as $key => $value) {
 
 $GLOBALS['xoopsTpl']->assign('subcategories', MyalbumPreview::getSubCategories(0, $GLOBALS['cattree']));
 
-$GLOBALS['xoopsTpl']->assign('category_options', MyalbumUtility::getCategoryOptions());
+$GLOBALS['xoopsTpl']->assign('category_options', Myalbum\Utility::getCategoryOptions());
 
 $criteria        = new \Criteria('`status`', '0', '>');
 $photo_num_total = $photosHandler->getCount($criteria);

@@ -53,7 +53,7 @@ switch ($op) {
         break;
     case 'default':
     default:
-        MyalbumUtility::updateRating($lid);
+        Myalbum\Utility::updateRating($lid);
         /** @var MyalbumPhotosHandler $photosHandler */
         $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
         /** @var MyalbumCatHandler $catHandler */
