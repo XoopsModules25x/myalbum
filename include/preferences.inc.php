@@ -31,9 +31,11 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
     if (isset($_GET['op'])) {
         $op = trim($_GET['op']);
     }
-    if (isset($_GET['confcat_id'])) {
-        $confcat_id = (int)$_GET['confcat_id'];
+    if (\Xmf\Request::hasVar('confcat_id', 'GET')) {
+        $confcat_id = \Xmf\Request::getInt('confcat_id', 0, 'GET');
     }
+
+
     if ('list' === $op) {
         $confcatHandler = xoops_getHandler('configcategory');
         $confcats        = $confcatHandler->getObjects();

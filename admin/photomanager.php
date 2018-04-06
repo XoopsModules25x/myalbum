@@ -8,9 +8,9 @@ require_once __DIR__ . '/admin_header.php';
 
 // GPCS vars
 $max_col = 4;
-$cid     = empty($_GET['cid']) ? 0 : (int)$_GET['cid'];
-$pos     = empty($_GET['pos']) ? 0 : (int)$_GET['pos'];
-$num     = empty($_GET['num']) ? 20 : (int)$_GET['num'];
+$cid     = \Xmf\Request::getInt('cid', 0, 'GET');
+$pos     = \Xmf\Request::getInt('pos', 0, 'GET');
+$num     = \Xmf\Request::getInt('num', 20, 'GET');
 $txt     = empty($_GET['txt']) ? '' : $GLOBALS['myts']->stripSlashesGPC(trim($_GET['txt']));
 
 // Database actions
@@ -52,12 +52,12 @@ if (!empty($_POST['action']) && 'delete' === $_POST['action'] && isset($_POST['i
 
     // new_cid
     if (!empty($_POST['new_cid'])) {
-        $set .= "cid='" . (int)$_POST['new_cid'] . "',";
+        $set .= "cid='" . \Xmf\Request::getInt('new_cid', 0, 'POST') . "',";
     }
 
     // new_submitter
     if (!empty($_POST['new_submitter'])) {
-        $set .= "submitter='" . (int)$_POST['new_submitter'] . "',";
+        $set .= "submitter='" . \Xmf\Request::getInt('new_submitter', 0, 'POST') . "',";
     }
 
     // new_post_date

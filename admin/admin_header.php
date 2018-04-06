@@ -69,7 +69,7 @@ $GLOBALS['xoopsTpl']->assign('pathImageIcon', $GLOBALS['myalbumImageIcon']);
 $GLOBALS['xoopsTpl']->assign('pathImageAdmin', $GLOBALS['myalbumImageAdmin']);
 
 if (isset($_GET['lid'])) {
-    $lid    = (int)$_GET['lid'];
+    $lid    = \Xmf\Request::getInt('lid', 0, 'GET');
     $result = $GLOBALS['xoopsDB']->query("SELECT submitter FROM $table_photos where lid=$lid", 0);
     list($submitter) = $GLOBALS['xoopsDB']->fetchRow($result);
 } else {

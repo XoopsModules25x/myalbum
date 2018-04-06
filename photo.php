@@ -7,8 +7,8 @@ $catpath = '';
 include __DIR__ . '/header.php';
 
 // GET variables
-$lid = empty($_GET['lid']) ? 0 : (int)$_GET['lid'];
-$cid = empty($_GET['cid']) ? 0 : (int)$_GET['cid'];
+$lid = \Xmf\Request::getInt('lid', 0, 'GET');
+$cid = \Xmf\Request::getInt('cid', 0, 'GET');
 
 if (isset($_GET['op'])) {
     $op = $_GET['op'];

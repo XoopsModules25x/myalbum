@@ -6,8 +6,8 @@
 
 include __DIR__ . '/header.php';
 
-$hit  = (isset($_GET['hit']) ? (int)$_GET['hit'] : 0);
-$rate = (isset($_GET['rate']) ? (int)$_GET['rate'] : 0);
+$hit  = \Xmf\Request::getInt('hit', 0, 'GET');
+$rate = \Xmf\Request::getInt('rate', 0, 'GET');
 
 if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
     $url = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/top,' . $hit . ',' . $rate . '.html';

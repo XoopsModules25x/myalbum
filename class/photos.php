@@ -298,7 +298,7 @@ class MyalbumPhotosHandler extends XoopsPersistableObjectHandler
                 // Trigger Notification
                 $notificationHandler = xoops_getHandler('notification');
                 $criteria            = new \Criteria('`lid`', "('" . implode("','", $ids) . "')", 'IN');
-                $photos              =& $this->getObjects($criteria, true);
+                $photos              = $this->getObjects($criteria, true);
                 foreach ($photos as $lid => $photo) {
                     $notificationHandler->triggerEvent('global', 0, 'new_photo', [
                         'PHOTO_TITLE' => $photo->getVar('title'),
@@ -376,7 +376,7 @@ class MyalbumPhotosHandler extends XoopsPersistableObjectHandler
      */
     public function getCountDeadPhotos($criteria = null)
     {
-        $objects =& $this->getObjects($criteria, true);
+        $objects = $this->getObjects($criteria, true);
         $i       = 0;
         foreach ($objects as $lid => $object) {
             if (!is_readable($GLOBALS['photos_dir'] . DS . $lid . '.' . $object->getVar('ext'))) {
@@ -394,7 +394,7 @@ class MyalbumPhotosHandler extends XoopsPersistableObjectHandler
      */
     public function getCountDeadThumbs($criteria = null)
     {
-        $objects =& $this->getObjects($criteria, true);
+        $objects = $this->getObjects($criteria, true);
         $i       = 0;
         foreach ($objects as $lid => $object) {
             if (!is_readable($GLOBALS['thumbs_dir'] . DS . $lid . '.' . $object->getVar('ext'))) {
@@ -412,7 +412,7 @@ class MyalbumPhotosHandler extends XoopsPersistableObjectHandler
      */
     public function getDeadPhotos($criteria = null)
     {
-        $objects =& $this->getObjects($criteria, true);
+        $objects = $this->getObjects($criteria, true);
         foreach ($objects as $lid => $object) {
             if (is_readable($GLOBALS['photos_dir'] . DS . $lid . '.' . $object->getVar('ext'))) {
                 unset($objects[$lid]);
@@ -429,7 +429,7 @@ class MyalbumPhotosHandler extends XoopsPersistableObjectHandler
      */
     public function getDeadThumbs($criteria = null)
     {
-        $objects =& $this->getObjects($criteria, true);
+        $objects = $this->getObjects($criteria, true);
         foreach ($objects as $lid => $object) {
             if (is_readable($GLOBALS['thumbs_dir'] . DS . $lid . '.' . $object->getVar('ext'))) {
                 unset($objects[$lid]);

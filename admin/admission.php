@@ -7,8 +7,8 @@
 require_once __DIR__ . '/admin_header.php';
 
 // GET vars
-$pos = empty($_GET['pos']) ? 0 : (int)$_GET['pos'];
-$num = empty($_GET['num']) ? 10 : (int)$_GET['num'];
+$pos = \Xmf\Request::getInt('pos', 0, 'GET');
+$num = \Xmf\Request::getInt('num', 10, 'GET');
 $txt = empty($_GET['txt']) ? '' : $GLOBALS['myts']->stripSlashesGPC(trim($_GET['txt']));
 
 if (!empty($_POST['action']) && 'admit' === $_POST['action'] && isset($_POST['ids']) && is_array($_POST['ids'])) {

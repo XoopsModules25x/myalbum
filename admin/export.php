@@ -20,12 +20,12 @@ if (!empty($_POST['imagemanager_export']) && !empty($_POST['imgcat_id']) && !emp
     }
 
     // get dst information
-    $dst_cid          = (int)$_POST['imgcat_id'];
+    $dst_cid          = \Xmf\Request::getInt('imgcat_id', 0, 'POST');
     $dst_table_photos = $xoopsDB->prefix('image');
     $dst_table_cat    = $xoopsDB->prefix('imagecategory');
 
     // get src information
-    $src_cid          = (int)$_POST['cid'];
+    $src_cid          = \Xmf\Request::getInt('cid', 0, 'POST');
     $src_table_photos = $xoopsDB->prefix($table_photos);
     $src_table_cat    = $xoopsDB->prefix($table_cat);
 

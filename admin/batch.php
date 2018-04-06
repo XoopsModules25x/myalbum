@@ -7,16 +7,10 @@
 require_once __DIR__ . '/admin_header.php';
 
 // GPCS vars
-$GLOBALS['submitter'] = empty($_POST['submitter']) ? $my_uid : (int)$_POST['submitter'];
-if (isset($_POST['cid'])) {
-    $cid = (int)$_POST['cid'];
-} else {
-    if (isset($_GET['cid'])) {
-        $cid = (int)$_GET['cid'];
-    } else {
-        $cid = 0;
-    }
-}
+$GLOBALS['submitter'] = \Xmf\Request::getInt('submitter', $my_uid, 'POST');
+
+$cid    = \Xmf\Request::getInt('cid', 0);
+
 $GLOBALS['dir4edit']   = isset($_POST['dir']) ? $GLOBALS['myts']->htmlSpecialChars($_POST['dir']) : '';
 $GLOBALS['title4edit'] = isset($_POST['title']) ? $GLOBALS['myts']->htmlSpecialChars($_POST['title']) : '';
 $GLOBALS['desc4edit']  = isset($_POST['desc']) ? $GLOBALS['myts']->htmlSpecialChars($_POST['desc']) : '';

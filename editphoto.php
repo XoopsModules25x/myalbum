@@ -6,7 +6,7 @@
 
 include __DIR__ . '/header.php';
 
-$lid = empty($_GET['lid']) ? 0 : (int)$_GET['lid'];
+$lid = \Xmf\Request::getInt('lid', 0, 'GET');
 
 /** @var MyalbumPhotosHandler $photosHandler */
 $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
@@ -87,12 +87,12 @@ if (!empty($_POST['submit'])) {
     if (empty($_POST['submitter'])) {
         $submitter = $my_uid;
     } else {
-        $submitter = (int)$_POST['submitter'];
+        $submitter = \Xmf\Request::getInt('submitter', 0, 'POST');
     }
 
     // status change
     if ($isadmin) {
-        $valid = empty($_POST['valid']) ? 0 : (int)$_POST['valid'];
+        $valid = \Xmf\Request::getInt('valid', 0, 'POST');
         if (empty($_POST['old_status'])) {
             if (0 == $valid) {
                 $valid = null;
@@ -110,7 +110,7 @@ if (!empty($_POST['submit'])) {
         $valid = 2;
     }
 
-    $cid = empty($_POST['cid']) ? 0 : (int)$_POST['cid'];
+    $cid = \Xmf\Request::getInt('cid', 0, 'POST');
 
     // Check if upload file name specified
     $field = $_POST['xoops_upload_file'][0];
@@ -187,7 +187,7 @@ if (!empty($_POST['submit'])) {
         }
         $title     = $GLOBALS['myts']->stripSlashesGPC($_POST['title']);
         $desc_text = $GLOBALS['myts']->stripSlashesGPC($_POST['desc_text']);
-        $cid       = (int)$_POST['cid'];
+        $cid       = \Xmf\Request::getInt('cid', 0, 'POST');
         $ext       = $_POST['ext'];
         if ($GLOBALS['myalbumModuleConfig']['tag']) {
             /** @var TagTagHandler $tagHandler */

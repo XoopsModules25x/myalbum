@@ -9,7 +9,7 @@ if (!($global_perms & GPERM_RATEVOTE)) {
     redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/index.php', 1, _NOPERM);
 }
 
-$lid = empty($_GET['lid']) ? 0 : (int)$_GET['lid'];
+$lid = \Xmf\Request::getInt('lid', 0, 'GET');
 /** @var MyalbumPhotosHandler $photosHandler */
 $photosHandler   = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
 /** @var MyalbumVotedataHandler $votedataHandler */
@@ -24,8 +24,8 @@ if (isset($_POST['submit'])) {
     //Make sure only 1 anonymous from an IP in a single day.
     $anonwaitdays = 1;
     $ip           = getenv('REMOTE_ADDR');
-    $lid          = (int)$_POST['lid'];
-    $rating       = (int)$_POST['rating'];
+    $lid          = \Xmf\Request::getInt('lid', 0, 'POST');
+    $rating       = \Xmf\Request::getInt('rating', 0, 'POST');
     // Check if rating is valid
     if ($rating <= 0 || $rating > 10) {
         redirect_header($photo_obj->getRateURL(), 4, _ALBM_NORATING);

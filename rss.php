@@ -3,14 +3,14 @@
 include __DIR__ . '/header.php';
 
 // GET variables
-$cid = empty($_GET['cid']) ? 0 : (int)$_GET['cid'];
-$uid = empty($_GET['uid']) ? 0 : (int)$_GET['uid'];
-$num = empty($_GET['num']) ? (int)$myalbum_perpage : (int)$_GET['num'];
+$cid = \Xmf\Request::getInt('cid', 0, 'GET');
+$uid = \Xmf\Request::getInt('uid', 0, 'GET');
+$num = \Xmf\Request::getInt('num', (int)$myalbum_perpage, 'GET');
 if ($num < 1) {
     $num = 10;
 }
-$pos  = empty($_GET['pos']) ? 0 : (int)$_GET['pos'];
-$view = empty($_GET['view']) ? $myalbum_viewcattype : $_GET['view'];
+$pos  = \Xmf\Request::getInt('pos', 0, 'GET');
+$view = \Xmf\Request::getString('view', $myalbum_viewcattype, 'GET');
 /** @var MyalbumPhotosHandler $photosHandler */
 $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
 /** @var MyalbumTextHandler $textHandler */

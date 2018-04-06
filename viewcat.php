@@ -7,13 +7,13 @@
 include __DIR__ . '/header.php';
 
 // GET variables
-$cid = !isset($_GET['cid']) ? 0 : (int)$_GET['cid'];
-$uid = !isset($_GET['uid']) ? 0 : (int)$_GET['uid'];
-$num = !isset($_GET['num']) ? (int)$myalbum_perpage : (int)$_GET['num'];
+$cid = \Xmf\Request::getInt('cid', 0, 'GET');
+$uid = \Xmf\Request::getInt('uid', 0, 'GET');
+$num = \Xmf\Request::getInt('num', (int)$myalbum_perpage, 'GET');
 if ($num < 1) {
     $num = 10;
 }
-$pos  = !isset($_GET['pos']) ? 0 : (int)$_GET['pos'];
+$pos  = \Xmf\Request::getInt('pos', 0, 'GET');
 $view = !isset($_GET['view']) ? $myalbum_viewcattype : $_GET['view'];
 
 /** @var MyalbumPhotosHandler $photosHandler */

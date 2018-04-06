@@ -856,7 +856,7 @@ class Utility extends \XoopsObject
             $photo->setVar('res_y', $y);
         }
 
-        $cid = empty($_POST['cid']) ? 0 : (int)$_POST['cid'];
+        $cid = \Xmf\Request::getInt('cid', 0, 'POST');
 
         if ($photosHandler->insert($photo, true)) {
             $text->setVar('description', $desc);

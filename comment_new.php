@@ -20,7 +20,7 @@
 include __DIR__ . '/../../mainfile.php';
 include __DIR__ . '/include/read_configs.php';
 
-$lid = empty($_GET['com_itemid']) ? 0 : (int)$_GET['com_itemid'];
+$lid = \Xmf\Request::getInt('com_itemid', 0, 'GET');
 if ($lid > 0) {
     $photosHandler  = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
     $photo          = $photosHandler->get($lid);

@@ -3,6 +3,8 @@
 //                      myAlbum-P - XOOPS photo album                        //
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
+
+use XoopsModules\Myalbum;
 $lid = '';
 include __DIR__ . '/header.php';
 /** @var MyalbumCatHandler $catHandler */
@@ -13,9 +15,9 @@ $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
 $textHandler   = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
 
 // GET variables
-$caller = empty($_GET['caller']) ? '' : $_GET['caller'];
+$caller = \Xmf\Request::getString('caller', '', 'GET');
 // POST variables
-$preview_name = empty($_POST['preview_name']) ? '' : $_POST['preview_name'];
+$preview_name = \Xmf\Request::getString('preview_name', '', 'POST');
 // check INSERTABLE
 if (!($global_perms & GPERM_INSERTABLE)) {
     redirect_header(XOOPS_URL . '/user.php', 2, _ALBM_MUSTREGFIRST);
@@ -88,7 +90,7 @@ if (!empty($_POST['submit'])) {
 
     $submitter = $my_uid;
     $photo_obj = $photosHandler->create();
-    $cid       = empty($_POST['cid']) ? 0 : (int)$_POST['cid'];
+    $cid       = \Xmf\Request::getInt('cid', 0, 'POST');
 
     // Check if cid is valid
     if ($cid <= 0) {
@@ -262,7 +264,7 @@ if ('imagemanager' === $caller) {
 if ('imagemanager' !== $caller && !empty($_POST['preview'])) {
     $photo['description'] = $GLOBALS['myts']->stripSlashesGPC($_POST['desc_text']);
     $photo['title']       = $GLOBALS['myts']->stripSlashesGPC($_POST['title']);
-    $photo['cid']         = empty($_POST['cid']) ? 0 : (int)$_POST['cid'];
+    $photo['cid']         = \Xmf\Request::getInt('cid', 0, 'POST');
 
     $field = $_POST['xoops_upload_file'][0];
     if (is_readable($_FILES[$field]['tmp_name'])) {
@@ -327,7 +329,7 @@ if ('imagemanager' !== $caller && !empty($_POST['preview'])) {
     echo "</table>\n";
 } else {
     $photo = [
-        'cid'         => empty($_GET['cid']) ? 0 : (int)$_GET['cid'],
+        'cid'         => \Xmf\Request::getInt('cid', 0, 'GET'),
         'description' => '',
         'title'       => ''
     ];

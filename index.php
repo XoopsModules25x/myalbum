@@ -11,8 +11,8 @@ $catHandler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
 /** @var MyalbumPhotosHandler $photosHandler */
 $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
 
-$num = empty($_GET['num']) ? $myalbum_newphotos : (int)$_GET['num'];
-$pos = empty($_GET['pos']) ? 0 : (int)$_GET['pos'];
+$num = \Xmf\Request::getInt('num', $myalbum_newphotos, 'GET');
+$pos = \Xmf\Request::getInt('pos', 0, 'GET');
 
 if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
     $url = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/index,' . $num . ',' . $pos . $GLOBALS['myalbumModuleConfig']['endofurl'];

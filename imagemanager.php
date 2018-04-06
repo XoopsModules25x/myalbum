@@ -14,8 +14,8 @@ include XOOPS_ROOT_PATH . '/class/template.php';
 if (empty($_GET['target'])) {
     exit;
 }
-$num = empty($_GET['num']) ? 10 : (int)$_GET['num'];
-$cid = !isset($_GET['cid']) ? 0 : (int)$_GET['cid'];
+$num = \Xmf\Request::getInt('num', 10, 'GET');
+$cid = \Xmf\Request::getInt('cid', 0, 'GET');
 
 $xoopsTpl = new \XoopsTpl();
 $xoopsTpl->assign('lang_imgmanager', _IMGMANAGER);
@@ -67,7 +67,7 @@ if (count($cats) > 0) {
         $rs = $xoopsDB->query("SELECT COUNT(*) FROM $table_photos WHERE cid='$cid' AND status>0 AND $whr_ext");
         list($total) = $xoopsDB->fetchRow($rs);
         if ($total > 0) {
-            $start = empty($_GET['start']) ? 0 : (int)$_GET['start'];
+            $start = \Xmf\Request::getInt('start', 0, 'GET');
             $prs   = $xoopsDB->query("SELECT lid,cid,title,ext,submitter,res_x,res_y,$select_is_normal AS is_normal FROM $table_photos WHERE cid='$cid' AND status>0 AND $whr_ext ORDER BY date DESC LIMIT $start,$num");
             $xoopsTpl->assign('image_total', $total);
             $xoopsTpl->assign('lang_image', _IMAGE);

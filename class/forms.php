@@ -247,7 +247,7 @@ class MyalbumForms extends XoopsObject
 
         $title_text = new \XoopsFormText(_ALBM_PHOTOTITLE, 'title', 50, 255, $photo['title']);
 
-        $cat_select = new \XoopsFormLabel(_ALBM_PHOTOCAT, $GLOBALS['cattree']->makeSelBox('cid', 'title', '--', (isset($_REQUEST['cid']) ? (int)$_REQUEST['cid'] : null), false));
+        $cat_select = new \XoopsFormLabel(_ALBM_PHOTOCAT, $GLOBALS['cattree']->makeSelBox('cid', 'title', '--', \Xmf\Request::getInt('cid', null, 'REQUEST'), false));
 
         $html_configs           = [];
         $html_configs['name']   = 'desc_text';

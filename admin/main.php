@@ -31,7 +31,7 @@ if ('insert' === $action) {
 
     // Check if cid == pid
     $cid = $GLOBALS['xoopsDB']->getInsertId();
-    if ($cid == (int)$_POST['pid']) {
+    if ($cid == \Xmf\Request::getInt('pid', 0, 'POST')) {
         $GLOBALS['xoopsDB']->query('UPDATE ' . $GLOBALS['xoopsDB']->prefix($table_cat) . " SET pid='0' WHERE cid='$cid'");
     }
 
@@ -43,8 +43,8 @@ if ('insert' === $action) {
         die('XOOPS_URL is not included in your REFERER');
     }
 
-    $cid = (int)$_POST['cid'];
-    $pid = (int)$_POST['pid'];
+    $cid = \Xmf\Request::getInt('cid', 0, 'POST');
+    $pid = \Xmf\Request::getInt('pid', 0, 'POST');
 
     // Check if new pid was a child of cid
     if (0 != $pid) {
@@ -72,7 +72,7 @@ if ('insert' === $action) {
     }
 
     // Delete
-    $cid = (int)$_POST['delcat'];
+    $cid = \Xmf\Request::getInt('delcat', 0, 'POST');
 
     $children[0] = 0;
     //get all categories under the specified category

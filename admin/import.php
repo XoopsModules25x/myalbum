@@ -15,8 +15,8 @@ if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
     }
 
     // get src module
-    $src_cid     = (int)$_POST['cid'];
-    $src_dirname = empty($_POST['src_dirname']) ? '' : $_POST['src_dirname'];
+    $src_cid     = \Xmf\Request::getInt('cid', 0, 'POST');
+    $src_dirname = \Xmf\Request::getString('src_dirname', '', 'POST');
     if ($moduleDirName === $src_dirname) {
         die('source dirname is same as dest dirname: ' . htmlspecialchars($src_dirname, ENT_QUOTES | ENT_HTML5));
     }
@@ -139,7 +139,7 @@ else {
         }
 
         // get src information
-        $src_cid          = (int)$_POST['imgcat_id'];
+        $src_cid          = \Xmf\Request::getInt('imgcat_id', 0, 'POST');
         $src_table_photos = $GLOBALS['xoopsDB']->prefix('image');
         $src_table_cat    = $GLOBALS['xoopsDB']->prefix('imagecategory');
 
