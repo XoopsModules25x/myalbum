@@ -139,7 +139,7 @@ class MyalbumPreview extends XoopsObject
             $description = '';
         }
 
-        if (!empty($_POST['preview'])) {
+       if (\Xmf\Request::hasVar('preview', 'POST')) {
             $description = $GLOBALS['myts']->stripSlashesGPC($_POST['desc_text']);
             $title       = $GLOBALS['myts']->stripSlashesGPC($_POST['title']);
         }

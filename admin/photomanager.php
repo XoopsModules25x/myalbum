@@ -38,7 +38,7 @@ if (!empty($_POST['action']) && 'delete' === $_POST['action'] && isset($_POST['i
     }
 
     // set clause for text table
-    if (!empty($_POST['new_desc_text'])) {
+   if (\Xmf\Request::hasVar('new_desc_text', 'POST')) {
         $set_for_text = "description='" . $GLOBALS['myts']->addSlashes($_POST['new_desc_text']) . "'";
     }
 
@@ -46,22 +46,22 @@ if (!empty($_POST['action']) && 'delete' === $_POST['action'] && isset($_POST['i
     $set = '';
 
     // new_title
-    if (!empty($_POST['new_title'])) {
+   if (\Xmf\Request::hasVar('new_title', 'POST')) {
         $set .= "title='" . $GLOBALS['myts']->addSlashes($_POST['new_title']) . "',";
     }
 
     // new_cid
-    if (!empty($_POST['new_cid'])) {
+   if (\Xmf\Request::hasVar('new_cid', 'POST')) {
         $set .= "cid='" . \Xmf\Request::getInt('new_cid', 0, 'POST') . "',";
     }
 
     // new_submitter
-    if (!empty($_POST['new_submitter'])) {
+   if (\Xmf\Request::hasVar('new_submitter', 'POST')) {
         $set .= "submitter='" . \Xmf\Request::getInt('new_submitter', 0, 'POST') . "',";
     }
 
     // new_post_date
-    if (!empty($_POST['new_post_date'])) {
+   if (\Xmf\Request::hasVar('new_post_date', 'POST')) {
         $new_date = strtotime($_POST['new_post_date']);
         if (-1 != $new_date) {
             $set .= "date='$new_date',";
