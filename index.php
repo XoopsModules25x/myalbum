@@ -42,7 +42,7 @@ foreach ($GLOBALS['myalbum_assign_globals'] as $key => $value) {
     $GLOBALS['xoopsTpl']->assign($key, $value);
 }
 
-$GLOBALS['xoopsTpl']->assign('subcategories', MyalbumPreview::getSubCategories(0, $GLOBALS['cattree']));
+$GLOBALS['xoopsTpl']->assign('subcategories', Myalbum\Preview::getSubCategories(0, $GLOBALS['cattree']));
 
 $GLOBALS['xoopsTpl']->assign('category_options', Myalbum\Utility::getCategoryOptions());
 
@@ -85,7 +85,7 @@ $criteria->setSort('`cid`');
 $criteria->setOrder('DESC');
 // Assign Latest Photos
 foreach ($photosHandler->getObjects($criteria, true) as $lid => $photo) {
-    $GLOBALS['xoopsTpl']->append_by_ref('photos', MyalbumPreview::getArrayForPhotoAssign($photo, true));
+    $GLOBALS['xoopsTpl']->append_by_ref('photos', Myalbum\Preview::getArrayForPhotoAssign($photo, true));
 }
 
 include $GLOBALS['xoops']->path('footer.php');

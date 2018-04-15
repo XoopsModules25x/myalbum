@@ -50,10 +50,10 @@ if (isset($_GET['orderby']) && isset($myalbum_orders[$_GET['orderby']])) {
 
 if ('table' === $view) {
     $GLOBALS['xoopsOption']['template_main'] = "{$moduleDirName }_viewcat_table.tpl";
-    $function_assigning                      = 'MyalbumPreview::getArrayForPhotoAssignLight';
+    $function_assigning                      = 'Myalbum\Preview::getArrayForPhotoAssignLight';
 } else {
     $GLOBALS['xoopsOption']['template_main'] = "{$moduleDirName }_viewcat_list.tpl";
-    $function_assigning                      = 'MyalbumPreview::getArrayForPhotoAssign';
+    $function_assigning                      = 'Myalbum\Preview::getArrayForPhotoAssign';
 }
 
 include XOOPS_ROOT_PATH . '/header.php';
@@ -75,7 +75,7 @@ if ($cid > 0) {
     $cat     = $catHandler->get($cid);
     // Category Specified
     $GLOBALS['xoopsTpl']->assign('category_id', $cid);
-    $GLOBALS['xoopsTpl']->assign('subcategories', MyalbumPreview::getSubCategories($cid, $GLOBALS['cattree']));
+    $GLOBALS['xoopsTpl']->assign('subcategories', Myalbum\Preview::getSubCategories($cid, $GLOBALS['cattree']));
     $GLOBALS['xoopsTpl']->assign('category_options', Myalbum\Utility::getCategoryOptions());
 
     foreach ($GLOBALS['cattree']->getAllChild($cid) as $child) {
@@ -113,7 +113,7 @@ if ($cid > 0) {
         $criteria = new \CriteriaCompo(new \Criteria('`status`', '0', '>'));
         $criteria->add(new \Criteria('`submitter`', $uid));
         $GLOBALS['xoopsTpl']->assign('uid', $uid);
-        $GLOBALS['xoopsTpl']->assign('album_sub_title', "<img src='$mod_url/assets/images/myphotos.gif' alt='' >" . MyalbumPreview::getNameFromUid($uid));
+        $GLOBALS['xoopsTpl']->assign('album_sub_title', "<img src='$mod_url/assets/images/myphotos.gif' alt='' >" . Myalbum\Preview::getNameFromUid($uid));
     }
 } else {
     $criteria = new \CriteriaCompo(new \Criteria('`status`', '0', '>'));

@@ -17,7 +17,7 @@
  * @author       XOOPS Development Team
  */
 
-include __DIR__ . '/../../mainfile.php';
+include  dirname(dirname(__DIR__)) . '/mainfile.php';
 $moduleDirName = basename(__DIR__);
 
 $GLOBALS['mydirname'] = basename(__DIR__);

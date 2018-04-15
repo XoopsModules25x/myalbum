@@ -175,7 +175,7 @@
 2.80                2004-6-25
 =================================
  - remade the default design using crystal icons. (thx to all of icon authors)
- - added class MyAlbumTextSanitizer extends MyTextSanitizer
+ - added class TextSanitizer extends MyTextSanitizer
  - added tag [siteimg]
  - added tag [summary][/summary] only text inside this tag will be displayed in summary view
  - applied with Windows environment (If you want to use Windows Server with ImageMagick, try blank as the path of ImageMagick)

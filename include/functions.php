@@ -829,6 +829,7 @@ function myalbum_update_photo($lid, $cid, $title, $desc, $valid = null, $ext = '
         $photo->setVar('status', $valid);
         // Trigger Notification
         if (1 == $valid) {
+            /** @var \XoopsNotificationHandler $notificationHandler */
             $notificationHandler = xoops_getHandler('notification');
 
             // Global Notification

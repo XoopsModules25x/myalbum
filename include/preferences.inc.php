@@ -464,13 +464,13 @@ if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($
                     ) {
                         $memberHandler     = xoops_getHandler('member');
                         $groups             = $memberHandler->getGroupList();
-                        $modulepermHandler = xoops_getHandler('groupperm');
+                        $grouppermHandler = xoops_getHandler('groupperm');
                         /** @var XoopsModuleHandler $moduleHandler */
                         $moduleHandler      = xoops_getHandler('module');
                         $module             = $moduleHandler->getByDirname($new_value);
                         foreach ($groups as $groupid => $groupname) {
-                            if (!$modulepermHandler->checkRight('module_read', $module->getVar('mid'), $groupid)) {
-                                $modulepermHandler->addRight('module_read', $module->getVar('mid'), $groupid);
+                            if (!$grouppermHandler->checkRight('module_read', $module->getVar('mid'), $groupid)) {
+                                $grouppermHandler->addRight('module_read', $module->getVar('mid'), $groupid);
                             }
                         }
                         $startmod_updated = true;

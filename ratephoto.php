@@ -83,7 +83,7 @@ if (isset($_POST['submit'])) {
     $GLOBALS['xoopsOption']['template_main'] = "{$moduleDirName }_ratephoto.tpl";
     include $GLOBALS['xoops']->path('header.php');
 
-    $GLOBALS['xoopsTpl']->assign('photo', MyalbumPreview::getArrayForPhotoAssign($photo_obj));
+    $GLOBALS['xoopsTpl']->assign('photo', Myalbum\Preview::getArrayForPhotoAssign($photo_obj));
 
     include __DIR__ . '/include/assign_globals.php';
     $GLOBALS['xoopsTpl']->assign($myalbum_assign_globals);

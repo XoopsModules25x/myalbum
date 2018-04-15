@@ -114,12 +114,12 @@ if ('edit' === $disp && $cid > 0) {
     $sql       = 'SELECT cid,pid,weight,title,imgurl FROM ' . $GLOBALS['xoopsDB']->prefix($table_cat) . " WHERE cid='$cid'";
     $crs       = $GLOBALS['xoopsDB']->query($sql);
     $cat_array = $GLOBALS['xoopsDB']->fetchArray($crs);
-    echo MyalbumForms::getAdminFormDisplayEdit($cat_array, _AM_CAT_MENU_EDIT, 'update');
+    echo Forms::getAdminFormDisplayEdit($cat_array, _AM_CAT_MENU_EDIT, 'update');
 } elseif ('new' === $disp) {
 
     // New
     $cat_array = ['cid' => 0, 'pid' => $cid, 'weight' => 0, 'title' => '', 'imgurl' => 'http://'];
-    echo MyalbumForms::getAdminFormDisplayEdit($cat_array, _AM_CAT_MENU_NEW, 'insert');
+    echo Myalbum\Forms::getAdminFormDisplayEdit($cat_array, _AM_CAT_MENU_NEW, 'insert');
 } else {
 
     // Listing

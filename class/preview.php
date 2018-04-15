@@ -1,9 +1,11 @@
-<?php
+<?php namespace XoopsModules\Myalbum;
+
+use XoopsModules\Myalbum;
 
 /**
  * Class MyalbumPreview
  */
-class MyalbumPreview extends XoopsObject
+class Preview extends \XoopsObject
 {
     // for older files
     public static function header()

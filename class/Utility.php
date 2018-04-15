@@ -803,7 +803,7 @@ class Utility extends \XoopsObject
     {
         /** @var MyalbumCatHandler $catHandler */
         //        $catHandler = xoops_getModuleHandler('cat', $GLOBALS[$moduleDirName.'_dirname']);
-        require_once __DIR__ . '/cat.php';
+        require_once __DIR__ . '/Category.php';
         $catHandler = CatHandler::getInstance();
         /** @var MyalbumPhotosHandler $photosHandler */
         //        $photosHandler = xoops_getModuleHandler('photos', $GLOBALS[$moduleDirName.'_dirname']);

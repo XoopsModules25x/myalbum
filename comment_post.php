@@ -17,6 +17,6 @@
  * @author       XOOPS Development Team
  */
 
-include __DIR__ . '/../../mainfile.php';
+include  dirname(dirname(__DIR__)) . '/mainfile.php';
 include __DIR__ . '/include/read_configs.php';
 include XOOPS_ROOT_PATH . '/include/comment_post.php';

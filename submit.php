@@ -128,7 +128,7 @@ if (!empty($_POST['submit'])) {
         if (isset($GLOBALS['myalbumModuleConfig']['myalbum_canresize'])
             && $GLOBALS['myalbumModuleConfig']['myalbum_canresize']
         ) {
-            $uploader = new MyXoopsMediaUploader(
+            $uploader = new MediaUploader(
                 $GLOBALS['photos_dir'],
                 explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']),
                 $GLOBALS['myalbumModuleConfig']['myalbum_fsize'],
@@ -137,7 +137,7 @@ if (!empty($_POST['submit'])) {
                                                  explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedexts'])
             );
         } else {
-            $uploader = new MyXoopsMediaUploader(
+            $uploader = new MediaUploader(
                 $GLOBALS['photos_dir'],
                 explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']),
                 $GLOBALS['myalbumModuleConfig']['myalbum_fsize'],
@@ -220,6 +220,7 @@ if (!empty($_POST['submit'])) {
 
     // Trigger Notification
     if ($status) {
+        /** @var \XoopsNotificationHandler $notificationHandler */
         $notificationHandler = xoops_getHandler('notification');
 
         // Global Notification
@@ -257,7 +258,7 @@ if ('imagemanager' === $caller) {
         </head><body>\n";
 } else {
     include $GLOBALS['xoops']->path('header.php');
-    MyalbumPreview::header();
+    Myalbum\Preview::header();
 }
 
 // Preview
@@ -270,7 +271,7 @@ if ('imagemanager' !== $caller && !empty($_POST['preview'])) {
     if (is_readable($_FILES[$field]['tmp_name'])) {
         // new preview
         if ($GLOBALS['myalbumModuleConfig']['myalbum_canresize']) {
-            $uploader = new MyXoopsMediaUploader(
+            $uploader = new MediaUploader(
                 $GLOBALS['photos_dir'],
                 explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']),
                 $GLOBALS['myalbumModuleConfig']['myalbum_fsize'],
@@ -279,7 +280,7 @@ if ('imagemanager' !== $caller && !empty($_POST['preview'])) {
                                                  explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedexts'])
             );
         } else {
-            $uploader = new MyXoopsMediaUploader(
+            $uploader = new MediaUploader(
                 $GLOBALS['photos_dir'],
                 explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']),
                 $GLOBALS['myalbumModuleConfig']['myalbum_fsize'],
@@ -293,7 +294,7 @@ if ('imagemanager' !== $caller && !empty($_POST['preview'])) {
             $tmp_name     = $uploader->getSavedFileName();
             $preview_name = str_replace('tmp_', 'tmp_prev_', $tmp_name);
             Myalbum\Utility::editPhoto($GLOBALS['photos_dir'] . "/$tmp_name", $GLOBALS['photos_dir'] . "/$lid.$ext");
-            list($imgsrc, $width_spec, $ahref) = MyalbumPreview::getImageAttribsForPreview($preview_name);
+            list($imgsrc, $width_spec, $ahref) = Myalbum\Preview::getImageAttribsForPreview($preview_name);
         } else {
             @unlink($uploader->getSavedDestination());
             $imgsrc     = "$mod_url/assets/images/pixel_trans.gif";
@@ -302,7 +303,7 @@ if ('imagemanager' !== $caller && !empty($_POST['preview'])) {
         }
     } elseif ('' != $preview_name && is_readable("$photos_dir/$preview_name")) {
         // old preview
-        list($imgsrc, $width_spec, $ahref) = MyalbumPreview::getImageAttribsForPreview($preview_name);
+        list($imgsrc, $width_spec, $ahref) = Myalbum\Preview::getImageAttribsForPreview($preview_name);
     } else {
         // preview without image
         $imgsrc     = "$mod_url/assets/images/pixel_trans.gif";
@@ -316,7 +317,7 @@ if ('imagemanager' !== $caller && !empty($_POST['preview'])) {
         'title'          => $GLOBALS['myts']->htmlSpecialChars($photo['title']),
         'width_spec'     => $width_spec,
         'submitter'      => $my_uid,
-        'submitter_name' => MyalbumPreview::getNameFromUid($my_uid),
+        'submitter_name' => Myalbum\Preview::getNameFromUid($my_uid),
         'imgsrc_thumb'   => $imgsrc,
         'ahref_photo'    => $ahref
     ];
@@ -350,11 +351,11 @@ if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
 $GLOBALS['xoopsTpl']->assign('xoConfig', $GLOBALS['myalbumModuleConfig']);
 $GLOBALS['xoopsTpl']->assign('mydirname', $GLOBALS['mydirname']);
 
-echo MyalbumForms::getUserFormSubmit($caller, $photo, $lid);
+echo Myalbum\Forms::getUserFormSubmit($caller, $photo, $lid);
 
 if ('imagemanager' === $caller) {
     echo '</body></html>';
 } else {
-    MyalbumPreview::footer();
+    Myalbum\Preview::footer();
     include $GLOBALS['xoops']->path('footer.php');
 }

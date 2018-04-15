@@ -17,7 +17,7 @@
  * @author       XOOPS Development Team
  */
 
-include __DIR__ . '/../../mainfile.php';
+include  dirname(dirname(__DIR__)) . '/mainfile.php';
 include __DIR__ . '/include/read_configs.php';
 
 $lid = \Xmf\Request::getInt('com_itemid', 0, 'GET');

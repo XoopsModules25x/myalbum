@@ -1,9 +1,11 @@
-<?php
+<?php namespace XoopsModules\Myalbum;
+
+use XoopsModules\Myalbum;
 
 /**
  * Class Utilityity
  */
-class MyalbumForms extends XoopsObject
+class Forms extends \XoopsObject
 {
 
     /**
@@ -101,7 +103,7 @@ class MyalbumForms extends XoopsObject
             GPERM_RATEVOTE | GPERM_RATEVIEW      => _ALBM_GPERM_G_RATEVOTE
         ];
 
-        $form = new MyXoopsGroupPermForm('', $xoopsModule->mid(), 'myalbum_global', _AM_ALBM_GROUPPERM_GLOBALDESC);
+        $form = new Myalbum\GroupPermForm('', $xoopsModule->mid(), 'myalbum_global', _AM_ALBM_GROUPPERM_GLOBALDESC);
         foreach ($global_perms_array as $perm_id => $perm_name) {
             $form->addItem($perm_id, $perm_name);
         }

@@ -2,7 +2,7 @@
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-include __DIR__ . '/../include/read_configs.php';
+include  dirname(__DIR__) . '/include/read_configs.php';
 
 /**
  * Class for Blue Room Xcenter
@@ -11,7 +11,7 @@ include __DIR__ . '/../include/read_configs.php';
  * @copyright copyright (c) 2009-2003 XOOPS.org
  * @package   kernel
  */
-class MyalbumVotedata extends XoopsObject
+class MyalbumVotedata extends \XoopsObject
 {
     /**
      * MyalbumVotedata constructor.
@@ -36,7 +36,7 @@ class MyalbumVotedata extends XoopsObject
  * @author  Simon Roberts <simon@chronolabs.coop>
  * @package kernel
  */
-class MyalbumVotedataHandler extends XoopsPersistableObjectHandler
+class MyalbumVotedataHandler extends \XoopsPersistableObjectHandler
 {
     /**
      * MyalbumVotedataHandler constructor.

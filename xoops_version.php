@@ -61,10 +61,6 @@ $modversion = [
     //    'iconsmall'           => 'assets/images/iconsmall.png',
     //    'iconbig'             => 'assets/images/iconbig.png',
     'dirname'             => $moduleDirName,
-    //Frameworks
-    //    'dirmoduleadmin'      => 'Frameworks/moduleclasses/moduleadmin',
-    //    'sysicons16'          => 'Frameworks/moduleclasses/icons/16',
-    //    'sysicons32'          => 'Frameworks/moduleclasses/icons/32',
     // Local path icons
     'modicons16'          => 'assets/images/icons/16',
     'modicons32'          => 'assets/images/icons/32',
@@ -579,8 +575,8 @@ $modversion['templates'] = [
 ];
 
 //Install
-$modversion['onInstall'] = 'include/oninstall.inc.php';
-$modversion['onUpdate']  = 'include/onupdate.inc.php';
+//$modversion['onInstall'] = 'include/oninstall.inc.php';
+//$modversion['onUpdate']  = 'include/onupdate.inc.php';
 
 // Notification
 $modversion['hasNotification']             = 1;

@@ -88,7 +88,7 @@ if ($syspermHandler->checkRight('system_admin', XOOPS_SYSTEM_IMAGE, $xoopsUser->
     $GLOBALS['xoopsTpl']->assign('mydirname', $GLOBALS['mydirname']);
     $GLOBALS['xoopsTpl']->assign('photos_url', $GLOBALS['photos_url']);
     $GLOBALS['xoopsTpl']->assign('thumbs_url', $GLOBALS['thumbs_url']);
-    $GLOBALS['xoopsTpl']->assign('form', MyalbumForms::getAdminFormExport());
+    $GLOBALS['xoopsTpl']->assign('form', Myalbum\Forms::getAdminFormExport());
 
     $GLOBALS['xoopsTpl']->display('db:' . $GLOBALS['mydirname'] . '_cpanel_export.tpl');
 

@@ -20,7 +20,7 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 /**
  * Class MyalbumCorePreload
  */
-class MyalbumCorePreload extends XoopsPreloadItem
+class MyalbumCorePreload extends \XoopsPreloadItem
 {
     // to add PSR-4 autoloader
     /**

@@ -1,10 +1,10 @@
 <?php
 
 $moduleDirName = basename(dirname(__DIR__));
-require_once __DIR__ . '/../../../mainfile.php';
-require_once __DIR__ . '/../../../include/cp_header.php';
-require_once __DIR__ . '/../include/functions.php';
-require_once __DIR__ . '/../include/read_configs.php';
+require_once  dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+require_once  dirname(__DIR__) . '/include/functions.php';
+require_once  dirname(__DIR__) . '/include/read_configs.php';
 
 if (!defined('_CHARSET')) {
     define('_CHARSET', 'UTF-8');
@@ -45,8 +45,8 @@ $GLOBALS['myalbumImageIcon']  = XOOPS_URL . '/' . $GLOBALS['myalbumModule']->get
 $GLOBALS['myalbumImageAdmin'] = XOOPS_URL . '/' . $GLOBALS['myalbumModule']->getInfo('modicons32');
 
 if ($GLOBALS['xoopsUser']) {
-    $modulepermHandler = xoops_getHandler('groupperm');
-    if (!$modulepermHandler->checkRight('module_admin', $GLOBALS['myalbumModule']->getVar('mid'), $GLOBALS['xoopsUser']->getGroups())) {
+    $grouppermHandler = xoops_getHandler('groupperm');
+    if (!$grouppermHandler->checkRight('module_admin', $GLOBALS['myalbumModule']->getVar('mid'), $GLOBALS['xoopsUser']->getGroups())) {
         redirect_header(XOOPS_URL, 1, _NOPERM);
     }
 } else {

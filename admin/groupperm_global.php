@@ -17,7 +17,7 @@ $GLOBALS['xoopsTpl']->assign('admin_title', $GLOBALS['myalbumModule']->name());
 $GLOBALS['xoopsTpl']->assign('mydirname', $GLOBALS['mydirname']);
 $GLOBALS['xoopsTpl']->assign('photos_url', $GLOBALS['photos_url']);
 $GLOBALS['xoopsTpl']->assign('thumbs_url', $GLOBALS['thumbs_url']);
-$GLOBALS['xoopsTpl']->assign('form', MyalbumForms::getAdminFormGroups());
+$GLOBALS['xoopsTpl']->assign('form', Myalbum\Forms::getAdminFormGroups());
 if (isset($result_str)) {
     $GLOBALS['xoopsTpl']->assign('result_str', $result_str);
 }

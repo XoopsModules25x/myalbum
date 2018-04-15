@@ -132,7 +132,7 @@ $GLOBALS['xoopsTpl']->assign('admin_title', sprintf(_AM_H3_FMT_BATCHREGISTER, $G
 $GLOBALS['xoopsTpl']->assign('mydirname', $GLOBALS['mydirname']);
 $GLOBALS['xoopsTpl']->assign('photos_url', $GLOBALS['photos_url']);
 $GLOBALS['xoopsTpl']->assign('thumbs_url', $GLOBALS['thumbs_url']);
-$GLOBALS['xoopsTpl']->assign('form', MyalbumForms::getAdminFormAdmission());
+$GLOBALS['xoopsTpl']->assign('form', Myalbum\Forms::getAdminFormAdmission());
 if (isset($result_str)) {
     $GLOBALS['xoopsTpl']->assign('result_str', $result_str);
 }
