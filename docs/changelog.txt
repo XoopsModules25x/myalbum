@@ -1,3 +1,8 @@
+<h5>3.9 Alpha 1   [WORK IN PROGRESS - NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.9
+<hr>
+- namespaces (mamba)
+- class autoloading (mamba)
+
 3.08 Beta 1            NOT RELEASED
 =================================
 - removed @version (mamba)
@@ -175,7 +180,7 @@
 2.80                2004-6-25
 =================================
  - remade the default design using crystal icons. (thx to all of icon authors)
- - added class TextSanitizer extends MyTextSanitizer
+ - added class MyAlbumTextSanitizer extends MyTextSanitizer
  - added tag [siteimg]
  - added tag [summary][/summary] only text inside this tag will be displayed in summary view
  - applied with Windows environment (If you want to use Windows Server with ImageMagick, try blank as the path of ImageMagick)
@@ -198,7 +203,7 @@
 =================================
  - fixed uid don't specified in order link (thx bordacs)
  - modified icon gifs larger
- - eliminate 'SCRIPT_NAME'
+ - eliminate 'PHP_SELF'
 
 2.74                2004-5-19
 =================================
