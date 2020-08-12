@@ -4,12 +4,24 @@
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
-use XoopsModules\Myalbum;
+use Xmf\Module\Admin;
+use XoopsModules\Myalbum\{
+    CategoryHandler,
+    CommentsHandler,
+    Forms,
+    Helper,
+    PhotosHandler,
+    TextHandler,
+    VotedataHandler,
+    Utility
+};
+/** @var Admin $adminObject */
+/** @var Helper $helper */
 
 require_once __DIR__ . '/admin_header.php';
-/** @var Myalbum\CategoryHandler $catHandler */
+/** @var CategoryHandler $catHandler */
 $catHandler = $helper->getHandler('Category');
-/** @var  Myalbum\PhotosHandler $photosHandler */
+/** @var  PhotosHandler $photosHandler */
 $photosHandler = $helper->getHandler('Photos');
 global $pathIcon16;
 
@@ -27,7 +39,7 @@ if ('insert' === $action) {
     // newly insert
     $sql  = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix($table_cat) . ' SET ';
     $cols = ['pid' => 'I:N:0', 'title' => '50:E:1', 'imgurl' => '150:E:0', 'weight' => 'I:N:0'];
-    $sql  .= Myalbum\Utility::mysqliGetSqlSet($cols);
+    $sql  .= Utility::mysqliGetSqlSet($cols);
     $GLOBALS['xoopsDB']->query($sql) or exit('DB Error: insert category');
 
     // Check if cid == pid
@@ -61,7 +73,7 @@ if ('insert' === $action) {
     // update
     $sql  = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table_cat) . ' SET ';
     $cols = ['pid' => 'I:N:0', 'title' => '50:E:1', 'imgurl' => '150:E:0', 'weight' => 'I:N:0'];
-    $sql  .= Myalbum\Utility::mysqliGetSqlSet($cols) . " WHERE cid='$cid'";
+    $sql  .= Utility::mysqliGetSqlSet($cols) . " WHERE cid='$cid'";
     $GLOBALS['xoopsDB']->query($sql) or exit('DB Error: update category');
     redirect_header('main.php', 1, _AM_CAT_UPDATED);
 } elseif (!empty($_POST['delcat'])) {
@@ -86,7 +98,7 @@ if ('insert' === $action) {
     $whr .= "$cid)";
     xoops_notification_deletebyitem($myalbum_mid, 'category', $cid);
     $criteria = new \Criteria('`cid`', '(' . implode(',', $children) . ')', 'IN');
-    Myalbum\Utility::deletePhotos($criteria);
+    Utility::deletePhotos($criteria);
     $GLOBALS['xoopsDB']->query('DELETE FROM ' . $GLOBALS['xoopsDB']->prefix($table_cat) . " WHERE $whr")
     || exit('DB error: DELETE cat table');
     redirect_header('main.php', 2, _ALBM_CATDELETED);
@@ -112,11 +124,11 @@ if ('edit' === $disp && $cid > 0) {
     $sql       = 'SELECT cid,pid,weight,title,imgurl FROM ' . $GLOBALS['xoopsDB']->prefix($table_cat) . " WHERE cid='$cid'";
     $crs       = $GLOBALS['xoopsDB']->query($sql);
     $cat_array = $GLOBALS['xoopsDB']->fetchArray($crs);
-    echo Myalbum\Forms::getAdminFormDisplayEdit($cat_array, _AM_CAT_MENU_EDIT, 'update');
+    echo Forms::getAdminFormDisplayEdit($cat_array, _AM_CAT_MENU_EDIT, 'update');
 } elseif ('new' === $disp) {
     // New
     $cat_array = ['cid' => 0, 'pid' => $cid, 'weight' => 0, 'title' => '', 'imgurl' => 'http://'];
-    echo Myalbum\Forms::getAdminFormDisplayEdit($cat_array, _AM_CAT_MENU_NEW, 'insert');
+    echo Forms::getAdminFormDisplayEdit($cat_array, _AM_CAT_MENU_NEW, 'insert');
 } else {
     // Listing
     $live_cids = [0 => '0'];

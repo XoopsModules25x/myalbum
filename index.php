@@ -4,20 +4,22 @@
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
+use Xmf\Request;
 use XoopsModules\Myalbum;
+use XoopsModules\Myalbum\Helper;
 
 require_once __DIR__ . '/header.php';
 
 /** @var \XoopsModules\Myalbum\Helper $helper */
-$helper = \XoopsModules\Myalbum\Helper::getInstance();
+$helper = Helper::getInstance();
 
 /** @var Myalbum\CategoryHandler $catHandler */
 $catHandler = $helper->getHandler('Category');
 /** @var Myalbum\PhotosHandler $photosHandler */
 $photosHandler = $helper->getHandler('Photos');
 
-$num = \Xmf\Request::getInt('num', $myalbum_newphotos, 'GET');
-$pos = \Xmf\Request::getInt('pos', 0, 'GET');
+$num = Request::getInt('num', $myalbum_newphotos, 'GET');
+$pos = Request::getInt('pos', 0, 'GET');
 
 if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
     $url = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/index,' . $num . ',' . $pos . $GLOBALS['myalbumModuleConfig']['endofurl'];

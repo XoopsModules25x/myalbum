@@ -17,6 +17,7 @@
  * @author       XOOPS Development Team, Kazumi Ono (AKA onokazu)
  */
 
+use Xmf\Request;
 use XoopsModules\Myalbum;
 
 if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($xoopsModule->mid())) {
@@ -28,11 +29,11 @@ if (isset($_POST)) {
         ${$k} = $v;
     }
 }
-if (\Xmf\Request::hasVar('op', 'GET')) {
+if (Request::hasVar('op', 'GET')) {
     $op = trim($_GET['op']);
 }
-if (\Xmf\Request::hasVar('confcat_id', 'GET')) {
-    $confcat_id = \Xmf\Request::getInt('confcat_id', 0, 'GET');
+if (Request::hasVar('confcat_id', 'GET')) {
+    $confcat_id = Request::getInt('confcat_id', 0, 'GET');
 }
 
 if ('list' === $op) {
@@ -242,7 +243,7 @@ if ('show' === $op) {
 
 if ('showmod' === $op) {
     $configHandler = xoops_getHandler('config');
-    $mod           = \Xmf\Request::getInt('mod', 0, 'GET');
+    $mod           = Request::getInt('mod', 0, 'GET');
     if (empty($mod)) {
         header('Location: admin.php?fct=preferences');
         exit();

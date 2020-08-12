@@ -1,16 +1,18 @@
 <?php
 
+use Xmf\Request;
+
 require_once __DIR__ . '/header.php';
 
 // GET variables
-$cid = \Xmf\Request::getInt('cid', 0, 'GET');
-$uid = \Xmf\Request::getInt('uid', 0, 'GET');
-$num = \Xmf\Request::getInt('num', (int)$myalbum_perpage, 'GET');
+$cid = Request::getInt('cid', 0, 'GET');
+$uid = Request::getInt('uid', 0, 'GET');
+$num = Request::getInt('num', (int)$myalbum_perpage, 'GET');
 if ($num < 1) {
     $num = 10;
 }
-$pos  = \Xmf\Request::getInt('pos', 0, 'GET');
-$view = \Xmf\Request::getString('view', $myalbum_viewcattype, 'GET');
+$pos  = Request::getInt('pos', 0, 'GET');
+$view = Request::getString('view', $myalbum_viewcattype, 'GET');
 /** @var  Myalbum\PhotosHandler $photosHandler */
 $photosHandler = $helper->getHandler('Photos');
 /** @var  Myalbum\TextHandler $textHandler */
@@ -68,7 +70,7 @@ if (!$GLOBALS['xoopsTpl']->is_cached('db:' . $GLOBALS['mydirname'] . '_rss.tpl')
     $GLOBALS['xoopsTpl']->assign('image_width', $width);
     $GLOBALS['xoopsTpl']->assign('image_height', $height);
     require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/photo_orders.php";
-    if (\Xmf\Request::hasVar('orderby', 'GET') && isset($myalbum_orders[$_GET['orderby']])) {
+    if (Request::hasVar('orderby', 'GET') && isset($myalbum_orders[$_GET['orderby']])) {
         $orderby = $_GET['orderby'];
     } else {
         if (isset($myalbum_orders[$myalbum_defaultorder])) {

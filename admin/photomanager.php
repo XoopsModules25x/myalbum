@@ -4,15 +4,19 @@
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
-use XoopsModules\Myalbum;
+use XoopsModules\Myalbum\{
+    Utility
+};
+use Xmf\Module\Admin;
+use Xmf\Request;
 
 require_once __DIR__ . '/admin_header.php';
 
 // GPCS vars
 $max_col = 4;
-$cid     = \Xmf\Request::getInt('cid', 0, 'GET');
-$pos     = \Xmf\Request::getInt('pos', 0, 'GET');
-$num     = \Xmf\Request::getInt('num', 20, 'GET');
+$cid     = Request::getInt('cid', 0, 'GET');
+$pos     = Request::getInt('pos', 0, 'GET');
+$num     = Request::getInt('num', 20, 'GET');
 $txt     = empty($_GET['txt']) ? '' : $GLOBALS['myts']->stripSlashesGPC(trim($_GET['txt']));
 
 // Database actions
@@ -26,10 +30,10 @@ if (!empty($_POST['action']) && 'delete' === $_POST['action'] && isset($_POST['i
 
     foreach ($_POST['ids'] as $lid) {
         $criteria = new \Criteria('lid', (int)$lid);
-        Myalbum\Utility::deletePhotos($criteria);
+        Utility::deletePhotos($criteria);
     }
     redirect_header("photomanager.php?num=$num&cid=$cid", 2, _ALBM_DELETINGPHOTO);
-} elseif (\Xmf\Request::hasVar('update', 'POST') && isset($_POST['ids']) && is_array($_POST['ids'])) {
+} elseif (Request::hasVar('update', 'POST') && isset($_POST['ids']) && is_array($_POST['ids'])) {
     // batch update
 
     // Double check for anti-CSRF
@@ -38,7 +42,7 @@ if (!empty($_POST['action']) && 'delete' === $_POST['action'] && isset($_POST['i
     }
 
     // set clause for text table
-    if (\Xmf\Request::hasVar('new_desc_text', 'POST')) {
+    if (Request::hasVar('new_desc_text', 'POST')) {
         $set_for_text = "description='" . $GLOBALS['myts']->addSlashes($_POST['new_desc_text']) . "'";
     }
 
@@ -46,22 +50,22 @@ if (!empty($_POST['action']) && 'delete' === $_POST['action'] && isset($_POST['i
     $set = '';
 
     // new_title
-    if (\Xmf\Request::hasVar('new_title', 'POST')) {
+    if (Request::hasVar('new_title', 'POST')) {
         $set .= "title='" . $GLOBALS['myts']->addSlashes($_POST['new_title']) . "',";
     }
 
     // new_cid
-    if (\Xmf\Request::hasVar('new_cid', 'POST')) {
-        $set .= "cid='" . \Xmf\Request::getInt('new_cid', 0, 'POST') . "',";
+    if (Request::hasVar('new_cid', 'POST')) {
+        $set .= "cid='" . Request::getInt('new_cid', 0, 'POST') . "',";
     }
 
     // new_submitter
-    if (\Xmf\Request::hasVar('new_submitter', 'POST')) {
-        $set .= "submitter='" . \Xmf\Request::getInt('new_submitter', 0, 'POST') . "',";
+    if (Request::hasVar('new_submitter', 'POST')) {
+        $set .= "submitter='" . Request::getInt('new_submitter', 0, 'POST') . "',";
     }
 
     // new_post_date
-    if (\Xmf\Request::hasVar('new_post_date', 'POST')) {
+    if (Request::hasVar('new_post_date', 'POST')) {
         $new_date = strtotime($_POST['new_post_date']);
         if (-1 != $new_date) {
             $set .= "date='$new_date',";
@@ -107,7 +111,7 @@ if ('' != $txt) {
 
 // Query
 $rs = $xoopsDB->query('SELECT count(l.lid) FROM ' . $GLOBALS['xoopsDB']->prefix($table_photos) . ' l LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix($table_cat) . " c ON l.cid=c.cid WHERE $whr");
-list($numrows) = $xoopsDB->fetchRow($rs);
+[$numrows] = $xoopsDB->fetchRow($rs);
 $prs = $xoopsDB->query('SELECT l.lid, l.title, l.submitter, l.ext, l.res_x, l.res_y, l.status FROM ' . $GLOBALS['xoopsDB']->prefix($table_photos) . ' l LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix($table_cat) . " c ON l.cid=c.cid WHERE $whr ORDER BY l.lid DESC LIMIT $pos,$num");
 
 // Page Navigation
@@ -133,11 +137,11 @@ foreach ($numbers as $number) {
     $num_options .= "<option value='$number' $selected>" . sprintf(_ALBM_FMT_PHOTONUM, $number) . "</option>\n";
 }
 
-Myalbum\Utility::getCategoryOptions();
+Utility::getCategoryOptions();
 
 // Options for Selecting a category
-$cat_options            = Myalbum\Utility::getCategoryOptions('title', $cid, '--', '----');
-$cat_options_for_update = Myalbum\Utility::getCategoryOptions('title', 0, '--', _AM_OPT_NOCHANGE);
+$cat_options            = Utility::getCategoryOptions('title', $cid, '--', '----');
+$cat_options_for_update = Utility::getCategoryOptions('title', 0, '--', _AM_OPT_NOCHANGE);
 
 // Options for Selecting a user
 $user_options = "<option value='0'>" . _AM_OPT_NOCHANGE . "</option>\n";
@@ -148,7 +152,7 @@ while (list($uid, $uname) = $xoopsDB->fetchRow($urs)) {
 
 // Start of outputting
 xoops_cp_header();
-$adminObject = \Xmf\Module\Admin::getInstance();
+$adminObject = Admin::getInstance();
 $adminObject->displayNavigation(basename(__FILE__));
 //myalbum_adminMenu(basename(__FILE__), 2);
 

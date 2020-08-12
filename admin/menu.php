@@ -1,14 +1,19 @@
 <?php
 
-use XoopsModules\Myalbum;
+use XoopsModules\Myalbum\{
+    Helper
+};
+use Xmf\Module\Admin;
+
+include dirname(__DIR__) . '/preloads/autoloader.php';
 
 //require_once  dirname(__DIR__) . '/include/common.php';
-/** @var Myalbum\Helper $helper */
-$helper = Myalbum\Helper::getInstance();
+/** @var Helper $helper */
+$helper = Helper::getInstance();
 $helper->loadLanguage('common');
 $helper->loadLanguage('feedback');
 
-$pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
+$pathIcon32 = Admin::menuIconPath('');
 if (is_object($helper->getModule())) {
     $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
 }

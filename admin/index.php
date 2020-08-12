@@ -10,6 +10,7 @@ use XoopsModules\Myalbum\{
     TextHandler,
     VotedataHandler
 };
+/** @var Admin $adminObject */
 /** @var Helper $helper */
 
 require_once __DIR__ . '/admin_header.php';
@@ -18,7 +19,7 @@ xoops_loadLanguage('admin');
 xoops_cp_header();
 
 //  myalbum_adminMenu(basename(__FILE__), 0);
-$adminObject = \Xmf\Module\Admin::getInstance();
+$adminObject = Admin::getInstance();
 
 $adminObject->displayNavigation(basename(__FILE__));
 

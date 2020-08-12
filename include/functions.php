@@ -5,6 +5,8 @@
 // ------------------------------------------------------------------------- //
 
 // constants
+use Xmf\Request;
+
 define('PIPEID_GD', 0);
 define('PIPEID_IMAGICK', 1);
 define('PIPEID_NETPBM', 2);
@@ -82,7 +84,7 @@ function mysqli_get_sql_set($cols)
     $ret = '';
 
     foreach ($cols as $col => $types) {
-        list($field, $lang, $essential) = explode(':', $types);
+        [$field, $lang, $essential] = explode(':', $types);
 
         // Undefined col is regarded as ''
         $data = empty($_POST[$col]) ? '' : $GLOBALS['myts']->stripSlashesGPC($_POST[$col]);
@@ -257,7 +259,7 @@ function myalbum_create_thumbs_by_gd($src_path, $node, $ext)
         return 0;
     }
     @unlink("$thumbs_dir/$node.$ext");
-    list($width, $height, $type) = getimagesize($src_path);
+    [$width, $height, $type] = getimagesize($src_path);
     switch ($type) {
         case 1:
             // GIF (skip)
@@ -278,7 +280,7 @@ function myalbum_create_thumbs_by_gd($src_path, $node, $ext)
             return 2;
     }
     echo __LINE__ . '<br>';
-    list($new_w, $new_h) = myalbum_get_thumbnail_wh($width, $height);
+    [$new_w, $new_h] = myalbum_get_thumbnail_wh($width, $height);
     echo __LINE__ . '<br>';
     if ($width <= $new_w && $height <= $new_h) {
         // only copy when small enough
@@ -339,9 +341,9 @@ function myalbum_create_thumbs_by_imagick($src_path, $node, $ext)
         return 0;
     }
     @unlink("$thumbs_dir/$node.$ext");
-    list($width, $height, $type) = getimagesize($src_path);
+    [$width, $height, $type] = getimagesize($src_path);
 
-    list($new_w, $new_h) = myalbum_get_thumbnail_wh($width, $height);
+    [$new_w, $new_h] = myalbum_get_thumbnail_wh($width, $height);
 
     if ($width <= $new_w && $height <= $new_h) {
         // only copy when small enough
@@ -383,7 +385,7 @@ function myalbum_create_thumbs_by_netpbm($src_path, $node, $ext)
         return 0;
     }
     @unlink("$thumbs_dir/$node.$ext");
-    list($width, $height, $type) = getimagesize($src_path);
+    [$width, $height, $type] = getimagesize($src_path);
     switch ($type) {
         case 1:
             // GIF
@@ -406,7 +408,7 @@ function myalbum_create_thumbs_by_netpbm($src_path, $node, $ext)
             return 2;
     }
 
-    list($new_w, $new_h) = myalbum_get_thumbnail_wh($width, $height);
+    [$new_w, $new_h] = myalbum_get_thumbnail_wh($width, $height);
 
     if ($width <= $new_w && $height <= $new_h) {
         // only copy when small enough
@@ -472,7 +474,7 @@ function myalbum_modify_photo_by_gd($src_path, $dst_path)
         return 0;
     }
 
-    list($width, $height, $type) = getimagesize($src_path);
+    [$width, $height, $type] = getimagesize($src_path);
 
     switch ($type) {
         case 1:
@@ -508,7 +510,7 @@ function myalbum_modify_photo_by_gd($src_path, $dst_path)
         imagecopyresampled($dst_img, $src_img, 0, 0, 0, 0, $new_w, $new_h, $width, $height);
     }
 
-    if (\Xmf\Request::hasVar('rotate', 'POST') && function_exists('imagerotate')) {
+    if (Request::hasVar('rotate', 'POST') && function_exists('imagerotate')) {
         switch ($_POST['rotate']) {
             case 'rot270':
                 if (!isset($dst_img) || !is_resource($dst_img)) {
@@ -589,7 +591,7 @@ function myalbum_modify_photo_by_imagick($src_path, $dst_path)
     if ($image_stats[0] > $myalbum_width || $image_stats[1] > $myalbum_height) {
         $option .= " -geometry {$myalbum_width}x{$myalbum_height}";
     }
-    if (\Xmf\Request::hasVar('rotate', 'POST')) {
+    if (Request::hasVar('rotate', 'POST')) {
         switch ($_POST['rotate']) {
             case 'rot270':
                 $option .= ' -rotate 270';
@@ -642,7 +644,7 @@ function myalbum_modify_photo_by_netpbm($src_path, $dst_path)
         return 0;
     }
 
-    list($width, $height, $type) = getimagesize($src_path);
+    [$width, $height, $type] = getimagesize($src_path);
 
     $pipe1 = '';
     switch ($type) {
@@ -680,7 +682,7 @@ function myalbum_modify_photo_by_netpbm($src_path, $dst_path)
         $pipe1 .= "{$myalbum_netpbmpath}pnmscale -xysize $new_w $new_h |";
     }
 
-    if (\Xmf\Request::hasVar('rotate', 'POST')) {
+    if (Request::hasVar('rotate', 'POST')) {
         switch ($_POST['rotate']) {
             case 'rot270':
                 $pipe1 .= "{$myalbum_netpbmpath}pnmflip -r90 |";
@@ -861,7 +863,7 @@ function myalbum_update_photo($lid, $cid, $title, $desc, $valid = null, $ext = '
         $photo->setVar('res_y', $y);
     }
 
-    $cid = \Xmf\Request::getInt('cid', 0, 'POST');
+    $cid = Request::getInt('cid', 0, 'POST');
 
     if ($photosHandler->insert($photo, true)) {
         $text->setVar('description', $desc);

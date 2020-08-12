@@ -4,7 +4,9 @@
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
+use Xmf\Request;
 use XoopsModules\Myalbum;
+use XoopsModules\Tag\Helper;
 
 $lid = '';
 require_once __DIR__ . '/header.php';
@@ -16,9 +18,9 @@ $photosHandler = $helper->getHandler('Photos');
 $textHandler = $helper->getHandler('Text');
 
 // GET variables
-$caller = \Xmf\Request::getString('caller', '', 'GET');
+$caller = Request::getString('caller', '', 'GET');
 // POST variables
-$preview_name = \Xmf\Request::getString('preview_name', '', 'POST');
+$preview_name = Request::getString('preview_name', '', 'POST');
 // check INSERTABLE
 if (!($global_perms & GPERM_INSERTABLE)) {
     redirect_header(XOOPS_URL . '/user.php', 2, _ALBM_MUSTREGFIRST);
@@ -90,7 +92,7 @@ if (!empty($_POST['submit'])) {
 
     $submitter = $my_uid;
     $photo_obj = $photosHandler->create();
-    $cid       = \Xmf\Request::getInt('cid', 0, 'POST');
+    $cid       = Request::getInt('cid', 0, 'POST');
 
     // Check if cid is valid
     if ($cid <= 0) {
@@ -186,7 +188,7 @@ if (!empty($_POST['submit'])) {
 
     if ($GLOBALS['myalbumModuleConfig']['tag']) {
         /** @var TagTagHandler $tagHandler */
-        $tagHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Tag'); // xoops_getModuleHandler('tag', 'tag');
+        $tagHandler = Helper::getInstance()->getHandler('Tag'); // xoops_getModuleHandler('tag', 'tag');
         $tagHandler->updateByItem($_POST['tags'], $newid, $GLOBALS['myalbumModule']->getVar('dirname'), $cid);
     }
 
@@ -261,7 +263,7 @@ if ('imagemanager' === $caller) {
 if ('imagemanager' !== $caller && !empty($_POST['preview'])) {
     $photo['description'] = $GLOBALS['myts']->stripSlashesGPC($_POST['desc_text']);
     $photo['title']       = $GLOBALS['myts']->stripSlashesGPC($_POST['title']);
-    $photo['cid']         = \Xmf\Request::getInt('cid', 0, 'POST');
+    $photo['cid']         = Request::getInt('cid', 0, 'POST');
 
     $field = $_POST['xoops_upload_file'][0];
     if (is_readable($_FILES[$field]['tmp_name'])) {
@@ -283,7 +285,7 @@ if ('imagemanager' !== $caller && !empty($_POST['preview'])) {
             $tmp_name     = $uploader->getSavedFileName();
             $preview_name = str_replace('tmp_', 'tmp_prev_', $tmp_name);
             Myalbum\Utility::editPhoto($GLOBALS['photos_dir'] . "/$tmp_name", $GLOBALS['photos_dir'] . "/$lid.$ext");
-            list($imgsrc, $width_spec, $ahref) = Myalbum\Preview::getImageAttribsForPreview($preview_name);
+            [$imgsrc, $width_spec, $ahref] = Myalbum\Preview::getImageAttribsForPreview($preview_name);
         } else {
             @unlink($uploader->getSavedDestination());
             $imgsrc     = "$mod_url/assets/images/pixel_trans.gif";
@@ -292,7 +294,7 @@ if ('imagemanager' !== $caller && !empty($_POST['preview'])) {
         }
     } elseif ('' != $preview_name && is_readable("$photos_dir/$preview_name")) {
         // old preview
-        list($imgsrc, $width_spec, $ahref) = Myalbum\Preview::getImageAttribsForPreview($preview_name);
+        [$imgsrc, $width_spec, $ahref] = Myalbum\Preview::getImageAttribsForPreview($preview_name);
     } else {
         // preview without image
         $imgsrc     = "$mod_url/assets/images/pixel_trans.gif";
@@ -319,14 +321,14 @@ if ('imagemanager' !== $caller && !empty($_POST['preview'])) {
     echo "</table>\n";
 } else {
     $photo = [
-        'cid'         => \Xmf\Request::getInt('cid', 0, 'GET'),
+        'cid'         => Request::getInt('cid', 0, 'GET'),
         'description' => '',
         'title'       => '',
     ];
 }
 
 if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
-    if (\Xmf\Request::hasVar('cid', 'GET') && isset($_GET['title'])) {
+    if (Request::hasVar('cid', 'GET') && isset($_GET['title'])) {
         $url = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . $_GET['title'] . '/submit,' . $_GET['cid'] . '.html';
     } else {
         $url = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/submit.html';

@@ -17,6 +17,7 @@
  * @author       XOOPS Development Team
  */
 
+use Xmf\Module\Admin;
 use XoopsModules\Myalbum;
 
 require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
@@ -28,10 +29,10 @@ require_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 $moduleDirName = basename(dirname(__DIR__));
 /** @var Myalbum\Helper $helper */
 $helper      = Myalbum\Helper::getInstance();
-$adminObject = \Xmf\Module\Admin::getInstance();
+$adminObject = Admin::getInstance();
 
-$pathIcon16    = \Xmf\Module\Admin::iconUrl('', 16);
-$pathIcon32    = \Xmf\Module\Admin::iconUrl('', 32);
+$pathIcon16    = Admin::iconUrl('', 16);
+$pathIcon32    = Admin::iconUrl('', 32);
 $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
 
 // Load language files

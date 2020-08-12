@@ -4,6 +4,8 @@
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
+use Xmf\Module\Admin;
+use Xmf\Request;
 use XoopsModules\Myalbum;
 
 require_once __DIR__ . '/admin_header.php';
@@ -22,19 +24,19 @@ if (!empty($_POST['imagemanager_export']) && !empty($_POST['imgcat_id']) && !emp
     }
 
     // get dst information
-    $dst_cid          = \Xmf\Request::getInt('imgcat_id', 0, 'POST');
+    $dst_cid          = Request::getInt('imgcat_id', 0, 'POST');
     $dst_table_photos = $xoopsDB->prefix('image');
     $dst_table_cat    = $xoopsDB->prefix('imagecategory');
 
     // get src information
-    $src_cid          = \Xmf\Request::getInt('cid', 0, 'POST');
+    $src_cid          = Request::getInt('cid', 0, 'POST');
     $src_table_photos = $xoopsDB->prefix($table_photos);
     $src_table_cat    = $xoopsDB->prefix($table_cat);
 
     // get storetype of the imgcat
     $crs = $xoopsDB->query("SELECT imgcat_storetype,imgcat_maxsize FROM $dst_table_cat WHERE imgcat_id='$dst_cid'")
            || exit('Invalid imgcat_id.');
-    list($imgcat_storetype, $imgcat_maxsize) = $xoopsDB->fetchRow($crs);
+    [$imgcat_storetype, $imgcat_maxsize] = $xoopsDB->fetchRow($crs);
 
     // mime type look up
     $mime_types = ['gif' => 'image/gif', 'png' => 'image/png', 'jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg'];
@@ -83,7 +85,7 @@ if (!empty($_POST['imagemanager_export']) && !empty($_POST['imgcat_id']) && !emp
 $grouppermHandler = xoops_getHandler('groupperm');
 if ($grouppermHandler->checkRight('system_admin', XOOPS_SYSTEM_IMAGE, $xoopsUser->getGroups())) {
     xoops_cp_header();
-    $adminObject = \Xmf\Module\Admin::getInstance();
+    $adminObject = Admin::getInstance();
     $adminObject->displayNavigation(basename(__FILE__));
     //  myalbum_adminMenu(basename(__FILE__), 7);
     $GLOBALS['xoopsTpl']->assign('admin_title', sprintf(_AM_H3_FMT_EXPORTTO, $GLOBALS['myalbumModule']->name()));

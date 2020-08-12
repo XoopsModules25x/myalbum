@@ -1,5 +1,7 @@
 <?php
 
+use Xmf\Request;
+
 if (!defined('XOOPS_ROOT_PATH')) {
     require_once __DIR__ . '/header.php';
 } else {
@@ -15,8 +17,8 @@ require_once XOOPS_ROOT_PATH . '/class/template.php';
 if (empty($_GET['target'])) {
     exit;
 }
-$num = \Xmf\Request::getInt('num', 10, 'GET');
-$cid = \Xmf\Request::getInt('cid', 0, 'GET');
+$num = Request::getInt('num', 10, 'GET');
+$cid = Request::getInt('cid', 0, 'GET');
 
 $xoopsTpl = new \XoopsTpl();
 $xoopsTpl->assign('lang_imgmanager', _IMGMANAGER);
@@ -66,9 +68,9 @@ if (count($cats) > 0) {
         $xoopsTpl->assign('lang_addimage', _ADDIMAGE);
 
         $rs = $xoopsDB->query("SELECT COUNT(*) FROM $table_photos WHERE cid='$cid' AND status>0 AND $whr_ext");
-        list($total) = $xoopsDB->fetchRow($rs);
+        [$total] = $xoopsDB->fetchRow($rs);
         if ($total > 0) {
-            $start = \Xmf\Request::getInt('start', 0, 'GET');
+            $start = Request::getInt('start', 0, 'GET');
             $prs   = $xoopsDB->query("SELECT lid,cid,title,ext,submitter,res_x,res_y,$select_is_normal AS is_normal FROM $table_photos WHERE cid='$cid' AND status>0 AND $whr_ext ORDER BY date DESC LIMIT $start,$num");
             $xoopsTpl->assign('image_total', $total);
             $xoopsTpl->assign('lang_image', _IMAGE);
@@ -104,7 +106,7 @@ if (count($cats) > 0) {
                     $width_spec = "width='$myalbum_thumbsize'";
                     $image_ext  = $ext;
                     if ($myalbum_makethumb) {
-                        list($width, $height, $type) = getimagesize("$thumbs_dir/$lid.$ext");
+                        [$width, $height, $type] = getimagesize("$thumbs_dir/$lid.$ext");
                         if ($width <= $myalbum_thumbsize) {
                             $width_spec = '';
                         }

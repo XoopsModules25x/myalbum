@@ -3,13 +3,15 @@
 //                      myAlbum-P - XOOPS photo album                        //
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
+use Xmf\Request;
+
 require_once __DIR__ . '/header.php';
 
 if (!($global_perms & GPERM_RATEVOTE)) {
     redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/index.php', 1, _NOPERM);
 }
 
-$lid = \Xmf\Request::getInt('lid', 0, 'GET');
+$lid = Request::getInt('lid', 0, 'GET');
 /** @var  Myalbum\PhotosHandler $photosHandler */
 $photosHandler = $helper->getHandler('Photos');
 /** @var  Myalbum\VotedataHandler $votedataHandler */
@@ -18,14 +20,14 @@ if (!$photo_obj = $photosHandler->get($lid)) {
     redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/index.php', 2, _ALBM_NOMATCH);
 }
 
-if (\Xmf\Request::hasVar('submit', 'POST')) {
+if (Request::hasVar('submit', 'POST')) {
     $ratinguser = $my_uid;
 
     //Make sure only 1 anonymous from an IP in a single day.
     $anonwaitdays = 1;
     $ip           = getenv('REMOTE_ADDR');
-    $lid          = \Xmf\Request::getInt('lid', 0, 'POST');
-    $rating       = \Xmf\Request::getInt('rating', 0, 'POST');
+    $lid          = Request::getInt('lid', 0, 'POST');
+    $rating       = Request::getInt('rating', 0, 'POST');
     // Check if rating is valid
     if ($rating <= 0 || $rating > 10) {
         redirect_header($photo_obj->getRateURL(), 4, _ALBM_NORATING);

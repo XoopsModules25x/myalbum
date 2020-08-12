@@ -1,6 +1,8 @@
 <?php
 
 // for older files
+use Xmf\Request;
+
 function myalbum_header()
 {
     global $mod_url, $moduleDirName;
@@ -86,7 +88,7 @@ function myalbum_get_array_for_photo_assign($photo, $summary = false)
         // Width of thumb
         $width_spec = "width='$myalbum_thumbsize'";
         if ($myalbum_makethumb) {
-            list($width, $height, $type) = getimagesize("$thumbs_dir/$lid.$ext");
+            [$width, $height, $type] = getimagesize("$thumbs_dir/$lid.$ext");
             // if thumb images was made, 'width' and 'height' will not set.
             if ($width <= $myalbum_thumbsize) {
                 $width_spec = '';
@@ -129,7 +131,7 @@ function myalbum_get_array_for_photo_assign($photo, $summary = false)
         $description = '';
     }
 
-    if (\Xmf\Request::hasVar('preview', 'POST')) {
+    if (Request::hasVar('preview', 'POST')) {
         $description = $GLOBALS['myts']->stripSlashesGPC($_POST['desc_text']);
         $title       = $GLOBALS['myts']->stripSlashesGPC($_POST['title']);
     }

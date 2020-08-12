@@ -2,8 +2,11 @@
 
 use Xmf\Module\Admin;
 use XoopsModules\Myalbum\{
+    CategoryHandler,
     Helper
 };
+/** @var Admin $adminObject */
+/** @var Helper $helper */
 
 require dirname(__DIR__) . '/preloads/autoloader.php';
 
@@ -21,10 +24,7 @@ if (!defined('_CHARSET_ISO')) {
 
 $GLOBALS['myts'] = \MyTextSanitizer::getInstance();
 
-/** @var Helper $helper */
 $helper = Helper::getInstance();
-
-/** @var Admin $adminObject */
 $adminObject = Admin::getInstance();
 
 /** @var \XoopsModuleHandler $moduleHandler */
@@ -45,7 +45,7 @@ xoops_load('xoopsformloader');
 require_once $GLOBALS['xoops']->path('class/xoopsmailer.php');
 require_once $GLOBALS['xoops']->path('class/tree.php');
 
-/** @var Myalbum\CatHandler $catHandler */
+/** @var CategoryHandler $catHandler */
 $catHandler         = $helper->getHandler('Category');
 $cats               = $catHandler->getObjects(null, true);
 $GLOBALS['cattree'] = new \XoopsObjectTree($cats, 'cid', 'pid', 0);

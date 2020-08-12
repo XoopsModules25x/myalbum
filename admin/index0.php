@@ -4,15 +4,18 @@
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
+use Xmf\Module\Admin;
+use Xmf\Request;
+
 require_once __DIR__ . '/admin_header.php';
 
 $catHandler    = $helper->getHandler('Category');
 $photosHandler = $helper->getHandler('Photos');
 
 // GPCS vars
-$action = \Xmf\Request::getString('action', '', 'POST');
-$disp   = \Xmf\Request::getString('disp', '', 'GET');
-$cid    = \Xmf\Request::getInt('cid', 0, 'GET');
+$action = Request::getString('action', '', 'POST');
+$disp   = Request::getString('disp', '', 'GET');
+$cid    = Request::getInt('cid', 0, 'GET');
 
 if ('insert' === $action) {
     // anti-CSRF (Double Check)
@@ -28,7 +31,7 @@ if ('insert' === $action) {
 
     // Check if cid == pid
     $cid = $GLOBALS['xoopsDB']->getInsertId();
-    if ($cid == \Xmf\Request::getInt('pid', 0, 'POST')) {
+    if ($cid == Request::getInt('pid', 0, 'POST')) {
         $GLOBALS['xoopsDB']->query('UPDATE ' . $GLOBALS['xoopsDB']->prefix($table_cat) . " SET pid='0' WHERE cid='$cid'");
     }
 
@@ -39,8 +42,8 @@ if ('insert' === $action) {
         exit('XOOPS_URL is not included in your REFERER');
     }
 
-    $cid = \Xmf\Request::getInt('cid', 0, 'POST');
-    $pid = \Xmf\Request::getInt('pid', 0, 'POST');
+    $cid = Request::getInt('cid', 0, 'POST');
+    $pid = Request::getInt('pid', 0, 'POST');
 
     // Check if new pid was a child of cid
     if (0 != $pid) {
@@ -67,7 +70,7 @@ if ('insert' === $action) {
     }
 
     // Delete
-    $cid = \Xmf\Request::getInt('delcat', 0, 'POST');
+    $cid = Request::getInt('delcat', 0, 'POST');
 
     $children[0] = 0;
     //get all categories under the specified category
@@ -93,7 +96,7 @@ if ('insert' === $action) {
 // Form Part
 //
 xoops_cp_header();
-$adminObject = \Xmf\Module\Admin::getInstance();
+$adminObject = Admin::getInstance();
 $adminObject->displayNavigation(basename(__FILE__));
 //myalbum_adminMenu(basename(__FILE__), 1);
 

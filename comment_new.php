@@ -16,10 +16,13 @@
  * @since
  * @author       XOOPS Development Team
  */
+
+use Xmf\Request;
+
 require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/include/read_configs.php';
 
-$lid = \Xmf\Request::getInt('com_itemid', 0, 'GET');
+$lid = Request::getInt('com_itemid', 0, 'GET');
 if ($lid > 0) {
     $photosHandler  = $helper->getHandler('Photos');
     $photo          = $photosHandler->get($lid);

@@ -4,20 +4,27 @@
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
-use XoopsModules\Myalbum;
+use Xmf\Module\Admin;
+use Xmf\Request;
+use XoopsModules\Myalbum\{
+    Utility
+};
+/** @var Admin $adminObject */
+/** @var Helper $helper */
+
 
 require_once __DIR__ . '/admin_header.php';
 
 // get and check $_POST['size']
-$start = \Xmf\Request::getInt('start', 0, 'POST');
-$size  = \Xmf\Request::getInt('size', 10, 'POST');
+$start = Request::getInt('start', 0, 'POST');
+$size  = Request::getInt('size', 10, 'POST');
 if ($size <= 0 || $size > 10000) {
     $size = 10;
 }
 
-$forceredo = \Xmf\Request::getInt('forceredo', false, 'POST');
-$removerec = \Xmf\Request::getInt('removerec', false, 'POST');
-$resize    = \Xmf\Request::getInt('resize', false, 'POST');
+$forceredo = Request::getInt('forceredo', false, 'POST');
+$removerec = Request::getInt('removerec', false, 'POST');
+$resize    = Request::getInt('resize', false, 'POST');
 
 // get flag of safe_mode
 //$safe_mode_flag = ini_get('safe_mode');
@@ -42,7 +49,7 @@ if ($myalbum_makethumb && !is_dir($thumbs_dir)) {
 
     $rs = mkdir($thumbs_dir);
     if (!$rs) {
-        redirect_header(XOOPS_URL . "/modules/$moduleDirName/", 10, "$thumbs_dir is not a directory");
+        redirect_header(XOOPS_URL . "/modules/$moduleDirName/admin/", 10, "$thumbs_dir is not a directory");
     } else {
         @chmod($thumbs_dir, 0777);
     }
@@ -63,7 +70,7 @@ if (!empty($_POST['submit'])) {
         if (!is_readable("$photos_dir/$lid.$ext")) {
             echo _AM_MB_PHOTONOTEXISTS . ' &nbsp; ';
             if ($removerec) {
-                Myalbum\Utility::deletePhotos("lid='$lid'");
+                Utility::deletePhotos("lid='$lid'");
                 echo _AM_MB_RECREMOVED . "<br>\n";
             } else {
                 echo _AM_MB_SKIPPED . "<br>\n";
@@ -74,7 +81,7 @@ if (!empty($_POST['submit'])) {
         // Check if the file is normal image
         if (!in_array(mb_strtolower($ext), $myalbum_normal_exts)) {
             if ($forceredo || !is_readable("$thumbs_dir/$lid.gif")) {
-                Myalbum\Utility::createThumb("$photos_dir/$lid.$ext", $lid, $ext);
+                Utility::createThumb("$photos_dir/$lid.$ext", $lid, $ext);
                 echo _AM_MB_CREATEDTHUMBS . "<br>\n";
             } else {
                 echo _AM_MB_SKIPPED . "<br>\n";
@@ -91,7 +98,7 @@ if (!empty($_POST['submit'])) {
             $tmp_path = "$photos_dir/myalbum_tmp_photo";
             @unlink($tmp_path);
             rename("$photos_dir/$lid.$ext", $tmp_path);
-            Myalbum\Utility::editPhoto($tmp_path, "$photos_dir/$lid.$ext");
+            Utility::editPhoto($tmp_path, "$photos_dir/$lid.$ext");
             @unlink($tmp_path);
             echo _AM_MB_PHOTORESIZED . ' &nbsp; ';
             list($true_w, $true_h) = getimagesize("$photos_dir/$lid.$ext");
@@ -109,13 +116,13 @@ if (!empty($_POST['submit'])) {
             list($thumbs_w, $thumbs_h) = getimagesize("$thumbs_dir/$lid.$ext");
             echo "{$thumbs_w}x{$thumbs_h} ... ";
             if ($forceredo) {
-                $retcode = Myalbum\Utility::createThumb("$photos_dir/$lid.$ext", $lid, $ext);
+                $retcode = Utility::createThumb("$photos_dir/$lid.$ext", $lid, $ext);
             } else {
                 $retcode = 3;
             }
         } else {
             if ($myalbum_makethumb) {
-                $retcode = Myalbum\Utility::createThumb("$photos_dir/$lid.$ext", $lid, $ext);
+                $retcode = Utility::createThumb("$photos_dir/$lid.$ext", $lid, $ext);
             } else {
                 $retcode = 3;
             }
@@ -170,7 +177,7 @@ if (!is_object($xoopsModule)) {
 }
 echo "<h3 style='text-align:left;'>" . sprintf(_AM_H3_FMT_RECORDMAINTENANCE, $xoopsModule->name()) . "</h3>\n";
 
-Myalbum\Utility::openTable();
+Utility::openTable();
 $form->addElement($start_text);
 $form->addElement($size_text);
 $form->addElement($forceredo_radio);
@@ -178,7 +185,7 @@ $form->addElement($removerec_radio);
 $form->addElement($resize_radio);
 $form->addElement($submit_button);
 $form->display();
-Myalbum\Utility::closeTable();
+Utility::closeTable();
 
 if (isset($result_str)) {
     echo "<br>\n";

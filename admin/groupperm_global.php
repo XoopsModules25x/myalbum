@@ -1,5 +1,6 @@
 <?php
 
+use Xmf\Module\Admin;
 use XoopsModules\Myalbum;
 
 require_once __DIR__ . '/admin_header.php';
@@ -13,7 +14,7 @@ if (!empty($_POST['submit'])) {
 }
 
 xoops_cp_header();
-$adminObject = \Xmf\Module\Admin::getInstance();
+$adminObject = Admin::getInstance();
 $adminObject->displayNavigation(basename(__FILE__));
 //myalbum_adminMenu(basename(__FILE__), 8);
 $GLOBALS['xoopsTpl']->assign('admin_title', $GLOBALS['myalbumModule']->name());

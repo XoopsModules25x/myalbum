@@ -18,6 +18,7 @@
  */
 
 use XoopsModules\Myalbum;
+use XoopsModules\Myalbum\Helper;
 
 require dirname(__DIR__, 2) . '/mainfile.php';
 require XOOPS_ROOT_PATH . '/header.php';
@@ -27,7 +28,7 @@ require __DIR__ . '/preloads/autoloader.php';
 $moduleDirName = basename(__DIR__);
 
 /** @var \XoopsModules\Myalbum\Helper $helper */
-$helper = \XoopsModules\Myalbum\Helper::getInstance();
+$helper = Helper::getInstance();
 
 $modulePath = XOOPS_ROOT_PATH . '/modules/' . $moduleDirName;
 

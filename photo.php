@@ -3,14 +3,16 @@
 //                      myAlbum-P - XOOPS photo album                        //
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
+use Xmf\Request;
+
 $catpath = '';
 require_once __DIR__ . '/header.php';
 
 // GET variables
-$lid = \Xmf\Request::getInt('lid', 0, 'GET');
-$cid = \Xmf\Request::getInt('cid', 0, 'GET');
+$lid = Request::getInt('lid', 0, 'GET');
+$cid = Request::getInt('cid', 0, 'GET');
 
-if (\Xmf\Request::hasVar('op', 'GET')) {
+if (Request::hasVar('op', 'GET')) {
     $op = $_GET['op'];
 } else {
     $op = 'default';
@@ -96,7 +98,7 @@ switch ($op) {
         $photo['width_height'] = '';
         $res_x                 = $photo_obj->getVar('res_x');
         $res_y                 = $photo_obj->getVar('res_y');
-        list($max_w, $max_h) = explode('x', $myalbum_middlepixel);
+        [$max_w, $max_h] = explode('x', $myalbum_middlepixel);
         //if ( ! empty( $max_w ) && ! empty( $p['res_x'] ) ) {
         if (!empty($max_w) && !empty($res_x)) {
             if (empty($max_h)) {
@@ -134,7 +136,7 @@ switch ($op) {
 
         // Orders
         require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/photo_orders.php";
-        if (\Xmf\Request::hasVar('orderby', 'GET') && isset($myalbum_orders[$_GET['orderby']])) {
+        if (Request::hasVar('orderby', 'GET') && isset($myalbum_orders[$_GET['orderby']])) {
             $orderby = $_GET['orderby'];
         } else {
             if (isset($myalbum_orders[$myalbum_defaultorder])) {

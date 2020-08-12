@@ -4,6 +4,8 @@
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
+use Xmf\Module\Admin;
+use Xmf\Request;
 use XoopsModules\Myalbum;
 
 require_once __DIR__ . '/admin_header.php';
@@ -16,8 +18,8 @@ if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
     }
 
     // get src module
-    $src_cid     = \Xmf\Request::getInt('cid', 0, 'POST');
-    $src_dirname = \Xmf\Request::getString('src_dirname', '', 'POST');
+    $src_cid     = Request::getInt('cid', 0, 'POST');
+    $src_dirname = Request::getString('src_dirname', '', 'POST');
     if ($moduleDirName === $src_dirname) {
         exit('source dirname is same as dest dirname: ' . htmlspecialchars($src_dirname, ENT_QUOTES | ENT_HTML5));
     }
@@ -50,7 +52,7 @@ if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
     $src_table_text     = $GLOBALS['xoopsDB']->prefix("{$src_dirname}_text");
     $src_table_votedata = $GLOBALS['xoopsDB']->prefix("{$src_dirname}_votedata");
 
-    if (\Xmf\Request::hasVar('copyormove', 'POST') && 'move' === $_POST['copyormove']) {
+    if (Request::hasVar('copyormove', 'POST') && 'move' === $_POST['copyormove']) {
         $move_mode = true;
     } else {
         $move_mode = false;
@@ -94,7 +96,7 @@ if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
             $GLOBALS['xoopsDB']->query($sql);
 
             // delete source photos
-            list($photos_dir, $thumbs_dir, $myalbum_mid, $table_photos, $table_text, $table_votedata, $saved_photos_dir, $saved_thumbs_dir, $saved_myalbum_mid, $saved_table_photos, $saved_table_text, $saved_table_votedata) = [
+            [$photos_dir, $thumbs_dir, $myalbum_mid, $table_photos, $table_text, $table_votedata, $saved_photos_dir, $saved_thumbs_dir, $saved_myalbum_mid, $saved_table_photos, $saved_table_text, $saved_table_votedata] = [
                 $src_photos_dir,
                 $src_thumbs_dir,
                 $src_mid,
@@ -109,7 +111,7 @@ if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
                 $GLOBALS['xoopsDB']->prefix($table_votedata),
             ];
             Myalbum\Utility::deletePhotos("lid='$src_lid'");
-            list($photos_dir, $thumbs_dir, $myalbum_mid, $table_photos, $table_text, $table_votedata) = [
+            [$photos_dir, $thumbs_dir, $myalbum_mid, $table_photos, $table_text, $table_votedata] = [
                 $saved_photos_dir,
                 $saved_thumbs_dir,
                 $saved_myalbum_mid,
@@ -138,13 +140,13 @@ else {
         }
 
         // get src information
-        $src_cid          = \Xmf\Request::getInt('imgcat_id', 0, 'POST');
+        $src_cid          = Request::getInt('imgcat_id', 0, 'POST');
         $src_table_photos = $GLOBALS['xoopsDB']->prefix('image');
         $src_table_cat    = $GLOBALS['xoopsDB']->prefix('imagecategory');
 
         // create category
         $crs = $GLOBALS['xoopsDB']->query("SELECT imgcat_name,imgcat_storetype FROM $src_table_cat WHERE imgcat_id='$src_cid'");
-        list($imgcat_name, $imgcat_storetype) = $GLOBALS['xoopsDB']->fetchRow($crs);
+        [$imgcat_name, $imgcat_storetype] = $GLOBALS['xoopsDB']->fetchRow($crs);
 
         $GLOBALS['xoopsDB']->query('INSERT INTO ' . $GLOBALS['xoopsDB']->prefix($table_cat) . "SET pid=0,title='" . addslashes($imgcat_name) . "'")
         || exit('DB error: INSERT cat table');
@@ -173,7 +175,7 @@ else {
                     continue;
                 }
                 $brs = $GLOBALS['xoopsDB']->query('SELECT image_body FROM  ' . $GLOBALS['xoopsDB']->prefix('imagebody') . " WHERE image_id='$image_id'");
-                list($body) = $GLOBALS['xoopsDB']->fetchRow($brs);
+                [$body] = $GLOBALS['xoopsDB']->fetchRow($brs);
                 fwrite($fp, $body);
                 fclose($fp);
                 Myalbum\Utility::createThumb($dst_file, $lid, $ext);
@@ -182,7 +184,7 @@ else {
                 Myalbum\Utility::createThumb($src_file, $lid, $ext);
             }
 
-            list($width, $height, $type) = getimagesize($dst_file);
+            [$width, $height, $type] = getimagesize($dst_file);
             $GLOBALS['xoopsDB']->query('UPDATE ' . $GLOBALS['xoopsDB']->prefix($table_photos) . "SET res_x='$width',res_y='$height' WHERE lid='$lid'");
 
             ++$import_count;
@@ -194,7 +196,7 @@ else {
 
 require_once dirname(__DIR__) . '/include/myalbum.forms.php';
 xoops_cp_header();
-$adminObject = \Xmf\Module\Admin::getInstance();
+$adminObject = Admin::getInstance();
 $adminObject->displayNavigation(basename(__FILE__));
 //myalbum_adminMenu(basename(__FILE__), 6);
 $GLOBALS['xoopsTpl']->assign('admin_title', sprintf(_AM_H3_FMT_IMPORTTO, $xoopsModule->name()));

@@ -27,7 +27,7 @@ trait VersionChecks
      * @param null|string  $requiredVer
      * @return bool true if meets requirements, false if not
      */
-    public static function checkVerXoops(\XoopsModule $module = null, $requiredVer = null)
+    public static function checkVerXoops(\XoopsModule $module, string $requiredVer = null): bool
     {
         $moduleDirName      = \basename(\dirname(\dirname(__DIR__)));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);

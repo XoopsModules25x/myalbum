@@ -2,8 +2,6 @@
 
 namespace XoopsModules\Myalbum;
 
-
-
 require_once \dirname(__DIR__) . '/include/read_configs.php';
 
 /**

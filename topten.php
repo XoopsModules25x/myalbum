@@ -4,10 +4,12 @@
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
+use Xmf\Request;
+
 require_once __DIR__ . '/header.php';
 
-$hit  = \Xmf\Request::getInt('hit', 0, 'GET');
-$rate = \Xmf\Request::getInt('rate', 0, 'GET');
+$hit  = Request::getInt('hit', 0, 'GET');
+$rate = Request::getInt('rate', 0, 'GET');
 
 if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
     $url = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/top,' . $hit . ',' . $rate . '.html';

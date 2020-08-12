@@ -4,11 +4,14 @@
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
+use Xmf\Request;
 use XoopsModules\Myalbum;
+use XoopsModules\Tag\FormTag;
+use XoopsModules\Tag\Helper;
 
 require_once __DIR__ . '/header.php';
 
-$lid = \Xmf\Request::getInt('lid', 0, 'GET');
+$lid = Request::getInt('lid', 0, 'GET');
 
 /** @var  Myalbum\PhotosHandler $photosHandler */
 $photosHandler = $helper->getHandler('Photos');
@@ -88,12 +91,12 @@ if (!empty($_POST['submit'])) {
     if (empty($_POST['submitter'])) {
         $submitter = $my_uid;
     } else {
-        $submitter = \Xmf\Request::getInt('submitter', 0, 'POST');
+        $submitter = Request::getInt('submitter', 0, 'POST');
     }
 
     // status change
     if ($isadmin) {
-        $valid = \Xmf\Request::getInt('valid', 0, 'POST');
+        $valid = Request::getInt('valid', 0, 'POST');
         if (empty($_POST['old_status'])) {
             if (0 == $valid) {
                 $valid = null;
@@ -111,7 +114,7 @@ if (!empty($_POST['submit'])) {
         $valid = 2;
     }
 
-    $cid = \Xmf\Request::getInt('cid', 0, 'POST');
+    $cid = Request::getInt('cid', 0, 'POST');
 
     // Check if upload file name specified
     $field = $_POST['xoops_upload_file'][0];
@@ -180,11 +183,11 @@ if (!empty($_POST['submit'])) {
     }
     $title     = $GLOBALS['myts']->stripSlashesGPC($_POST['title']);
     $desc_text = $GLOBALS['myts']->stripSlashesGPC($_POST['desc_text']);
-    $cid       = \Xmf\Request::getInt('cid', 0, 'POST');
+    $cid       = Request::getInt('cid', 0, 'POST');
     $ext       = $_POST['ext'];
     if ($GLOBALS['myalbumModuleConfig']['tag']) {
         /** @var TagTagHandler $tagHandler */
-        $tagHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Tag'); // xoops_getModuleHandler('tag', 'tag');
+        $tagHandler = Helper::getInstance()->getHandler('Tag'); // xoops_getModuleHandler('tag', 'tag');
         $tagHandler->updateByItem($_POST['tags'], $lid, $GLOBALS['myalbumModule']->getVar('dirname'), $cid);
     }
     Myalbum\Utility::updatePhoto($lid, $cid, $title, $desc_text, $valid);
@@ -269,7 +272,7 @@ $form->addElement($desc_tarea);
 $form->addElement($cat_tray);
 $form->addElement($file_form);
 if ($GLOBALS['myalbumModuleConfig']['tag']) {
-    $form->addElement(new \XoopsModules\Tag\FormTag('tags', 35, 255, $lid));
+    $form->addElement(new FormTag('tags', 35, 255, $lid));
 }
 if ($myalbum_canrotate) {
     $form->addElement($rotate_radio);
