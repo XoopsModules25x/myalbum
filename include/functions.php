@@ -967,7 +967,7 @@ function myalbum_get_cat_options(
             } elseif ($target['next_key'] < 0) {
                 $cat_backup = $cat;
                 array_splice($cats, $key, 1);
-                array_push($cats, $cat_backup);
+                $cats[] = $cat_backup;
                 --$key;
                 break;
             }

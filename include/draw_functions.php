@@ -295,7 +295,7 @@ function myalbum_get_sub_categories($parent_id, $cattree)
             $cids[] = $children->getVar('cid');
         }
 
-        array_push($cids, $cid);
+        $cids[] = $cid;
 
         $photo_total_sum = myalbum_get_photo_total_sum_from_cats($cids, $criteria);
 

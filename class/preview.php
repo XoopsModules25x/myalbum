@@ -317,7 +317,7 @@ class Preview extends \XoopsObject
                 $cids[] = $children->getVar('cid');
             }
 
-            \array_push($cids, $cid);
+            $cids[] = $cid;
 
             $photo_total_sum = Myalbum\Utility::getTotalCount($cids, $criteria);
 
