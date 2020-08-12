@@ -17,7 +17,14 @@
  * @author       XOOPS Development Team
  */
 
-use XoopsModules\Myalbum;
+use XoopsModules\Myalbum\{
+    Common\Configurator,
+    Helper,
+    Utility
+};
+/** @var Helper $helper */
+/** @var Utility $utility */
+/** @var Common\Configurator $configurator */
 
 //require_once __DIR__ . '/setup.php';
 
@@ -30,8 +37,7 @@ use XoopsModules\Myalbum;
 function xoops_module_pre_install_myalbum(\XoopsModule $module)
 {
     require_once dirname(__DIR__) . '/preloads/autoloader.php';
-    /** @var Myalbum\Utility $utility */
-    $utility      = new \XoopsModules\Myalbum\Utility();
+    $utility      = new Utility();
     $xoopsSuccess = $utility::checkVerXoops($module);
     $phpSuccess   = $utility::checkVerPhp($module);
 
@@ -57,10 +63,9 @@ function xoops_module_install_myalbum(\XoopsModule $module)
 
     $moduleDirName = basename(dirname(__DIR__));
 
-    /** @var Myalbum\Helper $helper */
-    $helper       = Myalbum\Helper::getInstance();
-    $utility      = new Myalbum\Utility();
-    $configurator = new Myalbum\Common\Configurator();
+    $helper       = Helper::getInstance();
+    $utility      = new Utility();
+    $configurator = new Common\Configurator();
     // Load language files
     $helper->loadLanguage('admin');
     $helper->loadLanguage('modinfo');

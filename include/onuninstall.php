@@ -8,7 +8,12 @@
  * @link            https://xoops.org XOOPS
  */
 
-use XoopsModules\Myalbum;
+use XoopsModules\Myalbum\{
+    Helper,
+    Utility
+};
+/** @var Helper $helper */
+/** @var Utility $utility */
 
 /**
  * Prepares system prior to attempting to uninstall module
@@ -34,11 +39,8 @@ function xoops_module_uninstall_myalbum(\XoopsModule $module)
 
     $moduleDirName      = basename(dirname(__DIR__));
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);
-    /** @var Myalbum\Helper $helper */
-    $helper = Myalbum\Helper::getInstance();
-
-    /** @var Myalbum\Utility $utility */
-    $utility = new Myalbum\Utility();
+    $helper = Helper::getInstance();
+    $utility = new Utility();
 
     $success = true;
     $helper->loadLanguage('admin');
