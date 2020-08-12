@@ -12,7 +12,7 @@
 /**
  * XOOPS tag management module
  *
- * @copyright       The XOOPS project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0.0
  * @author          Taiwen Jiang <phppp@users.sourceforge.net>
