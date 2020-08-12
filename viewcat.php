@@ -93,11 +93,11 @@ if ($cid > 0) {
             }
         }
     } else {
-        $cat = $catHandler->get($cid);
+        $cat     = $catHandler->get($cid);
         $catpath .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid=' . $cat->getVar('cid') . "' >" . $cat->getVar('title') . '</a>';
     }
     $catpath   = str_replace('>>', " <span class='fg2'>&raquo;&raquo;</span> ", $catpath);
-    $sub_title = preg_replace("/\'\>/", "'><img src='$mod_url/assets/images/folder16.gif' alt='' >", $catpath);
+    $sub_title = preg_replace("/\'\>/", "'><img src='$mod_url/assets/images/folder16.gif' alt=''>", $catpath);
     $sub_title = preg_replace('/^(.+)folder16/', '$1folder_open', $sub_title);
     $GLOBALS['xoopsTpl']->assign('album_sub_title', $sub_title);
     $criteria->add(new Criteria('`cid`', $cid));
@@ -166,7 +166,7 @@ if ($photo_small_sum > 0) {
     require_once __DIR__ . '/class/preview.php';
 
     foreach ($photosHandler->getObjects($criteria, true) as $lid => $photo) {
-//        echo __LINE__.' - '.$function_assigning.' - '.$lid.'<br>';
+        //echo __LINE__.' - '.$function_assigning.' - '.$lid.'<br>';
 //        $photo = $function_assigning($photo) + array('count' => ++$count, true);
         $photo = call_user_func($function_assigning, $photo) + array('count' => ++$count, true);
 

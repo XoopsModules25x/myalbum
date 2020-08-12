@@ -8,7 +8,7 @@
                 <!--
           <input type='hidden' name='num' value='<{$num}>'>
           <input type='text' name='txt' value='<{$txt}>'>
-          <input type='submit' value='<{$smarty.const._ALBM_AM_BUTTON_EXTRACT}>' > &nbsp;
+          <input type='submit' value='<{$smarty.const._ALBM_AM_BUTTON_EXTRACT}>'> &nbsp;
               -->
                 <{$nav_html}> &nbsp;
             </form>
@@ -45,7 +45,7 @@
                         </tr>
                     <{/foreach}>
                     <tr>
-                        <!-- <td colspan='4' align='left'>"._ALBM_AM_LABEL_ADMIT."<input type='submit' name='admit' value='"._ALBM_AM_BUTTON_ADMIT."' ></td> -->
+                        <!-- <td colspan='4' align='left'>"._ALBM_AM_LABEL_ADMIT."<input type='submit' name='admit' value='"._ALBM_AM_BUTTON_ADMIT."'></td> -->
                         <td colspan='9' align='left'><{$smarty.const._ALBM_AM_LABEL_ADMIT}><input type='button'
                                                                                                   value='<{$smarty.const._ALBM_AM_BUTTON_ADMIT}>'
                                                                                                   onclick='document.MainForm.action.value="admit"; submit();'>

@@ -72,7 +72,7 @@ if (isset($_POST['submit']) && $_POST['submit'] !== '') {
 
     $dir_h = opendir($dir);
     if ($dir_h === false) {
-        redirect_header('batch.php', 3, _ALBM_MES_INVALIDDIRECTORY . "<br >$dir4edit");
+        redirect_header('batch.php', 3, _ALBM_MES_INVALIDDIRECTORY . "<br>$dir4edit");
     }
     $filecount = 1;
     while (false !== ($file_name = readdir($dir_h))) {

@@ -160,15 +160,15 @@ if ($op == 'clone_ok') {
 
 // import from modules/system/admin/blocksadmin/blocksadmin.php
 /**
- * @param              $bid
- * @param              $bside
- * @param              $bweight
- * @param              $bvisible
- * @param              $btitle
- * @param              $bcontent
- * @param              $bctype
- * @param              $bcachetime
- * @param              $bmodule
+ * @param       $bid
+ * @param       $bside
+ * @param       $bweight
+ * @param       $bvisible
+ * @param       $btitle
+ * @param       $bcontent
+ * @param       $bctype
+ * @param       $bcachetime
+ * @param       $bmodule
  * @param array|string $options
  *
  * @return string

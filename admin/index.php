@@ -52,7 +52,7 @@ if (trim($myalbum_netpbmpath) !== '' && substr($myalbum_netpbmpath, -1) !== '/')
 
 // Environmental
 $adminObject = \Xmf\Module\Admin::getInstance();
-$title      = _AM_MB_PHPDIRECTIVE . '&nbsp;:&nbsp;' . _AM_H4_ENVIRONMENT;
+$title       = _AM_MB_PHPDIRECTIVE . '&nbsp;:&nbsp;' . _AM_H4_ENVIRONMENT;
 $adminObject->addInfoBox($title);
 // Safe Mode
 //$safe_mode_flag = ini_get('safe_mode');

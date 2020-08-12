@@ -6,7 +6,7 @@ use Xmf\Module\Helper;
 //$path = dirname(dirname(dirname(__DIR__)));
 //require_once $path . '/mainfile.php';
 
-$moduleDirName         = basename(dirname(__DIR__));
+$moduleDirName = basename(dirname(__DIR__));
 
 if (false !== ($moduleHelper = Helper::getHelper($moduleDirName))) {
 } else {

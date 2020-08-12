@@ -125,11 +125,11 @@ switch ($op) {
                                                                                                                                                                                                                                     < count($cids) ? '>>' : '');
             }
         } else {
-            $cat = $catHandler->get($photo_obj->getVar('cid'));
+            $cat     = $catHandler->get($photo_obj->getVar('cid'));
             $catpath .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid=' . $cat->getVar('cid') . "' >" . $cat->getVar('title') . '</a>';
         }
         $catpath   = str_replace('>>', " <span class='fg2'>&raquo;&raquo;</span> ", $catpath);
-        $sub_title = preg_replace("/\'\>/", "'><img src='$mod_url/assets/images/folder16.gif' alt='' >", $catpath);
+        $sub_title = preg_replace("/\'\>/", "'><img src='$mod_url/assets/images/folder16.gif' alt=''>", $catpath);
         $sub_title = preg_replace('/^(.+)folder16/', '$1folder_open', $sub_title);
         $GLOBALS['xoopsTpl']->assign('album_sub_title', $sub_title);
 

@@ -163,30 +163,30 @@
                     <td nowrap="nowrap">
 
                         <{if $makethumb || ! $photo.is_normal }>
-                        <a href="#" onclick="appendCode('<{$photo.xcodel}>');"><img
-                                    src="<{$mod_url}>/assets/images/alignleft.gif" alt="<{$lang_left}>"
-                                    title="<{$lang_left}>"></a>
-                        <a href="#" onclick="appendCode('<{$photo.xcodec}>');"><img
-                                    src="<{$mod_url}>/assets/images/aligncenter.gif" alt="<{$lang_center}>"
-                                    title="<{$lang_center}>"></a>
-                        <a href="#" onclick="appendCode('<{$photo.xcoder}>');"><img
-                                    src="<{$mod_url}>/assets/images/alignright.gif" alt="<{$lang_right}>"
-                                    title="<{$lang_right}>"></a>
-                        <br>
+                            <a href="#" onclick="appendCode('<{$photo.xcodel}>');"><img
+                                        src="<{$mod_url}>/assets/images/alignleft.gif" alt="<{$lang_left}>"
+                                        title="<{$lang_left}>"></a>
+                            <a href="#" onclick="appendCode('<{$photo.xcodec}>');"><img
+                                        src="<{$mod_url}>/assets/images/aligncenter.gif" alt="<{$lang_center}>"
+                                        title="<{$lang_center}>"></a>
+                            <a href="#" onclick="appendCode('<{$photo.xcoder}>');"><img
+                                        src="<{$mod_url}>/assets/images/alignright.gif" alt="<{$lang_right}>"
+                                        title="<{$lang_right}>"></a>
                             <br>
-                                <{/if}>
+                            <br>
+                        <{/if}>
 
-                                <{if $photo.is_normal}>
-                                    <a href="#" onclick="appendCode('<{$photo.xcodebl}>');"><img
-                                                src="<{$mod_url}>/assets/images/alignbigleft.gif" alt="<{$lang_left}>"
-                                                title="<{$lang_left}>"></a>
-                                    <a href="#" onclick="appendCode('<{$photo.xcodebc}>');"><img
-                                                src="<{$mod_url}>/assets/images/alignbigcenter.gif"
-                                                alt="<{$lang_center}>" title="<{$lang_center}>"></a>
-                                    <a href="#" onclick="appendCode('<{$photo.xcodebr}>');"><img
-                                                src="<{$mod_url}>/assets/images/alignbigright.gif" alt="<{$lang_right}>"
-                                                title="<{$lang_right}>"></a>
-                                <{/if}>
+                        <{if $photo.is_normal}>
+                            <a href="#" onclick="appendCode('<{$photo.xcodebl}>');"><img
+                                        src="<{$mod_url}>/assets/images/alignbigleft.gif" alt="<{$lang_left}>"
+                                        title="<{$lang_left}>"></a>
+                            <a href="#" onclick="appendCode('<{$photo.xcodebc}>');"><img
+                                        src="<{$mod_url}>/assets/images/alignbigcenter.gif"
+                                        alt="<{$lang_center}>" title="<{$lang_center}>"></a>
+                            <a href="#" onclick="appendCode('<{$photo.xcodebr}>');"><img
+                                        src="<{$mod_url}>/assets/images/alignbigright.gif" alt="<{$lang_right}>"
+                                        title="<{$lang_right}>"></a>
+                        <{/if}>
 
                     </td>
                 </tr>
