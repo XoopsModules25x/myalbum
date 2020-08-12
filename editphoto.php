@@ -4,14 +4,16 @@
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
-include __DIR__ . '/header.php';
+use XoopsModules\Myalbum;
+
+require_once __DIR__ . '/header.php';
 
 $lid = \Xmf\Request::getInt('lid', 0, 'GET');
 
 /** @var MyalbumPhotosHandler $photosHandler */
-$photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+$photosHandler = $helper->getHandler('Photos');
 /** @var MyalbumTextHandler $textHandler */
-$textHandler   = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
+$textHandler = $helper->getHandler('Text');
 if (!$photo_obj = $photosHandler->get($lid)) {
     redirect_header('index.php', 2, _ALBM_NOMATCH);
 }
@@ -33,12 +35,12 @@ if (!empty($_POST['do_delete'])) {
 
     // anti-CSRF
     if (!XoopsSecurity::checkReferer()) {
-        die('XOOPS_URL is not included in your REFERER');
+        exit('XOOPS_URL is not included in your REFERER');
     }
 
     // get and check lid is valid
     if ($lid < 1) {
-        die('Invalid photo id.');
+        exit('Invalid photo id.');
     }
 
     $photosHandler->delete($photo_obj);
@@ -52,11 +54,11 @@ if (!empty($_POST['conf_delete'])) {
         redirect_header($mod_url, 3, _NOPERM);
     }
 
-    include XOOPS_ROOT_PATH . '/include/cp_functions.php';
+    require_once XOOPS_ROOT_PATH . '/include/cp_functions.php';
     require_once $GLOBALS['xoops']->path('header.php');
 
     $ext = $photo_obj->getVar('ext');
-    if (!in_array(strtolower($ext), $myalbum_normal_exts)) {
+    if (!in_array(mb_strtolower($ext), $myalbum_normal_exts)) {
         $ext = 'gif';
     }
 
@@ -72,16 +74,15 @@ if (!empty($_POST['conf_delete'])) {
     </div>
     \n";
 
-    include $GLOBALS['xoops']->path('footer.php');
+    require $GLOBALS['xoops']->path('footer.php');
     exit;
 }
 
 // Do Modify
 if (!empty($_POST['submit'])) {
-
     // anti-CSRF
     if (!XoopsSecurity::checkReferer()) {
-        die('XOOPS_URL is not included in your REFERER');
+        exit('XOOPS_URL is not included in your REFERER');
     }
 
     if (empty($_POST['submitter'])) {
@@ -115,28 +116,21 @@ if (!empty($_POST['submit'])) {
     // Check if upload file name specified
     $field = $_POST['xoops_upload_file'][0];
     if (empty($field) || '' == $field) {
-        die('UPLOAD error: file name not specified');
+        exit('UPLOAD error: file name not specified');
     }
     $field = $_POST['xoops_upload_file'][0];
 
     // Check if file uploaded
     if ('' != $_FILES[$field]['tmp_name'] && 'none' !== $_FILES[$field]['tmp_name']) {
         if ($GLOBALS['myalbumModuleConfig']['myalbum_canresize']) {
-            $uploader = new MediaUploader(
-                $GLOBALS['photos_dir'],
-                explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']),
-                $GLOBALS['myalbumModuleConfig']['myalbum_fsize'],
-                null,
-                null,
-                                                 explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedexts'])
-            );
+            $uploader = new MediaUploader($GLOBALS['photos_dir'], explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']), $GLOBALS['myalbumModuleConfig']['myalbum_fsize'], null, null, explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedexts']));
         } else {
             $uploader = new MediaUploader(
                 $GLOBALS['photos_dir'],
                 explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']),
                 $GLOBALS['myalbumModuleConfig']['myalbum_fsize'],
                 $GLOBALS['myalbumModuleConfig']['myalbum_width'],
-                                                 $GLOBALS['myalbumModuleConfig']['myalbum_height'],
+                $GLOBALS['myalbumModuleConfig']['myalbum_height'],
                 explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedexts'])
             );
         }
@@ -158,7 +152,7 @@ if (!empty($_POST['submit'])) {
             $desc_text = $GLOBALS['myts']->stripSlashesGPC($_POST['desc_text']);
             $date      = time();
             $tmp_name  = $uploader->getSavedFileName();
-            $ext       = substr(strrchr($tmp_name, '.'), 1);
+            $ext       = mb_substr(mb_strrchr($tmp_name, '.'), 1);
 
             Myalbum\Utility::editPhoto($GLOBALS['photos_dir'] . "/$tmp_name", $GLOBALS['photos_dir'] . "/$lid.$ext");
             $dim = getimagesize($GLOBALS['photos_dir'] . "/$lid.$ext");
@@ -172,33 +166,31 @@ if (!empty($_POST['submit'])) {
 
             Myalbum\Utility::updatePhoto($lid, $cid, $title, $desc_text, $valid, $ext, $dim[0], $dim[1]);
             exit;
-        } else {
-            $uploader->getErrors(true);
-            require_once $GLOBALS['xoops']->path('header.php');
-            echo "<p><strong>::Errors occured::</strong></p>\n";
-            echo $uploader->getErrors(true);
-            require_once $GLOBALS['xoops']->path('footer.php');
-            exit;
         }
-    } else { //update without file upload
-        // Check if title is blank
-        if ('' === trim($_POST['title'])) {
-            $_POST['title'] = 'no title';
-        }
-        $title     = $GLOBALS['myts']->stripSlashesGPC($_POST['title']);
-        $desc_text = $GLOBALS['myts']->stripSlashesGPC($_POST['desc_text']);
-        $cid       = \Xmf\Request::getInt('cid', 0, 'POST');
-        $ext       = $_POST['ext'];
-        if ($GLOBALS['myalbumModuleConfig']['tag']) {
-            /** @var TagTagHandler $tagHandler */
-            $tagHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Tag'); // xoops_getModuleHandler('tag', 'tag');
-            $tagHandler->updateByItem($_POST['tags'], $lid, $GLOBALS['myalbumModule']->getVar('dirname'), $cid);
-        }
-        Myalbum\Utility::updatePhoto($lid, $cid, $title, $desc_text, $valid);
+        $uploader->getErrors(true);
+        require_once $GLOBALS['xoops']->path('header.php');
+        echo "<p><strong>::Errors occured::</strong></p>\n";
+        echo $uploader->getErrors(true);
+        require_once $GLOBALS['xoops']->path('footer.php');
         exit;
+    }   //update without file upload
+    // Check if title is blank
+    if ('' === trim($_POST['title'])) {
+        $_POST['title'] = 'no title';
     }
+    $title     = $GLOBALS['myts']->stripSlashesGPC($_POST['title']);
+    $desc_text = $GLOBALS['myts']->stripSlashesGPC($_POST['desc_text']);
+    $cid       = \Xmf\Request::getInt('cid', 0, 'POST');
+    $ext       = $_POST['ext'];
+    if ($GLOBALS['myalbumModuleConfig']['tag']) {
+        /** @var TagTagHandler $tagHandler */
+        $tagHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Tag'); // xoops_getModuleHandler('tag', 'tag');
+        $tagHandler->updateByItem($_POST['tags'], $lid, $GLOBALS['myalbumModule']->getVar('dirname'), $cid);
+    }
+    Myalbum\Utility::updatePhoto($lid, $cid, $title, $desc_text, $valid);
+    exit;
 }
-if (!strpos($photo_obj->getEditURL(), $_SERVER['REQUEST_URI'])) {
+if (!mb_strpos($photo_obj->getEditURL(), $_SERVER['REQUEST_URI'])) {
     header('HTTP/1.1 301 Moved Permanently');
     header('Location: ' . $photo_obj->getEditURL());
     exit;
@@ -211,7 +203,7 @@ Myalbum\Preview::header();
 // Display
 $photo_for_tpl = Myalbum\Preview::getArrayForPhotoAssign($photo_obj);
 $tpl           = new \XoopsTpl();
-include __DIR__ . '/include/assign_globals.php';
+require_once __DIR__ . '/include/assign_globals.php';
 $tpl->assign($myalbum_assign_globals);
 $tpl->assign('photo', $photo_for_tpl);
 echo "<table class='outer' style='width:100%;'>";
@@ -277,7 +269,7 @@ $form->addElement($desc_tarea);
 $form->addElement($cat_tray);
 $form->addElement($file_form);
 if ($GLOBALS['myalbumModuleConfig']['tag']) {
-    $form->addElement(new TagFormTag('tags', 35, 255, $lid));
+    $form->addElement(new \XoopsModules\Tag\FormTag('tags', 35, 255, $lid));
 }
 if ($myalbum_canrotate) {
     $form->addElement($rotate_radio);
@@ -293,4 +285,4 @@ $form->display();
 
 Myalbum\Preview::footer();
 
-include XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

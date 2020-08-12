@@ -4,7 +4,7 @@
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
-include __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 
 // GET variables
 $cid = \Xmf\Request::getInt('cid', 0, 'GET');
@@ -17,9 +17,9 @@ $pos  = \Xmf\Request::getInt('pos', 0, 'GET');
 $view = !isset($_GET['view']) ? $myalbum_viewcattype : $_GET['view'];
 
 /** @var MyalbumPhotosHandler $photosHandler */
-$photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+$photosHandler = $helper->getHandler('Photos');
 /** @var MyalbumCatHandler $catHandler */
-$catHandler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+$catHandler = $helper->getHandler('Category');
 if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
     if (0 == $cid) {
         $url = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/cat,' . $cid . ',' . $uid . ',' . $num . ',' . $pos . ',' . $view . '.html';
@@ -28,7 +28,7 @@ if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
         $url = $cat->getURL($uid, $num, $pos, $view);
     }
 
-    if (!strpos($url, $_SERVER['REQUEST_URI'])) {
+    if (!mb_strpos($url, $_SERVER['REQUEST_URI'])) {
         header('HTTP/1.1 301 Moved Permanently');
         header('Location: ' . $url);
         exit(0);
@@ -36,8 +36,8 @@ if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
 }
 
 // Orders
-include XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/photo_orders.php";
-if (isset($_GET['orderby']) && isset($myalbum_orders[$_GET['orderby']])) {
+require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/photo_orders.php";
+if (\Xmf\Request::hasVar('orderby', 'GET') && isset($myalbum_orders[$_GET['orderby']])) {
     $orderby = $_GET['orderby'];
 } else {
     if (isset($myalbum_orders[$myalbum_defaultorder])) {
@@ -56,9 +56,9 @@ if ('table' === $view) {
     $function_assigning                      = 'Myalbum\Preview::getArrayForPhotoAssign';
 }
 
-include XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 
-include __DIR__ . '/include/assign_globals.php';
+require_once __DIR__ . '/include/assign_globals.php';
 foreach ($GLOBALS['myalbum_assign_globals'] as $key => $value) {
     $GLOBALS['xoopsTpl']->assign($key, $value);
 }
@@ -88,8 +88,7 @@ if ($cid > 0) {
         foreach ($cids as $index => $child) {
             $childcat = $catHandler->get($child);
             if (is_object($childcat)) {
-                $catpath .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid=' . $childcat->getVar('cid') . "' >" . $childcat->getVar('title') . '</a> ' . ($index
-                                                                                                                                                                                                                                          < count($cids) ? '>>' : '');
+                $catpath .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid=' . $childcat->getVar('cid') . "' >" . $childcat->getVar('title') . '</a> ' . ($index < count($cids) ? '>>' : '');
             }
         }
     } else {
@@ -102,13 +101,12 @@ if ($cid > 0) {
     $GLOBALS['xoopsTpl']->assign('album_sub_title', $sub_title);
     $criteria->add(new \Criteria('`cid`', $cid));
 } elseif (0 != $uid) {
-
     // This means 'my photo'
     if ($uid < 0) {
         $criteria = new \CriteriaCompo(new \Criteria('`status`', '0', '>'));
         $GLOBALS['xoopsTpl']->assign('uid', -1);
         $GLOBALS['xoopsTpl']->assign('album_sub_title', _ALBM_TEXT_SMNAME4);
-    // uid Specified
+        // uid Specified
     } else {
         $criteria = new \CriteriaCompo(new \Criteria('`status`', '0', '>'));
         $criteria->add(new \Criteria('`submitter`', $uid));
@@ -139,7 +137,6 @@ $criteria->setLimit($num);
 if ($photo_small_sum > 0) {
     //if 2 or more items in result, num the navigation menu
     if ($photo_small_sum > 1) {
-
         // Assign navigations like order and division
         $GLOBALS['xoopsTpl']->assign('show_nav', true);
         $GLOBALS['xoopsTpl']->assign('lang_sortby', _ALBM_SORTBY);
@@ -163,15 +160,15 @@ if ($photo_small_sum > 0) {
     // Display photos
     $count = 1;
 
-    require_once __DIR__ . '/class/preview.php';
+//    require_once __DIR__ . '/class/preview.php';
 
     foreach ($photosHandler->getObjects($criteria, true) as $lid => $photo) {
         //echo __LINE__.' - '.$function_assigning.' - '.$lid.'<br>';
-//        $photo = $function_assigning($photo) + array('count' => ++$count, true);
+        //        $photo = $function_assigning($photo) + array('count' => ++$count, true);
         $photo = call_user_func($function_assigning, $photo) + ['count' => ++$count, true];
 
         $GLOBALS['xoopsTpl']->append('photos', $photo);
     }
 }
 
-include XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

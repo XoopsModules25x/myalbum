@@ -4,6 +4,8 @@
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
+use XoopsModules\Myalbum;
+
 require_once __DIR__ . '/admin_header.php';
 
 // get and check $_POST['size']
@@ -29,7 +31,7 @@ if (!$myalbum_makethumb) {
 
 // check if the directories of thumbs and photos are same.
 if ($GLOBALS['thumbs_dir'] == $GLOBALS['photos_dir']) {
-    die('The directory for thumbnails is same as for photos.');
+    exit('The directory for thumbnails is same as for photos.');
 }
 
 // check or make thumbs_dir
@@ -50,11 +52,11 @@ if (!empty($_POST['submit'])) {
     ob_start();
 
     $result         = $xoopsDB->query('SELECT lid , ext , res_x , res_y FROM ' . $GLOBALS['xoopsDB']->prefix($table_photos) . " ORDER BY lid LIMIT $start , $size")
-                      || die('DB Error');
+                      || exit('DB Error');
     $record_counter = 0;
-    while (false !== (list($lid, $ext, $w, $h) = $xoopsDB->fetchRow($result))) {
+    while (list($lid, $ext, $w, $h) = $xoopsDB->fetchRow($result)) {
         ++$record_counter;
-        echo($record_counter + $start - 1) . ') ';
+        echo ($record_counter + $start - 1) . ') ';
         printf(_AM_FMT_CHECKING, "$lid.$ext");
 
         // Check if the main image exists
@@ -70,7 +72,7 @@ if (!empty($_POST['submit'])) {
         }
 
         // Check if the file is normal image
-        if (!in_array(strtolower($ext), $myalbum_normal_exts)) {
+        if (!in_array(mb_strtolower($ext), $myalbum_normal_exts)) {
             if ($forceredo || !is_readable("$thumbs_dir/$lid.gif")) {
                 Myalbum\Utility::createThumb("$photos_dir/$lid.$ext", $lid, $ext);
                 echo _AM_MB_CREATEDTHUMBS . "<br>\n";

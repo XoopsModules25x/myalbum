@@ -1,17 +1,20 @@
 <?php
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+use XoopsModules\Myalbum;
+
+
 
 $moduleDirName = $_SESSION['myalbum_mydirname'];
 require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/language/english/myalbum_constants.php";
 
-eval('
+eval(
+    '
 function xoops_module_install_' . $moduleDirName . '( $module )
 {
     $modid = $module->getVar("mid") ;
     $grouppermHandler = xoops_getHandler("groupperm");
 
-    $global_perms_array = array(
+    $global_perms_array = [
         GPERM_INSERTABLE => _ALBM_GPERM_G_INSERTABLE ,
         GPERM_SUPERINSERT | GPERM_INSERTABLE => _ALBM_GPERM_G_SUPERINSERT ,
 //      GPERM_EDITABLE => _ALBM_GPERM_G_EDITABLE ,
@@ -20,7 +23,7 @@ function xoops_module_install_' . $moduleDirName . '( $module )
         GPERM_SUPERDELETE | GPERM_DELETABLE => _ALBM_GPERM_G_SUPERDELETE ,
         GPERM_RATEVIEW => _ALBM_GPERM_G_RATEVIEW ,
         GPERM_RATEVOTE | GPERM_RATEVIEW => _ALBM_GPERM_G_RATEVOTE
-    ) ;
+    ] ;
 
     foreach ($global_perms_array as $perms_id => $perms_name) {
         $gperm = $grouppermHandler->create();
@@ -31,17 +34,18 @@ function xoops_module_install_' . $moduleDirName . '( $module )
         $grouppermHandler->insert($gperm) ;
         unset($gperm);
     }
-    
-    require_once $GLOBALS["xoops"]->path("modules/' . $moduleDirName . '/include/config.php");
-    require_once $GLOBALS["xoops"]->path("modules/' . $moduleDirName . '/class/Utility.php");
+
+//    require_once $GLOBALS["xoops"]->path("modules/' . $moduleDirName . '/config/config.php");
+//    require_once $GLOBALS[\'xoops\']->path(\'modules/' . $moduleDirName . '/class/Utility.php\');
     foreach (array_keys($uploadFolders) as $i) {
         Myalbum\Utility::createFolder($uploadFolders[$i]);
     }
 
-    
+
 }
 
-');
+'
+);
 
 /*
 function xoops_module_install_myalbum(\XoopsModule $xoopsModule)
@@ -52,7 +56,7 @@ function xoops_module_install_myalbum(\XoopsModule $xoopsModule)
     xoops_loadLanguage('modinfo', $xoopsModule->getVar('dirname'));
 
     $moduleDirName = $xoopsModule->getVar('dirname');
-    require_once $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/include/config.php');
+    require_once $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/config/config.php');
 
     foreach (array_keys($uploadFolders) as $i) {
         Myalbum\Utility::createFolder($uploadFolders[$i]);

@@ -24,7 +24,7 @@
                         </td>
                     </tr>
                 </table>
-                <{if count( $subcategories ) > 0 }>
+                <{if $subcategories|is_array && count($subcategories) > 0}>
                     <hr>
                     <{include file="db:myalbum_categories.tpl"}>
                 <{/if}>
@@ -101,7 +101,7 @@
                                          title='<{$photo.title}>' border='0'>
                                 </a>
                             </td>
-                            <{if $photo.count is div by $colsoftableview }>
+                            <{if $photo.count % $colsoftableview == 0 }>
                         </tr>
                         <tr>
                             <{/if}>

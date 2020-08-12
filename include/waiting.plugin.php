@@ -1,19 +1,20 @@
 <?php
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 $moduleDirName = basename(dirname(__DIR__));
 
-eval('
+eval(
+    '
 
 function b_waiting_' . $moduleDirName . '(){
-    return b_waiting_myalbum_base( "' . $moduleDirName . '" ) ;
+    return b_waiting_myalbum_base( \'' . $moduleDirName . '\' ) ;
 }
 
-');
+'
+);
 
 if (!function_exists('b_waiting_myalbum_base')) {
-
     /**
      * @param $moduleDirName
      *

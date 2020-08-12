@@ -4,6 +4,8 @@
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
+use XoopsModules\Myalbum;
+
 require_once __DIR__ . '/admin_header.php';
 
 // GPCS vars
@@ -15,12 +17,11 @@ $txt     = empty($_GET['txt']) ? '' : $GLOBALS['myts']->stripSlashesGPC(trim($_G
 
 // Database actions
 if (!empty($_POST['action']) && 'delete' === $_POST['action'] && isset($_POST['ids']) && is_array($_POST['ids'])) {
-
     // remove records
 
     // Double check for anti-CSRF
     if (!XoopsSecurity::checkReferer()) {
-        die('XOOPS_URL is not included in your REFERER');
+        exit('XOOPS_URL is not included in your REFERER');
     }
 
     foreach ($_POST['ids'] as $lid) {
@@ -28,17 +29,16 @@ if (!empty($_POST['action']) && 'delete' === $_POST['action'] && isset($_POST['i
         Myalbum\Utility::deletePhotos($criteria);
     }
     redirect_header("photomanager.php?num=$num&cid=$cid", 2, _ALBM_DELETINGPHOTO);
-} elseif (isset($_POST['update']) && isset($_POST['ids']) && is_array($_POST['ids'])) {
-
+} elseif (\Xmf\Request::hasVar('update', 'POST') && isset($_POST['ids']) && is_array($_POST['ids'])) {
     // batch update
 
     // Double check for anti-CSRF
     if (!XoopsSecurity::checkReferer()) {
-        die('XOOPS_URL is not included in your REFERER');
+        exit('XOOPS_URL is not included in your REFERER');
     }
 
     // set clause for text table
-   if (\Xmf\Request::hasVar('new_desc_text', 'POST')) {
+    if (\Xmf\Request::hasVar('new_desc_text', 'POST')) {
         $set_for_text = "description='" . $GLOBALS['myts']->addSlashes($_POST['new_desc_text']) . "'";
     }
 
@@ -46,22 +46,22 @@ if (!empty($_POST['action']) && 'delete' === $_POST['action'] && isset($_POST['i
     $set = '';
 
     // new_title
-   if (\Xmf\Request::hasVar('new_title', 'POST')) {
+    if (\Xmf\Request::hasVar('new_title', 'POST')) {
         $set .= "title='" . $GLOBALS['myts']->addSlashes($_POST['new_title']) . "',";
     }
 
     // new_cid
-   if (\Xmf\Request::hasVar('new_cid', 'POST')) {
+    if (\Xmf\Request::hasVar('new_cid', 'POST')) {
         $set .= "cid='" . \Xmf\Request::getInt('new_cid', 0, 'POST') . "',";
     }
 
     // new_submitter
-   if (\Xmf\Request::hasVar('new_submitter', 'POST')) {
+    if (\Xmf\Request::hasVar('new_submitter', 'POST')) {
         $set .= "submitter='" . \Xmf\Request::getInt('new_submitter', 0, 'POST') . "',";
     }
 
     // new_post_date
-   if (\Xmf\Request::hasVar('new_post_date', 'POST')) {
+    if (\Xmf\Request::hasVar('new_post_date', 'POST')) {
         $new_date = strtotime($_POST['new_post_date']);
         if (-1 != $new_date) {
             $set .= "date='$new_date',";
@@ -69,7 +69,7 @@ if (!empty($_POST['action']) && 'delete' === $_POST['action'] && isset($_POST['i
     }
 
     if ($set) {
-        $set = substr($set, 0, -1);
+        $set = mb_substr($set, 0, -1);
     }
 
     // $whr clause
@@ -77,7 +77,7 @@ if (!empty($_POST['action']) && 'delete' === $_POST['action'] && isset($_POST['i
     foreach ($_POST['ids'] as $lid) {
         $whr .= (int)$lid . ',';
     }
-    $whr = substr($whr, 0, -1) . ')';
+    $whr = mb_substr($whr, 0, -1) . ')';
 
     if ($set) {
         $xoopsDB->query('UPDATE ' . $GLOBALS['xoopsDB']->prefix($table_photos) . " SET $set WHERE $whr");
@@ -142,7 +142,7 @@ $cat_options_for_update = Myalbum\Utility::getCategoryOptions('title', 0, '--', 
 // Options for Selecting a user
 $user_options = "<option value='0'>" . _AM_OPT_NOCHANGE . "</option>\n";
 $urs          = $xoopsDB->query('SELECT uid,uname FROM ' . $xoopsDB->prefix('users') . ' ORDER BY uname');
-while (false !== (list($uid, $uname) = $xoopsDB->fetchRow($urs))) {
+while (list($uid, $uname) = $xoopsDB->fetchRow($urs)) {
     $user_options .= "<option value='$uid'>" . htmlspecialchars($uname, ENT_QUOTES) . "</option>\n";
 }
 
@@ -192,10 +192,10 @@ echo "
 
 // list part
 $col = 0;
-while (false !== (list($lid, $title, $submitter, $ext, $w, $h, $status) = $xoopsDB->fetchRow($prs))) {
-    $title = $GLOBALS['myts']->htmlspecialchars($title);
+while (list($lid, $title, $submitter, $ext, $w, $h, $status) = $xoopsDB->fetchRow($prs)) {
+    $title = $GLOBALS['myts']->htmlSpecialChars($title);
 
-    if (in_array(strtolower($ext), $myalbum_normal_exts)) {
+    if (in_array(mb_strtolower($ext), $myalbum_normal_exts)) {
         $imgsrc_thumb = "$thumbs_url/$lid.$ext";
         $ahref_photo  = "$photos_url/$lid.$ext";
         $widthheight  = $w > $h ? "width='$myalbum_thumbsize'" : "height='$myalbum_thumbsize'";

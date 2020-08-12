@@ -1,6 +1,6 @@
 <?php
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 $myalbum_orders = [
     'cidA'    => ['cid ASC', _ALBM_CIDASC],
@@ -14,5 +14,5 @@ $myalbum_orders = [
     'titleD'  => ['title DESC', _ALBM_TITLEZTOA],
     'dateD'   => ['date DESC', _ALBM_DATENEW],
     'hitsD'   => ['hits DESC', _ALBM_POPULARITYMTOL],
-    'ratingD' => ['rating DESC', _ALBM_RATINGHTOL]
+    'ratingD' => ['rating DESC', _ALBM_RATINGHTOL],
 ];

@@ -1,10 +1,10 @@
-<?php namespace XoopsModules\Myalbum;
+<?php
 
-use XoopsModules\Myalbum;
+namespace XoopsModules\Myalbum;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-include  dirname(__DIR__) . '/include/read_configs.php';
+
+require_once \dirname(__DIR__) . '/include/read_configs.php';
 
 /**
  * Class for Blue Room Xcenter
@@ -21,8 +21,8 @@ class Text extends \XoopsObject
      */
     public function __construct($id = null)
     {
-        $this->initVar('lid', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('description', XOBJ_DTYPE_OTHER, null, false, 16 * 1024 * 1024 * 1024);
+        $this->initVar('lid', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('description', \XOBJ_DTYPE_OTHER, null, false, 16 * 1024 * 1024 * 1024);
     }
 
     /**

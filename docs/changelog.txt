@@ -198,7 +198,7 @@
 =================================
  - fixed uid don't specified in order link (thx bordacs)
  - modified icon gifs larger
- - eliminate 'PHP_SELF'
+ - eliminate 'SCRIPT_NAME'
 
 2.74                2004-5-19
 =================================

@@ -1,16 +1,16 @@
 <?php
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 $GLOBALS['mydirname'] = basename(dirname(__DIR__));
 if (preg_match('/^myalbum(\d*)$/', $GLOBALS['mydirname'], $regs)) {
     $GLOBALS['myalbum_number'] = $regs[1];
 } else {
-    die('invalid dirname of myalbum: ' . htmlspecialchars($GLOBALS['mydirname'], ENT_QUOTES | ENT_HTML5));
+    exit('invalid dirname of myalbum: ' . htmlspecialchars($GLOBALS['mydirname'], ENT_QUOTES | ENT_HTML5));
 }
 
 global $xoopsConfig, $xoopsDB, $xoopsUser;
-/** @var XoopsModuleHandler $moduleHandler */
+/** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($GLOBALS['mydirname']);
 

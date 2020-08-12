@@ -1,6 +1,6 @@
 <?php
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 /**
  * @param $keywords
@@ -15,7 +15,7 @@ function myalbum_search($keywords, $andor, $limit, $offset, $userid)
 {
     global $xoopsDB;
     $moduleDirName = basename(dirname(__DIR__));
-    include XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/read_configs.php';
+    require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/read_configs.php';
 
     $sql = 'SELECT l.lid,l.cid,l.title,l.submitter,l.date,t.description FROM ' . $xoopsDB->prefix($moduleDirName . '_photos') . ' l LEFT JOIN ' . $xoopsDB->prefix($moduleDirName . '_text') . ' t ON t.lid=l.lid WHERE status>0';
 
@@ -24,20 +24,20 @@ function myalbum_search($keywords, $andor, $limit, $offset, $userid)
     }
 
     $whr = '';
-    if (is_array($keywords) && count($keywords) > 0) {
+    if ($keywords && is_array($keywords)) {
         $whr = 'AND (';
-        switch (strtolower($andor)) {
+        switch (mb_strtolower($andor)) {
             case 'and':
                 foreach ($keywords as $keyword) {
                     $whr .= "CONCAT(l.title,\' \',t.description) LIKE \'%$keyword%\' AND ";
                 }
-                $whr = substr($whr, 0, -5);
+                $whr = mb_substr($whr, 0, -5);
                 break;
             case 'or':
                 foreach ($keywords as $keyword) {
                     $whr .= "CONCAT(l.title,\' \',t.description) LIKE \'%$keyword%\' OR ";
                 }
-                $whr = substr($whr, 0, -4);
+                $whr = mb_substr($whr, 0, -4);
                 break;
             default:
                 $whr .= "CONCAT(l.title,\'  \',t.description) LIKE \'%{$keywords[0]}%\'";
@@ -55,7 +55,7 @@ function myalbum_search($keywords, $andor, $limit, $offset, $userid)
             'link'  => 'photo.php?lid=' . $myrow['lid'],
             'title' => $myrow['title'],
             'time'  => $myrow['date'],
-            'uid'   => $myrow['submitter']
+            'uid'   => $myrow['submitter'],
         ];
     }
 

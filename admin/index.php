@@ -13,15 +13,15 @@ $adminObject = \Xmf\Module\Admin::getInstance();
 $adminObject->displayNavigation(basename(__FILE__));
 
 /** @var MyalbumCatHandler $catHandler */
-$catHandler      = xoops_getModuleHandler('cat');
+$catHandler = $helper->getHandler('Category');
 /** @var MyalbumCommentsHandler $commentsHandler */
-$commentsHandler = xoops_getModuleHandler('comments');
+$commentsHandler = $helper->getHandler('Comments');
 /** @var MyalbumPhotosHandler $photosHandler */
-$photosHandler   = xoops_getModuleHandler('photos');
+$photosHandler = $helper->getHandler('Photos');
 /** @var MyalbumTextHandler $textHandler */
-$textHandler     = xoops_getModuleHandler('text');
-/** @var MyalbumVotedataHandler $votedataHandler */
-$votedataHandler = xoops_getModuleHandler('votedata');
+$textHandler = $helper->getHandler('Text');
+/** @var VotedataHandler $votedataHandler */
+$votedataHandler = $helper->getHandler('Votedata');
 $groupHandler    = xoops_getHandler('group');
 
 $netpbm_pipes = [
@@ -33,7 +33,7 @@ $netpbm_pipes = [
     'ppmquant',
     'ppmtogif',
     'pnmscale',
-    'pnmflip'
+    'pnmflip',
 ];
 
 // PATH_SEPARATOR
@@ -46,10 +46,10 @@ if (!defined('PATH_SEPARATOR')) {
 }
 
 // Check the path to binaries of imaging packages
-if ('' !== trim($myalbum_imagickpath) && '/' !== substr($myalbum_imagickpath, -1)) {
+if ('' !== trim($myalbum_imagickpath) && '/' !== mb_substr($myalbum_imagickpath, -1)) {
     $myalbum_imagickpath .= '/';
 }
-if ('' !== trim($myalbum_netpbmpath) && '/' !== substr($myalbum_netpbmpath, -1)) {
+if ('' !== trim($myalbum_netpbmpath) && '/' !== mb_substr($myalbum_netpbmpath, -1)) {
     $myalbum_netpbmpath .= '/';
 }
 
@@ -142,7 +142,7 @@ if (PIPEID_IMAGICK == $myalbum_imagingpipe) {
 $title = _AM_H4_DIRECTORIES;
 $adminObject->addInfoBox($title);
 
-if ('/' === substr($myalbum_photospath, -1)) {
+if ('/' === mb_substr($myalbum_photospath, -1)) {
     $adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_photospath %s</label>", _AM_ERR_LASTCHAR), '', 'Red');
 } elseif (0x2f != ord($myalbum_photospath)) {
     $adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_photospath %s</label>", _AM_ERR_FIRSTCHAR), '', 'Red');
@@ -165,7 +165,7 @@ if ('/' === substr($myalbum_photospath, -1)) {
 
 // thumbs
 if ($myalbum_makethumb) {
-    if ('/' === substr($myalbum_thumbspath, -1)) {
+    if ('/' === mb_substr($myalbum_thumbspath, -1)) {
         $adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_thumbspath %s</label>", _AM_ERR_LASTCHAR), '', 'Red');
     } elseif (0x2f != ord($myalbum_thumbspath)) {
         $adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MB_DIRECTORYFORPHOTOS . ': ' . XOOPS_ROOT_PATH . "$myalbum_thumbspath %s</label>", _AM_ERR_FIRSTCHAR), '', 'Red');
@@ -187,18 +187,15 @@ if ($myalbum_makethumb) {
     }
 }
 
-require_once dirname(__DIR__) . '/include/config.php';
-
 if (!class_exists('MyAlbumUtility')) {
     xoops_load('utility', $moduleDirName);
 }
 
 foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
     Myalbum\Utility::createFolder($uploadFolders[$i]);
-    $indexAdmin->addConfigBoxLine($uploadFolders[$i], 'folder');
-    //    $indexAdmin->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
+    $adminObject->addConfigBoxLine($uploadFolders[$i], 'folder');
+    //    $adminObject->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
 }
-
 
 $adminObject->displayIndex();
 //  myalbum_footer_adminMenu();

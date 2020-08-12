@@ -4,13 +4,13 @@
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 $catpath = '';
-include __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 
 // GET variables
 $lid = \Xmf\Request::getInt('lid', 0, 'GET');
 $cid = \Xmf\Request::getInt('cid', 0, 'GET');
 
-if (isset($_GET['op'])) {
+if (\Xmf\Request::hasVar('op', 'GET')) {
     $op = $_GET['op'];
 } else {
     $op = 'default';
@@ -25,7 +25,7 @@ function deleteImage($lid)
 {
     global $global_perms;
     /** @var MyalbumPhotosHandler $photosHandler */
-    $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+    $photosHandler = $helper->getHandler('Photos');
     $photo_obj     = $photosHandler->get($lid);
 
     if (!($global_perms & GPERM_DELETABLE)) {
@@ -34,12 +34,12 @@ function deleteImage($lid)
 
     // anti-CSRF
     if (!XoopsSecurity::checkReferer()) {
-        die('XOOPS_URL is not included in your REFERER');
+        exit('XOOPS_URL is not included in your REFERER');
     }
 
     // get and check lid is valid
     if ($lid < 1) {
-        die('Invalid photo id.');
+        exit('Invalid photo id.');
     }
 
     $photosHandler->delete($photo_obj);
@@ -55,15 +55,15 @@ switch ($op) {
     default:
         Myalbum\Utility::updateRating($lid);
         /** @var MyalbumPhotosHandler $photosHandler */
-        $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+        $photosHandler = $helper->getHandler('Photos');
         /** @var MyalbumCatHandler $catHandler */
-        $catHandler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+        $catHandler = $helper->getHandler('Category');
 
         if (!is_object($photo_obj = $photosHandler->get($lid))) {
             redirect_header('index.php', 2, _ALBM_NOMATCH);
         }
 
-        if (!strpos($photo_obj->getURL(), $_SERVER['REQUEST_URI'])) {
+        if (!mb_strpos($photo_obj->getURL(), $_SERVER['REQUEST_URI'])) {
             header('HTTP/1.1 301 Moved Permanently');
             header('Location: ' . $photo_obj->getURL());
             exit(0);
@@ -72,13 +72,13 @@ switch ($op) {
         $cat = $catHandler->get($photo_obj->getVar('cid'));
 
         $GLOBALS['xoopsOption']['template_main'] = "{$moduleDirName }_photo.tpl";
-        include $GLOBALS['xoops']->path('header.php');
+        require $GLOBALS['xoops']->path('header.php');
 
         if ($global_perms & GPERM_INSERTABLE) {
             $GLOBALS['xoopsTpl']->assign('lang_add_photo', _ALBM_ADDPHOTO);
         }
         $GLOBALS['xoopsTpl']->assign('lang_album_main', _ALBM_MAIN);
-        include __DIR__ . '/include/assign_globals.php';
+        require_once __DIR__ . '/include/assign_globals.php';
         foreach ($GLOBALS['myalbum_assign_globals'] as $key => $value) {
             $GLOBALS['xoopsTpl']->assign($key, $value);
         }
@@ -121,8 +121,7 @@ switch ($op) {
         $cids = $GLOBALS['cattree']->getAllChild($cid);
         if (!empty($cids)) {
             foreach ($cids as $index => $child) {
-                $catpath .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid=' . $child->getVar('cid') . "' >" . $child->getVar('title') . '</a> ' . ($index
-                                                                                                                                                                                                                                    < count($cids) ? '>>' : '');
+                $catpath .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid=' . $child->getVar('cid') . "' >" . $child->getVar('title') . '</a> ' . ($index < count($cids) ? '>>' : '');
             }
         } else {
             $cat     = $catHandler->get($photo_obj->getVar('cid'));
@@ -134,8 +133,8 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('album_sub_title', $sub_title);
 
         // Orders
-        include XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/photo_orders.php";
-        if (isset($_GET['orderby']) && isset($myalbum_orders[$_GET['orderby']])) {
+        require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/photo_orders.php";
+        if (\Xmf\Request::hasVar('orderby', 'GET') && isset($myalbum_orders[$_GET['orderby']])) {
             $orderby = $_GET['orderby'];
         } else {
             if (isset($myalbum_orders[$myalbum_defaultorder])) {
@@ -156,7 +155,7 @@ switch ($op) {
 
         $photo_nav = '';
         $numrows   = count($ids);
-        $pos       = array_search($lid, $ids);
+        $pos       = array_search($lid, $ids, true);
         if ($numrows > 1) {
             // prev mark
             if ($ids[0] != $lid) {
@@ -199,8 +198,7 @@ switch ($op) {
 
         // comments
 
-        include XOOPS_ROOT_PATH . '/include/comment_view.php';
+        require_once XOOPS_ROOT_PATH . '/include/comment_view.php';
 
-        include $GLOBALS['xoops']->path('footer.php');
-
+        require $GLOBALS['xoops']->path('footer.php');
 }

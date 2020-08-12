@@ -1,5 +1,7 @@
 <?php
 
+use XoopsModules\Myalbum;
+
 /**
  * @return string
  */
@@ -45,13 +47,11 @@ function myalbum_admin_form_admission()
  */
 function myalbum_admin_form_export()
 {
-    $irs            = $GLOBALS['xoopsDB']->query('SELECT c.imgcat_id,c.imgcat_name,c.imgcat_storetype,COUNT(i.image_id) AS imgcat_sum FROM '
-                                                 . $GLOBALS['xoopsDB']->prefix('imagecategory')
-                                                 . ' c NATURAL LEFT JOIN '
-                                                 . $GLOBALS['xoopsDB']->prefix('image')
-                                                 . ' i GROUP BY c.imgcat_id ORDER BY c.imgcat_weight');
+    $irs            = $GLOBALS['xoopsDB']->query(
+        'SELECT c.imgcat_id,c.imgcat_name,c.imgcat_storetype,COUNT(i.image_id) AS imgcat_sum FROM ' . $GLOBALS['xoopsDB']->prefix('imagecategory') . ' c NATURAL LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('image') . ' i GROUP BY c.imgcat_id ORDER BY c.imgcat_weight'
+    );
     $imgcat_options = '';
-    while (false !== (list($imgcat_id, $imgcat_name, $imgcat_storetype, $imgcat_sum) = $GLOBALS['xoopsDB']->fetchRow($irs))) {
+    while (list($imgcat_id, $imgcat_name, $imgcat_storetype, $imgcat_sum) = $GLOBALS['xoopsDB']->fetchRow($irs)) {
         $imgcat_options .= "<option value='$imgcat_id'>$imgcat_storetype : $imgcat_name ($imgcat_sum)</option>\n";
     }
 
@@ -95,7 +95,7 @@ function myalbum_admin_form_groups()
         //      GPERM_DELETABLE => _ALBM_GPERM_G_DELETABLE ,
         GPERM_SUPERDELETE | GPERM_DELETABLE  => _ALBM_GPERM_G_SUPERDELETE,
         GPERM_RATEVIEW                       => _ALBM_GPERM_G_RATEVIEW,
-        GPERM_RATEVOTE | GPERM_RATEVIEW      => _ALBM_GPERM_G_RATEVOTE
+        GPERM_RATEVOTE | GPERM_RATEVIEW      => _ALBM_GPERM_G_RATEVOTE,
     ];
 
     $form = new Myalbum\GroupPermForm('', $xoopsModule->mid(), 'myalbum_global', _AM_ALBM_GROUPPERM_GLOBALDESC);
@@ -111,11 +111,11 @@ function myalbum_admin_form_groups()
  */
 function myalbum_admin_form_import_myalbum()
 {
-    /** @var XoopsModuleHandler $moduleHandler */
+    /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     $mrs           = $GLOBALS['xoopsDB']->query('SELECT dirname FROM ' . $GLOBALS['xoopsDB']->prefix('modules') . " WHERE dirname LIKE 'myalbum%'");
     $frm           = '';
-    while (false !== (list($src_dirname) = $GLOBALS['xoopsDB']->fetchRow($mrs))) {
+    while (list($src_dirname) = $GLOBALS['xoopsDB']->fetchRow($mrs)) {
         if ($GLOBALS['mydirname'] == $src_dirname) {
             continue;
         }
@@ -155,13 +155,13 @@ function myalbum_admin_form_import_myalbum()
  */
 function myalbum_admin_form_import_imagemanager()
 {
-    $syspermHandler = xoops_getHandler('groupperm');
-    $frm            = '';
-    if ($syspermHandler->checkRight('system_admin', XOOPS_SYSTEM_IMAGE, $GLOBALS['xoopsUser']->getGroups())) {
+    $grouppermHandler = xoops_getHandler('groupperm');
+    $frm              = '';
+    if ($grouppermHandler->checkRight('system_admin', XOOPS_SYSTEM_IMAGE, $GLOBALS['xoopsUser']->getGroups())) {
         // only when user has admin right of system 'imagemanager'
         $irs            = $GLOBALS['xoopsDB']->query('SELECT c.imgcat_id,c.imgcat_name,COUNT(i.image_id) AS imgcat_sum FROM ' . $GLOBALS['xoopsDB']->prefix('imagecategory') . ' c NATURAL LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('image') . ' i GROUP BY c.imgcat_id ORDER BY c.imgcat_weight');
         $imgcat_options = '';
-        while (false !== (list($imgcat_id, $imgcat_name, $imgcat_sum) = $GLOBALS['xoopsDB']->fetchRow($irs))) {
+        while (list($imgcat_id, $imgcat_name, $imgcat_sum) = $GLOBALS['xoopsDB']->fetchRow($irs)) {
             $imgcat_options .= "<option value='$imgcat_id'>$imgcat_name ($imgcat_sum)</option>\n";
         }
         $frm .= '<p>
@@ -211,10 +211,10 @@ function myalbum_admin_form_display_edit($cat_array, $form_title, $action)
     $form->addElement(new \XoopsFormLabel(_ALBM_PHOTOCAT, $GLOBALS['cattree']->makeSelBox('pid', 'title', '--', $pid, true)));
 
     // Buttons
-    $button_tray = new \XoopsFormElementTray('', '&nbsp;');
-    $button_tray->addElement(new \XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
-    $button_tray->addElement(new \XoopsFormButton('', 'reset', _CANCEL, 'reset'));
-    $form->addElement($button_tray);
+    $buttonTray = new \XoopsFormElementTray('', '&nbsp;');
+    $buttonTray->addElement(new \XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
+    $buttonTray->addElement(new \XoopsFormButton('', 'reset', _CANCEL, 'reset'));
+    $form->addElement($buttonTray);
 
     // End of XoopsForm
     return $form->render();
@@ -227,7 +227,7 @@ function myalbum_admin_form_display_edit($cat_array, $form_title, $action)
  *
  * @return string
  */
-function myalbum_user_form_submit($caller = '', $photo, $lid)
+function myalbum_user_form_submit($caller, $photo, $lid)
 {
     // Show the form
     extract($GLOBALS['myalbumModuleConfig']);
@@ -289,7 +289,7 @@ function myalbum_user_form_submit($caller = '', $photo, $lid)
     $form->addElement($title_text);
     $form->addElement($desc_tarea);
     if ($GLOBALS['myalbumModuleConfig']['tag']) {
-        $form->addElement(new TagFormTag('tags', 35, 255, $lid));
+        $form->addElement(new \XoopsModules\Tag\FormTag('tags', 35, 255, $lid));
     }
     $form->addElement($cat_select);
     $form->setRequired($cat_select);

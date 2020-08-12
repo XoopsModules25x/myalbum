@@ -12,15 +12,16 @@
 /**
  * XOOPS tag management module
  *
- * @copyright       The XOOPS project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
  * @since           1.0.0
  * @author          Taiwen Jiang <phppp@users.sourceforge.net>
  * @version         $Id: myalbum2.php 11905 2013-08-14 05:25:33Z beckmi $
  * @package         tag
+ * @param mixed $items
  */
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 /**
  * Get item fields:
@@ -32,9 +33,8 @@
  * uname
  * tags
  *
- * @var        array    $items    associative array of items: [modid][catid][itemid]
- *
- * @return    boolean
+ * @return    bool
+ * @var        array $items associative array of items: [modid][catid][itemid]
  *
  */
 function myalbum2_tag_iteminfo(&$items)
@@ -42,7 +42,7 @@ function myalbum2_tag_iteminfo(&$items)
     if (empty($items) || !is_array($items)) {
         return false;
     }
-    
+
     $items_id = [];
     foreach (array_keys($items) as $cat_id) {
         // Some handling here to build the link upon catid
@@ -52,14 +52,14 @@ function myalbum2_tag_iteminfo(&$items)
             $items_id[] = (int)$item_id;
         }
     }
-    $itemHandler = xoops_getModuleHandler('photos', 'myalbum2');
-    $textHandler = xoops_getModuleHandler('text', 'myalbum2');
-    $items_obj = $itemHandler->getObjects(new \Criteria('lid', '(' . implode(', ', $items_id) . ')', 'IN'), true);
-    
+    $itemHandler = $helper->getHandler('Photos', 'myalbum2');
+    $textHandler = $helper->getHandler('Text', 'myalbum2');
+    $items_obj   = $itemHandler->getObjects(new \Criteria('lid', '(' . implode(', ', $items_id) . ')', 'IN'), true);
+
     foreach (array_keys($items) as $cat_id) {
         foreach (array_keys($items[$cat_id]) as $item_id) {
-            $item_obj =& $items_obj[$item_id];
-            $text = $textHandler->get($item_id);
+            $item_obj                 = &$items_obj[$item_id];
+            $text                     = $textHandler->get($item_id);
             $items[$cat_id][$item_id] = [
                 'title'   => $item_obj->getVar('title'),
                 'uid'     => $item_obj->getVar('submitter'),
@@ -77,24 +77,33 @@ function myalbum2_tag_iteminfo(&$items)
  * Remove orphan tag-item links
  *
  * @param $mid
- * @return void
  */
 function myalbum2_tag_synchronization($mid)
 {
-    $itemHandler = xoops_getModuleHandler('photos', 'myalbum2');
+    $itemHandler = $helper->getHandler('Photos', 'myalbum2');
     $linkHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Link'); //@var \XoopsModules\Tag\Handler $tagHandler
-        
+
     /* clear tag-item links */
     if (version_compare($GLOBALS['xoopsDB']->getServerVersion(), '4.1.0', 'ge')):
-    $sql =  "    DELETE FROM {$linkHandler->table}" . '    WHERE ' .
-            "        tag_modid = {$mid}" . '        AND ' . '        ( tag_itemid NOT IN ' .
-            "            ( SELECT DISTINCT {$itemHandler->keyName} " .
-            "                FROM {$itemHandler->table} " .
-            "                WHERE {$itemHandler->table}.approved > 0" . '            ) ' . '        )'; else:
-    $sql =  "    DELETE {$linkHandler->table} FROM {$linkHandler->table}" .
-            "    LEFT JOIN {$itemHandler->table} AS aa ON {$linkHandler->table}.tag_itemid = aa.{$itemHandler->keyName} " . '    WHERE ' .
-            "        tag_modid = {$mid}" . '        AND ' .
-            "        ( aa.{$itemHandler->keyName} IS NULL" . '            OR aa.approved < 1' . '        )';
+        $sql = "    DELETE FROM {$linkHandler->table}"
+               . '    WHERE '
+               . "        tag_modid = {$mid}"
+               . '        AND '
+               . '        ( tag_itemid NOT IN '
+               . "            ( SELECT DISTINCT {$itemHandler->keyName} "
+               . "                FROM {$itemHandler->table} "
+               . "                WHERE {$itemHandler->table}.approved > 0"
+               . '            ) '
+               . '        )';
+    else:
+        $sql = "    DELETE {$linkHandler->table} FROM {$linkHandler->table}"
+               . "    LEFT JOIN {$itemHandler->table} AS aa ON {$linkHandler->table}.tag_itemid = aa.{$itemHandler->keyName} "
+               . '    WHERE '
+               . "        tag_modid = {$mid}"
+               . '        AND '
+               . "        ( aa.{$itemHandler->keyName} IS NULL"
+               . '            OR aa.approved < 1'
+               . '        )';
     endif;
     if (!$result = $linkHandler->db->queryF($sql)) {
         //xoops_error($linkHandler->db->error());

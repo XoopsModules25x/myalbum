@@ -4,11 +4,13 @@
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
+use XoopsModules\Myalbum;
+
 require_once __DIR__ . '/admin_header.php';
 /** @var MyalbumCatHandler $catHandler */
-$catHandler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+$catHandler = $helper->getHandler('Category');
 /** @var MyalbumPhotosHandler $photosHandler */
-$photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+$photosHandler = $helper->getHandler('Photos');
 global $pathIcon16;
 
 // GPCS vars
@@ -17,17 +19,16 @@ $disp   = \Xmf\Request::getString('disp', '', 'GET');
 $cid    = \Xmf\Request::getInt('cid', 0, 'GET');
 
 if ('insert' === $action) {
-
     // anti-CSRF (Double Check)
     if (!XoopsSecurity::checkReferer()) {
-        die('XOOPS_URL is not included in your REFERER');
+        exit('XOOPS_URL is not included in your REFERER');
     }
 
     // newly insert
     $sql  = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix($table_cat) . ' SET ';
     $cols = ['pid' => 'I:N:0', 'title' => '50:E:1', 'imgurl' => '150:E:0', 'weight' => 'I:N:0'];
-    $sql .= Myalbum\Utility::mysqliGetSqlSet($cols);
-    $GLOBALS['xoopsDB']->query($sql) || die('DB Error: insert category');
+    $sql  .= Myalbum\Utility::mysqliGetSqlSet($cols);
+    $GLOBALS['xoopsDB']->query($sql) or exit('DB Error: insert category');
 
     // Check if cid == pid
     $cid = $GLOBALS['xoopsDB']->getInsertId();
@@ -37,10 +38,9 @@ if ('insert' === $action) {
 
     redirect_header('main.php', 1, _AM_CAT_INSERTED);
 } elseif ('update' === $action && !empty($_POST['cid'])) {
-
     // anti-CSRF (Double Check)
     if (!XoopsSecurity::checkReferer()) {
-        die('XOOPS_URL is not included in your REFERER');
+        exit('XOOPS_URL is not included in your REFERER');
     }
 
     $cid = \Xmf\Request::getInt('cid', 0, 'POST');
@@ -53,7 +53,7 @@ if ('insert' === $action) {
         }
         foreach ($children as $child) {
             if ($child == $pid) {
-                die('category looping has occurred');
+                exit('category looping has occurred');
             }
         }
     }
@@ -61,14 +61,13 @@ if ('insert' === $action) {
     // update
     $sql  = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table_cat) . ' SET ';
     $cols = ['pid' => 'I:N:0', 'title' => '50:E:1', 'imgurl' => '150:E:0', 'weight' => 'I:N:0'];
-    $sql .= Myalbum\Utility::mysqliGetSqlSet($cols) . " WHERE cid='$cid'";
-    $GLOBALS['xoopsDB']->query($sql) || die('DB Error: update category');
+    $sql  .= Myalbum\Utility::mysqliGetSqlSet($cols) . " WHERE cid='$cid'";
+    $GLOBALS['xoopsDB']->query($sql) or exit('DB Error: update category');
     redirect_header('main.php', 1, _AM_CAT_UPDATED);
 } elseif (!empty($_POST['delcat'])) {
-
     // anti-CSRF (Double Check)
     if (!XoopsSecurity::checkReferer()) {
-        die('XOOPS_URL is not included in your REFERER');
+        exit('XOOPS_URL is not included in your REFERER');
     }
 
     // Delete
@@ -89,7 +88,7 @@ if ('insert' === $action) {
     $criteria = new \Criteria('`cid`', '(' . implode(',', $children) . ')', 'IN');
     Myalbum\Utility::deletePhotos($criteria);
     $GLOBALS['xoopsDB']->query('DELETE FROM ' . $GLOBALS['xoopsDB']->prefix($table_cat) . " WHERE $whr")
-    || die('DB error: DELETE cat table');
+    || exit('DB error: DELETE cat table');
     redirect_header('main.php', 2, _ALBM_CATDELETED);
 } elseif (!empty($_POST['batch_update'])) {
 }
@@ -109,19 +108,16 @@ $adminObject = \Xmf\Module\Admin::getInstance();
 $adminObject->displayNavigation(basename(__FILE__));
 
 if ('edit' === $disp && $cid > 0) {
-
     // Editing
     $sql       = 'SELECT cid,pid,weight,title,imgurl FROM ' . $GLOBALS['xoopsDB']->prefix($table_cat) . " WHERE cid='$cid'";
     $crs       = $GLOBALS['xoopsDB']->query($sql);
     $cat_array = $GLOBALS['xoopsDB']->fetchArray($crs);
-    echo Forms::getAdminFormDisplayEdit($cat_array, _AM_CAT_MENU_EDIT, 'update');
+    echo Myalbum\Forms::getAdminFormDisplayEdit($cat_array, _AM_CAT_MENU_EDIT, 'update');
 } elseif ('new' === $disp) {
-
     // New
     $cat_array = ['cid' => 0, 'pid' => $cid, 'weight' => 0, 'title' => '', 'imgurl' => 'http://'];
     echo Myalbum\Forms::getAdminFormDisplayEdit($cat_array, _AM_CAT_MENU_NEW, 'insert');
 } else {
-
     // Listing
     $live_cids = [0 => '0'];
     foreach ($cattree->getAllChild($cid, []) as $child) {
@@ -175,7 +171,7 @@ if ('edit' === $disp && $cid > 0) {
             } else {
                 $imgsrc4show = '../assets/images/pixel_trans.gif';
             }
-            $weight         = (int)$weight;
+            $weight = (int)$weight;
 
             echo "<tr>
             <td class='$oddeven' width='100%'><a href='photomanager.php?cid=$cid'>$prefix&nbsp;" . $GLOBALS['myts']->htmlSpecialChars($title) . "</a></td>

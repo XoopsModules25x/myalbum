@@ -1,4 +1,5 @@
 <?php
+
 // Module Info
 if (defined('FOR_XOOPS_LANG_CHECKER') || !defined('MYALBUM_MI_LOADED')) {
     define('MYALBUM_MI_LOADED', 1);

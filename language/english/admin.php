@@ -1,4 +1,5 @@
 <?php
+
 if (defined('FOR_XOOPS_LANG_CHECKER') || !defined('MYALBUM_AM_LOADED')) {
     define('MYALBUM_AM_LOADED', 1);
     // Index (Categories)

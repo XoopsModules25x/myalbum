@@ -2,12 +2,16 @@
 
 use XoopsModules\Myalbum;
 
-// require_once  dirname(__DIR__) . '/class/Helper.php';
 //require_once  dirname(__DIR__) . '/include/common.php';
+/** @var Myalbum\Helper $helper */
 $helper = Myalbum\Helper::getInstance();
+$helper->loadLanguage('common');
+$helper->loadLanguage('feedback');
 
 $pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
-$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
+if (is_object($helper->getModule())) {
+    $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
+}
 
 $adminmenu[] = [
     'title' => _ALBM_MYALBUM_ADMENU_DASHBOARD,
@@ -75,6 +79,6 @@ $adminmenu[] = [
 $adminmenu[] = [
     'title' => _ALBM_MYALBUM_ADMENU_ABOUT,
     'icon'  => $pathIcon32 . '/about.png',
-    'image'  => $pathIcon32 . '/about.png',
+    'image' => $pathIcon32 . '/about.png',
     'link'  => 'admin/about.php',
 ];

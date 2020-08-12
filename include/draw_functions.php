@@ -66,18 +66,18 @@ function myalbum_get_array_for_photo_assign($photo, $summary = false)
     global $photos_url, $thumbs_url, $thumbs_dir, $mod_url, $mod_path;
     global $myalbum_makethumb, $myalbum_thumbsize, $myalbum_popular, $myalbum_newdays, $myalbum_normal_exts;
 
-    $photosHandler   = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
-    $textHandler     = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
-    $catHandler      = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
-    $votedataHandler = xoops_getModuleHandler('votedata', $GLOBALS['mydirname']);
-    $commentsHandler = xoops_getModuleHandler('comments', $GLOBALS['mydirname']);
+    $photosHandler   = $helper->getHandler('Photos');
+    $textHandler     = $helper->getHandler('Text');
+    $catHandler      = $helper->getHandler('Category');
+    $votedataHandler = $helper->getHandler('Votedata');
+    $commentsHandler = $helper->getHandler('Comments');
 
     extract($photo->toArray(true));
     $text = $textHandler->get($photo->getVar('lid'));
     $cat  = $catHandler->get($photo->getVar('cid'));
     $ext  = $photo->vars['ext']['value'];
 
-    if (in_array(strtolower($ext), $myalbum_normal_exts)) {
+    if (in_array(mb_strtolower($ext), $myalbum_normal_exts)) {
         $imgsrc_thumb    = $photo->getThumbsURL();
         $imgsrc_photo    = $photo->getPhotoURL();
         $ahref_photo     = $photo->getPhotoURL();
@@ -129,7 +129,7 @@ function myalbum_get_array_for_photo_assign($photo, $summary = false)
         $description = '';
     }
 
-   if (\Xmf\Request::hasVar('preview', 'POST')) {
+    if (\Xmf\Request::hasVar('preview', 'POST')) {
         $description = $GLOBALS['myts']->stripSlashesGPC($_POST['desc_text']);
         $title       = $GLOBALS['myts']->stripSlashesGPC($_POST['title']);
     }
@@ -173,7 +173,7 @@ function myalbum_get_array_for_photo_assign($photo, $summary = false)
         'is_popularphoto' => $hits >= $myalbum_popular,
         'info_morephotos' => sprintf(_ALBM_MOREPHOTOS, $submitter_name),
         'cat_title'       => $GLOBALS['myts']->htmlSpecialChars($cat_title),
-        'status'          => $status
+        'status'          => $status,
     ];
 }
 
@@ -190,17 +190,17 @@ function myalbum_get_array_for_photo_assign_light($photo, $summary = false)
     global $photos_url, $thumbs_url, $thumbs_dir;
     global $myalbum_makethumb, $myalbum_thumbsize, $myalbum_normal_exts;
 
-    $photosHandler   = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
-    $textHandler     = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
-    $catHandler      = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
-    $votedataHandler = xoops_getModuleHandler('votedata', $GLOBALS['mydirname']);
-    $commentsHandler = xoops_getModuleHandler('comments', $GLOBALS['mydirname']);
+    $photosHandler   = $helper->getHandler('Photos');
+    $textHandler     = $helper->getHandler('Text');
+    $catHandler      = $helper->getHandler('Category');
+    $votedataHandler = $helper->getHandler('Votedata');
+    $commentsHandler = $helper->getHandler('Comments');
 
     extract($photo->toArray(true));
     $text = $textHandler->get($photo->getVar('lid'));
     $cat  = $catHandler->get($photo->getVar('cid'));
 
-    if (in_array(strtolower($ext), $myalbum_normal_exts)) {
+    if (in_array(mb_strtolower($ext), $myalbum_normal_exts)) {
         $imgsrc_thumb    = $photo->getThumbsURL();
         $imgsrc_photo    = $photo->getPhotoURL();
         $is_normal_image = true;
@@ -244,7 +244,7 @@ function myalbum_get_array_for_photo_assign_light($photo, $summary = false)
         'rank'            => floor($rating - 0.001),
         'votes'           => $votes,
         'comments'        => $comments,
-        'is_normal_image' => $is_normal_image
+        'is_normal_image' => $is_normal_image,
     ];
 }
 
@@ -263,7 +263,7 @@ function myalbum_get_sub_categories($parent_id, $cattree)
     $criterib->setSort('cid');
     $criterib->setOrder('DESC');
 
-    $catHandler = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+    $catHandler = $helper->getHandler('Category');
 
     $cats = $catHandler->getObjects($criterib, true);
 
@@ -278,7 +278,7 @@ function myalbum_get_sub_categories($parent_id, $cattree)
                 'title'            => $child->getVar('title'),
                 'weight'           => $child->getVar('weight'),
                 'photo_small_sum'  => myalbum_get_photo_small_sum_from_cat($child->getVar('cid'), $criteria),
-                'number_of_subcat' => count($GLOBALS['cattree']->getFirstChild($child->getVar('cid')))
+                'number_of_subcat' => count($GLOBALS['cattree']->getFirstChild($child->getVar('cid'))),
             ];
         }
 
@@ -304,7 +304,7 @@ function myalbum_get_sub_categories($parent_id, $cattree)
             'photo_total_sum' => $photo_total_sum,
             'title'           => $title,
             'weight'          => $weight,
-            'subcategories'   => $subcat
+            'subcategories'   => $subcat,
         ];
     }
 
@@ -321,15 +321,14 @@ function myalbum_get_img_attribs_for_preview($preview_name)
 {
     global $photos_url, $mod_url, $mod_path, $myalbum_normal_exts, $myalbum_thumbsize;
 
-    $ext = substr(strrchr($preview_name, '.'), 1);
+    $ext = mb_substr(mb_strrchr($preview_name, '.'), 1);
 
-    if (in_array(strtolower($ext), $myalbum_normal_exts)) {
+    if (in_array(mb_strtolower($ext), $myalbum_normal_exts)) {
         return ["$photos_url/$preview_name", "width='$myalbum_thumbsize'", "$photos_url/$preview_name"];
-    } else {
-        if (file_exists("$mod_path/assets/images/icons/$ext.gif")) {
-            return ["$mod_url/assets/images/icons/mp3.gif", '', "$photos_url/$preview_name"];
-        } else {
-            return ["$mod_url/assets/images/icons/default.gif", '', "$photos_url/$preview_name"];
-        }
     }
+    if (file_exists("$mod_path/assets/images/icons/$ext.gif")) {
+        return ["$mod_url/assets/images/icons/mp3.gif", '', "$photos_url/$preview_name"];
+    }
+
+    return ["$mod_url/assets/images/icons/default.gif", '', "$photos_url/$preview_name"];
 }

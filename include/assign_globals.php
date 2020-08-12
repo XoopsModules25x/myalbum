@@ -1,6 +1,6 @@
 <?php
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 $GLOBALS['myalbum_assign_globals'] = [
     'lang_total'           => _ALBM_CAPTION_TOTAL,
@@ -26,6 +26,6 @@ $GLOBALS['myalbum_assign_globals'] = [
     'thumbs_url'           => $thumbs_url,
     'thumbsize'            => $myalbum_thumbsize,
     'colsoftableview'      => $myalbum_colsoftableview,
-    'canrateview'          => $GLOBALS['global_perms'] & GPERM_RATEVIEW,
-    'canratevote'          => $GLOBALS['global_perms'] & GPERM_RATEVOTE
+    'canrateview'          => $GLOBALS['global_perms'] && GPERM_RATEVIEW,
+    'canratevote'          => $GLOBALS['global_perms'] && GPERM_RATEVOTE,
 ];

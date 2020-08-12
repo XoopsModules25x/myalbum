@@ -4,30 +4,31 @@
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
+use XoopsModules\Myalbum;
+
 require_once __DIR__ . '/admin_header.php';
 
 // From myalbum*
 if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
-
     // anti-CSRF
     if (!XoopsSecurity::checkReferer()) {
-        die('XOOPS_URL is not included in your REFERER');
+        exit('XOOPS_URL is not included in your REFERER');
     }
 
     // get src module
     $src_cid     = \Xmf\Request::getInt('cid', 0, 'POST');
     $src_dirname = \Xmf\Request::getString('src_dirname', '', 'POST');
     if ($moduleDirName === $src_dirname) {
-        die('source dirname is same as dest dirname: ' . htmlspecialchars($src_dirname, ENT_QUOTES | ENT_HTML5));
+        exit('source dirname is same as dest dirname: ' . htmlspecialchars($src_dirname, ENT_QUOTES | ENT_HTML5));
     }
     if (!preg_match('/^myalbum(\d*)$/', $src_dirname, $regs)) {
-        die('invalid dirname of myalbum: ' . htmlspecialchars($src_dirname, ENT_QUOTES | ENT_HTML5));
+        exit('invalid dirname of myalbum: ' . htmlspecialchars($src_dirname, ENT_QUOTES | ENT_HTML5));
     }
-    /** @var XoopsModuleHandler $moduleHandler */
+    /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     $module        = $moduleHandler->getByDirname($src_dirname);
     if (!is_object($module)) {
-        die('invalid module dirname:' . htmlspecialchars($src_dirname, ENT_QUOTES | ENT_HTML5));
+        exit('invalid module dirname:' . htmlspecialchars($src_dirname, ENT_QUOTES | ENT_HTML5));
     }
     $src_mid = $module->getVar('mid');
 
@@ -38,7 +39,7 @@ if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
 
     // read configs from xoops_config directly
     $rs = $GLOBALS['xoopsDB']->query('SELECT conf_name,conf_value FROM  ' . $GLOBALS['xoopsDB']->prefix('config') . " WHERE conf_modid='$src_mid'");
-    while (false !== (list($key, $val) = $GLOBALS['xoopsDB']->fetchRow($rs))) {
+    while (list($key, $val) = $GLOBALS['xoopsDB']->fetchRow($rs)) {
         $src_configs[$key] = $val;
     }
     $src_photos_dir = XOOPS_ROOT_PATH . $src_configs['myalbum_photospath'];
@@ -49,7 +50,7 @@ if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
     $src_table_text     = $GLOBALS['xoopsDB']->prefix("{$src_dirname}_text");
     $src_table_votedata = $GLOBALS['xoopsDB']->prefix("{$src_dirname}_votedata");
 
-    if (isset($_POST['copyormove']) && 'move' === $_POST['copyormove']) {
+    if (\Xmf\Request::hasVar('copyormove', 'POST') && 'move' === $_POST['copyormove']) {
         $move_mode = true;
     } else {
         $move_mode = false;
@@ -57,18 +58,17 @@ if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
 
     // create category
     $GLOBALS['xoopsDB']->query('INSERT INTO ' . $GLOBALS['xoopsDB']->prefix($table_cat) . "(pid, title, imgurl) SELECT '0',title,imgurl FROM $src_table_cat WHERE cid='$src_cid'")
-    || die('DB error: INSERT cat table');
+    || exit('DB error: INSERT cat table');
     $cid = $GLOBALS['xoopsDB']->getInsertId();
 
     // INSERT loop
     $rs           = $GLOBALS['xoopsDB']->query("SELECT lid,ext FROM $src_table_photos WHERE cid='$src_cid'");
     $import_count = 0;
-    while (false !== (list($src_lid, $ext) = $GLOBALS['xoopsDB']->fetchRow($rs))) {
-
+    while (list($src_lid, $ext) = $GLOBALS['xoopsDB']->fetchRow($rs)) {
         // photos table
         $set_comments = $move_mode ? 'comments' : "'0'";
         $sql          = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix($table_photos) . "(cid,title,ext,res_x,res_y,submitter,status,date,hits,rating,votes,comments) SELECT '$cid',title,ext,res_x,res_y,submitter,status,date,hits,rating,votes,$set_comments FROM $src_table_photos WHERE lid='$src_lid'";
-        $GLOBALS['xoopsDB']->query($sql) || die('DB error: INSERT photo table');
+        $GLOBALS['xoopsDB']->query($sql) or exit('DB error: INSERT photo table');
         $lid = $GLOBALS['xoopsDB']->getInsertId();
 
         // text table
@@ -80,7 +80,7 @@ if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
         $GLOBALS['xoopsDB']->query($sql);
 
         @copy("$src_photos_dir/{$src_lid}.{$ext}", "$photos_dir/{$lid}.{$ext}");
-        if (in_array(strtolower($ext), $myalbum_normal_exts)) {
+        if (in_array(mb_strtolower($ext), $myalbum_normal_exts)) {
             @copy("$src_thumbs_dir/{$src_lid}.{$ext}", "$thumbs_dir/{$lid}.{$ext}");
         } else {
             @copy("$src_photos_dir/{$src_lid}.gif", "$photos_dir/{$lid}.gif");
@@ -106,7 +106,7 @@ if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
                 $myalbum_mid,
                 $GLOBALS['xoopsDB']->prefix($table_photos),
                 $GLOBALS['xoopsDB']->prefix($table_text),
-                $GLOBALS['xoopsDB']->prefix($table_votedata)
+                $GLOBALS['xoopsDB']->prefix($table_votedata),
             ];
             Myalbum\Utility::deletePhotos("lid='$src_lid'");
             list($photos_dir, $thumbs_dir, $myalbum_mid, $table_photos, $table_text, $table_votedata) = [
@@ -115,7 +115,7 @@ if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
                 $saved_myalbum_mid,
                 $saved_table_photos,
                 $saved_table_text,
-                $saved_table_votedata
+                $saved_table_votedata,
             ];
         }
 
@@ -126,16 +126,15 @@ if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
 } // From imagemanager
 else {
     if (!empty($_POST['imagemanager_import']) && !empty($_POST['imgcat_id'])) {
-
         // authority check
-        $syspermHandler = xoops_getHandler('groupperm');
-        if (!$syspermHandler->checkRight('system_admin', XOOPS_SYSTEM_IMAGE, $GLOBALS['xoopsUser']->getGroups())) {
+        $grouppermHandler = xoops_getHandler('groupperm');
+        if (!$grouppermHandler->checkRight('system_admin', XOOPS_SYSTEM_IMAGE, $GLOBALS['xoopsUser']->getGroups())) {
             exit;
         }
 
         // anti-CSRF
         if (!XoopsSecurity::checkReferer()) {
-            die('XOOPS_URL is not included in your REFERER');
+            exit('XOOPS_URL is not included in your REFERER');
         }
 
         // get src information
@@ -154,13 +153,13 @@ else {
         // INSERT loop
         $rs           = $GLOBALS['xoopsDB']->query("SELECT image_id,image_name,image_nicename,image_created,image_display FROM $src_table_photos WHERE imgcat_id='$src_cid'");
         $import_count = 0;
-        while (false !== (list($image_id, $image_name, $image_nicename, $image_created, $image_display) = $GLOBALS['xoopsDB']->fetchRow($rs))) {
+        while (list($image_id, $image_name, $image_nicename, $image_created, $image_display) = $GLOBALS['xoopsDB']->fetchRow($rs)) {
             $src_file = XOOPS_UPLOAD_PATH . "/$image_name";
-            $ext      = substr(strrchr($image_name, '.'), 1);
+            $ext      = mb_substr(mb_strrchr($image_name, '.'), 1);
 
             // photos table
             $sql = 'INSERT INTO  ' . $GLOBALS['xoopsDB']->prefix($table_photos) . "SET cid='$cid',title='" . addslashes($image_nicename) . "',ext='$ext',submitter='$my_uid',status='$image_display',date='$image_created'";
-            $GLOBALS['xoopsDB']->query($sql) || die('DB error: INSERT photo table');
+            $GLOBALS['xoopsDB']->query($sql) or exit('DB error: INSERT photo table');
             $lid = $GLOBALS['xoopsDB']->getInsertId();
 
             // text table
@@ -193,7 +192,7 @@ else {
     }
 }
 
-require_once  dirname(__DIR__) . '/include/myalbum.forms.php';
+require_once dirname(__DIR__) . '/include/myalbum.forms.php';
 xoops_cp_header();
 $adminObject = \Xmf\Module\Admin::getInstance();
 $adminObject->displayNavigation(basename(__FILE__));

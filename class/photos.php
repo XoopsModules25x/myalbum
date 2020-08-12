@@ -1,10 +1,10 @@
-<?php namespace XoopsModules\Myalbum;
+<?php
 
-use XoopsModules\Myalbum;
+namespace XoopsModules\Myalbum;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-include  dirname(__DIR__) . '/include/read_configs.php';
+
+require_once \dirname(__DIR__) . '/include/read_configs.php';
 
 /**
  * Class for Blue Room Xcenter
@@ -21,20 +21,20 @@ class Photos extends \XoopsObject
      */
     public function __construct($id = null)
     {
-        $this->initVar('lid', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('cid', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('title', XOBJ_DTYPE_TXTBOX, null, false, 100);
-        $this->initVar('ext', XOBJ_DTYPE_TXTBOX, null, false, 10);
-        $this->initVar('res_x', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('res_y', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('submitter', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('status', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('date', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('hits', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('rating', XOBJ_DTYPE_DECIMAL, null, false);
-        $this->initVar('votes', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('comments', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('tags', XOBJ_DTYPE_TXTBOX, null, false, 255);
+        $this->initVar('lid', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('cid', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('title', \XOBJ_DTYPE_TXTBOX, null, false, 100);
+        $this->initVar('ext', \XOBJ_DTYPE_TXTBOX, null, false, 10);
+        $this->initVar('res_x', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('res_y', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('submitter', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('status', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('date', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('hits', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('rating', \XOBJ_DTYPE_DECIMAL, null, false);
+        $this->initVar('votes', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('comments', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('tags', \XOBJ_DTYPE_TXTBOX, null, false, 255);
     }
 
     /**
@@ -42,9 +42,9 @@ class Photos extends \XoopsObject
      */
     public function getURL()
     {
-        /** @var XoopsModuleHandler $moduleHandler */
-        $moduleHandler = xoops_getHandler('module');
-        $configHandler = xoops_getHandler('config');
+        /** @var \XoopsModuleHandler $moduleHandler */
+        $moduleHandler = \xoops_getHandler('module');
+        $configHandler = \xoops_getHandler('config');
         if (!isset($GLOBALS['myalbumModule'])) {
             $GLOBALS['myalbumModule'] = $moduleHandler->getByDirname($moduleDirName);
         }
@@ -53,24 +53,32 @@ class Photos extends \XoopsObject
         }
 
         if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
-            /** @var MyalbumCatHandler $catHandler */
-            $catHandler = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+            /** @varCatHandler $catHandler */
+            $catHandler = $helper->getHandler('Category');
             $cat        = $catHandler->get($this->getVar('cid'));
-            $url        = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . str_replace([
-                                                                                                               '_',
-                                                                                                               ' ',
-                                                                                                               ')',
-                                                                                                               '(',
-                                                                                                               '&',
-                                                                                                               '#'
-                                                                                                           ], '-', $cat->getVar('title')) . '/' . str_replace([
-                                                                                                                                                                  '_',
-                                                                                                                                                                  ' ',
-                                                                                                                                                                  ')',
-                                                                                                                                                                  '(',
-                                                                                                                                                                  '&',
-                                                                                                                                                                  '#'
-                                                                                                                                                              ], '-', $this->getVar('title')) . '/' . $this->getVar('lid') . ',' . $this->getVar('cid') . $GLOBALS['myalbumModuleConfig']['endofurl'];
+            $url        = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . \str_replace(
+                    [
+                        '_',
+                        ' ',
+                        ')',
+                        '(',
+                        '&',
+                        '#',
+                    ],
+                    '-',
+                    $cat->getVar('title')
+                ) . '/' . \str_replace(
+                              [
+                                  '_',
+                                  ' ',
+                                  ')',
+                                  '(',
+                                  '&',
+                                  '#',
+                              ],
+                              '-',
+                              $this->getVar('title')
+                          ) . '/' . $this->getVar('lid') . ',' . $this->getVar('cid') . $GLOBALS['myalbumModuleConfig']['endofurl'];
         } else {
             $url = $GLOBALS['mod_url'] . '/photo.php?lid=' . $this->getVar('lid') . '&cid=' . $this->getVar('cid');
         }
@@ -83,9 +91,9 @@ class Photos extends \XoopsObject
      */
     public function getEditURL()
     {
-        /** @var XoopsModuleHandler $moduleHandler */
-        $moduleHandler = xoops_getHandler('module');
-        $configHandler = xoops_getHandler('config');
+        /** @var \XoopsModuleHandler $moduleHandler */
+        $moduleHandler = \xoops_getHandler('module');
+        $configHandler = \xoops_getHandler('config');
         if (!isset($GLOBALS['myalbumModule'])) {
             $GLOBALS['myalbumModule'] = $moduleHandler->getByDirname($moduleDirName);
         }
@@ -94,24 +102,32 @@ class Photos extends \XoopsObject
         }
 
         if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
-            /** @var MyalbumCatHandler $catHandler */
-            $catHandler = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+            /** @varCatHandler $catHandler */
+            $catHandler = $helper->getHandler('Category');
             $cat        = $catHandler->get($this->getVar('cid'));
-            $url        = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . str_replace([
-                                                                                                               '_',
-                                                                                                               ' ',
-                                                                                                               ')',
-                                                                                                               '(',
-                                                                                                               '&',
-                                                                                                               '#'
-                                                                                                           ], '-', $cat->getVar('title')) . '/' . str_replace([
-                                                                                                                                                                  '_',
-                                                                                                                                                                  ' ',
-                                                                                                                                                                  ')',
-                                                                                                                                                                  '(',
-                                                                                                                                                                  '&',
-                                                                                                                                                                  '#'
-                                                                                                                                                              ], '-', $this->getVar('title')) . '/edit,' . $this->getVar('lid') . ',' . $this->getVar('cid') . $GLOBALS['myalbumModuleConfig']['endofurl'];
+            $url        = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . \str_replace(
+                    [
+                        '_',
+                        ' ',
+                        ')',
+                        '(',
+                        '&',
+                        '#',
+                    ],
+                    '-',
+                    $cat->getVar('title')
+                ) . '/' . \str_replace(
+                              [
+                                  '_',
+                                  ' ',
+                                  ')',
+                                  '(',
+                                  '&',
+                                  '#',
+                              ],
+                              '-',
+                              $this->getVar('title')
+                          ) . '/edit,' . $this->getVar('lid') . ',' . $this->getVar('cid') . $GLOBALS['myalbumModuleConfig']['endofurl'];
         } else {
             $url = $GLOBALS['mod_url'] . '/editphoto.php?lid=' . $this->getVar('lid') . '&cid=' . $this->getVar('cid');
         }
@@ -124,9 +140,9 @@ class Photos extends \XoopsObject
      */
     public function getRateURL()
     {
-        /** @var XoopsModuleHandler $moduleHandler */
-        $moduleHandler = xoops_getHandler('module');
-        $configHandler = xoops_getHandler('config');
+        /** @var \XoopsModuleHandler $moduleHandler */
+        $moduleHandler = \xoops_getHandler('module');
+        $configHandler = \xoops_getHandler('config');
         if (!isset($GLOBALS['myalbumModule'])) {
             $GLOBALS['myalbumModule'] = $moduleHandler->getByDirname($moduleDirName);
         }
@@ -135,24 +151,32 @@ class Photos extends \XoopsObject
         }
 
         if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
-            /** @var MyalbumCatHandler $catHandler */
-            $catHandler = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+            /** @varCatHandler $catHandler */
+            $catHandler = $helper->getHandler('Category');
             $cat        = $catHandler->get($this->getVar('cid'));
-            $url        = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . str_replace([
-                                                                                                               '_',
-                                                                                                               ' ',
-                                                                                                               ')',
-                                                                                                               '(',
-                                                                                                               '&',
-                                                                                                               '#'
-                                                                                                           ], '-', $cat->getVar('title')) . '/' . str_replace([
-                                                                                                                                                                  '_',
-                                                                                                                                                                  ' ',
-                                                                                                                                                                  ')',
-                                                                                                                                                                  '(',
-                                                                                                                                                                  '&',
-                                                                                                                                                                  '#'
-                                                                                                                                                              ], '-', $this->getVar('title')) . '/rate,' . $this->getVar('lid') . ',' . $this->getVar('cid') . $GLOBALS['myalbumModuleConfig']['endofurl'];
+            $url        = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . \str_replace(
+                    [
+                        '_',
+                        ' ',
+                        ')',
+                        '(',
+                        '&',
+                        '#',
+                    ],
+                    '-',
+                    $cat->getVar('title')
+                ) . '/' . \str_replace(
+                              [
+                                  '_',
+                                  ' ',
+                                  ')',
+                                  '(',
+                                  '&',
+                                  '#',
+                              ],
+                              '-',
+                              $this->getVar('title')
+                          ) . '/rate,' . $this->getVar('lid') . ',' . $this->getVar('cid') . $GLOBALS['myalbumModuleConfig']['endofurl'];
         } else {
             $url = $GLOBALS['mod_url'] . '/ratephoto.php?lid=' . $this->getVar('lid') . '&cid=' . $this->getVar('cid');
         }
@@ -165,9 +189,9 @@ class Photos extends \XoopsObject
      */
     public function getThumbsURL()
     {
-        /** @var XoopsModuleHandler $moduleHandler */
-        $moduleHandler = xoops_getHandler('module');
-        $configHandler = xoops_getHandler('config');
+        /** @var \XoopsModuleHandler $moduleHandler */
+        $moduleHandler = \xoops_getHandler('module');
+        $configHandler = \xoops_getHandler('config');
         if (!isset($GLOBALS['myalbumModule'])) {
             $GLOBALS['myalbumModule'] = $moduleHandler->getByDirname($moduleDirName);
         }
@@ -185,9 +209,9 @@ class Photos extends \XoopsObject
      */
     public function getPhotoURL()
     {
-        /** @var XoopsModuleHandler $moduleHandler */
-        $moduleHandler = xoops_getHandler('module');
-        $configHandler = xoops_getHandler('config');
+        /** @var \XoopsModuleHandler $moduleHandler */
+        $moduleHandler = \xoops_getHandler('module');
+        $configHandler = \xoops_getHandler('config');
         if (!isset($GLOBALS['myalbumModule'])) {
             $GLOBALS['myalbumModule'] = $moduleHandler->getByDirname($moduleDirName);
         }
@@ -210,22 +234,22 @@ class Photos extends \XoopsObject
         if (true === $justVar) {
             return parent::toArray();
         }
-        /** @var MyalbumCatHandler $catHandler */
-        $catHandler  = xoops_getModuleHandler('cat');
-        /** @var MyalbumTextHandler $textHandler */
-        $textHandler = xoops_getModuleHandler('text');
-        $userHandler = xoops_getHandler('user');
+        /** @varCatHandler $catHandler */
+        $catHandler = $helper->getHandler('Category');
+        /** @varTextHandler $textHandler */
+        $textHandler = $helper->getHandler('Text');
+        $userHandler = \xoops_getHandler('user');
         //mb        $statusHandler = xoops_getModuleHandler('status');
         $ret['photo'] = parent::toArray();
 
         $cat = $catHandler->get($this->getVar('cid'));
 
-        if (is_a($cat, 'Category')) {
+        if (\is_a($cat, 'Category')) {
             $ret['cat'] = $cat->toArray();
         }
 
         $text = $textHandler->get($this->getVar('lid'));
-        if (is_a($text, 'Text')) {
+        if (\is_a($text, 'Text')) {
             $ret['text'] = $text->toArray();
         }
 

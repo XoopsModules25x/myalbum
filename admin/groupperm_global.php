@@ -1,11 +1,14 @@
 <?php
+
+use XoopsModules\Myalbum;
+
 require_once __DIR__ . '/admin_header.php';
 require_once __DIR__ . '/mygrouppermform.php';
 
 xoops_loadLanguage('admin', 'system');
 
 if (!empty($_POST['submit'])) {
-    include __DIR__ . '/mygroupperm.php';
+    require_once __DIR__ . '/mygroupperm.php';
     redirect_header(XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/admin/groupperm_global.php', 1, _AM_ALBM_GPERMUPDATED);
 }
 

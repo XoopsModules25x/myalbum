@@ -4,29 +4,29 @@
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
-include __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 
 $hit  = \Xmf\Request::getInt('hit', 0, 'GET');
 $rate = \Xmf\Request::getInt('rate', 0, 'GET');
 
 if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
     $url = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/top,' . $hit . ',' . $rate . '.html';
-    if (!strpos($url, $_SERVER['REQUEST_URI'])) {
+    if (!mb_strpos($url, $_SERVER['REQUEST_URI'])) {
         header('HTTP/1.1 301 Moved Permanently');
         header('Location: ' . $url);
         exit(0);
     }
 }
 /** @var MyalbumPhotosHandler $photosHandler */
-$photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+$photosHandler = $helper->getHandler('Photos');
 /** @var MyalbumCatHandler $catHandler */
-$catHandler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+$catHandler = $helper->getHandler('Category');
 
 $GLOBALS['xoopsOption']['template_main'] = "{$moduleDirName }_topten.tpl";
 
-include XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 
-include __DIR__ . '/include/assign_globals.php';
+require_once __DIR__ . '/include/assign_globals.php';
 $GLOBALS['xoopsTpl']->assign($myalbum_assign_globals);
 $GLOBALS['xoopsTpl']->assign('xoConfig', $GLOBALS['myalbumModuleConfig']);
 $GLOBALS['xoopsTpl']->assign('mydirname', $GLOBALS['mydirname']);
@@ -56,12 +56,12 @@ foreach ($catHandler->getObjects($criteria, true) as $cid => $cat) {
     if (1 == $rate) {
         $rankings[$i] = [
             'title' => sprintf(_ALBM_TOP10, $GLOBALS['myts']->htmlSpecialChars($cat->getVar('title'))),
-            'count' => $i
+            'count' => $i,
         ];
     } else {
         $rankings[$i] = [
             'title' => sprintf(_ALBM_POPULARTOP10, $GLOBALS['myts']->htmlSpecialChars($cat->getVar('title'))),
-            'count' => $i
+            'count' => $i,
         ];
     }
 
@@ -90,11 +90,10 @@ foreach ($catHandler->getObjects($criteria, true) as $cid => $cat) {
 
         if (!empty($cids)) {
             foreach ($cids as $index => $child) {
-                $catpath .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid=' . $child->getVar('cid') . "' >" . $child->getVar('title') . '</a> ' . ($index
-                                                                                                                                                                                                                                    < count($cids) ? '>>' : '');
+                $catpath .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid=' . $child->getVar('cid') . "' >" . $child->getVar('title') . '</a> ' . ($index < count($cids) ? '>>' : '');
             }
         } else {
-            $cat = $catHandler->get($photo->getVar('cid'));
+            $cat     = $catHandler->get($photo->getVar('cid'));
             $catpath .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid=' . $cat->getVar('cid') . "' >" . $cat->getVar('title') . '</a>';
         }
 
@@ -110,7 +109,7 @@ foreach ($catHandler->getObjects($criteria, true) as $cid => $cat) {
             'category'       => $catpath,
             'hits'           => $photo->getVar('hits'),
             'rating'         => number_format($photo->getVar('rating'), 2),
-            'votes'          => $photo->getVar('votes')
+            'votes'          => $photo->getVar('votes'),
         ];
 
         ++$rank;
@@ -121,4 +120,4 @@ foreach ($catHandler->getObjects($criteria, true) as $cid => $cat) {
 
 $GLOBALS['xoopsTpl']->assign_by_ref('rankings', $rankings);
 
-include XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

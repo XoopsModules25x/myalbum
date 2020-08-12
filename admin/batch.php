@@ -4,12 +4,14 @@
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
+use XoopsModules\Myalbum;
+
 require_once __DIR__ . '/admin_header.php';
 
 // GPCS vars
 $GLOBALS['submitter'] = \Xmf\Request::getInt('submitter', $my_uid, 'POST');
 
-$cid    = \Xmf\Request::getInt('cid', 0);
+$cid = \Xmf\Request::getInt('cid', 0);
 
 $GLOBALS['dir4edit']   = isset($_POST['dir']) ? $GLOBALS['myts']->htmlSpecialChars($_POST['dir']) : '';
 $GLOBALS['title4edit'] = isset($_POST['title']) ? $GLOBALS['myts']->htmlSpecialChars($_POST['title']) : '';
@@ -20,18 +22,18 @@ if (!$isadmin) {
     redirect_header($mod_url, 2, _ALBM_MUSTREGFIRST);
 }
 /** @var MyalbumCatHandler $catHandler */
-$catHandler = xoops_getModuleHandler('cat');
+$catHandler = $helper->getHandler('Category');
 // check Categories exist
 $count = $catHandler->getCount();
 if ($count < 1) {
     redirect_header(XOOPS_URL . "/modules/$moduleDirName/", 2, _ALBM_MUSTADDCATFIRST);
 }
 /** @var MyalbumPhotosHandler $photosHandler */
-$photosHandler = xoops_getModuleHandler('photos');
+$photosHandler = $helper->getHandler('Photos');
 /** @var MyalbumTextHandler $textHandler */
-$textHandler   = xoops_getModuleHandler('text');
+$textHandler = $helper->getHandler('Text');
 
-if (isset($_POST['submit']) && '' !== $_POST['submit']) {
+if (\Xmf\Request::hasVar('submit', 'POST') && '' !== $_POST['submit']) {
     ob_start();
 
     // Check Directory
@@ -41,19 +43,19 @@ if (isset($_POST['submit']) && '' !== $_POST['submit']) {
             $dir = "/$dir";
         }
         $prefix = XOOPS_ROOT_PATH;
-        while (strlen($prefix) > 0) {
+        while (mb_strlen($prefix) > 0) {
             if (is_dir("$prefix$dir")) {
                 $dir = "$prefix$dir";
                 break;
             }
-            $prefix = substr($prefix, 0, strrpos($prefix, '/'));
+            $prefix = mb_substr($prefix, 0, mb_strrpos($prefix, '/'));
         }
         if (!is_dir($dir)) {
             redirect_header('batch.php', 3, _ALBM_MES_INVALIDDIRECTORY . "<br>$dir4edit");
         }
     }
-    if ('/' === substr($dir, -1)) {
-        $dir = substr($dir, 0, -1);
+    if ('/' === mb_substr($dir, -1)) {
+        $dir = mb_substr($dir, 0, -1);
     }
 
     $title4save = $GLOBALS['myts']->htmlSpecialChars($_POST['title']);
@@ -70,21 +72,20 @@ if (isset($_POST['submit']) && '' !== $_POST['submit']) {
     }
     $filecount = 1;
     while (false !== ($file_name = readdir($dir_h))) {
-
         // Skip '.' , '..' and hidden file
         //if (substr($file_name, 0, 1) === '.') {
-        if (0 === strpos($file_name, '.')) {
+        if (0 === mb_strpos($file_name, '.')) {
             continue;
         }
 
-        $ext       = substr(strrchr($file_name, '.'), 1);
-        $node      = substr($file_name, 0, -strlen($ext) - 1);
+        $ext       = mb_substr(mb_strrchr($file_name, '.'), 1);
+        $node      = mb_substr($file_name, 0, -mb_strlen($ext) - 1);
         $file_path = "$dir/$node.$ext";
 
         $title = empty($_POST['title']) ? addslashes($node) : "$title4save $filecount";
 
-        if (is_readable($file_path) && in_array(strtolower($ext), $array_allowed_exts)) {
-            if (!in_array(strtolower($ext), $myalbum_normal_exts)) {
+        if (is_readable($file_path) && in_array(mb_strtolower($ext), $array_allowed_exts)) {
+            if (!in_array(mb_strtolower($ext), $myalbum_normal_exts)) {
                 list($w, $h) = getimagesize($file_path);
             } else {
                 list($w, $h) = [0, 0];
@@ -98,7 +99,8 @@ if (isset($_POST['submit']) && '' !== $_POST['submit']) {
             $photo->setVar('submitter', $submitter);
             $photo->setVar('date', $date);
             $photo->setVar('status', 1);
-            if ($lid = $photosHandler->insert($photo)) {
+            $lid = $photosHandler->insert($photo);
+            if ($lid) {
                 print " &nbsp; <a href='../photo.php?lid=$lid' target='_blank'>$file_path</a>\n";
                 copy($file_path, $GLOBALS['photos_dir'] . DS . "$lid.$ext");
                 Myalbum\Utility::createThumb($GLOBALS['photos_dir'] . DS . "$lid.$ext", $lid, $ext);

@@ -32,7 +32,7 @@
                 <{/if}>
             <{/foreach}>
         </td>
-        <{if ($count+1) is div by 3}>
+        <{if ($count+1) % 3 == 0}>
     </tr>
     <tr>
         <{/if}>

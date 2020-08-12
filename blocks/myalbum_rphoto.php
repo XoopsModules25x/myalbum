@@ -27,7 +27,7 @@ if (!defined('MYALBUM_BLOCK_RPHOTO_INCLUDED')) {
         $cycle               = empty($options[5]) ? 60 : (int)$options[5];
         $cols                = empty($options[6]) ? 1 : (int)$options[6];
 
-        include XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/read_configs.php";
+        require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/read_configs.php";
 
         // Category limitation
         if ($cat_limitation) {
@@ -66,17 +66,16 @@ if (!defined('MYALBUM_BLOCK_RPHOTO_INCLUDED')) {
             $result   = $xoopsDB->query('SELECT lid FROM ' . $xoopsDB->prefix($table_photos) . " WHERE status>0 AND $whr_cat AND $whr_ext");
             $lids     = [];
             $sel_lids = [];
-            while (false !== (list($lid) = $xoopsDB->fetchRow($result))) {
+            while (list($lid) = $xoopsDB->fetchRow($result)) {
                 $lids[] = $lid;
             }
-            mt_srand((int)(time() / $cycle) * $cycle);
             $sel_lids = array_rand($lids, $photos_num);
             if (is_array($sel_lids)) {
                 $whr_lid = '';
                 foreach ($sel_lids as $key) {
                     $whr_lid .= $lids[$key] . ',';
                 }
-                $whr_lid = substr($whr_lid, 0, -1);
+                $whr_lid = mb_substr($whr_lid, 0, -1);
             } else {
                 $whr_lid = $lids[$sel_lids];
             }
@@ -90,7 +89,7 @@ if (!defined('MYALBUM_BLOCK_RPHOTO_INCLUDED')) {
             $photo['date']       = formatTimestamp($photo['unixtime'], 's');
             $photo['thumbs_url'] = $thumbs_url;
 
-            if (in_array(strtolower($photo['ext']), $myalbum_normal_exts)) {
+            if (in_array(mb_strtolower($photo['ext']), $myalbum_normal_exts)) {
                 // width&height attirbs for <img>
                 if ($box_size <= 0) {
                     $photo['img_attribs'] = '';

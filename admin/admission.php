@@ -13,25 +13,24 @@ $txt = empty($_GET['txt']) ? '' : $GLOBALS['myts']->stripSlashesGPC(trim($_GET['
 
 if (!empty($_POST['action']) && 'admit' === $_POST['action'] && isset($_POST['ids']) && is_array($_POST['ids'])) {
     /** @var MyalbumPhotosHandler $photosHandler */
-    $photosHandler = xoops_getModuleHandler('photos');
+    $photosHandler = $helper->getHandler('Photos');
     @$photosHandler->setStatus($_POST['ids'], 1);
     redirect_header('admission.php', 2, _ALBM_AM_ADMITTING);
 } elseif (!empty($_POST['action']) && 'delete' === $_POST['action'] && isset($_POST['ids']) && is_array($_POST['ids'])) {
-
     // remove records
 
     // Double check for anti-CSRF
     if (!XoopsSecurity::checkReferer()) {
-        die('XOOPS_URL is not included in your REFERER');
+        exit('XOOPS_URL is not included in your REFERER');
     }
     /** @var MyalbumPhotosHandler $photosHandler */
-    $photosHandler = xoops_getModuleHandler('photos');
+    $photosHandler = $helper->getHandler('Photos');
     @$photosHandler->deletePhotos($_POST['ids']);
 
     redirect_header('admission.php', 2, _ALBM_DELETINGPHOTO);
 }
 /** @var MyalbumPhotosHandler $photosHandler */
-$photosHandler = xoops_getModuleHandler('photos');
+$photosHandler = $helper->getHandler('Photos');
 
 // extracting by free word
 $criteria = new \CriteriaCompo(new \Criteria('`status`', '0', '<='));

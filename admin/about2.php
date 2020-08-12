@@ -11,12 +11,11 @@
 
 /**
  * @copyright    {@link https://xoops.org/ XOOPS Project}
- * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @license      {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @package
  * @since
  * @author       XOOPS Development Team
  */
-
 require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
@@ -44,7 +43,7 @@ function xoopsFormValidate_donation() { var myform = window.document.donation;
 var hasSelected = false; var selectBox = myform.item[A][amount];for (var i = 0; i < selectBox.options.length; i++) { if (selectBox.options[i].selected === true && selectBox.options[i].value != \'\') { hasSelected = true; break; } }if (!hasSelected) { window.alert("Please enter Donation Amount"); selectBox.focus(); return false; }return true;
 }
 //--></script>
-<!-- End Form Validation JavaScript //-->'
+<!-- End Form Validation JavaScript //-->',
 ];
 $paypalform   = [
     0 => '<form action="https://www.paypal.com/cgi-bin/webscr" method="post">',
@@ -52,7 +51,7 @@ $paypalform   = [
     2 => '<input name="hosted_button_id" value="%s" type="hidden">',
     3 => '<img alt="" src="https://www.paypal.com/fr_FR/i/scr/pixel.gif" height="1" border="0" width="1">',
     4 => '<input src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!" border="0" type="image">',
-    5 => '</form>'
+    5 => '</form>',
 ];
 
 for ($key = 0; $key <= 4; ++$key) {
@@ -60,20 +59,20 @@ for ($key = 0; $key <= 4; ++$key) {
         case 2:
             $donationform[$key] = sprintf(
                 $donationform[$key],
-                $GLOBALS['xoopsConfig']['sitename'] . ' - ' . (strlen($GLOBALS['xoopsUser']->getVar('name')) > 0 ? $GLOBALS['xoopsUser']->getVar('name') . ' [' . $GLOBALS['xoopsUser']->getVar('uname') . ']' : $GLOBALS['xoopsUser']->getVar('uname')),
-                                          $GLOBALS['xoopsUser']->getVar('email'),
+                $GLOBALS['xoopsConfig']['sitename'] . ' - ' . (mb_strlen($GLOBALS['xoopsUser']->getVar('name')) > 0 ? $GLOBALS['xoopsUser']->getVar('name') . ' [' . $GLOBALS['xoopsUser']->getVar('uname') . ']' : $GLOBALS['xoopsUser']->getVar('uname')),
+                $GLOBALS['xoopsUser']->getVar('email'),
                 XOOPS_LICENSE_KEY,
-                strtoupper($GLOBALS['myalbumModule']->getVar('dirname')),
-                strtoupper($GLOBALS['myalbumModule']->getVar('dirname')) . ' ' . $GLOBALS['myalbumModule']->getVar('name')
+                mb_strtoupper($GLOBALS['myalbumModule']->getVar('dirname')),
+                mb_strtoupper($GLOBALS['myalbumModule']->getVar('dirname')) . ' ' . $GLOBALS['myalbumModule']->getVar('name')
             );
             break;
     }
 }
 
-$istart = strpos($about, $paypalform[0], 1);
-$iend   = strpos($about, $paypalform[5], $istart + 1) + strlen($paypalform[5]) - 1;
-echo(substr($about, 0, $istart - 1));
+$istart = mb_strpos($about, $paypalform[0], 1);
+$iend   = mb_strpos($about, $paypalform[5], $istart + 1) + mb_strlen($paypalform[5]) - 1;
+echo(mb_substr($about, 0, $istart - 1));
 echo implode("\n", $donationform);
-echo(substr($about, $iend + 1, strlen($about) - $iend - 1));
+echo(mb_substr($about, $iend + 1, mb_strlen($about) - $iend - 1));
 //  myalbum_footer_adminMenu();
 require_once __DIR__ . '/admin_footer.php';

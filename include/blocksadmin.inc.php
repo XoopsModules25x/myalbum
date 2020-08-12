@@ -1,9 +1,10 @@
 <?php
+
 if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($xoopsModule->mid())) {
     exit('Access Denied');
 }
 require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
-include XOOPS_ROOT_PATH . '/modules/system/admin/blocksadmin/blocksadmin.php';
+require_once XOOPS_ROOT_PATH . '/modules/system/admin/blocksadmin/blocksadmin.php';
 
 $moduleDirName = basename(dirname(__DIR__));
 
@@ -14,11 +15,11 @@ xoops_loadLanguage('blocks', $moduleDirName);
 $op = 'list';
 if (isset($_POST)) {
     foreach ($_POST as $k => $v) {
-        $$k = $v;
+        ${$k} = $v;
     }
 }
 
-if (isset($_GET['op'])) {
+if (\Xmf\Request::hasVar('op', 'GET')) {
     if ('edit' === $_GET['op'] || 'delete' === $_GET['op'] || 'delete_ok' === $_GET['op'] || 'clone' === $_GET['op'] || 'previewpopup' === $_GET['op']) {
         $op  = $_GET['op'];
         $bid = \Xmf\Request::getInt('bid', 0, 'GET');
@@ -28,8 +29,8 @@ if (isset($_GET['op'])) {
 if (isset($previewblock)) {
     xoops_cp_header();
     require_once XOOPS_ROOT_PATH . '/class/template.php';
-    $xoopsTpl = new \XoopsTpl();
-    $xoopsTpl->caching=(0);
+    $xoopsTpl          = new \XoopsTpl();
+    $xoopsTpl->caching = 0;
     if (isset($bid)) {
         $block['bid']        = $bid;
         $block['form_title'] = _AM_SYSTEM_BLOCKS_EDITBLOCK;
@@ -47,9 +48,9 @@ if (isset($previewblock)) {
     $myts = \MyTextSanitizer::getInstance();
     $myblock->setVar('title', $myts->stripSlashesGPC($btitle));
     $myblock->setVar('content', $myts->stripSlashesGPC($bcontent));
-    $dummyhtml = '<html><head><meta http-equiv="content-type" content="text/html; charset=' . _CHARSET . '" ><meta http-equiv="content-language" content="' . _LANGCODE . '" ><title>' . $xoopsConfig['sitename']
-                 . '</title><link rel="stylesheet" type="text/css" media="all" href="' . getcss($xoopsConfig['theme_set']) . '" ></head><body><table><tr><th>' . $myblock->getVar('title') . '</th></tr><tr><td>' . $myblock->getContent('S', $bctype)
-                 . '</td></tr></table></body></html>';
+    $dummyhtml = '<html><head><meta http-equiv="content-type" content="text/html; charset=' . _CHARSET . '" ><meta http-equiv="content-language" content="' . _LANGCODE . '" ><title>' . $xoopsConfig['sitename'] . '</title><link rel="stylesheet" type="text/css" media="all" href="' . getcss(
+            $xoopsConfig['theme_set']
+        ) . '" ></head><body><table><tr><th>' . $myblock->getVar('title') . '</th></tr><tr><td>' . $myblock->getContent('S', $bctype) . '</td></tr></table></body></html>';
 
     $dummyfile = '_dummyfile_' . time() . '.tpl';
     $fp        = fopen(XOOPS_CACHE_PATH . '/' . $dummyfile, 'w');
@@ -63,12 +64,12 @@ if (isset($previewblock)) {
     $block['visible']   = $bvisible;
     $block['title']     = $myblock->getVar('title', 'E');
     $block['content']   = $myblock->getVar('content', 'E');
-    $block['modules']   =& $bmodule;
+    $block['modules']   = &$bmodule;
     $block['ctype']     = isset($bctype) ? $bctype : $myblock->getVar('c_type');
     $block['is_custom'] = true;
     $block['cachetime'] = (int)$bcachetime;
     echo '<a href="admin.php?fct=blocksadmin">' . _AM_SYSTEM_BLOCKS_ADMIN . '</a>&nbsp;<span style="font-weight:bold;">&raquo;&raquo;</span>&nbsp;' . $block['form_title'] . '<br><br>';
-    include XOOPS_ROOT_PATH . '/modules/system/admin/blocksadmin/blockform.php';
+    require_once XOOPS_ROOT_PATH . '/modules/system/admin/blocksadmin/blockform.php';
     $form->display();
     xoops_cp_footer();
     echo '<script type="text/javascript">
@@ -82,7 +83,7 @@ if (isset($previewblock)) {
 if ('previewpopup' === $op) {
     $file = str_replace('..', '', XOOPS_CACHE_PATH . '/' . trim($_GET['file']));
     if (file_exists($file)) {
-        include $file;
+        require_once $file;
         @unlink($file);
     }
     exit();
@@ -160,15 +161,15 @@ if ($op == 'clone_ok') {
 
 // import from modules/system/admin/blocksadmin/blocksadmin.php
 /**
- * @param       $bid
- * @param       $bside
- * @param       $bweight
- * @param       $bvisible
- * @param       $btitle
- * @param       $bcontent
- * @param       $bctype
- * @param       $bcachetime
- * @param       $bmodule
+ * @param              $bid
+ * @param              $bside
+ * @param              $bweight
+ * @param              $bvisible
+ * @param              $btitle
+ * @param              $bcontent
+ * @param              $bctype
+ * @param              $bcachetime
+ * @param              $bmodule
  * @param array|string $options
  *
  * @return string
@@ -236,8 +237,8 @@ function myblocksadmin_update_block(
             $db->query($sql);
         }
         require_once XOOPS_ROOT_PATH . '/class/template.php';
-        $xoopsTpl = new \XoopsTpl();
-        $xoopsTpl->caching=(2);
+        $xoopsTpl          = new \XoopsTpl();
+        $xoopsTpl->caching = 2;
         if ('' != $myblock->getVar('template')) {
             if ($xoopsTpl->is_cached('db:' . $myblock->getVar('template'))) {
                 if (!$xoopsTpl->clear_cache('db:' . $myblock->getVar('template'))) {

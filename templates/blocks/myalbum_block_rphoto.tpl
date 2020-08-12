@@ -7,7 +7,7 @@
                         alt="<{$photo.title}>" title="<{$photo.title}>"
                ></a>
         </td>
-        <{if $count is div by $block.cols }>
+        <{if $count % $block.cols == 0 }>
     </tr>
     <tr>
         <{/if}>

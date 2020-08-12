@@ -4,19 +4,25 @@
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
-include __DIR__ . '/header.php';
+use XoopsModules\Myalbum;
+
+
+require_once __DIR__ . '/header.php';
+
+/** @var \XoopsModules\Myalbum\Helper $helper */
+$helper = \XoopsModules\Myalbum\Helper::getInstance();
 
 /** @var MyalbumCatHandler $catHandler */
-$catHandler    = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+$catHandler = $helper->getHandler('Category');
 /** @var MyalbumPhotosHandler $photosHandler */
-$photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+$photosHandler = $helper->getHandler('Photos');
 
 $num = \Xmf\Request::getInt('num', $myalbum_newphotos, 'GET');
 $pos = \Xmf\Request::getInt('pos', 0, 'GET');
 
 if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
     $url = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/index,' . $num . ',' . $pos . $GLOBALS['myalbumModuleConfig']['endofurl'];
-    if (!strpos($url, $_SERVER['REQUEST_URI'])) {
+    if (!mb_strpos($url, $_SERVER['REQUEST_URI'])) {
         header('HTTP/1.1 301 Moved Permanently');
         header('Location: ' . $url);
         exit;
@@ -24,7 +30,7 @@ if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
 }
 
 $GLOBALS['xoopsOption']['template_main'] = "{$moduleDirName }_index.tpl";
-include $GLOBALS['xoops']->path('header.php');
+require $GLOBALS['xoops']->path('header.php');
 // Modification apporté par black_beard alias MONTUY337513
 /*if (!is_object($cat)) {
     $cat = $catHandler->create();
@@ -37,7 +43,7 @@ $GLOBALS['xoopsTpl']->assign('rss', $cat->getRSSURL(0, $num, $pos, $myalbum_view
 $GLOBALS['xoopsTpl']->assign('xoConfig', $GLOBALS['myalbumModuleConfig']);
 $GLOBALS['xoopsTpl']->assign('mydirname', $GLOBALS['mydirname']);
 
-include __DIR__ . '/include/assign_globals.php';
+require_once __DIR__ . '/include/assign_globals.php';
 foreach ($GLOBALS['myalbum_assign_globals'] as $key => $value) {
     $GLOBALS['xoopsTpl']->assign($key, $value);
 }
@@ -88,4 +94,4 @@ foreach ($photosHandler->getObjects($criteria, true) as $lid => $photo) {
     $GLOBALS['xoopsTpl']->append_by_ref('photos', Myalbum\Preview::getArrayForPhotoAssign($photo, true));
 }
 
-include $GLOBALS['xoops']->path('footer.php');
+require $GLOBALS['xoops']->path('footer.php');
