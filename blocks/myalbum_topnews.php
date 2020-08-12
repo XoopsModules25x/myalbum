@@ -66,7 +66,7 @@ if (!defined('MYALBUM_BLOCK_TOPNEWS_INCLUDED')) {
             if (in_array(mb_strtolower($photo['ext']), $myalbum_normal_exts)) {
                 $width_spec = "width='$myalbum_thumbsize'";
                 if ($myalbum_makethumb) {
-                    list($width, $height, $type) = getimagesize("$thumbs_dir/{$photo['lid']}.{$photo['ext']}");
+                    [$width, $height, $type] = getimagesize("$thumbs_dir/{$photo['lid']}.{$photo['ext']}");
                     if ($width <= $myalbum_thumbsize) { // if thumb images was made, 'width' and 'height' will not set.
                         $width_spec = '';
                     }

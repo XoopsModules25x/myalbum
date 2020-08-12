@@ -55,7 +55,7 @@ if (!defined('MYALBUM_BLOCK_RPHOTO_INCLUDED')) {
         $GLOBALS['myts'] = \MyTextSanitizer::getInstance();
         // Get number of photo
         $result = $xoopsDB->query('SELECT count(lid) FROM ' . $xoopsDB->prefix($table_photos) . " WHERE status>0 AND $whr_cat AND $whr_ext");
-        list($numrows) = $xoopsDB->fetchRow($result);
+        [$numrows] = $xoopsDB->fetchRow($result);
         if ($numrows < 1) {
             return $block;
         }
@@ -94,7 +94,7 @@ if (!defined('MYALBUM_BLOCK_RPHOTO_INCLUDED')) {
                 if ($box_size <= 0) {
                     $photo['img_attribs'] = '';
                 } else {
-                    list($width, $height, $type) = getimagesize("$thumbs_dir/{$photo['lid']}.{$photo['ext']}");
+                    [$width, $height, $type] = getimagesize("$thumbs_dir/{$photo['lid']}.{$photo['ext']}");
                     if ($width > $box_size || $height > $box_size) {
                         if ($width > $height) {
                             $photo['img_attribs'] = "width='$box_size'";

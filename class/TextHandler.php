@@ -32,7 +32,7 @@ class TextHandler extends \XoopsPersistableObjectHandler
     public function getBytes()
     {
         $sql = 'SELECT SUM(LENGTH(`description`)) AS `bytes` FROM ' . $GLOBALS['xoopsDB']->prefix($GLOBALS['table_text']);
-        list($bytes) = $GLOBALS['xoopsDB']->fetchRow($GLOBALS['xoopsDB']->queryF($sql));
+        [$bytes] = $GLOBALS['xoopsDB']->fetchRow($GLOBALS['xoopsDB']->queryF($sql));
 
         return $bytes;
     }
