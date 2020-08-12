@@ -163,7 +163,7 @@ if (!is_object($xoopsModule)) {
 echo "<h3 style='text-align:left;'>" . sprintf(_AM_H3_FMT_PHOTOMANAGER, $xoopsModule->name()) . "</h3>\n";
 
 echo "
-<p><span style='color:blue;'>" . (isset($_GET['mes']) ? $_GET['mes'] : '') . "</span></p>
+<p><span style='color:blue;'>" . ($_GET['mes'] ?? '') . "</span></p>
 <form action='' method='GET' style='margin-bottom:0;'>
   <table border='0' cellpadding='0' cellspacing='0' style='width:100%;'>
     <tr>

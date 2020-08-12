@@ -55,7 +55,7 @@ if (count($cats) > 0) {
     }
     foreach ($cats as $cat) {
         $prefix      = str_replace('.', '--', mb_substr($cat['prefix'], 1));
-        $photo_count = isset($photo_counts[$cat['cid']]) ? $photo_counts[$cat['cid']] : 0;
+        $photo_count = $photo_counts[$cat['cid']] ?? 0;
         if ($cid == $cat['cid']) {
             $cat_options .= "<option value='{$cat['cid']}' selected>$prefix{$cat['title']} ($photo_count)</option>\n";
         } else {

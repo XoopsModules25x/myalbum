@@ -182,7 +182,7 @@ if (!empty($_POST['submit'])) {
     $photo_obj->setVar('rating', 0);
     $photo_obj->setVar('votes', 0);
     $photo_obj->setVar('comments', 0);
-    $photo_obj->setVar('tags', (isset($_POST['tags']) ? $_POST['tags'] : ''));
+    $photo_obj->setVar('tags', ($_POST['tags'] ?? ''));
     $newid     = $photosHandler->insert($photo_obj, true);
     $photo_obj = $photosHandler->get($newid);
 

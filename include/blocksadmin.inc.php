@@ -67,7 +67,7 @@ if (isset($previewblock)) {
     $block['title']     = $myblock->getVar('title', 'E');
     $block['content']   = $myblock->getVar('content', 'E');
     $block['modules']   = &$bmodule;
-    $block['ctype']     = isset($bctype) ? $bctype : $myblock->getVar('c_type');
+    $block['ctype']     = $bctype ?? $myblock->getVar('c_type');
     $block['is_custom'] = true;
     $block['cachetime'] = (int)$bcachetime;
     echo '<a href="admin.php?fct=blocksadmin">' . _AM_SYSTEM_BLOCKS_ADMIN . '</a>&nbsp;<span style="font-weight:bold;">&raquo;&raquo;</span>&nbsp;' . $block['form_title'] . '<br><br>';
@@ -125,9 +125,9 @@ if ('save' === $op) {
 
 if ('update' === $op) {
     $bcachetime = isset($bcachetime) ? (int)$bcachetime : 0;
-    $options    = isset($options) ? $options : [];
-    $bcontent   = isset($bcontent) ? $bcontent : '';
-    $bctype     = isset($bctype) ? $bctype : '';
+    $options    = $options ?? [];
+    $bcontent   = $bcontent ?? '';
+    $bctype     = $bctype ?? '';
     $bmodule    = (isset($bmodule) && is_array($bmodule)) ? $bmodule : [-1]; // GIJ +
     $msg        = myblocksadmin_update_block($bid, $bside, $bweight, $bvisible, $btitle, $bcontent, $bctype, $bcachetime, $bmodule, $options); // GIJ c
     redirect_header('myblocksadmin.php', 1, $msg); // GIJ +
