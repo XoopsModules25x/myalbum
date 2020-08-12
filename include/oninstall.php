@@ -24,7 +24,7 @@ use XoopsModules\Myalbum\{
 };
 /** @var Helper $helper */
 /** @var Utility $utility */
-/** @var Common\Configurator $configurator */
+/** @var Configurator $configurator */
 
 //require_once __DIR__ . '/setup.php';
 
@@ -65,7 +65,7 @@ function xoops_module_install_myalbum(\XoopsModule $module)
 
     $helper       = Helper::getInstance();
     $utility      = new Utility();
-    $configurator = new Common\Configurator();
+    $configurator = new Configurator();
     // Load language files
     $helper->loadLanguage('admin');
     $helper->loadLanguage('modinfo');

@@ -26,7 +26,9 @@ namespace XoopsModules\Myalbum\Common;
 use MyTextSanitizer;
 use XoopsFormDhtmlTextArea;
 use XoopsFormTextArea;
-use XoopsModules\Myalbum;
+use XoopsModules\Myalbum\{
+    Helper
+};
 
 /**
  * Class SysUtility

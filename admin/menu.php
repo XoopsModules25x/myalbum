@@ -7,7 +7,9 @@ use Xmf\Module\Admin;
 
 include dirname(__DIR__) . '/preloads/autoloader.php';
 
-//require_once  dirname(__DIR__) . '/include/common.php';
+$moduleDirName = basename(dirname(__DIR__));
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+
 /** @var Helper $helper */
 $helper = Helper::getInstance();
 $helper->loadLanguage('common');
@@ -80,6 +82,28 @@ $adminmenu[] = [
     'image' => $pathModIcon32 . '/myalbum.permissions.png',
     'link'  => 'admin/groupperm_global.php',
 ];
+
+// Blocks Admin
+$adminmenu[] = [
+    'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'BLOCKS'),
+    'link' => 'admin/blocksadmin.php',
+    'icon' => $pathIcon32 . '/block.png',
+];
+
+//Feedback
+$adminmenu[] = [
+    'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'ADMENU_FEEDBACK'),
+    'link'  => 'admin/feedback.php',
+    'icon'  => $pathIcon32 . '/mail_foward.png',
+];
+
+if (is_object($helper->getModule()) && $helper->getConfig('displayDeveloperTools')) {
+    $adminmenu[] = [
+        'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'ADMENU_MIGRATE'),
+        'link' => 'admin/migrate.php',
+        'icon' => $pathIcon32 . '/database_go.png',
+    ];
+}
 
 $adminmenu[] = [
     'title' => _ALBM_MYALBUM_ADMENU_ABOUT,

@@ -13,8 +13,8 @@ eval(
     '
 function xoops_module_install_' . $moduleDirName . '( $module )
 {
-    $modid = $module->getVar("mid") ;
-    $grouppermHandler = xoops_getHandler("groupperm");
+    $modid = $module->getVar(\'mid\') ;
+    $grouppermHandler = xoops_getHandler(\'groupperm\');
 
     $global_perms_array = [
         GPERM_INSERTABLE => _ALBM_GPERM_G_INSERTABLE ,
@@ -29,10 +29,10 @@ function xoops_module_install_' . $moduleDirName . '( $module )
 
     foreach ($global_perms_array as $perms_id => $perms_name) {
         $gperm = $grouppermHandler->create();
-        $gperm->setVar("gperm_groupid", XOOPS_GROUP_ADMIN);
-        $gperm->setVar("gperm_name", "myalbum_global");
-        $gperm->setVar("gperm_modid", $modid);
-        $gperm->setVar("gperm_itemid", $perms_id );
+        $gperm->setVar(\'gperm_groupid\', XOOPS_GROUP_ADMIN);
+        $gperm->setVar(\'gperm_name\', \'myalbum_global\');
+        $gperm->setVar(\'gperm_modid\', $modid);
+        $gperm->setVar(\'gperm_itemid\', $perms_id );
         $grouppermHandler->insert($gperm) ;
         unset($gperm);
     }

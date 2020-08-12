@@ -24,7 +24,7 @@ use XoopsModules\Myalbum\{
 };
 /** @var Helper $helper */
 /** @var Utility $utility */
-/** @var Common\Configurator $configurator */
+/** @var Configurator $configurator */
 
 if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)
     || !$GLOBALS['xoopsUser']->isAdmin()) {
@@ -75,7 +75,7 @@ function xoops_module_update_myalbum(\XoopsModule $module, $previousVersion = nu
 
     $helper       = Helper::getInstance();
     $utility      = new Utility();
-    $configurator = new Common\Configurator();
+    $configurator = new Configurator();
 
     if ($previousVersion < 240) {
         //delete old HTML templates

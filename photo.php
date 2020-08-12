@@ -45,7 +45,8 @@ function deleteImage($lid)
     }
 
     // anti-CSRF
-    if (!XoopsSecurity::checkReferer()) {
+    $xsecurity = new XoopsSecurity();
+    if (!$xsecurity->checkReferer()) {
         exit('XOOPS_URL is not included in your REFERER');
     }
 

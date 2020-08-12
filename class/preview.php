@@ -207,15 +207,15 @@ class Preview extends \XoopsObject
         global $photos_url, $thumbs_url, $thumbs_dir;
         global $myalbum_makethumb, $myalbum_thumbsize, $myalbum_normal_exts;
 
-        /** @var  Myalbum\PhotosHandler $photosHandler */
+        /** @var PhotosHandler $photosHandler */
         $photosHandler = $helper->getHandler('Photos');
         /** @var TextHandler $textHandler */
         $textHandler = $helper->getHandler('Text');
         /** @var CatHandler $catHandler */
         $catHandler = $helper->getHandler('Category');
-        /** @var  VotedataHandler $votedataHandler */
+        /** @var VotedataHandler $votedataHandler */
         $votedataHandler = $helper->getHandler('Votedata');
-        /** @varCommentsHandler $commentsHandler */
+        /** @var CommentsHandler $commentsHandler */
         $commentsHandler = $helper->getHandler('Comments');
 
         \extract($photo->toArray(true));

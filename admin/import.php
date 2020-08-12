@@ -7,6 +7,7 @@
 use Xmf\Module\Admin;
 use Xmf\Request;
 use XoopsModules\Myalbum\{
+    Forms,
     Utility
 };
 
@@ -15,7 +16,8 @@ require_once __DIR__ . '/admin_header.php';
 // From myalbum*
 if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
     // anti-CSRF
-    if (!XoopsSecurity::checkReferer()) {
+    $xsecurity = new XoopsSecurity();
+    if (!$xsecurity->checkReferer()) {
         exit('XOOPS_URL is not included in your REFERER');
     }
 
@@ -137,7 +139,8 @@ else {
         }
 
         // anti-CSRF
-        if (!XoopsSecurity::checkReferer()) {
+        $xsecurity = new XoopsSecurity();
+        if (!$xsecurity->checkReferer()) {
             exit('XOOPS_URL is not included in your REFERER');
         }
 
@@ -205,8 +208,8 @@ $GLOBALS['xoopsTpl']->assign('admin_title', sprintf(_AM_H3_FMT_IMPORTTO, $xoopsM
 $GLOBALS['xoopsTpl']->assign('mydirname', $GLOBALS['mydirname']);
 $GLOBALS['xoopsTpl']->assign('photos_url', $GLOBALS['photos_url']);
 $GLOBALS['xoopsTpl']->assign('thumbs_url', $GLOBALS['thumbs_url']);
-$GLOBALS['xoopsTpl']->assign('forma', Myalbum\Forms::getAdminFormImportMyalbum());
-$GLOBALS['xoopsTpl']->assign('formb', Myalbum\Forms::getAdminFormImportImageManager());
+$GLOBALS['xoopsTpl']->assign('forma', Forms::getAdminFormImportMyalbum());
+$GLOBALS['xoopsTpl']->assign('formb', Forms::getAdminFormImportImageManager());
 
 $GLOBALS['xoopsTpl']->display('db:' . $GLOBALS['mydirname'] . '_cpanel_import.tpl');
 

@@ -19,7 +19,8 @@ if (!empty($_POST['imagemanager_export']) && !empty($_POST['imgcat_id']) && !emp
     }
 
     // anti-CSRF
-    if (!XoopsSecurity::checkReferer()) {
+    $xsecurity = new XoopsSecurity();
+    if (!$xsecurity->checkReferer()) {
         exit('XOOPS_URL is not included in your REFERER');
     }
 

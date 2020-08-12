@@ -113,8 +113,7 @@ if (!defined('MYALBUM_BLOCK_TOPNEWS_INCLUDED')) {
 
         ob_start();
         $cattree->makeMySelBox('title', 'title', $cat_limitation, 1, 'options[3]');
-        $catselbox = ob_get_contents();
-        ob_end_clean();
+        $catselbox = ob_get_clean();
 
         return '
         ' . _ALBM_TEXT_DISP . " &nbsp;
