@@ -2,6 +2,21 @@
 
 // for older files
 use Xmf\Request;
+use XoopsModules\Myalbum\{
+    CategoryHandler,
+    CommentsHandler,
+    Helper,
+    PhotosHandler,
+    TextHandler,
+    VotedataHandler
+};
+
+/** @var Helper $helper */
+/** @var CategoryHandler $catHandler */
+/** @var PhotosHandler $photosHandler */
+/** @var TextHandler $textHandler */
+/** @var CommentsHandler $commentsHandler */
+/** @var VotedataHandler $votedataHandler */
 
 function myalbum_header()
 {
@@ -67,6 +82,8 @@ function myalbum_get_array_for_photo_assign($photo, $summary = false)
     global $my_uid, $isadmin, $global_perms;
     global $photos_url, $thumbs_url, $thumbs_dir, $mod_url, $mod_path;
     global $myalbum_makethumb, $myalbum_thumbsize, $myalbum_popular, $myalbum_newdays, $myalbum_normal_exts;
+
+    $helper = Helper::getInstance();
 
     $photosHandler   = $helper->getHandler('Photos');
     $textHandler     = $helper->getHandler('Text');
@@ -192,6 +209,8 @@ function myalbum_get_array_for_photo_assign_light($photo, $summary = false)
     global $photos_url, $thumbs_url, $thumbs_dir;
     global $myalbum_makethumb, $myalbum_thumbsize, $myalbum_normal_exts;
 
+    $helper = Helper::getInstance();
+
     $photosHandler   = $helper->getHandler('Photos');
     $textHandler     = $helper->getHandler('Text');
     $catHandler      = $helper->getHandler('Category');
@@ -265,6 +284,7 @@ function myalbum_get_sub_categories($parent_id, $cattree)
     $criterib->setSort('cid');
     $criterib->setOrder('DESC');
 
+    $helper = Helper::getInstance();
     $catHandler = $helper->getHandler('Category');
 
     $cats = $catHandler->getObjects($criterib, true);
