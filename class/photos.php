@@ -53,7 +53,7 @@ class Photos extends \XoopsObject
         }
 
         if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
-            /** @varCatHandler $catHandler */
+            /** @var CatHandler $catHandler */
             $catHandler = $helper->getHandler('Category');
             $cat        = $catHandler->get($this->getVar('cid'));
             $url        = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . \str_replace(
@@ -102,7 +102,7 @@ class Photos extends \XoopsObject
         }
 
         if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
-            /** @varCatHandler $catHandler */
+            /** @var CatHandler $catHandler */
             $catHandler = $helper->getHandler('Category');
             $cat        = $catHandler->get($this->getVar('cid'));
             $url        = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . \str_replace(
@@ -151,7 +151,7 @@ class Photos extends \XoopsObject
         }
 
         if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
-            /** @varCatHandler $catHandler */
+            /** @var CatHandler $catHandler */
             $catHandler = $helper->getHandler('Category');
             $cat        = $catHandler->get($this->getVar('cid'));
             $url        = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . \str_replace(
@@ -234,9 +234,9 @@ class Photos extends \XoopsObject
         if (true === $justVar) {
             return parent::toArray();
         }
-        /** @varCatHandler $catHandler */
+        /** @var CatHandler $catHandler */
         $catHandler = $helper->getHandler('Category');
-        /** @varTextHandler $textHandler */
+        /** @var TextHandler $textHandler */
         $textHandler = $helper->getHandler('Text');
         $userHandler = \xoops_getHandler('user');
         //mb        $statusHandler = xoops_getModuleHandler('status');

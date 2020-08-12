@@ -2,8 +2,6 @@
 
 namespace XoopsModules\Myalbum;
 
-use XoopsModules\Myalbum;
-
 /**
  * Class MyalbumPreview
  */
@@ -77,13 +75,15 @@ class Preview extends \XoopsObject
         global $photos_url, $thumbs_url, $thumbs_dir, $mod_url, $mod_path;
         global $myalbum_makethumb, $myalbum_thumbsize, $myalbum_popular, $myalbum_newdays, $myalbum_normal_exts;
 
-        /** @var  Myalbum\PhotosHandler $photosHandler */
+        $helper = Helper::getInstance();
+
+        /** @var  PhotosHandler $photosHandler */
         $photosHandler = $helper->getHandler('Photos');
-        /** @varTextHandler $textHandler */
+        /** @var TextHandler $textHandler */
         $textHandler = $helper->getHandler('Text');
-        /** @varCatHandler $catHandler */
+        /** @var CatHandler $catHandler */
         $catHandler = $helper->getHandler('Category');
-        /** @var  Myalbum\VotedataHandler $votedataHandler */
+        /** @var  VotedataHandler $votedataHandler */
         $votedataHandler = $helper->getHandler('Votedata');
         /** @varCommentsHandler $commentsHandler */
         $commentsHandler = $helper->getHandler('Comments');
@@ -209,11 +209,11 @@ class Preview extends \XoopsObject
 
         /** @var  Myalbum\PhotosHandler $photosHandler */
         $photosHandler = $helper->getHandler('Photos');
-        /** @varTextHandler $textHandler */
+        /** @var TextHandler $textHandler */
         $textHandler = $helper->getHandler('Text');
-        /** @varCatHandler $catHandler */
+        /** @var CatHandler $catHandler */
         $catHandler = $helper->getHandler('Category');
-        /** @var  Myalbum\VotedataHandler $votedataHandler */
+        /** @var  VotedataHandler $votedataHandler */
         $votedataHandler = $helper->getHandler('Votedata');
         /** @varCommentsHandler $commentsHandler */
         $commentsHandler = $helper->getHandler('Comments');
@@ -286,7 +286,10 @@ class Preview extends \XoopsObject
         $criterib->setSort('cid');
         $criterib->setOrder('DESC');
 
-        /** @varTextHandler $textHandler */
+        $helper = Helper::getInstance();
+
+//        $textHandler = $helper->getHandler('Text');
+        /** @var CategoryHandler $catHandler */
         $catHandler = $helper->getHandler('Category');
 
         $cats = $catHandler->getObjects($criterib, true);
@@ -301,7 +304,7 @@ class Preview extends \XoopsObject
                     'cid'              => $child->getVar('cid'),
                     'title'            => $child->getVar('title'),
                     'weight'           => $child->getVar('weight'),
-                    'photo_small_sum'  => Myalbum\Utility::getCategoryCount($child->getVar('cid'), $criteria),
+                    'photo_small_sum'  => Utility::getCategoryCount($child->getVar('cid'), $criteria),
                     'number_of_subcat' => \count($GLOBALS['cattree']->getFirstChild($child->getVar('cid'))),
                 ];
             }
@@ -319,12 +322,12 @@ class Preview extends \XoopsObject
 
             $cids[] = $cid;
 
-            $photo_total_sum = Myalbum\Utility::getTotalCount($cids, $criteria);
+            $photo_total_sum = Utility::getTotalCount($cids, $criteria);
 
             $ret[] = [
                 'cid'             => $cid,
                 'imgurl'          => $GLOBALS['myts']->htmlSpecialChars($imgurl),
-                'photo_small_sum' => Myalbum\Utility::getCategoryCount($cid, $criteria),
+                'photo_small_sum' => Utility::getCategoryCount($cid, $criteria),
                 'photo_total_sum' => $photo_total_sum,
                 'title'           => $title,
                 'weight'          => $weight,

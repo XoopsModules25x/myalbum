@@ -1,6 +1,10 @@
 <?php
 
+use XoopsModules\Myalbum\{
+    Helper
+};
 
+/** @var Helper $helper */
 
 /**
  * @param $keywords
@@ -14,8 +18,9 @@
 function myalbum_search($keywords, $andor, $limit, $offset, $userid)
 {
     global $xoopsDB;
-    $moduleDirName = basename(dirname(__DIR__));
-    require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/read_configs.php';
+    $helper = Helper::getInstance();
+    $moduleDirName = $helper->getDirname();
+    require_once $helper->path( 'include/read_configs.php');
 
     $sql = 'SELECT l.lid,l.cid,l.title,l.submitter,l.date,t.description FROM ' . $xoopsDB->prefix($moduleDirName . '_photos') . ' l LEFT JOIN ' . $xoopsDB->prefix($moduleDirName . '_text') . ' t ON t.lid=l.lid WHERE status>0';
 

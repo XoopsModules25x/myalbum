@@ -1,6 +1,8 @@
 <?php
 
-use XoopsModules\Myalbum;
+use XoopsModules\Myalbum\{
+    Utility
+};
 
 
 
@@ -38,7 +40,7 @@ function xoops_module_install_' . $moduleDirName . '( $module )
 //    require_once $GLOBALS["xoops"]->path("modules/' . $moduleDirName . '/config/config.php");
 //    require_once $GLOBALS[\'xoops\']->path(\'modules/' . $moduleDirName . '/class/Utility.php\');
     foreach (array_keys($uploadFolders) as $i) {
-        Myalbum\Utility::createFolder($uploadFolders[$i]);
+        Utility::createFolder($uploadFolders[$i]);
     }
 
 
@@ -59,13 +61,13 @@ function xoops_module_install_myalbum(\XoopsModule $xoopsModule)
     require_once $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/config/config.php');
 
     foreach (array_keys($uploadFolders) as $i) {
-        Myalbum\Utility::createFolder($uploadFolders[$i]);
+        Utility::createFolder($uploadFolders[$i]);
     }
 
     $file = _ALMB_ROOT_PATH . '/assets/images/blank.png';
     foreach (array_keys($copyFiles) as $i) {
         $dest = $copyFiles[$i] . '/blank.png';
-        Myalbum\Utility::copyFile($file, $dest);
+        Utility::copyFile($file, $dest);
     }
 
     return true;

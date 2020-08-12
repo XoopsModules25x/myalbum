@@ -1,6 +1,17 @@
 <?php
 
 use Xmf\Request;
+use XoopsModules\Myalbum\{
+    CategoryHandler,
+    Helper,
+    PhotosHandler,
+    TextHandler,
+    Utility
+};
+/** @var Helper $helper */
+/** @var PhotosHandler $photosHandler */
+/** @var TextHandler $textHandler */
+/** @var CategoryHandler $catHandler */
 
 require_once __DIR__ . '/header.php';
 
@@ -13,11 +24,9 @@ if ($num < 1) {
 }
 $pos  = Request::getInt('pos', 0, 'GET');
 $view = Request::getString('view', $myalbum_viewcattype, 'GET');
-/** @var  Myalbum\PhotosHandler $photosHandler */
+
 $photosHandler = $helper->getHandler('Photos');
-/** @var  Myalbum\TextHandler $textHandler */
 $textHandler = $helper->getHandler('Text');
-/** @var Myalbum\CategoryHandler $catHandler */
 $catHandler = $helper->getHandler('Category');
 if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
     if (0 == $cid) {
@@ -87,7 +96,7 @@ if (!$GLOBALS['xoopsTpl']->is_cached('db:' . $GLOBALS['mydirname'] . '_rss.tpl')
         }
         $cids[]   = $cid;
         $criteria = new \CriteriaCompo(new \Criteria('`status`', '0', '>'));
-        $photo_total_sum = Myalbum\Utility::getTotalCount($cids, $criteria);
+        $photo_total_sum = Utility::getTotalCount($cids, $criteria);
         $sub_title       = preg_replace("/\'\>/", "'><img src='$mod_url/assets/images/folder16.gif' alt=''>", $GLOBALS['cattree']->getNicePathFromId($cid, 'title', "viewcat.php?num=$num"));
         $sub_title       = preg_replace('/^(.+)folder16/', '$1folder_open', $sub_title);
         $criteria->add(new \Criteria('`cid`', $cid));

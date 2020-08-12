@@ -1,6 +1,8 @@
 <?php
 
-use XoopsModules\Myalbum;
+use XoopsModules\Myalbum\{
+    Utility
+};
 
 
 
@@ -41,13 +43,13 @@ function xoops_module_update_myalbum(\XoopsModule $module, $oldversion = null)
 //    require_once $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/class/Utility.php');
 
     foreach (array_keys($uploadFolders) as $i) {
-        Myalbum\Utility::createFolder($uploadFolders[$i]);
+        Utility::createFolder($uploadFolders[$i]);
     }
     //copy blank.png files, if needed
     $file = _ALBM_ROOT_PATH . '/assets/images/blank.png';
     foreach (array_keys($copyFiles) as $i) {
         $dest = $copyFiles[$i] . '/blank.png';
-        Myalbum\Utility::copyFile($file, $dest);
+        Utility::copyFile($file, $dest);
     }
 
     $grouppermHandler = xoops_getHandler('groupperm');

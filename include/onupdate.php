@@ -17,7 +17,14 @@
  * @author       XOOPS Development Team
  */
 
-use XoopsModules\Myalbum;
+use XoopsModules\Myalbum\{
+    Common\Configurator,
+    Helper,
+    Utility
+};
+/** @var Helper $helper */
+/** @var Utility $utility */
+/** @var Common\Configurator $configurator */
 
 if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)
     || !$GLOBALS['xoopsUser']->isAdmin()) {
@@ -45,10 +52,8 @@ function tableExists($tablename)
 function xoops_module_pre_update_myalbum(\XoopsModule $module)
 {
     $moduleDirName = basename(dirname(__DIR__));
-    /** @var Myalbum\Helper $helper */
-    /** @var Myalbum\Utility $utility */
-    $helper  = Myalbum\Helper::getInstance();
-    $utility = new Myalbum\Utility();
+    $helper  = Helper::getInstance();
+    $utility = new Utility();
 
     $xoopsSuccess = $utility::checkVerXoops($module);
     $phpSuccess   = $utility::checkVerPhp($module);
@@ -68,11 +73,9 @@ function xoops_module_update_myalbum(\XoopsModule $module, $previousVersion = nu
     $moduleDirName      = basename(dirname(__DIR__));
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
-    /** @var Myalbum\Helper $helper */ /** @var Myalbum\Utility $utility */
-    /** @var Myalbum\Common\Configurator $configurator */
-    $helper       = Myalbum\Helper::getInstance();
-    $utility      = new Myalbum\Utility();
-    $configurator = new Myalbum\Common\Configurator();
+    $helper       = Helper::getInstance();
+    $utility      = new Utility();
+    $configurator = new Common\Configurator();
 
     if ($previousVersion < 240) {
         //delete old HTML templates

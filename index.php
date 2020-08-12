@@ -5,17 +5,23 @@
 // ------------------------------------------------------------------------- //
 
 use Xmf\Request;
-use XoopsModules\Myalbum;
-use XoopsModules\Myalbum\Helper;
+use XoopsModules\Myalbum\{
+    CategoryHandler,
+    Helper,
+    PhotosHandler,
+    Preview,
+    Utility
+};
+
+/** @var Helper $helper */
+/** @var CategoryHandler $catHandler */
+/** @var PhotosHandler $photosHandler */
 
 require_once __DIR__ . '/header.php';
 
-/** @var \XoopsModules\Myalbum\Helper $helper */
-$helper = Helper::getInstance();
 
-/** @var Myalbum\CategoryHandler $catHandler */
+//$helper = Helper::getInstance();
 $catHandler = $helper->getHandler('Category');
-/** @var Myalbum\PhotosHandler $photosHandler */
 $photosHandler = $helper->getHandler('Photos');
 
 $num = Request::getInt('num', $myalbum_newphotos, 'GET');
@@ -49,9 +55,9 @@ foreach ($GLOBALS['myalbum_assign_globals'] as $key => $value) {
     $GLOBALS['xoopsTpl']->assign($key, $value);
 }
 
-$GLOBALS['xoopsTpl']->assign('subcategories', Myalbum\Preview::getSubCategories(0, $GLOBALS['cattree']));
+$GLOBALS['xoopsTpl']->assign('subcategories', Preview::getSubCategories(0, $GLOBALS['cattree']));
 
-$GLOBALS['xoopsTpl']->assign('category_options', Myalbum\Utility::getCategoryOptions());
+$GLOBALS['xoopsTpl']->assign('category_options', Utility::getCategoryOptions());
 
 $criteria        = new \Criteria('`status`', '0', '>');
 $photo_num_total = $photosHandler->getCount($criteria);
@@ -92,7 +98,7 @@ $criteria->setSort('`cid`');
 $criteria->setOrder('DESC');
 // Assign Latest Photos
 foreach ($photosHandler->getObjects($criteria, true) as $lid => $photo) {
-    $GLOBALS['xoopsTpl']->append_by_ref('photos', Myalbum\Preview::getArrayForPhotoAssign($photo, true));
+    $GLOBALS['xoopsTpl']->append_by_ref('photos', Preview::getArrayForPhotoAssign($photo, true));
 }
 
 require $GLOBALS['xoops']->path('footer.php');

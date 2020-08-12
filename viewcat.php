@@ -4,6 +4,17 @@
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
+use XoopsModules\Myalbum\{
+    CategoryHandler,
+    Helper,
+    Preview,
+    PhotosHandler,
+    Utility
+};
+/** @var Helper $helper */
+/** @var PhotosHandler $photosHandler */
+/** @var CategoryHandler $catHandler */
+
 require_once __DIR__ . '/header.php';
 
 // GET variables
@@ -16,9 +27,7 @@ if ($num < 1) {
 $pos  = \Xmf\Request::getInt('pos', 0, 'GET');
 $view = !isset($_GET['view']) ? $myalbum_viewcattype : $_GET['view'];
 
-/** @var  Myalbum\PhotosHandler $photosHandler */
 $photosHandler = $helper->getHandler('Photos');
-/** @var Myalbum\CategoryHandler $catHandler */
 $catHandler = $helper->getHandler('Category');
 if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
     if (0 == $cid) {
@@ -75,25 +84,25 @@ if ($cid > 0) {
     $cat     = $catHandler->get($cid);
     // Category Specified
     $GLOBALS['xoopsTpl']->assign('category_id', $cid);
-    $GLOBALS['xoopsTpl']->assign('subcategories', Myalbum\Preview::getSubCategories($cid, $GLOBALS['cattree']));
-    $GLOBALS['xoopsTpl']->assign('category_options', Myalbum\Utility::getCategoryOptions());
+    $GLOBALS['xoopsTpl']->assign('subcategories', Preview::getSubCategories($cid, $GLOBALS['cattree']));
+    $GLOBALS['xoopsTpl']->assign('category_options', Utility::getCategoryOptions());
 
     foreach ($GLOBALS['cattree']->getAllChild($cid) as $child) {
         $cids[$child->getVar('cid')] = $child->getVar('cid');
     }
     array_push($cids, $cid);
     $criteria        = new \CriteriaCompo(new \Criteria('`status`', '0', '>'));
-    $photo_total_sum = Myalbum\Utility::getTotalCount($cids, $criteria);
+    $photo_total_sum = Utility::getTotalCount($cids, $criteria);
     if (!empty($cids)) {
         foreach ($cids as $index => $child) {
             $childcat = $catHandler->get($child);
             if (is_object($childcat)) {
-                $catpath .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid=' . $childcat->getVar('cid') . "' >" . $childcat->getVar('title') . '</a> ' . ($index < count($cids) ? '>>' : '');
+                $catpath .= "<a href='" . $helper->url() . 'viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid=' . $childcat->getVar('cid') . "' >" . $childcat->getVar('title') . '</a> ' . ($index < count($cids) ? '>>' : '');
             }
         }
     } else {
         $cat     = $catHandler->get($cid);
-        $catpath .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid=' . $cat->getVar('cid') . "' >" . $cat->getVar('title') . '</a>';
+        $catpath .= "<a href='" . $helper->url() . 'viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid=' . $cat->getVar('cid') . "' >" . $cat->getVar('title') . '</a>';
     }
     $catpath   = str_replace('>>', " <span class='fg2'>&raquo;&raquo;</span> ", $catpath);
     $sub_title = preg_replace("/\'\>/", "'><img src='$mod_url/assets/images/folder16.gif' alt=''>", $catpath);
@@ -111,7 +120,7 @@ if ($cid > 0) {
         $criteria = new \CriteriaCompo(new \Criteria('`status`', '0', '>'));
         $criteria->add(new \Criteria('`submitter`', $uid));
         $GLOBALS['xoopsTpl']->assign('uid', $uid);
-        $GLOBALS['xoopsTpl']->assign('album_sub_title', "<img src='$mod_url/assets/images/myphotos.gif' alt='' >" . Myalbum\Preview::getNameFromUid($uid));
+        $GLOBALS['xoopsTpl']->assign('album_sub_title', "<img src='$mod_url/assets/images/myphotos.gif' alt='' >" . Preview::getNameFromUid($uid));
     }
 } else {
     $criteria = new \CriteriaCompo(new \Criteria('`status`', '0', '>'));

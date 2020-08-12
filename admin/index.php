@@ -8,10 +8,18 @@ use XoopsModules\Myalbum\{
     Helper,
     PhotosHandler,
     TextHandler,
-    VotedataHandler
+    VotedataHandler,
+    Utility
 };
+
 /** @var Admin $adminObject */
 /** @var Helper $helper */
+/** @var Utility $utility */
+/** @var CategoryHandler $catHandler */
+/** @var CommentsHandler $commentsHandler */
+/** @var PhotosHandler $photosHandler */
+/** @var TextHandler $textHandler */
+/** @var VotedataHandler $votedataHandler */
 
 require_once __DIR__ . '/admin_header.php';
 xoops_loadLanguage('admin');
@@ -23,15 +31,10 @@ $adminObject = Admin::getInstance();
 
 $adminObject->displayNavigation(basename(__FILE__));
 
-/** @var CategoryHandler $catHandler */
 $catHandler = $helper->getHandler('Category');
-/** @var  CommentsHandler $commentsHandler */
 $commentsHandler = $helper->getHandler('Comments');
-/** @var  PhotosHandler $photosHandler */
 $photosHandler = $helper->getHandler('Photos');
-/** @var  TextHandler $textHandler */
 $textHandler = $helper->getHandler('Text');
-/** @var  VotedataHandler $votedataHandler */
 $votedataHandler = $helper->getHandler('Votedata');
 $groupHandler    = xoops_getHandler('group');
 
@@ -198,12 +201,12 @@ if ($myalbum_makethumb) {
     }
 }
 
-if (!class_exists('MyAlbumUtility')) {
-    xoops_load('utility', $moduleDirName);
-}
+//if (!class_exists('MyAlbumUtility')) {
+//    xoops_load('utility', $moduleDirName);
+//}
 
 foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
-    Myalbum\Utility::createFolder($uploadFolders[$i]);
+    Utility::createFolder($uploadFolders[$i]);
     $adminObject->addConfigBoxLine($uploadFolders[$i], 'folder');
     //    $adminObject->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
 }

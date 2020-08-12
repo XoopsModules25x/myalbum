@@ -5,20 +5,32 @@
 // ------------------------------------------------------------------------- //
 
 use Xmf\Request;
-use XoopsModules\Myalbum;
+use XoopsModules\Myalbum\{
+    Helper,
+    PhotosHandler,
+    Preview,
+    TextHandler,
+    Utility
+};
 use XoopsModules\Tag\FormTag;
-use XoopsModules\Tag\Helper;
+//use XoopsModules\Tag\Helper; TODO
+
+
+
+
+/** @var Helper $helper */
+/** @var  PhotosHandler $photosHandler */
+/** @var  TextHandler $textHandler */
+
 
 require_once __DIR__ . '/header.php';
 
 $lid = Request::getInt('lid', 0, 'GET');
 
-/** @var  Myalbum\PhotosHandler $photosHandler */
 $photosHandler = $helper->getHandler('Photos');
-/** @var  Myalbum\TextHandler $textHandler */
 $textHandler = $helper->getHandler('Text');
 if (!$photo_obj = $photosHandler->get($lid)) {
-    redirect_header('index.php', 2, _ALBM_NOMATCH);
+    $helper->redirect('index.php', 2, _ALBM_NOMATCH);
 }
 $submitter = $photo_obj->getVar('submitted');
 
@@ -157,17 +169,17 @@ if (!empty($_POST['submit'])) {
             $tmp_name  = $uploader->getSavedFileName();
             $ext       = mb_substr(mb_strrchr($tmp_name, '.'), 1);
 
-            Myalbum\Utility::editPhoto($GLOBALS['photos_dir'] . "/$tmp_name", $GLOBALS['photos_dir'] . "/$lid.$ext");
+           Utility::editPhoto($GLOBALS['photos_dir'] . "/$tmp_name", $GLOBALS['photos_dir'] . "/$lid.$ext");
             $dim = getimagesize($GLOBALS['photos_dir'] . "/$lid.$ext");
             if (!$dim) {
                 $dim = [0, 0];
             }
 
-            if (!Myalbum\Utility::createThumb($GLOBALS['photos_dir'] . "/$lid.$ext", $lid, $ext)) {
+            if (!Utility::createThumb($GLOBALS['photos_dir'] . "/$lid.$ext", $lid, $ext)) {
                 redirect_header('editphoto.php?lid=$lid', 10, _ALBM_FILEERROR);
             }
 
-            Myalbum\Utility::updatePhoto($lid, $cid, $title, $desc_text, $valid, $ext, $dim[0], $dim[1]);
+           Utility::updatePhoto($lid, $cid, $title, $desc_text, $valid, $ext, $dim[0], $dim[1]);
             exit;
         }
         $uploader->getErrors(true);
@@ -186,11 +198,11 @@ if (!empty($_POST['submit'])) {
     $cid       = Request::getInt('cid', 0, 'POST');
     $ext       = $_POST['ext'];
     if ($GLOBALS['myalbumModuleConfig']['tag']) {
-        /** @var TagTagHandler $tagHandler */
+        /** @var \XoopsModules\Tag\TagHandler $tagHandler */
         $tagHandler = Helper::getInstance()->getHandler('Tag'); // xoops_getModuleHandler('tag', 'tag');
         $tagHandler->updateByItem($_POST['tags'], $lid, $GLOBALS['myalbumModule']->getVar('dirname'), $cid);
     }
-    Myalbum\Utility::updatePhoto($lid, $cid, $title, $desc_text, $valid);
+   Utility::updatePhoto($lid, $cid, $title, $desc_text, $valid);
     exit;
 }
 if (!mb_strpos($photo_obj->getEditURL(), $_SERVER['REQUEST_URI'])) {
@@ -201,10 +213,10 @@ if (!mb_strpos($photo_obj->getEditURL(), $_SERVER['REQUEST_URI'])) {
 
 // Editing Display
 require_once $GLOBALS['xoops']->path('header.php');
-Myalbum\Preview::header();
+Preview::header();
 
 // Display
-$photo_for_tpl = Myalbum\Preview::getArrayForPhotoAssign($photo_obj);
+$photo_for_tpl = Preview::getArrayForPhotoAssign($photo_obj);
 $tpl           = new \XoopsTpl();
 require_once __DIR__ . '/include/assign_globals.php';
 $tpl->assign($myalbum_assign_globals);
@@ -286,6 +298,6 @@ if ($isadmin) {
 $form->addElement($submit_tray);
 $form->display();
 
-Myalbum\Preview::footer();
+Preview::footer();
 
 require_once XOOPS_ROOT_PATH . '/footer.php';

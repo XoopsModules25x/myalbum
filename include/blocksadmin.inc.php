@@ -36,7 +36,7 @@ if (isset($previewblock)) {
     if (isset($bid)) {
         $block['bid']        = $bid;
         $block['form_title'] = _AM_SYSTEM_BLOCKS_EDITBLOCK;
-        $myblock             = new \XoopsBlock($bid);
+        $myblock             = new XoopsBlock($bid);
         $block['name']       = $myblock->getVar('name');
     } else {
         if ('save' === $op) {
@@ -44,7 +44,7 @@ if (isset($previewblock)) {
         } else {
             $block['form_title'] = _AM_SYSTEM_BLOCKS_CLONEBLOCK;
         }
-        $myblock = new \XoopsBlock();
+        $myblock = new XoopsBlock();
         $myblock->setVar('block_type', 'C');
     }
     $myts = \MyTextSanitizer::getInstance();
@@ -195,7 +195,7 @@ function myblocksadmin_update_block(
         xoops_cp_footer();
         exit();
     }
-    $myblock = new \XoopsBlock($bid);
+    $myblock = new XoopsBlock($bid);
     // $myblock->setVar('side', $bside); GIJ -
     if ($bside >= 0) {
         $myblock->setVar('side', $bside);

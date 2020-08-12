@@ -10,7 +10,8 @@ use XoopsModules\Myalbum\{
     Forms,
     Helper,
     PhotosHandler,
-    TextHandler
+    TextHandler,
+    Utility
 };
 /** @var Helper $helper */
 /** @var Admin $adminObject */
@@ -112,7 +113,7 @@ if (\Xmf\Request::hasVar('submit', 'POST') && '' !== $_POST['submit']) {
             if ($lid) {
                 print " &nbsp; <a href='../photo.php?lid=$lid' target='_blank'>$file_path</a>\n";
                 copy($file_path, $GLOBALS['photos_dir'] . DS . "$lid.$ext");
-                Myalbum\Utility::createThumb($GLOBALS['photos_dir'] . DS . "$lid.$ext", $lid, $ext);
+                Utility::createThumb($GLOBALS['photos_dir'] . DS . "$lid.$ext", $lid, $ext);
                 $text = $textHandler->create();
                 $text->setVar('lid', $lid);
                 $text->setVar('description', $desc4save);

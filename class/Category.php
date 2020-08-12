@@ -72,7 +72,7 @@ class Category extends \XoopsObject
                 ) . '/cat,' . $this->getVar('cid') . ',' . $uid . ',' . $num . ',' . $pos . ',' . $view . $GLOBALS['myalbumModuleConfig']['endofurl'];
         }
 
-        return XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?cid=' . $this->getVar('cid') . '&uid=' . $uid . '&num=' . $num . '&pos=' . $pos . '&view=' . $view;
+        return Helper::getInstance()->url() . 'viewcat.php?cid=' . $this->getVar('cid') . '&uid=' . $uid . '&num=' . $num . '&pos=' . $pos . '&view=' . $view;
     }
 
     /**
@@ -98,6 +98,6 @@ class Category extends \XoopsObject
             return XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . xoops_sef($this->getVar('title')) . '/rss,' . $cid . ',' . $uid . ',' . $num . ',' . $pos . ',' . $view . $GLOBALS['myalbumModuleConfig']['endofrss'];
         }
 
-        return XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/rss.php?cid=' . $this->getVar('cid') . '&uid=' . $uid . '&num=' . $num . '&pos=' . $pos . '&view=' . $view;
+        return Helper::getInstance()->url() . 'rss.php?cid=' . $this->getVar('cid') . '&uid=' . $uid . '&num=' . $num . '&pos=' . $pos . '&view=' . $view;
     }
 }

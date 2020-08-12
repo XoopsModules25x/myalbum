@@ -712,7 +712,7 @@ class Utility extends Common\SysUtility
     public static function updateRating($lid)
     {
         $moduleDirName = \basename(\dirname(__DIR__));
-        /** @var  Myalbum\VotedataHandler $votedataHandler */
+        /** @var  VotedataHandler $votedataHandler */
         //        $votedataHandler = xoops_getModuleHandler('votedata', $moduleDirName);
         require_once __DIR__ . '/votedata.php';
         $votedataHandler = VotedataHandler::getInstance();
@@ -794,7 +794,7 @@ class Utility extends Common\SysUtility
      */
     public static function updatePhoto($lid, $cid, $title, $desc, $valid = null, $ext = '', $x = '', $y = '')
     {
-        /** @varCatHandler $catHandler */
+        /** @var CatHandler $catHandler */
         //        $catHandler = xoops_getModuleHandler('cat', $GLOBALS[$moduleDirName.'_dirname']);
         require_once __DIR__ . '/Category.php';
         $catHandler = CatHandler::getInstance();
@@ -803,7 +803,7 @@ class Utility extends Common\SysUtility
         require_once __DIR__ . '/photos.php';
         $photosHandler = PhotosHandler::getInstance();
 
-        /** @varTextHandler $textHandler */
+        /** @var TextHandler $textHandler */
         //        $textHandler   = xoops_getModuleHandler('text', $GLOBALS[$moduleDirName.'_dirname']);
         require_once __DIR__ . '/text.php';
         $textHandler = TextHandler::getInstance();

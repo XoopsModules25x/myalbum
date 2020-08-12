@@ -18,7 +18,10 @@
  */
 
 use Xmf\Request;
-use XoopsModules\Myalbum;
+use XoopsModules\Myalbum\{
+    Helper
+};
+/** @var Helper $helper */
 
 if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($xoopsModule->mid())) {
     exit('Access Denied');
@@ -259,8 +262,7 @@ if ('showmod' === $op) {
     $moduleHandler = xoops_getHandler('module');
     $module        = $moduleHandler->get($mod);
 
-    /** @var Myalbum\Helper $helper */
-    $helper = Myalbum\Helper::getInstance();
+    $helper = Helper::getInstance();
     $helper->loadLanguage('modinfo');
 
     // if has comments feature, need comment lang file

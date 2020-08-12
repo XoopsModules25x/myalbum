@@ -5,6 +5,15 @@
 // ------------------------------------------------------------------------- //
 
 use Xmf\Request;
+use XoopsModules\Myalbum\{
+    CategoryHandler,
+    Helper,
+    PhotosHandler,
+    Preview
+};
+/** @var Helper $helper */
+/** @var CategoryHandler $catHandler */
+/** @var PhotosHandler $photosHandler */
 
 require_once __DIR__ . '/header.php';
 
@@ -19,9 +28,7 @@ if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
         exit(0);
     }
 }
-/** @var  Myalbum\PhotosHandler $photosHandler */
 $photosHandler = $helper->getHandler('Photos');
-/** @var Myalbum\CategoryHandler $catHandler */
 $catHandler = $helper->getHandler('Category');
 
 $GLOBALS['xoopsOption']['template_main'] = "{$moduleDirName }_topten.tpl";
@@ -92,11 +99,11 @@ foreach ($catHandler->getObjects($criteria, true) as $cid => $cat) {
 
         if (!empty($cids)) {
             foreach ($cids as $index => $child) {
-                $catpath .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid=' . $child->getVar('cid') . "' >" . $child->getVar('title') . '</a> ' . ($index < count($cids) ? '>>' : '');
+                $catpath .= "<a href='" . $helper->url() . 'viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid=' . $child->getVar('cid') . "' >" . $child->getVar('title') . '</a> ' . ($index < count($cids) ? '>>' : '');
             }
         } else {
             $cat     = $catHandler->get($photo->getVar('cid'));
-            $catpath .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid=' . $cat->getVar('cid') . "' >" . $cat->getVar('title') . '</a>';
+            $catpath .= "<a href='" . $helper->url() . 'viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid=' . $cat->getVar('cid') . "' >" . $cat->getVar('title') . '</a>';
         }
 
         $catpath = str_replace('>>', " <span class='fg2'>&raquo;&raquo;</span> ", $catpath);
@@ -107,7 +114,7 @@ foreach ($catHandler->getObjects($criteria, true) as $cid => $cat) {
             'rank'           => $rank,
             'title'          => $photo->getVar('title'),
             'submitter'      => $photo->getVar('submitter'),
-            'submitter_name' => Myalbum\Preview::getNameFromUid($photo->getVar('submitter')),
+            'submitter_name' => Preview::getNameFromUid($photo->getVar('submitter')),
             'category'       => $catpath,
             'hits'           => $photo->getVar('hits'),
             'rating'         => number_format($photo->getVar('rating'), 2),

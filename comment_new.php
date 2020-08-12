@@ -18,9 +18,15 @@
  */
 
 use Xmf\Request;
+use XoopsModules\Myalbum\{
+    Helper
+};
+/** @var Helper $helper */
 
 require_once dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/include/read_configs.php';
+
+$helper = Helper::getInstance();
 
 $lid = Request::getInt('com_itemid', 0, 'GET');
 if ($lid > 0) {

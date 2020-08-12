@@ -5,16 +5,27 @@
 // ------------------------------------------------------------------------- //
 
 use Xmf\Request;
-use XoopsModules\Myalbum;
-use XoopsModules\Tag\Helper;
+use XoopsModules\Myalbum\{
+    CategoryHandler,
+    Forms,
+    Helper,
+    PhotosHandler,
+    Preview,
+    TextHandler,
+    Utility
+};
+/** @var Helper $helper */
+/** @var CategoryHandler $catHandler */
+/** @var PhotosHandler $photosHandler */
+/** @var TextHandler $textHandler */
+
+//use XoopsModules\Tag\Helper; //TODO
 
 $lid = '';
 require_once __DIR__ . '/header.php';
-/** @var Myalbum\CategoryHandler $catHandler */
+
 $catHandler = $helper->getHandler('Category');
-/** @var  Myalbum\PhotosHandler $photosHandler */
 $photosHandler = $helper->getHandler('Photos');
-/** @var  Myalbum\TextHandler $textHandler */
 $textHandler = $helper->getHandler('Text');
 
 // GET variables
@@ -29,7 +40,8 @@ if (!($global_perms & GPERM_INSERTABLE)) {
 // check Categories exist
 $count = $catHandler->getCount();
 if ($count < 1) {
-    redirect_header(XOOPS_URL . "/modules/$moduleDirName/", 2, _ALBM_MUSTADDCATFIRST);
+//    redirect_header(XOOPS_URL . "/modules/$moduleDirName/", 2, _ALBM_MUSTADDCATFIRST);
+    $helper->redirect('index.php', 2, _ALBM_MUSTADDCATFIRST);
 }
 
 // check file_uploads = on
@@ -43,12 +55,12 @@ if (!ini_get('file_uploads')) {
 // check or make photos_dir
 if (!is_dir($photos_dir)) {
     //    if ($safe_mode_flag) {
-    //        redirect_header(XOOPS_URL . "/modules/$moduleDirName/", 10, "At first create & chmod 777 '$photos_dir' by ftp or shell.");
+    //        $helper->redirect('index.php', 10, "At first create & chmod 777 '$photos_dir' by ftp or shell.");
     //    }
 
     $rs = mkdir($photos_dir);
     if (!$rs) {
-        redirect_header(XOOPS_URL . "/modules/$moduleDirName/", 10, "$photos_dir is not a directory");
+        $helper->redirect('index.php', 10, "$photos_dir is not a directory");
     } else {
         @chmod($photos_dir, 0777);
     }
@@ -57,12 +69,12 @@ if (!is_dir($photos_dir)) {
 // check or make thumbs_dir
 if ($myalbum_makethumb && !is_dir($thumbs_dir)) {
     //    if ($safe_mode_flag) {
-    //        redirect_header(XOOPS_URL . "/modules/$moduleDirName/", 10, "At first create & chmod 777 '$thumbs_dir' by ftp or shell.");
+    //        $helper->redirect('index.php', 10, "At first create & chmod 777 '$thumbs_dir' by ftp or shell.");
     //    }
 
     $rs = mkdir($thumbs_dir);
     if (!$rs) {
-        redirect_header(XOOPS_URL . "/modules/$moduleDirName/", 10, "$thumbs_dir is not a directory");
+        $helper->redirect('index.php', 10, "$thumbs_dir is not a directory");
     } else {
         @chmod($thumbs_dir, 0777);
     }
@@ -72,7 +84,7 @@ if ($myalbum_makethumb && !is_dir($thumbs_dir)) {
 if (!is_writable($photos_dir) || !is_readable($photos_dir)) {
     $rs = chmod($photos_dir, 0777);
     if (!$rs) {
-        redirect_header(XOOPS_URL . "/modules/$moduleDirName/", 5, "chmod 0777 into $photos_dir failed");
+        $helper->redirect('index.php', 5, "chmod 0777 into $photos_dir failed");
     }
 }
 
@@ -80,7 +92,7 @@ if (!is_writable($photos_dir) || !is_readable($photos_dir)) {
 if ($myalbum_makethumb && !is_writable($thumbs_dir)) {
     $rs = chmod($thumbs_dir, 0777);
     if (!$rs) {
-        redirect_header(XOOPS_URL . "/modules/$moduleDirName/", 5, "chmod 0777 into $thumbs_dir failed");
+        $helper->redirect('index.php', 5, "chmod 0777 into $thumbs_dir failed");
     }
 }
 
@@ -96,7 +108,7 @@ if (!empty($_POST['submit'])) {
 
     // Check if cid is valid
     if ($cid <= 0) {
-        redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/submit.php', 2, 'Category is not specified.');
+        $helper->redirect('submit.php', 2, 'Category is not specified.');
     }
 
     // Check if upload file name specified
@@ -125,7 +137,7 @@ if (!empty($_POST['submit'])) {
         }
     } elseif ('' == $_FILES[$field]['tmp_name']) {
         // Fail to upload (wrong file name etc.)
-        redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/submit.php', 2, _ALBM_FILEERROR);
+        $helper->redirect('submit.php', 2, _ALBM_FILEERROR);
     } else {
         if (isset($GLOBALS['myalbumModuleConfig']['myalbum_canresize'])
             && $GLOBALS['myalbumModuleConfig']['myalbum_canresize']) {
@@ -192,13 +204,13 @@ if (!empty($_POST['submit'])) {
         $tagHandler->updateByItem($_POST['tags'], $newid, $GLOBALS['myalbumModule']->getVar('dirname'), $cid);
     }
 
-    Myalbum\Utility::editPhoto($GLOBALS['photos_dir'] . "/$tmp_name", $GLOBALS['photos_dir'] . "/$newid.$ext");
+    Utility::editPhoto($GLOBALS['photos_dir'] . "/$tmp_name", $GLOBALS['photos_dir'] . "/$newid.$ext");
     $dim = getimagesize($GLOBALS['photos_dir'] . "/$newid.$ext");
     $photo_obj->setVar('res_x', $dim[0]);
     $photo_obj->setVar('res_y', $dim[1]);
     @$photosHandler->insert($photo_obj, true);
 
-    if (!Myalbum\Utility::createThumb($GLOBALS['photos_dir'] . "/$newid.$ext", $newid, $ext)) {
+    if (!Utility::createThumb($GLOBALS['photos_dir'] . "/$newid.$ext", $newid, $ext)) {
         $xoopsDB->query("DELETE FROM $table_photos WHERE lid=$newid");
         redirect_header('submit.php', 2, _ALBM_FILEREADERROR);
     }
@@ -236,7 +248,7 @@ if (!empty($_POST['submit'])) {
     }
 
     // Clear tempolary files
-    Myalbum\Utility::clearTempFiles($photos_dir);
+    Utility::clearTempFiles($photos_dir);
 
     $redirect_uri = XOOPS_URL . "/modules/$moduleDirName/viewcat.php?cid=$cid&amp;orderby=dateD";
     if ('imagemanager' === $caller) {
@@ -256,7 +268,7 @@ if ('imagemanager' === $caller) {
         </head><body>\n";
 } else {
     require $GLOBALS['xoops']->path('header.php');
-    Myalbum\Preview::header();
+    Preview::header();
 }
 
 // Preview
@@ -284,8 +296,8 @@ if ('imagemanager' !== $caller && !empty($_POST['preview'])) {
         if ($uploader->fetchMedia($field) && $uploader->upload()) {
             $tmp_name     = $uploader->getSavedFileName();
             $preview_name = str_replace('tmp_', 'tmp_prev_', $tmp_name);
-            Myalbum\Utility::editPhoto($GLOBALS['photos_dir'] . "/$tmp_name", $GLOBALS['photos_dir'] . "/$lid.$ext");
-            [$imgsrc, $width_spec, $ahref] = Myalbum\Preview::getImageAttribsForPreview($preview_name);
+            Utility::editPhoto($GLOBALS['photos_dir'] . "/$tmp_name", $GLOBALS['photos_dir'] . "/$lid.$ext");
+            [$imgsrc, $width_spec, $ahref] = Preview::getImageAttribsForPreview($preview_name);
         } else {
             @unlink($uploader->getSavedDestination());
             $imgsrc     = "$mod_url/assets/images/pixel_trans.gif";
@@ -294,7 +306,7 @@ if ('imagemanager' !== $caller && !empty($_POST['preview'])) {
         }
     } elseif ('' != $preview_name && is_readable("$photos_dir/$preview_name")) {
         // old preview
-        [$imgsrc, $width_spec, $ahref] = Myalbum\Preview::getImageAttribsForPreview($preview_name);
+        [$imgsrc, $width_spec, $ahref] = Preview::getImageAttribsForPreview($preview_name);
     } else {
         // preview without image
         $imgsrc     = "$mod_url/assets/images/pixel_trans.gif";
@@ -308,7 +320,7 @@ if ('imagemanager' !== $caller && !empty($_POST['preview'])) {
         'title'          => $GLOBALS['myts']->htmlSpecialChars($photo['title']),
         'width_spec'     => $width_spec,
         'submitter'      => $my_uid,
-        'submitter_name' => Myalbum\Preview::getNameFromUid($my_uid),
+        'submitter_name' => Preview::getNameFromUid($my_uid),
         'imgsrc_thumb'   => $imgsrc,
         'ahref_photo'    => $ahref,
     ];
@@ -342,11 +354,11 @@ if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
 $GLOBALS['xoopsTpl']->assign('xoConfig', $GLOBALS['myalbumModuleConfig']);
 $GLOBALS['xoopsTpl']->assign('mydirname', $GLOBALS['mydirname']);
 
-echo Myalbum\Forms::getUserFormSubmit($caller, $photo, $lid);
+echo Forms::getUserFormSubmit($caller, $photo, $lid);
 
 if ('imagemanager' === $caller) {
     echo '</body></html>';
 } else {
-    Myalbum\Preview::footer();
+    Preview::footer();
     require $GLOBALS['xoops']->path('footer.php');
 }

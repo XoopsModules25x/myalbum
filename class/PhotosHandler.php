@@ -52,7 +52,7 @@ class PhotosHandler extends \XoopsPersistableObjectHandler
 
         switch ($status) {
             case 1:
-                /** @varCatHandler $catHandler */
+                /** @var CatHandler $catHandler */
                 $catHandler = $helper->getHandler('Category');
                 $cats  = $catHandler->getObjects(null, true);
                 // Trigger Notification
@@ -127,7 +127,7 @@ class PhotosHandler extends \XoopsPersistableObjectHandler
         \unlink($GLOBALS['thumbs_dir'] . DS . $photo->getVar('lid') . '.' . $photo->getVar('ext'));
         \unlink($GLOBALS['thumbs_dir'] . DS . $photo->getVar('lid') . '.gif');
 
-        /** @var  Myalbum\VotedataHandler $votedataHandler */
+        /** @var  VotedataHandler $votedataHandler */
         $votedataHandler = $helper->getHandler('Votedata');
         /** @var TextHandler $textHandler */
         $textHandler = $helper->getHandler('Text');

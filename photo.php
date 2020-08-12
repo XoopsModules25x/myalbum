@@ -4,6 +4,16 @@
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 use Xmf\Request;
+use XoopsModules\Myalbum\{
+    CategoryHandler,
+    Helper,
+    PhotosHandler,
+    Preview,
+    Utility
+};
+/** @var Helper $helper */
+/** @var CategoryHandler $catHandler */
+/** @var PhotosHandler $photosHandler */
 
 $catpath = '';
 require_once __DIR__ . '/header.php';
@@ -26,7 +36,7 @@ if (Request::hasVar('op', 'GET')) {
 function deleteImage($lid)
 {
     global $global_perms;
-    /** @var  Myalbum\PhotosHandler $photosHandler */
+    $helper = Helper::getInstance();
     $photosHandler = $helper->getHandler('Photos');
     $photo_obj     = $photosHandler->get($lid);
 
@@ -55,10 +65,8 @@ switch ($op) {
         break;
     case 'default':
     default:
-        Myalbum\Utility::updateRating($lid);
-        /** @var  Myalbum\PhotosHandler $photosHandler */
+        Utility::updateRating($lid);
         $photosHandler = $helper->getHandler('Photos');
-        /** @var Myalbum\CategoryHandler $catHandler */
         $catHandler = $helper->getHandler('Category');
 
         if (!is_object($photo_obj = $photosHandler->get($lid))) {
@@ -92,7 +100,7 @@ switch ($op) {
         // update hit count
         $photo_obj->increaseHits(1);
 
-        $photo = Myalbum\Preview::getArrayForPhotoAssign($photo_obj);
+        $photo = Preview::getArrayForPhotoAssign($photo_obj);
 
         // Middle size calculation
         $photo['width_height'] = '';
@@ -123,11 +131,11 @@ switch ($op) {
         $cids = $GLOBALS['cattree']->getAllChild($cid);
         if (!empty($cids)) {
             foreach ($cids as $index => $child) {
-                $catpath .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid=' . $child->getVar('cid') . "' >" . $child->getVar('title') . '</a> ' . ($index < count($cids) ? '>>' : '');
+                $catpath .= "<a href='" . $helper->url() . 'viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid=' . $child->getVar('cid') . "' >" . $child->getVar('title') . '</a> ' . ($index < count($cids) ? '>>' : '');
             }
         } else {
             $cat     = $catHandler->get($photo_obj->getVar('cid'));
-            $catpath .= "<a href='" . XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid=' . $cat->getVar('cid') . "' >" . $cat->getVar('title') . '</a>';
+            $catpath .= "<a href='" . $helper->url() . 'viewcat.php?num=' . (int)$GLOBALS['myalbum_perpage'] . '&cid=' . $cat->getVar('cid') . "' >" . $cat->getVar('title') . '</a>';
         }
         $catpath   = str_replace('>>', " <span class='fg2'>&raquo;&raquo;</span> ", $catpath);
         $sub_title = preg_replace("/\'\>/", "'><img src='$mod_url/assets/images/folder16.gif' alt=''>", $catpath);
@@ -135,7 +143,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('album_sub_title', $sub_title);
 
         // Orders
-        require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/photo_orders.php";
+        require_once $helper->path('include/photo_orders.php');
         if (Request::hasVar('orderby', 'GET') && isset($myalbum_orders[$_GET['orderby']])) {
             $orderby = $_GET['orderby'];
         } else {

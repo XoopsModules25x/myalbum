@@ -17,7 +17,11 @@
  * @author       XOOPS Development Team
  */
 
-
+use XoopsModules\Myalbum\{
+    Helper
+};
+/** @var Helper $helper */
+/** @var CategoryHandler $catHandler */
 
 require_once __DIR__ . '/preloads/autoloader.php';
 
@@ -204,7 +208,6 @@ if ($GLOBALS['global_perms'] & 256) { // GPERM_RATEVIEW
 }
 if (isset($myalbum_catonsubmenu) && $myalbum_catonsubmenu) {
     $criteria = new \Criteria('`pid`', 0);
-    /** @var Myalbum\CategoryHandler $catHandler */
     $catHandler = $helper->getHandler('Category');
     if (false !== $catHandler->getCount($criteria)) {
         foreach ($catHandler->getObjects($criteria, true) as $cid => $cat) {

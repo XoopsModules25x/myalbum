@@ -17,20 +17,20 @@
  * @author       XOOPS Development Team
  */
 
-use XoopsModules\Myalbum;
-use XoopsModules\Myalbum\Helper;
+use XoopsModules\Myalbum\{Helper
+};
+
+/** @var Helper $helper */
 
 require dirname(__DIR__, 2) . '/mainfile.php';
 require XOOPS_ROOT_PATH . '/header.php';
 
 require __DIR__ . '/preloads/autoloader.php';
 
-$moduleDirName = basename(__DIR__);
+//$moduleDirName = basename(__DIR__);
 
-/** @var \XoopsModules\Myalbum\Helper $helper */
-$helper = Helper::getInstance();
-
-$modulePath = XOOPS_ROOT_PATH . '/modules/' . $moduleDirName;
+$helper        = Helper::getInstance();
+$moduleDirName = $helper->getDirname();
 
 $myts = \MyTextSanitizer::getInstance();
 
@@ -51,16 +51,12 @@ if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl))
 }
 
 $GLOBALS['mydirname'] = basename(__DIR__);
-require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/read_configs.php";
-require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/get_perms.php";
-//require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/class/Utility.php";
-//require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/class/preview.php";
-//require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/class/myuploader.php";
-
-$GLOBALS['myts'] = \MyTextSanitizer::getInstance();
+require_once $helper->path('include/read_configs.php');
+require_once $helper->path('include/get_perms.php');
 
 /** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler                  = xoops_getHandler('module');
+/** @var \XoopsConfigHandler $configHandler */
 $configHandler                  = xoops_getHandler('config');
 $GLOBALS['myalbumModule']       = $moduleHandler->getByDirname($GLOBALS['mydirname']);
 $GLOBALS['myalbumModuleConfig'] = $configHandler->getConfigList($GLOBALS['myalbumModule']->getVar('mid'));
@@ -77,13 +73,9 @@ xoops_load('xoopsformloader');
 require_once $GLOBALS['xoops']->path('class/xoopsmailer.php');
 require_once $GLOBALS['xoops']->path('class/tree.php');
 
-
-/** @var Myalbum\CategoryHandler $catHandler */
 $catHandler         = $helper->getHandler('Category');
 $cats               = $catHandler->getObjects(null, true);
 $GLOBALS['cattree'] = new \XoopsObjectTree($cats, 'cid', 'pid', 0);
-
-xoops_loadLanguage('main', $moduleDirName);
 
 if ($GLOBALS['myalbumModuleConfig']['tag']) {
     require_once $GLOBALS['xoops']->path('modules/tag/include/formtag.php');
@@ -96,4 +88,4 @@ if (!isset($GLOBALS['xoopsTpl']) || !is_object($GLOBALS['xoopsTpl'])) {
     $GLOBALS['xoopsTpl'] = new \XoopsTpl();
 }
 
-require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/assign_globals.php";
+require_once $helper->path('include/assign_globals.php');

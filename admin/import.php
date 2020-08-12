@@ -6,7 +6,9 @@
 
 use Xmf\Module\Admin;
 use Xmf\Request;
-use XoopsModules\Myalbum;
+use XoopsModules\Myalbum\{
+    Utility
+};
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -110,7 +112,7 @@ if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
                 $GLOBALS['xoopsDB']->prefix($table_text),
                 $GLOBALS['xoopsDB']->prefix($table_votedata),
             ];
-            Myalbum\Utility::deletePhotos("lid='$src_lid'");
+            Utility::deletePhotos("lid='$src_lid'");
             [$photos_dir, $thumbs_dir, $myalbum_mid, $table_photos, $table_text, $table_votedata] = [
                 $saved_photos_dir,
                 $saved_thumbs_dir,
@@ -178,10 +180,10 @@ else {
                 [$body] = $GLOBALS['xoopsDB']->fetchRow($brs);
                 fwrite($fp, $body);
                 fclose($fp);
-                Myalbum\Utility::createThumb($dst_file, $lid, $ext);
+                Utility::createThumb($dst_file, $lid, $ext);
             } else {
                 @copy($src_file, $dst_file);
-                Myalbum\Utility::createThumb($src_file, $lid, $ext);
+                Utility::createThumb($src_file, $lid, $ext);
             }
 
             [$width, $height, $type] = getimagesize($dst_file);

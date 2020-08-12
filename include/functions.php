@@ -6,12 +6,16 @@
 
 // constants
 use Xmf\Request;
+use XoopsModules\Myalbum\{
+    Helper
+};
+/** @var Helper $helper */
 
 define('PIPEID_GD', 0);
 define('PIPEID_IMAGICK', 1);
 define('PIPEID_NETPBM', 2);
 
-require_once __DIR__ . '/myalbum.forms.php';
+//require_once __DIR__ . '/myalbum.forms.php';
 /*
 function myalbum_adminMenu ($page, $currentoption = 0)
 {
@@ -750,6 +754,7 @@ function myalbum_clear_tmp_files($dir_path, $prefix = 'tmp_')
  */
 function myalbum_updaterating($lid)
 {
+    $helper = Helper::getInstance();
     $votedataHandler = $helper->getHandler('Votedata');
     $criteria        = new \CriteriaCompo(new \Criteria('`lid`', $lid));
     $votes           = $votedataHandler->getObjects($criteria, true);
@@ -795,6 +800,7 @@ function myalbum_get_photo_small_sum_from_cat($cid, Criteria $criteria = null)
  */
 function myalbum_get_photo_total_sum_from_cats($cids, $criteria = null)
 {
+    $helper = Helper::getInstance();
     if (is_object($criteria)) {
         $criteria = new \CriteriaCompo($criteria);
     }
@@ -817,6 +823,7 @@ function myalbum_get_photo_total_sum_from_cats($cids, $criteria = null)
  */
 function myalbum_update_photo($lid, $cid, $title, $desc, $valid = null, $ext = '', $x = '', $y = '')
 {
+    $helper = Helper::getInstance();
     $catHandler    = $helper->getHandler('Category');
     $photosHandler = $helper->getHandler('Photos');
     $textHandler   = $helper->getHandler('Text');
@@ -880,6 +887,7 @@ function myalbum_update_photo($lid, $cid, $title, $desc, $valid = null, $ext = '
  */
 function myalbum_delete_photos($criteria = null)
 {
+    $helper = Helper::getInstance();
     $photosHandler = $helper->getHandler('Photos');
     $photos        = $photosHandler->getObjects($criteria);
     foreach ($photos as $lid => $photo) {
