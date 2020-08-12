@@ -7,9 +7,9 @@
 use XoopsModules\Myalbum;
 
 require_once __DIR__ . '/admin_header.php';
-/** @var MyalbumCatHandler $catHandler */
+/** @var Myalbum\CategoryHandler $catHandler */
 $catHandler = $helper->getHandler('Category');
-/** @var MyalbumPhotosHandler $photosHandler */
+/** @var  Myalbum\PhotosHandler $photosHandler */
 $photosHandler = $helper->getHandler('Photos');
 global $pathIcon16;
 

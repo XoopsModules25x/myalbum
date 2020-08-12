@@ -16,9 +16,9 @@ if ($num < 1) {
 $pos  = \Xmf\Request::getInt('pos', 0, 'GET');
 $view = !isset($_GET['view']) ? $myalbum_viewcattype : $_GET['view'];
 
-/** @var MyalbumPhotosHandler $photosHandler */
+/** @var  Myalbum\PhotosHandler $photosHandler */
 $photosHandler = $helper->getHandler('Photos');
-/** @var MyalbumCatHandler $catHandler */
+/** @var Myalbum\CategoryHandler $catHandler */
 $catHandler = $helper->getHandler('Category');
 if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
     if (0 == $cid) {

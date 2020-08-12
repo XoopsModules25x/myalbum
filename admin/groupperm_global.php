@@ -3,7 +3,7 @@
 use XoopsModules\Myalbum;
 
 require_once __DIR__ . '/admin_header.php';
-require_once __DIR__ . '/mygrouppermform.php';
+//require_once __DIR__ . '/mygrouppermform.php';
 
 xoops_loadLanguage('admin', 'system');
 

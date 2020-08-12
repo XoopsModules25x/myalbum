@@ -1,6 +1,16 @@
 <?php
 
-use XoopsModules\Myalbum;
+use Xmf\Module\Admin;
+use XoopsModules\Myalbum\{
+    CategoryHandler,
+    CommentsHandler,
+    Forms,
+    Helper,
+    PhotosHandler,
+    TextHandler,
+    VotedataHandler
+};
+/** @var Helper $helper */
 
 require_once __DIR__ . '/admin_header.php';
 xoops_loadLanguage('admin');
@@ -12,15 +22,15 @@ $adminObject = \Xmf\Module\Admin::getInstance();
 
 $adminObject->displayNavigation(basename(__FILE__));
 
-/** @var MyalbumCatHandler $catHandler */
+/** @var CategoryHandler $catHandler */
 $catHandler = $helper->getHandler('Category');
-/** @var MyalbumCommentsHandler $commentsHandler */
+/** @var  CommentsHandler $commentsHandler */
 $commentsHandler = $helper->getHandler('Comments');
-/** @var MyalbumPhotosHandler $photosHandler */
+/** @var  PhotosHandler $photosHandler */
 $photosHandler = $helper->getHandler('Photos');
-/** @var MyalbumTextHandler $textHandler */
+/** @var  TextHandler $textHandler */
 $textHandler = $helper->getHandler('Text');
-/** @var VotedataHandler $votedataHandler */
+/** @var  VotedataHandler $votedataHandler */
 $votedataHandler = $helper->getHandler('Votedata');
 $groupHandler    = xoops_getHandler('group');
 

@@ -1,6 +1,11 @@
 <?php
 
-use XoopsModules\Myalbum;
+use Xmf\Module\Admin;
+use XoopsModules\Myalbum\{
+    Helper
+};
+
+require dirname(__DIR__) . '/preloads/autoloader.php';
 
 $moduleDirName = basename(dirname(__DIR__));
 require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
@@ -16,8 +21,11 @@ if (!defined('_CHARSET_ISO')) {
 
 $GLOBALS['myts'] = \MyTextSanitizer::getInstance();
 
-/** @var \XoopsModules\Myalbum\Helper $helper */
-$helper = \XoopsModules\Myalbum\Helper::getInstance();
+/** @var Helper $helper */
+$helper = Helper::getInstance();
+
+/** @var Admin $adminObject */
+$adminObject = Admin::getInstance();
 
 /** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler                  = xoops_getHandler('module');
@@ -58,8 +66,9 @@ if ($GLOBALS['xoopsUser']) {
 }
 
 xoops_loadLanguage('user');
-xoops_loadLanguage('admin', $moduleDirName);
-xoops_loadLanguage('main', $moduleDirName);
+$helper->loadLanguage('admin');
+$helper->loadLanguage('modinfo');
+$helper->loadLanguage('main');
 
 $pathIcon16 = $GLOBALS['xoops']->url('www/' . $GLOBALS['xoopsModule']->getInfo('sysicons16'));
 $pathIcon32 = $GLOBALS['xoops']->url('www/' . $GLOBALS['xoopsModule']->getInfo('sysicons32'));

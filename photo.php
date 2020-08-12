@@ -24,7 +24,7 @@ if (\Xmf\Request::hasVar('op', 'GET')) {
 function deleteImage($lid)
 {
     global $global_perms;
-    /** @var MyalbumPhotosHandler $photosHandler */
+    /** @var  Myalbum\PhotosHandler $photosHandler */
     $photosHandler = $helper->getHandler('Photos');
     $photo_obj     = $photosHandler->get($lid);
 
@@ -54,9 +54,9 @@ switch ($op) {
     case 'default':
     default:
         Myalbum\Utility::updateRating($lid);
-        /** @var MyalbumPhotosHandler $photosHandler */
+        /** @var  Myalbum\PhotosHandler $photosHandler */
         $photosHandler = $helper->getHandler('Photos');
-        /** @var MyalbumCatHandler $catHandler */
+        /** @var Myalbum\CategoryHandler $catHandler */
         $catHandler = $helper->getHandler('Category');
 
         if (!is_object($photo_obj = $photosHandler->get($lid))) {

@@ -712,7 +712,7 @@ class Utility extends Common\SysUtility
     public static function updateRating($lid)
     {
         $moduleDirName = \basename(\dirname(__DIR__));
-        /** @var VotedataHandler $votedataHandler */
+        /** @var  Myalbum\VotedataHandler $votedataHandler */
         //        $votedataHandler = xoops_getModuleHandler('votedata', $moduleDirName);
         require_once __DIR__ . '/votedata.php';
         $votedataHandler = VotedataHandler::getInstance();
@@ -728,7 +728,7 @@ class Utility extends Common\SysUtility
         if ($votesDB > 0) {
             $finalrating = \number_format($totalrating / $votesDB, 4);
         }
-        /** @varPhotosHandler $photosHandler */
+        /** @var  Myalbum\PhotosHandler $photosHandler */
         //        $photosHandler = xoops_getModuleHandler('photos', $moduleDirName);
         require_once __DIR__ . '/photos.php';
         $photosHandler = PhotosHandler::getInstance();
@@ -772,7 +772,7 @@ class Utility extends Common\SysUtility
             $criteria = new \CriteriaCompo($criteria);
         }
         $criteria->add(new \Criteria('`cid`', '(' . \implode(',', $cids) . ',0)', 'IN'));
-        /** @varPhotosHandler $photoHandler */
+        /** @var  Myalbum\PhotosHandler $photoHandler */
         //        $photoHandler = xoops_getModuleHandler('photos', $GLOBALS[$moduleDirName.'_dirname']);
         require_once __DIR__ . '/photos.php';
         $photosHandler = PhotosHandler::getInstance();
@@ -798,7 +798,7 @@ class Utility extends Common\SysUtility
         //        $catHandler = xoops_getModuleHandler('cat', $GLOBALS[$moduleDirName.'_dirname']);
         require_once __DIR__ . '/Category.php';
         $catHandler = CatHandler::getInstance();
-        /** @varPhotosHandler $photosHandler */
+        /** @var  Myalbum\PhotosHandler $photosHandler */
         //        $photosHandler = xoops_getModuleHandler('photos', $GLOBALS[$moduleDirName.'_dirname']);
         require_once __DIR__ . '/photos.php';
         $photosHandler = PhotosHandler::getInstance();
@@ -877,7 +877,7 @@ class Utility extends Common\SysUtility
      */
     public static function deletePhotos($criteria = null)
     {
-        /** @varPhotosHandler $photosHandler */
+        /** @var  Myalbum\PhotosHandler $photosHandler */
         //        $photosHandler = xoops_getModuleHandler('photos', $GLOBALS[$moduleDirName.'_dirname']);
         require_once __DIR__ . '/photos.php';
         $photosHandler = PhotosHandler::getInstance();

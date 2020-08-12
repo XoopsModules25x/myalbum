@@ -10,9 +10,9 @@ require_once __DIR__ . '/header.php';
 
 $lid = \Xmf\Request::getInt('lid', 0, 'GET');
 
-/** @var MyalbumPhotosHandler $photosHandler */
+/** @var  Myalbum\PhotosHandler $photosHandler */
 $photosHandler = $helper->getHandler('Photos');
-/** @var MyalbumTextHandler $textHandler */
+/** @var  Myalbum\TextHandler $textHandler */
 $textHandler = $helper->getHandler('Text');
 if (!$photo_obj = $photosHandler->get($lid)) {
     redirect_header('index.php', 2, _ALBM_NOMATCH);

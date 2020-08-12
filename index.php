@@ -6,15 +6,14 @@
 
 use XoopsModules\Myalbum;
 
-
 require_once __DIR__ . '/header.php';
 
 /** @var \XoopsModules\Myalbum\Helper $helper */
 $helper = \XoopsModules\Myalbum\Helper::getInstance();
 
-/** @var MyalbumCatHandler $catHandler */
+/** @var Myalbum\CategoryHandler $catHandler */
 $catHandler = $helper->getHandler('Category');
-/** @var MyalbumPhotosHandler $photosHandler */
+/** @var Myalbum\PhotosHandler $photosHandler */
 $photosHandler = $helper->getHandler('Photos');
 
 $num = \Xmf\Request::getInt('num', $myalbum_newphotos, 'GET');

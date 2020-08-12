@@ -77,13 +77,13 @@ class Preview extends \XoopsObject
         global $photos_url, $thumbs_url, $thumbs_dir, $mod_url, $mod_path;
         global $myalbum_makethumb, $myalbum_thumbsize, $myalbum_popular, $myalbum_newdays, $myalbum_normal_exts;
 
-        /** @varPhotosHandler $photosHandler */
+        /** @var  Myalbum\PhotosHandler $photosHandler */
         $photosHandler = $helper->getHandler('Photos');
         /** @varTextHandler $textHandler */
         $textHandler = $helper->getHandler('Text');
         /** @varCatHandler $catHandler */
         $catHandler = $helper->getHandler('Category');
-        /** @var VotedataHandler $votedataHandler */
+        /** @var  Myalbum\VotedataHandler $votedataHandler */
         $votedataHandler = $helper->getHandler('Votedata');
         /** @varCommentsHandler $commentsHandler */
         $commentsHandler = $helper->getHandler('Comments');
@@ -207,13 +207,13 @@ class Preview extends \XoopsObject
         global $photos_url, $thumbs_url, $thumbs_dir;
         global $myalbum_makethumb, $myalbum_thumbsize, $myalbum_normal_exts;
 
-        /** @varPhotosHandler $photosHandler */
+        /** @var  Myalbum\PhotosHandler $photosHandler */
         $photosHandler = $helper->getHandler('Photos');
         /** @varTextHandler $textHandler */
         $textHandler = $helper->getHandler('Text');
         /** @varCatHandler $catHandler */
         $catHandler = $helper->getHandler('Category');
-        /** @var VotedataHandler $votedataHandler */
+        /** @var  Myalbum\VotedataHandler $votedataHandler */
         $votedataHandler = $helper->getHandler('Votedata');
         /** @varCommentsHandler $commentsHandler */
         $commentsHandler = $helper->getHandler('Comments');

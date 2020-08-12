@@ -8,11 +8,11 @@ use XoopsModules\Myalbum;
 
 $lid = '';
 require_once __DIR__ . '/header.php';
-/** @var MyalbumCatHandler $catHandler */
+/** @var Myalbum\CategoryHandler $catHandler */
 $catHandler = $helper->getHandler('Category');
-/** @var MyalbumPhotosHandler $photosHandler */
+/** @var  Myalbum\PhotosHandler $photosHandler */
 $photosHandler = $helper->getHandler('Photos');
-/** @var MyalbumTextHandler $textHandler */
+/** @var  Myalbum\TextHandler $textHandler */
 $textHandler = $helper->getHandler('Text');
 
 // GET variables

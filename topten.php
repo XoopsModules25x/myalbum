@@ -17,9 +17,9 @@ if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
         exit(0);
     }
 }
-/** @var MyalbumPhotosHandler $photosHandler */
+/** @var  Myalbum\PhotosHandler $photosHandler */
 $photosHandler = $helper->getHandler('Photos');
-/** @var MyalbumCatHandler $catHandler */
+/** @var Myalbum\CategoryHandler $catHandler */
 $catHandler = $helper->getHandler('Category');
 
 $GLOBALS['xoopsOption']['template_main'] = "{$moduleDirName }_topten.tpl";

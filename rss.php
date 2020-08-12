@@ -11,11 +11,11 @@ if ($num < 1) {
 }
 $pos  = \Xmf\Request::getInt('pos', 0, 'GET');
 $view = \Xmf\Request::getString('view', $myalbum_viewcattype, 'GET');
-/** @var MyalbumPhotosHandler $photosHandler */
+/** @var  Myalbum\PhotosHandler $photosHandler */
 $photosHandler = $helper->getHandler('Photos');
-/** @var MyalbumTextHandler $textHandler */
+/** @var  Myalbum\TextHandler $textHandler */
 $textHandler = $helper->getHandler('Text');
-/** @var MyalbumCatHandler $catHandler */
+/** @var Myalbum\CategoryHandler $catHandler */
 $catHandler = $helper->getHandler('Category');
 if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
     if (0 == $cid) {

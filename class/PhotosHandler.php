@@ -127,7 +127,7 @@ class PhotosHandler extends \XoopsPersistableObjectHandler
         \unlink($GLOBALS['thumbs_dir'] . DS . $photo->getVar('lid') . '.' . $photo->getVar('ext'));
         \unlink($GLOBALS['thumbs_dir'] . DS . $photo->getVar('lid') . '.gif');
 
-        /** @var VotedataHandler $votedataHandler */
+        /** @var  Myalbum\VotedataHandler $votedataHandler */
         $votedataHandler = $helper->getHandler('Votedata');
         /** @var TextHandler $textHandler */
         $textHandler = $helper->getHandler('Text');

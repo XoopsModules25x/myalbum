@@ -10,9 +10,9 @@ if (!($global_perms & GPERM_RATEVOTE)) {
 }
 
 $lid = \Xmf\Request::getInt('lid', 0, 'GET');
-/** @var MyalbumPhotosHandler $photosHandler */
+/** @var  Myalbum\PhotosHandler $photosHandler */
 $photosHandler = $helper->getHandler('Photos');
-/** @var VotedataHandler $votedataHandler */
+/** @var  Myalbum\VotedataHandler $votedataHandler */
 $votedataHandler = $helper->getHandler('Votedata');
 if (!$photo_obj = $photosHandler->get($lid)) {
     redirect_header(XOOPS_URL . '/modules/' . $GLOBALS['mydirname'] . '/index.php', 2, _ALBM_NOMATCH);

@@ -12,7 +12,7 @@ $num = \Xmf\Request::getInt('num', 10, 'GET');
 $txt = empty($_GET['txt']) ? '' : $GLOBALS['myts']->stripSlashesGPC(trim($_GET['txt']));
 
 if (!empty($_POST['action']) && 'admit' === $_POST['action'] && isset($_POST['ids']) && is_array($_POST['ids'])) {
-    /** @var MyalbumPhotosHandler $photosHandler */
+    /** @var  Myalbum\PhotosHandler $photosHandler */
     $photosHandler = $helper->getHandler('Photos');
     @$photosHandler->setStatus($_POST['ids'], 1);
     redirect_header('admission.php', 2, _ALBM_AM_ADMITTING);
@@ -23,13 +23,13 @@ if (!empty($_POST['action']) && 'admit' === $_POST['action'] && isset($_POST['id
     if (!XoopsSecurity::checkReferer()) {
         exit('XOOPS_URL is not included in your REFERER');
     }
-    /** @var MyalbumPhotosHandler $photosHandler */
+    /** @var  Myalbum\PhotosHandler $photosHandler */
     $photosHandler = $helper->getHandler('Photos');
     @$photosHandler->deletePhotos($_POST['ids']);
 
     redirect_header('admission.php', 2, _ALBM_DELETINGPHOTO);
 }
-/** @var MyalbumPhotosHandler $photosHandler */
+/** @var  Myalbum\PhotosHandler $photosHandler */
 $photosHandler = $helper->getHandler('Photos');
 
 // extracting by free word

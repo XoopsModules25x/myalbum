@@ -4,7 +4,16 @@
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
-use XoopsModules\Myalbum;
+use Xmf\Module\Admin;
+use XoopsModules\Myalbum\{
+    CategoryHandler,
+    Forms,
+    Helper,
+    PhotosHandler,
+    TextHandler
+};
+/** @var Helper $helper */
+/** @var Admin $adminObject */
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -21,16 +30,16 @@ $GLOBALS['desc4edit']  = isset($_POST['desc']) ? $GLOBALS['myts']->htmlSpecialCh
 if (!$isadmin) {
     redirect_header($mod_url, 2, _ALBM_MUSTREGFIRST);
 }
-/** @var MyalbumCatHandler $catHandler */
+/** @var CategoryHandler $catHandler */
 $catHandler = $helper->getHandler('Category');
 // check Categories exist
 $count = $catHandler->getCount();
 if ($count < 1) {
-    redirect_header(XOOPS_URL . "/modules/$moduleDirName/", 2, _ALBM_MUSTADDCATFIRST);
+    redirect_header(XOOPS_URL . "/modules/$moduleDirName/admin", 2, _ALBM_MUSTADDCATFIRST);
 }
-/** @var MyalbumPhotosHandler $photosHandler */
+/** @var  PhotosHandler $photosHandler */
 $photosHandler = $helper->getHandler('Photos');
-/** @var MyalbumTextHandler $textHandler */
+/** @var  TextHandler $textHandler */
 $textHandler = $helper->getHandler('Text');
 
 if (\Xmf\Request::hasVar('submit', 'POST') && '' !== $_POST['submit']) {
@@ -127,14 +136,14 @@ if (\Xmf\Request::hasVar('submit', 'POST') && '' !== $_POST['submit']) {
 }
 
 xoops_cp_header();
-$adminObject = \Xmf\Module\Admin::getInstance();
+$adminObject = Admin::getInstance();
 $adminObject->displayNavigation(basename(__FILE__));
 //myalbum_adminMenu(basename(__FILE__), 4);
 $GLOBALS['xoopsTpl']->assign('admin_title', sprintf(_AM_H3_FMT_BATCHREGISTER, $GLOBALS['myalbumModule']->name()));
 $GLOBALS['xoopsTpl']->assign('mydirname', $GLOBALS['mydirname']);
 $GLOBALS['xoopsTpl']->assign('photos_url', $GLOBALS['photos_url']);
 $GLOBALS['xoopsTpl']->assign('thumbs_url', $GLOBALS['thumbs_url']);
-$GLOBALS['xoopsTpl']->assign('form', Myalbum\Forms::getAdminFormAdmission());
+$GLOBALS['xoopsTpl']->assign('form', Forms::getAdminFormAdmission());
 if (isset($result_str)) {
     $GLOBALS['xoopsTpl']->assign('result_str', $result_str);
 }

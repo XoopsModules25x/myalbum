@@ -16,10 +16,38 @@
  * @since
  * @author       XOOPS Development Team
  */
-require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+
+use XoopsModules\Myalbum;
+
+require dirname(__DIR__, 2) . '/mainfile.php';
 require XOOPS_ROOT_PATH . '/header.php';
 
+require __DIR__ . '/preloads/autoloader.php';
+
 $moduleDirName = basename(__DIR__);
+
+/** @var \XoopsModules\Myalbum\Helper $helper */
+$helper = \XoopsModules\Myalbum\Helper::getInstance();
+
+$modulePath = XOOPS_ROOT_PATH . '/modules/' . $moduleDirName;
+
+$myts = \MyTextSanitizer::getInstance();
+
+if (!isset($GLOBALS['xoTheme']) || !is_object($GLOBALS['xoTheme'])) {
+    require $GLOBALS['xoops']->path('class/theme.php');
+    $GLOBALS['xoTheme'] = new \xos_opal_Theme();
+}
+
+//Handlers
+//$XXXHandler = xoops_getModuleHandler('XXX', $moduleDirName);
+
+// Load language files
+$helper->loadLanguage('main');
+
+if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
+    require $GLOBALS['xoops']->path('class/template.php');
+    $xoopsTpl = new XoopsTpl();
+}
 
 $GLOBALS['mydirname'] = basename(__DIR__);
 require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/read_configs.php";
@@ -48,11 +76,8 @@ xoops_load('xoopsformloader');
 require_once $GLOBALS['xoops']->path('class/xoopsmailer.php');
 require_once $GLOBALS['xoops']->path('class/tree.php');
 
-/** @var \XoopsModules\Myalbum\Helper $helper */
-$helper = \XoopsModules\Myalbum\Helper::getInstance();
 
-
-/** @var MyalbumCatHandler $catHandler */
+/** @var Myalbum\CategoryHandler $catHandler */
 $catHandler         = $helper->getHandler('Category');
 $cats               = $catHandler->getObjects(null, true);
 $GLOBALS['cattree'] = new \XoopsObjectTree($cats, 'cid', 'pid', 0);

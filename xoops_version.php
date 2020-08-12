@@ -204,7 +204,7 @@ if ($GLOBALS['global_perms'] & 256) { // GPERM_RATEVIEW
 }
 if (isset($myalbum_catonsubmenu) && $myalbum_catonsubmenu) {
     $criteria = new \Criteria('`pid`', 0);
-    /** @var MyalbumCatHandler $catHandler */
+    /** @var Myalbum\CategoryHandler $catHandler */
     $catHandler = $helper->getHandler('Category');
     if (false !== $catHandler->getCount($criteria)) {
         foreach ($catHandler->getObjects($criteria, true) as $cid => $cat) {
