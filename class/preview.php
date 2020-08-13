@@ -81,7 +81,7 @@ class Preview extends \XoopsObject
         $photosHandler = $helper->getHandler('Photos');
         /** @var TextHandler $textHandler */
         $textHandler = $helper->getHandler('Text');
-        /** @var CatHandler $catHandler */
+        /** @var CategoryHandler $catHandler */
         $catHandler = $helper->getHandler('Category');
         /** @var  VotedataHandler $votedataHandler */
         $votedataHandler = $helper->getHandler('Votedata');
@@ -211,7 +211,7 @@ class Preview extends \XoopsObject
         $photosHandler = $helper->getHandler('Photos');
         /** @var TextHandler $textHandler */
         $textHandler = $helper->getHandler('Text');
-        /** @var CatHandler $catHandler */
+        /** @var CategoryHandler $catHandler */
         $catHandler = $helper->getHandler('Category');
         /** @var VotedataHandler $votedataHandler */
         $votedataHandler = $helper->getHandler('Votedata');

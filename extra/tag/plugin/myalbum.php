@@ -64,7 +64,7 @@ function myalbum_tag_iteminfo(&$items)
                 'uid'     => $item_obj->getVar('submitter'),
                 'link'    => "photo.php?lid={$item_id}&cid=" . $item_obj->getVar('cid'),
                 'time'    => $item_obj->getVar('date'),
-                'tags'    => tag_parse_tag($item_obj->getVar('tags', 'n')),
+                'tags'    => \XoopsModules\Tag\Utility::tag_parse_tag($item_obj->getVar('tags', 'n')),
                 'content' => $GLOBALS['myts']->displayTarea($text->getVar('description'), 1, 1, 1, 1, 1, 1),
             ];
         }

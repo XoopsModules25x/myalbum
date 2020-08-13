@@ -32,7 +32,8 @@ if (!empty($_POST['action']) && 'admit' === $_POST['action'] && isset($_POST['id
     // remove records
 
     // Double check for anti-CSRF
-    if (!XoopsSecurity::checkReferer()) {
+        $xsecurity = new \XoopsSecurity();
+    if (!$xsecurity->checkReferer()) {
         exit('XOOPS_URL is not included in your REFERER');
     }
     /** @var  PhotosHandler $photosHandler */

@@ -27,8 +27,22 @@ class PhotosHandler extends \XoopsPersistableObjectHandler
         $this->db       = $db;
         $this->_dirname = $GLOBALS['mydirname'];
         $this->_table   = $GLOBALS['table_photos'];
-        parent::__construct($db, $this->_table, 'Photos', 'lid', 'title');
+        parent::__construct($db, $this->_table, Photos::class, 'lid', 'title');
     }
+
+    /**
+     *
+     * @param null
+     *
+     * @return self
+     */
+//    public static function getInstance()
+//    {
+//        static $instance = false;
+//        if (!$instance) {
+//            $instance = new self();
+//        }
+//    }
 
     /**
      * @param     $ids
@@ -52,7 +66,8 @@ class PhotosHandler extends \XoopsPersistableObjectHandler
 
         switch ($status) {
             case 1:
-                /** @var CatHandler $catHandler */
+                $helper = Helper::getInstance();
+                /** @var CategoryHandler $catHandler */
                 $catHandler = $helper->getHandler('Category');
                 $cats  = $catHandler->getObjects(null, true);
                 // Trigger Notification
@@ -104,7 +119,7 @@ class PhotosHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param \XoopsObject $photo
+     * @param \XoopsObject|int $photo
      * @param bool         $force
      *
      * @return bool
@@ -126,6 +141,8 @@ class PhotosHandler extends \XoopsPersistableObjectHandler
         \unlink($GLOBALS['photos_dir'] . DS . $photo->getVar('lid') . '.gif');
         \unlink($GLOBALS['thumbs_dir'] . DS . $photo->getVar('lid') . '.' . $photo->getVar('ext'));
         \unlink($GLOBALS['thumbs_dir'] . DS . $photo->getVar('lid') . '.gif');
+
+        $helper = Helper::getInstance();
 
         /** @var  VotedataHandler $votedataHandler */
         $votedataHandler = $helper->getHandler('Votedata');

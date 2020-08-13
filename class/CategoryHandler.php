@@ -31,7 +31,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function prefixDepth($cid, $depth = 0)
     {
-        $cat = parent::get($cid);
+        $cat = $this->get($cid);
         ++$depth;
         if (0 != $cat->getVar('pid')) {
             $depth = $this->prefixDepth($cat->getVar('pid'), $depth);

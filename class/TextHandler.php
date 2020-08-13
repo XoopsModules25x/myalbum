@@ -23,7 +23,7 @@ class TextHandler extends \XoopsPersistableObjectHandler
     public function __construct(\XoopsDatabase $db = null)
     {
         $this->db = $db;
-        parent::__construct($db, $GLOBALS['table_text'], 'Text', 'lid', 'description');
+        parent::__construct($db, $GLOBALS['table_text'], Text::class, 'lid', 'description');
     }
 
     /**

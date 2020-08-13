@@ -126,7 +126,9 @@ class MediaUploader
             $this->setErrors('File not found');
 
             return false;
-        } elseif (\is_array($_FILES[$media_name]['name']) && isset($index)) {
+        }
+
+        if (\is_array($_FILES[$media_name]['name']) && isset($index)) {
             $index              = (int)$index;
             $this->mediaName    = $_FILES[$media_name]['name'][$index];
             $this->mediaType    = $_FILES[$media_name]['type'][$index];

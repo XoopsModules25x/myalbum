@@ -81,6 +81,7 @@ if ($GLOBALS['myalbumModuleConfig']['tag']) {
     require_once $GLOBALS['xoops']->path('modules/tag/include/formtag.php');
 }
 
+//gets values from module Preferences, e.g. 'myalbum_viewcattype'
 extract($GLOBALS['myalbumModuleConfig']);
 
 if (!isset($GLOBALS['xoopsTpl']) || !is_object($GLOBALS['xoopsTpl'])) {

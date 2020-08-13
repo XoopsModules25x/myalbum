@@ -24,9 +24,7 @@ if (!preg_match('/^Myalbum\d*$/', $moduleDirName)) {
     exit('invalid dirname of myalbum: ' . htmlspecialchars($moduleDirName, ENT_QUOTES | ENT_HTML5));
 }
 
-eval(
-    'function ' . $moduleDirName . '_notify_iteminfo($not_category, $item_id)
-{
+eval('function ' . $moduleDirName . '_notify_iteminfo($not_category, $item_id){
     global $xoopsModule, $xoopsModuleConfig, $xoopsConfig , $xoopsDB ;
 
     if (empty($xoopsModule) || $xoopsModule->getVar("dirname") != "' . $moduleDirName . '" ) {
@@ -60,7 +58,5 @@ eval(
     }
 
     return $item;
-}
-
-'
-);
+}');
+?>

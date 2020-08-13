@@ -16,12 +16,15 @@
  * @since
  * @author       XOOPS Development Team
  */
+
+use Xmf\Module\Admin;
+
 require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
 // myalbum_adminMenu(basename(__FILE__), 9);
 $paypalitemno = 'MYALBUMP301';
-$aboutAdmin   = \Xmf\Module\Admin::getInstance();
+$aboutAdmin   = Admin::getInstance();
 $about        = $aboutAdmin->displayAbout($paypalitemno, false);
 
 $donationform = [

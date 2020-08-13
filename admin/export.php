@@ -43,7 +43,7 @@ if (!empty($_POST['imagemanager_export']) && !empty($_POST['imgcat_id']) && !emp
     $mime_types = ['gif' => 'image/gif', 'png' => 'image/png', 'jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg'];
 
     // INSERT loop
-    $srs          = $xoopsDB->query("SELECT lid,ext,title,date,status FROM $src_table_photos WHERE cid='$src_cid'");
+    $srs          = $xoopsDB->query("SELECT lid,ext,title,date,`status` FROM $src_table_photos WHERE cid='$src_cid'");
     $export_count = 0;
     while (list($lid, $ext, $title, $date, $status) = $xoopsDB->fetchRow($srs)) {
         $dst_node = uniqid('img', true);

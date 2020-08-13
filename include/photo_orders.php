@@ -1,7 +1,5 @@
 <?php
 
-
-
 $myalbum_orders = [
     'cidA'    => ['cid ASC', _ALBM_CIDASC],
     'lidA'    => ['lid ASC', _ALBM_LIDASC],

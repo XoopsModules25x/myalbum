@@ -98,7 +98,8 @@ if ($myalbum_makethumb && !is_writable($thumbs_dir)) {
 
 if (!empty($_POST['submit'])) {
     // anti-CSRF
-    if (!XoopsSecurity::checkReferer()) {
+        $xsecurity = new \XoopsSecurity();
+    if (!$xsecurity->checkReferer()) {
         exit('XOOPS_URL is not included in your REFERER');
     }
 

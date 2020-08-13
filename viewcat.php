@@ -4,6 +4,7 @@
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
+use Xmf\Request;
 use XoopsModules\Myalbum\{
     CategoryHandler,
     Helper,
@@ -11,6 +12,7 @@ use XoopsModules\Myalbum\{
     PhotosHandler,
     Utility
 };
+
 /** @var Helper $helper */
 /** @var PhotosHandler $photosHandler */
 /** @var CategoryHandler $catHandler */
@@ -18,17 +20,18 @@ use XoopsModules\Myalbum\{
 require_once __DIR__ . '/header.php';
 
 // GET variables
-$cid = \Xmf\Request::getInt('cid', 0, 'GET');
-$uid = \Xmf\Request::getInt('uid', 0, 'GET');
-$num = \Xmf\Request::getInt('num', (int)$myalbum_perpage, 'GET');
+$cid = Request::getInt('cid', 0, 'GET');
+$uid = Request::getInt('uid', 0, 'GET');
+$num = Request::getInt('num', (int)$myalbum_perpage, 'GET');
 if ($num < 1) {
     $num = 10;
 }
-$pos  = \Xmf\Request::getInt('pos', 0, 'GET');
-$view = !isset($_GET['view']) ? $myalbum_viewcattype : $_GET['view'];
+$pos  = Request::getInt('pos', 0, 'GET');
+$view = $_GET['view'] ?? $myalbum_viewcattype;
 
 $photosHandler = $helper->getHandler('Photos');
-$catHandler = $helper->getHandler('Category');
+$catHandler    = $helper->getHandler('Category');
+
 if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
     if (0 == $cid) {
         $url = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/cat,' . $cid . ',' . $uid . ',' . $num . ',' . $pos . ',' . $view . '.html';
@@ -45,17 +48,16 @@ if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
 }
 
 // Orders
-require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/photo_orders.php";
-if (\Xmf\Request::hasVar('orderby', 'GET') && isset($myalbum_orders[$_GET['orderby']])) {
+require_once $helper->path('include/photo_orders.php');
+if (Request::hasVar('orderby', 'GET') && isset($myalbum_orders[$_GET['orderby']])) {
     $orderby = $_GET['orderby'];
-} else {
-    if (isset($myalbum_orders[$myalbum_defaultorder])) {
+} elseif (isset($myalbum_orders[$myalbum_defaultorder])) {
         $orderby = $myalbum_defaultorder;
     } else {
         //$orderby = 'titleA';
         $orderby = 'cidD';
     }
-}
+
 
 if ('table' === $view) {
     $GLOBALS['xoopsOption']['template_main'] = "{$moduleDirName }_viewcat_table.tpl";
@@ -90,8 +92,8 @@ if ($cid > 0) {
     foreach ($GLOBALS['cattree']->getAllChild($cid) as $child) {
         $cids[$child->getVar('cid')] = $child->getVar('cid');
     }
-    array_push($cids, $cid);
-    $criteria        = new \CriteriaCompo(new \Criteria('`status`', '0', '>'));
+    $cids[]   = $cid;
+    $criteria = new \CriteriaCompo(new \Criteria('`status`', '0', '>'));
     $photo_total_sum = Utility::getTotalCount($cids, $criteria);
     if (!empty($cids)) {
         foreach ($cids as $index => $child) {
@@ -169,12 +171,12 @@ if ($photo_small_sum > 0) {
     // Display photos
     $count = 1;
 
-//    require_once __DIR__ . '/class/preview.php';
+    //    require_once __DIR__ . '/class/preview.php';
 
     foreach ($photosHandler->getObjects($criteria, true) as $lid => $photo) {
         //echo __LINE__.' - '.$function_assigning.' - '.$lid.'<br>';
         //        $photo = $function_assigning($photo) + array('count' => ++$count, true);
-        $photo = call_user_func($function_assigning, $photo) + ['count' => ++$count, true];
+        $photo = $function_assigning($photo) + ['count' => ++$count, true];
 
         $GLOBALS['xoopsTpl']->append('photos', $photo);
     }

@@ -32,7 +32,8 @@ $cid    = \Xmf\Request::getInt('cid', 0, 'GET');
 
 if ('insert' === $action) {
     // anti-CSRF (Double Check)
-    if (!XoopsSecurity::checkReferer()) {
+        $xsecurity = new \XoopsSecurity();
+    if (!$xsecurity->checkReferer()) {
         exit('XOOPS_URL is not included in your REFERER');
     }
 
@@ -51,7 +52,8 @@ if ('insert' === $action) {
     redirect_header('main.php', 1, _AM_CAT_INSERTED);
 } elseif ('update' === $action && !empty($_POST['cid'])) {
     // anti-CSRF (Double Check)
-    if (!XoopsSecurity::checkReferer()) {
+        $xsecurity = new \XoopsSecurity();
+    if (!$xsecurity->checkReferer()) {
         exit('XOOPS_URL is not included in your REFERER');
     }
 
@@ -78,7 +80,8 @@ if ('insert' === $action) {
     redirect_header('main.php', 1, _AM_CAT_UPDATED);
 } elseif (!empty($_POST['delcat'])) {
     // anti-CSRF (Double Check)
-    if (!XoopsSecurity::checkReferer()) {
+        $xsecurity = new \XoopsSecurity();
+    if (!$xsecurity->checkReferer()) {
         exit('XOOPS_URL is not included in your REFERER');
     }
 

@@ -117,11 +117,10 @@ switch ($op) {
                 if ($res_x > $max_w) {
                     $photo['width_height'] = "width='$max_w'";
                 }
-            } else {
-                if ($res_y > $max_h) {
+            } elseif ($res_y > $max_h) {
                     $photo['width_height'] = "height='$max_h'";
                 }
-            }
+
         }
 
         $GLOBALS['xoopsTpl']->assign_by_ref('photo', $photo);
@@ -147,13 +146,12 @@ switch ($op) {
         require_once $helper->path('include/photo_orders.php');
         if (Request::hasVar('orderby', 'GET') && isset($myalbum_orders[$_GET['orderby']])) {
             $orderby = $_GET['orderby'];
-        } else {
-            if (isset($myalbum_orders[$myalbum_defaultorder])) {
+        } elseif (isset($myalbum_orders[$myalbum_defaultorder])) {
                 $orderby = $myalbum_defaultorder;
             } else {
                 $orderby = 'lidA';
             }
-        }
+
 
         $criteria = new \CriteriaCompo(new \Criteria('`status`', '0', '>'));
         $criteria->add(new \Criteria('cid', $photo_obj->getVar('cid')));

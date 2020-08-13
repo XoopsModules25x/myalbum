@@ -1,7 +1,5 @@
 <?php
 
-
-
 $GLOBALS['mydirname'] = basename(dirname(__DIR__));
 if (preg_match('/^myalbum(\d*)$/', $GLOBALS['mydirname'], $regs)) {
     $GLOBALS['myalbum_number'] = $regs[1];

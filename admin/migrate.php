@@ -59,10 +59,8 @@ EOF;
 
 //XoopsLoad::load('migrate', 'newbb');
 
-/** @var Configurator $configurator */
 $configurator = new Configurator();
 
-/** @var Migrate $migrator */
 $migrator = new Migrate($configurator);
 
 $op = Request::getCmd('op', 'show');

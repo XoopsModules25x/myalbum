@@ -24,7 +24,8 @@ if (!empty($_POST['action']) && 'delete' === $_POST['action'] && isset($_POST['i
     // remove records
 
     // Double check for anti-CSRF
-    if (!XoopsSecurity::checkReferer()) {
+        $xsecurity = new \XoopsSecurity();
+    if (!$xsecurity->checkReferer()) {
         exit('XOOPS_URL is not included in your REFERER');
     }
 
@@ -37,7 +38,8 @@ if (!empty($_POST['action']) && 'delete' === $_POST['action'] && isset($_POST['i
     // batch update
 
     // Double check for anti-CSRF
-    if (!XoopsSecurity::checkReferer()) {
+        $xsecurity = new \XoopsSecurity();
+    if (!$xsecurity->checkReferer()) {
         exit('XOOPS_URL is not included in your REFERER');
     }
 

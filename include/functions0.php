@@ -254,7 +254,7 @@ function myalbum_create_thumbs_by_gd($src_path, $node, $ext)
     $bundled_2 = false;
     if (!$myalbum_forcegd2 && function_exists('gd_info')) {
         $gd_info = gd_info();
-        if ('bundled (2' === mb_substr($gd_info['GD Version'], 0, 10)) {
+        if (0 === mb_strpos($gd_info['GD Version'], 'bundled (2')) {
             $bundled_2 = true;
         }
     }
@@ -454,13 +454,12 @@ function myalbum_modify_photo($src_path, $dst_path)
         myalbum_modify_photo_by_imagick($src_path, $dst_path);
     } elseif (PIPEID_NETPBM == $myalbum_imagingpipe) {
         myalbum_modify_photo_by_netpbm($src_path, $dst_path);
-    } else {
-        if ($myalbum_forcegd2) {
+    } elseif ($myalbum_forcegd2) {
             myalbum_modify_photo_by_gd($src_path, $dst_path);
         } else {
             rename($src_path, $dst_path);
         }
-    }
+
 }
 
 // Modifying Original Photo by GD
@@ -786,6 +785,7 @@ function myalbum_get_photo_small_sum_from_cat($cid, Criteria $criteria = null)
         $criteria = new \CriteriaCompo($criteria);
     }
     $criteria->add(new \Criteria('`cid`', $cid));
+    $helper = Helper::getInstance();
     $photoHandler = $helper->getHandler('Photos');
 
     return $photoHandler->getCount($criteria);

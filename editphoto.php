@@ -49,7 +49,8 @@ if (!empty($_POST['do_delete'])) {
     }
 
     // anti-CSRF
-    if (!XoopsSecurity::checkReferer()) {
+        $xsecurity = new \XoopsSecurity();
+    if (!$xsecurity->checkReferer()) {
         exit('XOOPS_URL is not included in your REFERER');
     }
 
@@ -96,7 +97,8 @@ if (!empty($_POST['conf_delete'])) {
 // Do Modify
 if (!empty($_POST['submit'])) {
     // anti-CSRF
-    if (!XoopsSecurity::checkReferer()) {
+        $xsecurity = new \XoopsSecurity();
+    if (!$xsecurity->checkReferer()) {
         exit('XOOPS_URL is not included in your REFERER');
     }
 
@@ -234,9 +236,9 @@ $title_text = new \XoopsFormText(_ALBM_PHOTOTITLE, 'title', 50, 255, $photo_obj-
 $cat_select = new \XoopsFormLabel('', $GLOBALS['cattree']->makeSelBox('cid', 'title', '-', $photo_obj->getVar('cid')));
 
 $cat_link = new \XoopsFormLabel("<a href='javascript:location.href=\"" . XOOPS_URL . '/modules/' . $moduleDirName . "/viewcat.php?cid=\"+document.uploadphoto.cid.value;'>" . _GO . '</a>');
-$cat_tray = new \XoopsFormElementTray(_ALBM_PHOTOCAT, '&nbsp;');
-$cat_tray->addElement($cat_select);
-$cat_tray->addElement($cat_link);
+$catTray = new \XoopsFormElementTray(_ALBM_PHOTOCAT, '&nbsp;');
+$catTray->addElement($cat_select);
+$catTray->addElement($cat_link);
 
 $text                   = $textHandler->get($lid);
 $html_configs           = [];
@@ -270,18 +272,18 @@ $valid_box->addOption('1', '&nbsp;');
 $submit_button  = new \XoopsFormButton('', 'submit', _SUBMIT, 'submit');
 $preview_button = new \XoopsFormButton('', 'preview', _PREVIEW, 'submit');
 $reset_button   = new \XoopsFormButton('', 'reset', _CANCEL, 'reset');
-$submit_tray    = new \XoopsFormElementTray('');
-$submit_tray->addElement($preview_button);
-$submit_tray->addElement($submit_button);
-$submit_tray->addElement($reset_button);
+$submitTray    = new \XoopsFormElementTray('');
+$submitTray->addElement($preview_button);
+$submitTray->addElement($submit_button);
+$submitTray->addElement($reset_button);
 if ($global_perms & GPERM_DELETABLE) {
     $delete_button = new \XoopsFormButton('', 'conf_delete', _DELETE, 'submit');
-    $submit_tray->addElement($delete_button);
+    $submitTray->addElement($delete_button);
 }
 
 $form->addElement($title_text);
 $form->addElement($desc_tarea);
-$form->addElement($cat_tray);
+$form->addElement($catTray);
 $form->addElement($file_form);
 if ($GLOBALS['myalbumModuleConfig']['tag']) {
     $form->addElement(new FormTag('tags', 35, 255, $lid));
@@ -295,7 +297,7 @@ if ($isadmin) {
     $form->addElement($valid_box);
     $form->addElement($status_hidden);
 }
-$form->addElement($submit_tray);
+$form->addElement($submitTray);
 $form->display();
 
 Preview::footer();

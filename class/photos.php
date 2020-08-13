@@ -46,14 +46,15 @@ class Photos extends \XoopsObject
         $moduleHandler = \xoops_getHandler('module');
         $configHandler = \xoops_getHandler('config');
         if (!isset($GLOBALS['myalbumModule'])) {
-            $GLOBALS['myalbumModule'] = $moduleHandler->getByDirname($moduleDirName);
+            $GLOBALS['myalbumModule'] = $moduleHandler->getByDirname(Helper::getInstance()->getDirname());
         }
         if (!isset($GLOBALS['myalbumModuleConfig'])) {
             $GLOBALS['myalbumModuleConfig'] = $configHandler->getConfigList($GLOBALS['myalbumModule']->getVar('mid'));
         }
 
         if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
-            /** @var CatHandler $catHandler */
+            $helper = Helper::getInstance();
+            /** @var CategoryHandler $catHandler */
             $catHandler = $helper->getHandler('Category');
             $cat        = $catHandler->get($this->getVar('cid'));
             $url        = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . \str_replace(
@@ -95,14 +96,15 @@ class Photos extends \XoopsObject
         $moduleHandler = \xoops_getHandler('module');
         $configHandler = \xoops_getHandler('config');
         if (!isset($GLOBALS['myalbumModule'])) {
-            $GLOBALS['myalbumModule'] = $moduleHandler->getByDirname($moduleDirName);
+            $GLOBALS['myalbumModule'] = $moduleHandler->getByDirname(Helper::getInstance()->getDirname());
         }
         if (!isset($GLOBALS['myalbumModuleConfig'])) {
             $GLOBALS['myalbumModuleConfig'] = $configHandler->getConfigList($GLOBALS['myalbumModule']->getVar('mid'));
         }
 
         if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
-            /** @var CatHandler $catHandler */
+            $helper = Helper::getInstance();
+            /** @var CategoryHandler $catHandler */
             $catHandler = $helper->getHandler('Category');
             $cat        = $catHandler->get($this->getVar('cid'));
             $url        = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . \str_replace(
@@ -144,14 +146,15 @@ class Photos extends \XoopsObject
         $moduleHandler = \xoops_getHandler('module');
         $configHandler = \xoops_getHandler('config');
         if (!isset($GLOBALS['myalbumModule'])) {
-            $GLOBALS['myalbumModule'] = $moduleHandler->getByDirname($moduleDirName);
+            $GLOBALS['myalbumModule'] = $moduleHandler->getByDirname(Helper::getInstance()->getDirname());
         }
         if (!isset($GLOBALS['myalbumModuleConfig'])) {
             $GLOBALS['myalbumModuleConfig'] = $configHandler->getConfigList($GLOBALS['myalbumModule']->getVar('mid'));
         }
 
         if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
-            /** @var CatHandler $catHandler */
+            $helper = Helper::getInstance();
+            /** @var CategoryHandler $catHandler */
             $catHandler = $helper->getHandler('Category');
             $cat        = $catHandler->get($this->getVar('cid'));
             $url        = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . \str_replace(
@@ -193,7 +196,7 @@ class Photos extends \XoopsObject
         $moduleHandler = \xoops_getHandler('module');
         $configHandler = \xoops_getHandler('config');
         if (!isset($GLOBALS['myalbumModule'])) {
-            $GLOBALS['myalbumModule'] = $moduleHandler->getByDirname($moduleDirName);
+            $GLOBALS['myalbumModule'] = $moduleHandler->getByDirname(Helper::getInstance()->getDirname());
         }
         if (!isset($GLOBALS['myalbumModuleConfig'])) {
             $GLOBALS['myalbumModuleConfig'] = $configHandler->getConfigList($GLOBALS['myalbumModule']->getVar('mid'));
@@ -213,7 +216,7 @@ class Photos extends \XoopsObject
         $moduleHandler = \xoops_getHandler('module');
         $configHandler = \xoops_getHandler('config');
         if (!isset($GLOBALS['myalbumModule'])) {
-            $GLOBALS['myalbumModule'] = $moduleHandler->getByDirname($moduleDirName);
+            $GLOBALS['myalbumModule'] = $moduleHandler->getByDirname(Helper::getInstance()->getDirname());
         }
         if (!isset($GLOBALS['myalbumModuleConfig'])) {
             $GLOBALS['myalbumModuleConfig'] = $configHandler->getConfigList($GLOBALS['myalbumModule']->getVar('mid'));
@@ -231,10 +234,11 @@ class Photos extends \XoopsObject
      */
     public function toArray($justVar = false)
     {
-        if (true === $justVar) {
+        if ($justVar) {
             return parent::toArray();
         }
-        /** @var CatHandler $catHandler */
+        $helper = Helper::getInstance();
+        /** @var CategoryHandler $catHandler */
         $catHandler = $helper->getHandler('Category');
         /** @var TextHandler $textHandler */
         $textHandler = $helper->getHandler('Text');

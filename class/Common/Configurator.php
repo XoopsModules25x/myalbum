@@ -50,7 +50,7 @@ class Configurator
         //        require dirname(dirname(__DIR__)) . '/config/config.php';
         //        $config = getConfig();
 
-        $config = include dirname(__DIR__, 2) . '/config/config.php';
+        $config = include \dirname(__DIR__, 2) . '/config/config.php';
 
         $this->name            = $config->name;
         $this->paths           = $config->paths;
@@ -64,8 +64,8 @@ class Configurator
         $this->moduleStats     = $config->moduleStats;
         $this->modCopyright    = $config->modCopyright;
 
-        $this->icons = include dirname(__DIR__, 2) . '/config/icons.php';
-        $this->paths = include dirname(__DIR__, 2) . '/config/paths.php';
+        $this->icons = include \dirname(__DIR__, 2) . '/config/icons.php';
+        $this->paths = include \dirname(__DIR__, 2) . '/config/paths.php';
 
     }
 }

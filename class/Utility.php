@@ -7,16 +7,17 @@ namespace XoopsModules\Myalbum;
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
-use XoopsModules\Myalbum;
-use XoopsModules\Myalbum\Common;
-use XoopsModules\Myalbum\Constants;
+use XoopsModules\Myalbum\{
+    Common
+};
+
 
 // constants
 \define('PIPEID_GD', 0);
 \define('PIPEID_IMAGICK', 1);
 \define('PIPEID_NETPBM', 2);
 
-require_once __DIR__ . '/forms.php';
+//require_once __DIR__ . '/forms.php';
 
 /**
  * Class Utility
@@ -158,7 +159,9 @@ class Utility extends Common\SysUtility
 
         if (PIPEID_IMAGICK == $GLOBALS[$moduleDirName . '_imagingpipe']) {
             return static::createThumbsWithImagick($src_path, $node, $ext);
-        } elseif (PIPEID_NETPBM == $GLOBALS[$moduleDirName . '_imagingpipe']) {
+        }
+
+        if (PIPEID_NETPBM == $GLOBALS[$moduleDirName . '_imagingpipe']) {
             return static::createThumbsWithNetpbm($src_path, $node, $ext);
         }
 
@@ -410,13 +413,12 @@ class Utility extends Common\SysUtility
             static::editPhotoWithImagick($src_path, $dst_path);
         } elseif (PIPEID_NETPBM == $GLOBALS[$moduleDirName . '_imagingpipe']) {
             static::editPhotoWithNetpbm($src_path, $dst_path);
-        } else {
-            if ($GLOBALS[$moduleDirName . '_forcegd2']) {
+        } elseif ($GLOBALS[$moduleDirName . '_forcegd2']) {
                 static::editPhotoWithGd($src_path, $dst_path);
             } else {
                 \rename($src_path, $dst_path);
             }
-        }
+
     }
 
     // Modifying Original Photo by GD
@@ -714,8 +716,10 @@ class Utility extends Common\SysUtility
         $moduleDirName = \basename(\dirname(__DIR__));
         /** @var  VotedataHandler $votedataHandler */
         //        $votedataHandler = xoops_getModuleHandler('votedata', $moduleDirName);
-        require_once __DIR__ . '/votedata.php';
-        $votedataHandler = VotedataHandler::getInstance();
+//        require_once __DIR__ . '/votedata.php';
+//        $votedataHandler = VotedataHandler::getInstance();
+        $votedataHandler = Helper::getInstance()->getHandler('Votedata');
+
         $criteria        = new \CriteriaCompo(new \Criteria('`lid`', $lid));
         $votes           = $votedataHandler->getObjects($criteria, true);
         $votesDB         = $votedataHandler->getCount($criteria);
@@ -728,10 +732,11 @@ class Utility extends Common\SysUtility
         if ($votesDB > 0) {
             $finalrating = \number_format($totalrating / $votesDB, 4);
         }
-        /** @var  Myalbum\PhotosHandler $photosHandler */
+        /** @var  PhotosHandler $photosHandler */
         //        $photosHandler = xoops_getModuleHandler('photos', $moduleDirName);
-        require_once __DIR__ . '/photos.php';
-        $photosHandler = PhotosHandler::getInstance();
+//        require_once __DIR__ . '/photos.php';
+//        $photosHandler = PhotosHandler::getInstance();
+        $photosHandler = Helper::getInstance()->getHandler('Photos');
         $photo         = $photosHandler->get($lid);
         $photo->setVar('rating', $finalrating);
         $photosHandler->insert($photo, true) or exit('Error: DB update rating.');
@@ -741,10 +746,10 @@ class Utility extends Common\SysUtility
 
     /**
      * @param                      $cid
-     * @param CriteriaElement|null $criteria
+     * @param \CriteriaElement|null $criteria
      * @return mixed
      */
-    public static function getCategoryCount($cid, CriteriaElement $criteria = null)
+    public static function getCategoryCount($cid, \CriteriaElement $criteria = null)
     {
         if (\is_object($criteria)) {
             $criteria = new \CriteriaCompo($criteria);
@@ -752,8 +757,9 @@ class Utility extends Common\SysUtility
         $criteria->add(new \Criteria('`cid`', $cid));
         /** @var PhotosHandler $photoHandler */
         //        $photoHandler = xoops_getModuleHandler('photos', $GLOBALS[$moduleDirName.'_dirname']);
-        require_once __DIR__ . '/photos.php';
-        $photoHandler = PhotosHandler::getInstance();
+//        require_once __DIR__ . '/photos.php';
+//        $photoHandler = PhotosHandler::getInstance();
+        $photosHandler = Helper::getInstance()->getHandler('Photos');
 
         return $photoHandler->getCount($criteria);
     }
@@ -762,20 +768,21 @@ class Utility extends Common\SysUtility
 
     /**
      * @param                                       $cids
-     * @param \XoopsModules\Myalbum\CriteriaElement $criteria
+     * @param \CriteriaElement|\CriteriaCompo $criteria
      *
      * @return mixed
      */
-    public static function getTotalCount($cids, CriteriaElement $criteria = null)
+    public static function getTotalCount($cids, \CriteriaElement $criteria = null)
     {
         if (\is_object($criteria)) {
             $criteria = new \CriteriaCompo($criteria);
         }
         $criteria->add(new \Criteria('`cid`', '(' . \implode(',', $cids) . ',0)', 'IN'));
-        /** @var  Myalbum\PhotosHandler $photoHandler */
+        /** @var  PhotosHandler $photoHandler */
         //        $photoHandler = xoops_getModuleHandler('photos', $GLOBALS[$moduleDirName.'_dirname']);
-        require_once __DIR__ . '/photos.php';
-        $photosHandler = PhotosHandler::getInstance();
+//        require_once __DIR__ . '/photos.php';
+//        $photosHandler = PhotosHandler::getInstance();
+        $photosHandler = Helper::getInstance()->getHandler('Photos');
 
         return $photosHandler->getCount($criteria);
     }
@@ -794,19 +801,23 @@ class Utility extends Common\SysUtility
      */
     public static function updatePhoto($lid, $cid, $title, $desc, $valid = null, $ext = '', $x = '', $y = '')
     {
-        /** @var CatHandler $catHandler */
+        /** @var CategoryHandler $catHandler */
         //        $catHandler = xoops_getModuleHandler('cat', $GLOBALS[$moduleDirName.'_dirname']);
-        require_once __DIR__ . '/Category.php';
-        $catHandler = CatHandler::getInstance();
-        /** @var  Myalbum\PhotosHandler $photosHandler */
+//        require_once __DIR__ . '/Category.php';
+//        $catHandler = CategoryHandler::getInstance();
+        $catHandler = Helper::getInstance()->getHandler('Category');
+        /** @var  PhotosHandler $photosHandler */
         //        $photosHandler = xoops_getModuleHandler('photos', $GLOBALS[$moduleDirName.'_dirname']);
-        require_once __DIR__ . '/photos.php';
-        $photosHandler = PhotosHandler::getInstance();
+//        require_once __DIR__ . '/photos.php';
+//        $photosHandler = PhotosHandler::getInstance();
+        $photosHandler = Helper::getInstance()->getHandler('Photos');
 
         /** @var TextHandler $textHandler */
         //        $textHandler   = xoops_getModuleHandler('text', $GLOBALS[$moduleDirName.'_dirname']);
-        require_once __DIR__ . '/text.php';
-        $textHandler = TextHandler::getInstance();
+//        require_once __DIR__ . '/text.php';
+//        $textHandler = TextHandler::getInstance();
+        $textHandler = Helper::getInstance()->getHandler('Text');
+
         /** @varPhotos $photo */
         $photo = $photosHandler->get($lid);
         $text  = $textHandler->get($lid);
@@ -877,10 +888,11 @@ class Utility extends Common\SysUtility
      */
     public static function deletePhotos($criteria = null)
     {
-        /** @var  Myalbum\PhotosHandler $photosHandler */
+        /** @var  PhotosHandler $photosHandler */
         //        $photosHandler = xoops_getModuleHandler('photos', $GLOBALS[$moduleDirName.'_dirname']);
-        require_once __DIR__ . '/photos.php';
-        $photosHandler = PhotosHandler::getInstance();
+//        require_once __DIR__ . '/photos.php';
+//        $photosHandler = PhotosHandler::getInstance();
+        $photosHandler = Helper::getInstance()->getHandler('Photos');
 
         $photos = $photosHandler->getObjects($criteria);
         /** @varPhotos $photo */
@@ -968,7 +980,9 @@ class Utility extends Common\SysUtility
                     $cat['next_key']    = $target['next_key'];
                     $target['next_key'] = $key;
                     break;
-                } elseif (--$loop_check < 0) {
+                }
+
+                if (--$loop_check < 0) {
                     $cat['depth']       = 1;
                     $cat['next_key']    = $target['next_key'];
                     $target['next_key'] = $key;

@@ -46,7 +46,7 @@ class Category extends \XoopsObject
      */
     public function getURL($uid, $num, $pos, $view)
     {
-        $moduleDirName = basename(dirname(__DIR__));
+        $moduleDirName = \basename(\dirname(__DIR__));
         /** @var \XoopsModuleHandler $moduleHandler */
         $moduleHandler = \xoops_getHandler('module');
         $configHandler = \xoops_getHandler('config');
@@ -84,7 +84,7 @@ class Category extends \XoopsObject
      */
     public function getRSSURL($uid, $num, $pos, $view)
     {
-        $moduleDirName = basename(dirname(__DIR__));
+        $moduleDirName = \basename(\dirname(__DIR__));
         /** @var \XoopsModuleHandler $moduleHandler */
         $moduleHandler = \xoops_getHandler('module');
         $configHandler = \xoops_getHandler('config');

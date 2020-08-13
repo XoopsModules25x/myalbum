@@ -23,6 +23,6 @@ class VotedataHandler extends \XoopsPersistableObjectHandler
     public function __construct(\XoopsDatabase $db = null)
     {
         $this->db = $db;
-        parent::__construct($db, $GLOBALS['table_votedata'], 'Votedata', 'ratingid', 'lid');
+        parent::__construct($db, $GLOBALS['table_votedata'], Votedata::class, 'ratingid', 'lid');
     }
 }

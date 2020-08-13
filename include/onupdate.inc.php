@@ -35,6 +35,11 @@ if ('' == $ref || 0 == mb_strpos($ref, XOOPS_URL . '/modules/system/admin.php'))
     require_once __DIR__ . '/updateblock.inc.php';
 }
 
+/**
+ * @param \XoopsModule $module
+ * @param null         $oldversion
+ * @return mixed
+ */
 function xoops_module_update_myalbum(\XoopsModule $module, $oldversion = null)
 {
     //create upload directories, if needed

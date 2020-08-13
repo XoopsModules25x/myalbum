@@ -61,7 +61,7 @@ if (!defined('MYALBUM_BLOCK_RPHOTO_INCLUDED')) {
         }
 
         if ($numrows <= $photos_num) {
-            $result = $xoopsDB->query('SELECT lid , cid , title , ext , res_x , res_y , submitter , status , date AS unixtime , hits , rating , votes , comments FROM ' . $xoopsDB->prefix($table_photos) . " WHERE status>0 AND $whr_cat AND $whr_ext");
+            $result = $xoopsDB->query('SELECT lid , cid , title , ext , res_x , res_y , submitter , `status` , date AS unixtime , hits , rating , votes , comments FROM ' . $xoopsDB->prefix($table_photos) . " WHERE status>0 AND $whr_cat AND $whr_ext");
         } else {
             $result   = $xoopsDB->query('SELECT lid FROM ' . $xoopsDB->prefix($table_photos) . " WHERE status>0 AND $whr_cat AND $whr_ext");
             $lids     = [];
@@ -79,7 +79,7 @@ if (!defined('MYALBUM_BLOCK_RPHOTO_INCLUDED')) {
             } else {
                 $whr_lid = $lids[$sel_lids];
             }
-            $result = $xoopsDB->query('SELECT lid , cid , title , ext , res_x , res_y , submitter , status , date AS unixtime , hits , rating , votes , comments FROM ' . $xoopsDB->prefix($table_photos) . " WHERE status>0 AND lid IN ($whr_lid)");
+            $result = $xoopsDB->query('SELECT lid , cid , title , ext , res_x , res_y , submitter , `status` , date AS unixtime , hits , rating , votes , comments FROM ' . $xoopsDB->prefix($table_photos) . " WHERE status>0 AND lid IN ($whr_lid)");
         }
 
         $count = 1;

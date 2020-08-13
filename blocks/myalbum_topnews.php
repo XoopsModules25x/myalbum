@@ -48,7 +48,7 @@ if (!defined('MYALBUM_BLOCK_TOPNEWS_INCLUDED')) {
 
         $block           = [];
         $GLOBALS['myts'] = \MyTextSanitizer::getInstance();
-        $result          = $xoopsDB->query('SELECT lid , cid , title , ext , res_x , res_y , submitter , status , date AS unixtime , hits , rating , votes , comments FROM ' . $xoopsDB->prefix($table_photos) . " WHERE status>0 AND $whr_cat ORDER BY unixtime DESC", $photos_num, 0);
+        $result          = $xoopsDB->query('SELECT lid , cid , title , ext , res_x , res_y , submitter , `status` , date AS unixtime , hits , rating , votes , comments FROM ' . $xoopsDB->prefix($table_photos) . " WHERE status>0 AND $whr_cat ORDER BY unixtime DESC", $photos_num, 0);
         $count           = 1;
         while (false !== ($photo = $xoopsDB->fetchArray($result))) {
             $photo['title'] = $GLOBALS['myts']->displayTarea($photo['title']);

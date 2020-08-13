@@ -73,7 +73,7 @@ if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
     while (list($src_lid, $ext) = $GLOBALS['xoopsDB']->fetchRow($rs)) {
         // photos table
         $set_comments = $move_mode ? 'comments' : "'0'";
-        $sql          = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix($table_photos) . "(cid,title,ext,res_x,res_y,submitter,status,date,hits,rating,votes,comments) SELECT '$cid',title,ext,res_x,res_y,submitter,status,date,hits,rating,votes,$set_comments FROM $src_table_photos WHERE lid='$src_lid'";
+        $sql          = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix($table_photos) . "(cid,title,ext,res_x,res_y,submitter,`status`,date,hits,rating,votes,comments) SELECT '$cid',title,ext,res_x,res_y,submitter,`status`,date,hits,rating,votes,$set_comments FROM $src_table_photos WHERE lid='$src_lid'";
         $GLOBALS['xoopsDB']->query($sql) or exit('DB error: INSERT photo table');
         $lid = $GLOBALS['xoopsDB']->getInsertId();
 
@@ -130,8 +130,7 @@ if (!empty($_POST['myalbum_import']) && !empty($_POST['cid'])) {
 
     redirect_header('import.php', 2, sprintf(_AM_FMT_IMPORTSUCCESS, $import_count));
 } // From imagemanager
-else {
-    if (!empty($_POST['imagemanager_import']) && !empty($_POST['imgcat_id'])) {
+elseif (!empty($_POST['imagemanager_import']) && !empty($_POST['imgcat_id'])) {
         // authority check
         $grouppermHandler = xoops_getHandler('groupperm');
         if (!$grouppermHandler->checkRight('system_admin', XOOPS_SYSTEM_IMAGE, $GLOBALS['xoopsUser']->getGroups())) {
@@ -165,7 +164,7 @@ else {
             $ext      = mb_substr(mb_strrchr($image_name, '.'), 1);
 
             // photos table
-            $sql = 'INSERT INTO  ' . $GLOBALS['xoopsDB']->prefix($table_photos) . "SET cid='$cid',title='" . addslashes($image_nicename) . "',ext='$ext',submitter='$my_uid',status='$image_display',date='$image_created'";
+            $sql = 'INSERT INTO  ' . $GLOBALS['xoopsDB']->prefix($table_photos) . "SET cid='$cid',title='" . addslashes($image_nicename) . "',ext='$ext',submitter='$my_uid',`status`='$image_display',date='$image_created'";
             $GLOBALS['xoopsDB']->query($sql) or exit('DB error: INSERT photo table');
             $lid = $GLOBALS['xoopsDB']->getInsertId();
 
@@ -197,7 +196,7 @@ else {
 
         redirect_header('import.php', 2, sprintf(_AM_FMT_IMPORTSUCCESS, $import_count));
     }
-}
+
 
 require_once dirname(__DIR__) . '/include/myalbum.forms.php';
 xoops_cp_header();

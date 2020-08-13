@@ -14,7 +14,7 @@ eval(
 function b_sitemap_' . $mydirname . '(){
     $xoopsDB = \XoopsDatabaseFactory::getDatabaseConnection();
 
-    $block = sitemap_get_categoires_map($xoopsDB->prefix(\'myalbum' . $mydirnumber . '_cat\'), \'cid\', \'pid\', \'title\', \'viewcat.php?cid=\', \'title\');
+    $block = sitemap_get_categories_map($xoopsDB->prefix(\'myalbum' . $mydirnumber . '_cat\'), \'cid\', \'pid\', \'title\', \'viewcat.php?cid=\', \'title\');
 
     return $block;
 }
