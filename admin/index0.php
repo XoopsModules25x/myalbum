@@ -87,7 +87,7 @@ if ('insert' === $action) {
     }
     $whr .= "$cid)";
     xoops_notification_deletebyitem($myalbum_mid, 'category', $cid);
-    $criteria = new \Criteria('`cid`', '(' . implode(',', $children) . ')', 'IN');
+    $criteria = new \Criteria('cid', '(' . implode(',', $children) . ')', 'IN');
     myalbum_delete_photos($criteria);
     $GLOBALS['xoopsDB']->query('DELETE FROM ' . $GLOBALS['xoopsDB']->prefix($table_cat) . " WHERE $whr")
     || exit('DB error: DELETE cat table');
@@ -169,7 +169,7 @@ if ('edit' === $disp && $cid > 0) {
             $prefix      = str_repeat('&nbsp;--', $catHandler->prefixDepth($cid, 0));
             $cid         = (int)$cid;
             $del_confirm = 'confirm("' . sprintf(_AM_CAT_FMT_CATDELCONFIRM, $title) . '")';
-            $criteria    = new \Criteria('`cid`', $cid);
+            $criteria    = new \Criteria('cid', $cid);
             $photos_num  = $photosHandler->getCount($criteria);
             if ($imgurl && 'http://' !== $imgurl) {
                 $imgsrc4show = $GLOBALS['myts']->htmlSpecialChars($imgurl);

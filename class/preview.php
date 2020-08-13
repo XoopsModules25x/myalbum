@@ -281,8 +281,8 @@ class Preview extends \XoopsObject
     public static function getSubCategories($parent_id, $cattree)
     {
         $ret      = [];
-        $criteria = new \Criteria('`status`', '0', '>');
-        $criterib = new \Criteria('`pid`', $parent_id, '=');
+        $criteria = new \Criteria('status', '0', '>');
+        $criterib = new \Criteria('pid', $parent_id, '=');
         $criterib->setSort('cid');
         $criterib->setOrder('DESC');
 

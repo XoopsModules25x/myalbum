@@ -754,7 +754,7 @@ class Utility extends Common\SysUtility
         if (\is_object($criteria)) {
             $criteria = new \CriteriaCompo($criteria);
         }
-        $criteria->add(new \Criteria('`cid`', $cid));
+        $criteria->add(new \Criteria('cid', $cid));
         /** @var PhotosHandler $photoHandler */
         //        $photoHandler = xoops_getModuleHandler('photos', $GLOBALS[$moduleDirName.'_dirname']);
 //        require_once __DIR__ . '/photos.php';
@@ -777,7 +777,7 @@ class Utility extends Common\SysUtility
         if (\is_object($criteria)) {
             $criteria = new \CriteriaCompo($criteria);
         }
-        $criteria->add(new \Criteria('`cid`', '(' . \implode(',', $cids) . ',0)', 'IN'));
+        $criteria->add(new \Criteria('cid', '(' . \implode(',', $cids) . ',0)', 'IN'));
         /** @var  PhotosHandler $photoHandler */
         //        $photoHandler = xoops_getModuleHandler('photos', $GLOBALS[$moduleDirName.'_dirname']);
 //        require_once __DIR__ . '/photos.php';

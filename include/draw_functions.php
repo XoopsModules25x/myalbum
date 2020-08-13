@@ -279,8 +279,8 @@ function myalbum_get_array_for_photo_assign_light($photo, $summary = false)
 function myalbum_get_sub_categories($parent_id, $cattree)
 {
     $ret      = [];
-    $criteria = new \Criteria('`status`', '0', '>');
-    $criterib = new \Criteria('`pid`', $parent_id, '=');
+    $criteria = new \Criteria('status', '0', '>');
+    $criterib = new \Criteria('pid', $parent_id, '=');
     $criterib->setSort('cid');
     $criterib->setOrder('DESC');
 

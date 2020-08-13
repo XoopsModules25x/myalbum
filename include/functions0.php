@@ -784,7 +784,7 @@ function myalbum_get_photo_small_sum_from_cat($cid, Criteria $criteria = null)
     if (is_object($criteria)) {
         $criteria = new \CriteriaCompo($criteria);
     }
-    $criteria->add(new \Criteria('`cid`', $cid));
+    $criteria->add(new \Criteria('cid', $cid));
     $helper = Helper::getInstance();
     $photoHandler = $helper->getHandler('Photos');
 
@@ -804,7 +804,7 @@ function myalbum_get_photo_total_sum_from_cats($cids, $criteria = null)
     if (is_object($criteria)) {
         $criteria = new \CriteriaCompo($criteria);
     }
-    $criteria->add(new \Criteria('`cid`', '(' . implode(',', $cids) . ',0)', 'IN'));
+    $criteria->add(new \Criteria('cid', '(' . implode(',', $cids) . ',0)', 'IN'));
     $photoHandler = $helper->getHandler('Photos');
 
     return $photoHandler->getCount($criteria);

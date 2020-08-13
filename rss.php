@@ -95,21 +95,21 @@ if (!$GLOBALS['xoopsTpl']->is_cached('db:' . $GLOBALS['mydirname'] . '_rss.tpl')
             $cids[$child->getVar('cid')] = $child->getVar('cid');
         }
         $cids[]   = $cid;
-        $criteria = new \CriteriaCompo(new \Criteria('`status`', '0', '>'));
+        $criteria = new \CriteriaCompo(new \Criteria('status', '0', '>'));
         $photo_total_sum = Utility::getTotalCount($cids, $criteria);
         $sub_title       = preg_replace("/\'\>/", "'><img src='$mod_url/assets/images/folder16.gif' alt=''>", $GLOBALS['cattree']->getNicePathFromId($cid, 'title', "viewcat.php?num=$num"));
         $sub_title       = preg_replace('/^(.+)folder16/', '$1folder_open', $sub_title);
-        $criteria->add(new \Criteria('`cid`', $cid));
+        $criteria->add(new \Criteria('cid', $cid));
     } elseif (0 != $uid) {
         // This means 'my photo'
         if ($uid < 0) {
-            $criteria = new \CriteriaCompo(new \Criteria('`status`', '0', '>'));
+            $criteria = new \CriteriaCompo(new \Criteria('status', '0', '>'));
         } else {
-            $criteria = new \CriteriaCompo(new \Criteria('`status`', '0', '>'));
+            $criteria = new \CriteriaCompo(new \Criteria('status', '0', '>'));
             $criteria->add(new \Criteria('`submitter`', $uid));
         }
     } else {
-        $criteria = new \CriteriaCompo(new \Criteria('`status`', '0', '>'));
+        $criteria = new \CriteriaCompo(new \Criteria('status', '0', '>'));
     }
 
     $criteria->setOrder($myalbum_orders[$orderby][0]);

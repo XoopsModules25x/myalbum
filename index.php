@@ -59,7 +59,7 @@ $GLOBALS['xoopsTpl']->assign('subcategories', Preview::getSubCategories(0, $GLOB
 
 $GLOBALS['xoopsTpl']->assign('category_options', Utility::getCategoryOptions());
 
-$criteria        = new \Criteria('`status`', '0', '>');
+$criteria        = new \Criteria('status', '0', '>');
 $photo_num_total = $photosHandler->getCount($criteria);
 
 $GLOBALS['xoopsTpl']->assign('photo_global_sum', sprintf(_ALBM_THEREARE, $photo_num_total));
@@ -90,11 +90,11 @@ if ($photo_num_total > $num) {
     $GLOBALS['xoopsTpl']->assign('photonavdisp', false);
 }
 
-$criteria = new \Criteria('`status`', '0', '>');
+$criteria = new \Criteria('status', '0', '>');
 $criteria->setStart($pos);
 $criteria->setLimit($num);
 //$criteria->setSort('`date`');
-$criteria->setSort('`cid`');
+$criteria->setSort('cid');
 $criteria->setOrder('DESC');
 // Assign Latest Photos
 foreach ($photosHandler->getObjects($criteria, true) as $lid => $photo) {

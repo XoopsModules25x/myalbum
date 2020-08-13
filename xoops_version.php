@@ -209,7 +209,7 @@ if ($GLOBALS['global_perms'] & 256) { // GPERM_RATEVIEW
     $modversion['sub'][$subcount++]['url'] = 'topten.php?rate=1';
 }
 if (isset($myalbum_catonsubmenu) && $myalbum_catonsubmenu) {
-    $criteria = new \Criteria('`pid`', 0);
+    $criteria = new \Criteria('pid', 0);
     $catHandler = $helper->getHandler('Category');
     if (false !== $catHandler->getCount($criteria)) {
         foreach ($catHandler->getObjects($criteria, true) as $cid => $cat) {

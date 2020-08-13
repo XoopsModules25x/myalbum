@@ -46,7 +46,7 @@ if (!empty($_POST['action']) && 'admit' === $_POST['action'] && isset($_POST['id
 $photosHandler = $helper->getHandler('Photos');
 
 // extracting by free word
-$criteria = new \CriteriaCompo(new \Criteria('`status`', '0', '<='));
+$criteria = new \CriteriaCompo(new \Criteria('status', '0', '<='));
 if ('' !== $txt) {
     $keywords = explode(' ', $txt);
     foreach ($keywords as $keyword) {
@@ -73,7 +73,7 @@ $nav      = new \XoopsPageNav($numrows, $num, $pos, 'pos', "num=$num&txt=" . url
 $nav_html = $nav->renderNav(10);
 $GLOBALS['xoopsTpl']->assign('nav_html', $nav_html);
 
-$criteria = new \Criteria('`status`', '0', '<=');
+$criteria = new \Criteria('status', '0', '<=');
 $criteria->setStart($pos);
 $criteria->setLimit($num);
 

@@ -61,10 +61,10 @@ if (Request::hasVar('orderby', 'GET') && isset($myalbum_orders[$_GET['orderby']]
 
 if ('table' === $view) {
     $GLOBALS['xoopsOption']['template_main'] = "{$moduleDirName }_viewcat_table.tpl";
-    $function_assigning                      = 'Myalbum\Preview::getArrayForPhotoAssignLight';
+    $function_assigning                      = 'XoopsModules\Myalbum\Preview::getArrayForPhotoAssignLight';
 } else {
     $GLOBALS['xoopsOption']['template_main'] = "{$moduleDirName }_viewcat_list.tpl";
-    $function_assigning                      = 'Myalbum\Preview::getArrayForPhotoAssign';
+    $function_assigning                      = 'XoopsModules\Myalbum\Preview::getArrayForPhotoAssign';
 }
 
 require_once XOOPS_ROOT_PATH . '/header.php';
@@ -93,7 +93,7 @@ if ($cid > 0) {
         $cids[$child->getVar('cid')] = $child->getVar('cid');
     }
     $cids[]   = $cid;
-    $criteria = new \CriteriaCompo(new \Criteria('`status`', '0', '>'));
+    $criteria = new \CriteriaCompo(new \Criteria('status', '0', '>'));
     $photo_total_sum = Utility::getTotalCount($cids, $criteria);
     if (!empty($cids)) {
         foreach ($cids as $index => $child) {
@@ -110,22 +110,22 @@ if ($cid > 0) {
     $sub_title = preg_replace("/\'\>/", "'><img src='$mod_url/assets/images/folder16.gif' alt=''>", $catpath);
     $sub_title = preg_replace('/^(.+)folder16/', '$1folder_open', $sub_title);
     $GLOBALS['xoopsTpl']->assign('album_sub_title', $sub_title);
-    $criteria->add(new \Criteria('`cid`', $cid));
+    $criteria->add(new \Criteria('cid', $cid));
 } elseif (0 != $uid) {
     // This means 'my photo'
     if ($uid < 0) {
-        $criteria = new \CriteriaCompo(new \Criteria('`status`', '0', '>'));
+        $criteria = new \CriteriaCompo(new \Criteria('status', '0', '>'));
         $GLOBALS['xoopsTpl']->assign('uid', -1);
         $GLOBALS['xoopsTpl']->assign('album_sub_title', _ALBM_TEXT_SMNAME4);
         // uid Specified
     } else {
-        $criteria = new \CriteriaCompo(new \Criteria('`status`', '0', '>'));
+        $criteria = new \CriteriaCompo(new \Criteria('status', '0', '>'));
         $criteria->add(new \Criteria('`submitter`', $uid));
         $GLOBALS['xoopsTpl']->assign('uid', $uid);
         $GLOBALS['xoopsTpl']->assign('album_sub_title', "<img src='$mod_url/assets/images/myphotos.gif' alt='' >" . Preview::getNameFromUid($uid));
     }
 } else {
-    $criteria = new \CriteriaCompo(new \Criteria('`status`', '0', '>'));
+    $criteria = new \CriteriaCompo(new \Criteria('status', '0', '>'));
     $GLOBALS['xoopsTpl']->assign('album_sub_title', 'error: category id not specified');
 }
 
@@ -137,7 +137,7 @@ $GLOBALS['xoopsTpl']->assign('xoConfig', $GLOBALS['myalbumModuleConfig']);
 $GLOBALS['xoopsTpl']->assign('mydirname', $GLOBALS['mydirname']);
 
 $photo_small_sum = $photosHandler->getCount($criteria);
-$photo_total_sum = $photosHandler->getCount(new \Criteria('`status`', '0', '>'));
+$photo_total_sum = $photosHandler->getCount(new \Criteria('status', '0', '>'));
 $GLOBALS['xoopsTpl']->assign('photo_small_sum', $photo_small_sum);
 $GLOBALS['xoopsTpl']->assign('photo_total_sum', (empty($photo_total_sum) ? $photo_small_sum : $photo_total_sum));
 $criteria->setOrder($myalbum_orders[$orderby][0]);
