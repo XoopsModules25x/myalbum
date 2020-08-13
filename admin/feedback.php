@@ -24,7 +24,7 @@ use Xmf\Request;
 use XoopsModules\Myalbum\Common;
 use XoopsModules\Myalbum\Common\ModuleFeedback;
 
-include __DIR__ . '/admin_header.php';
+require __DIR__ . '/admin_header.php';
 
 $adminObject = Admin::getInstance();
 

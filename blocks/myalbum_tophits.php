@@ -52,7 +52,7 @@ if (!defined('MYALBUM_BLOCK_TOPHITS_INCLUDED')) {
 
         $count = 1;
         while (false !== ($photo = $xoopsDB->fetchArray($result))) {
-            $photo['title'] = $myts->htmlSpecialChars($photo['title']);
+            $photo['title'] = htmlspecialchars($photo['title']);
             if (mb_strlen($photo['title']) >= $title_max_length) {
                 if (!XOOPS_USE_MULTIBYTES) {
                     $photo['title'] = mb_substr($photo['title'], 0, $title_max_length - 1) . '...';
