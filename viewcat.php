@@ -120,7 +120,7 @@ if ($cid > 0) {
         // uid Specified
     } else {
         $criteria = new \CriteriaCompo(new \Criteria('status', '0', '>'));
-        $criteria->add(new \Criteria('`submitter`', $uid));
+        $criteria->add(new \Criteria('submitter', $uid));
         $GLOBALS['xoopsTpl']->assign('uid', $uid);
         $GLOBALS['xoopsTpl']->assign('album_sub_title', "<img src='$mod_url/assets/images/myphotos.gif' alt='' >" . Preview::getNameFromUid($uid));
     }

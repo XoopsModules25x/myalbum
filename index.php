@@ -98,7 +98,7 @@ $criteria->setSort('cid');
 $criteria->setOrder('DESC');
 // Assign Latest Photos
 foreach ($photosHandler->getObjects($criteria, true) as $lid => $photo) {
-    $GLOBALS['xoopsTpl']->append_by_ref('photos', Preview::getArrayForPhotoAssign($photo, true));
+    $GLOBALS['xoopsTpl']->append('photos', Preview::getArrayForPhotoAssign($photo, true));
 }
 
 require $GLOBALS['xoops']->path('footer.php');

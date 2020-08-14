@@ -206,7 +206,7 @@ class Utility extends Common\SysUtility
         global $thumbs_dir;
 
         $moduleDirName = \basename(\dirname(__DIR__));
-        echo __LINE__ . '<br>';
+        //echo __LINE__ . '<br>';
         $bundled_2 = false;
         if (!$GLOBALS[$moduleDirName . '_forcegd2'] && \function_exists('gd_info')) {
             $gd_info = gd_info();
@@ -215,7 +215,7 @@ class Utility extends Common\SysUtility
                 $bundled_2 = true;
             }
         }
-        echo __LINE__ . '<br>';
+        //echo __LINE__ . '<br>';
         if (!\is_readable($src_path)) {
             return 0;
         }
@@ -240,16 +240,16 @@ class Utility extends Common\SysUtility
 
                 return 2;
         }
-        echo __LINE__ . '<br>';
+        //echo __LINE__ . '<br>';
         [$new_w, $new_h] = static::getThumbWidth($width, $height);
-        echo __LINE__ . '<br>';
+        //echo __LINE__ . '<br>';
         if ($width <= $new_w && $height <= $new_h) {
             // only copy when small enough
             \copy($src_path, "$thumbs_dir/$node.$ext");
 
             return 2;
         }
-        echo __LINE__ . '<br>';
+        //echo __LINE__ . '<br>';
         if (!$bundled_2) {
             $dst_img = \imagecreate($new_w, $new_h);
             \imagecopyresampled($dst_img, $src_img, 0, 0, 0, 0, $new_w, $new_h, $width, $height);
@@ -262,7 +262,7 @@ class Utility extends Common\SysUtility
                 \imagecopyresampled($dst_img, $src_img, 0, 0, 0, 0, $new_w, $new_h, $width, $height);
             }
         }
-        echo __LINE__ . '<br>';
+        //echo __LINE__ . '<br>';
         switch ($type) {
             case 2:
                 // JPEG
@@ -275,7 +275,7 @@ class Utility extends Common\SysUtility
                 \imagedestroy($dst_img);
                 break;
         }
-        echo __LINE__ . '<br>';
+        //echo __LINE__ . '<br>';
         \imagedestroy($src_img);
 
         return 1;
@@ -720,7 +720,7 @@ class Utility extends Common\SysUtility
 //        $votedataHandler = VotedataHandler::getInstance();
         $votedataHandler = Helper::getInstance()->getHandler('Votedata');
 
-        $criteria        = new \CriteriaCompo(new \Criteria('`lid`', $lid));
+        $criteria        = new \CriteriaCompo(new \Criteria('lid', $lid));
         $votes           = $votedataHandler->getObjects($criteria, true);
         $votesDB         = $votedataHandler->getCount($criteria);
         $totalrating     = 0;
@@ -761,7 +761,7 @@ class Utility extends Common\SysUtility
 //        $photoHandler = PhotosHandler::getInstance();
         $photosHandler = Helper::getInstance()->getHandler('Photos');
 
-        return $photoHandler->getCount($criteria);
+        return $photosHandler->getCount($criteria);
     }
 
     // Returns the number of whole photos included in a Category

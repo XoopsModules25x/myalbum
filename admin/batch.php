@@ -68,8 +68,8 @@ if (\Xmf\Request::hasVar('submit', 'POST') && '' !== $_POST['submit']) {
         $dir = mb_substr($dir, 0, -1);
     }
 
-    $title4save = $GLOBALS['myts']->htmlSpecialChars($_POST['title']);
-    $desc4save  = $GLOBALS['myts']->addSlashes($_POST['desc']);
+    $title4save = $GLOBALS['myts']->htmlSpecialChars(\Xmf\Request::getString('title'));
+    $desc4save  = $GLOBALS['myts']->addSlashes(\Xmf\Request::getString('desc'));
 
     $date = strtotime($_POST['post_date']);
     if (-1 == $date) {
@@ -119,6 +119,7 @@ if (\Xmf\Request::hasVar('submit', 'POST') && '' !== $_POST['submit']) {
                 $text->setVar('description', $desc4save);
                 $textHandler->insert($text);
                 echo _AM_MB_FINISHED . "<br>\n";
+                unlink($file_path);
             }
 
             ++$filecount;

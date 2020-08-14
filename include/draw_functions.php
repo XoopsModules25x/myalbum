@@ -8,7 +8,8 @@ use XoopsModules\Myalbum\{
     Helper,
     PhotosHandler,
     TextHandler,
-    VotedataHandler
+    VotedataHandler,
+    Utility
 };
 
 /** @var Helper $helper */
@@ -140,7 +141,7 @@ function myalbum_get_array_for_photo_assign($photo, $summary = false)
     // Summarize description
     if (is_object($text)) {
         if ($summary) {
-            $description = extractSummary($text->getVar('description'));
+            $description = Utility::extractSummary($text->getVar('description'));
         } else {
             $description = $text->getVar('description');
         }

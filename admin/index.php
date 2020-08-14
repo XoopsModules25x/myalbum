@@ -10,7 +10,7 @@ use XoopsModules\Myalbum\{
     PhotosHandler,
     TextHandler,
     VotedataHandler,
-    Utility
+    Utility,
 };
 
 /** @var Admin $adminObject */
@@ -107,14 +107,14 @@ if (false === $error_upload_tmp_dir) {
 // Tables
 $title = _AM_H4_TABLE;
 $adminObject->addInfoBox($title);
-$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MB_PHOTOSTABLE . ': ' . $GLOBALS['table_photos'] . ': %s photos</label>', $photosHandler->getCount(new \Criteria('`status`', '0', '>'))), '', 'Purple');
+$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MB_PHOTOSTABLE . ': ' . $GLOBALS['table_photos'] . ': %s photos</label>', $photosHandler->getCount(new \Criteria('status', '0', '>'))), '', 'Purple');
 $adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MB_PHOTOSTABLE . ': ' . $GLOBALS['table_photos'] . ': %s dead photos</label>', $photosHandler->getCountDeadPhotos()), '', 'Red');
 $adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MB_PHOTOSTABLE . ': ' . $GLOBALS['table_photos'] . ': %s dead thumbs</label>', $photosHandler->getCountDeadThumbs()), '', 'Red');
 $adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MB_DESCRIPTIONTABLE . ': ' . $GLOBALS['table_text'] . ': %s descriptions</label>', $textHandler->getCount()), '', 'Purple');
 $adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MB_DESCRIPTIONTABLE . ': ' . $GLOBALS['table_text'] . ': %s bytes</label>', $textHandler->getBytes()), '', 'Orange');
 $adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MB_CATEGORIESTABLE . ': ' . $GLOBALS['table_cat'] . ': %s categories</label>', $catHandler->getCount()), '', 'Purple');
 $adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MB_VOTEDATATABLE . ': ' . $GLOBALS['table_votedata'] . ': %s votes</label>', $votedataHandler->getCount()), '', 'Purple');
-$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MB_COMMENTSTABLE . ': ' . $GLOBALS['table_comments'] . ': %s comments</label>', $commentsHandler->getCount(new \Criteria('`com_modid`', $GLOBALS['myalbumModule']->getVar('mid'), '='))), '', 'Purple');
+$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_MB_COMMENTSTABLE . ': ' . $GLOBALS['table_comments'] . ': %s comments</label>', $commentsHandler->getCount(new \Criteria('com_modid', $GLOBALS['myalbumModule']->getVar('mid'), '='))), '', 'Purple');
 
 // Config
 $title = _AM_H4_CONFIG;
@@ -206,10 +206,11 @@ if ($myalbum_makethumb) {
 //    xoops_load('utility', $moduleDirName);
 //}
 
-foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
-    Utility::createFolder($uploadFolders[$i]);
-    $adminObject->addConfigBoxLine($uploadFolders[$i], 'folder');
-    //    $adminObject->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
+$configurator = new Common\Configurator();
+if (count($configurator->uploadFolders) > 0) {
+    foreach (array_keys($configurator->uploadFolders) as $i) {
+        $adminObject->addConfigBoxLine($configurator->uploadFolders[$i], 'folder');
+    }
 }
 
 //------------- Test Data ----------------------------

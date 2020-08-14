@@ -755,7 +755,7 @@ function myalbum_updaterating($lid)
 {
     $helper = Helper::getInstance();
     $votedataHandler = $helper->getHandler('Votedata');
-    $criteria        = new \CriteriaCompo(new \Criteria('`lid`', $lid));
+    $criteria        = new \CriteriaCompo(new \Criteria('lid', $lid));
     $votes           = $votedataHandler->getObjects($criteria, true);
     $votesDB         = $votedataHandler->getCount($criteria);
     $totalrating     = 0;
@@ -786,9 +786,9 @@ function myalbum_get_photo_small_sum_from_cat($cid, Criteria $criteria = null)
     }
     $criteria->add(new \Criteria('cid', $cid));
     $helper = Helper::getInstance();
-    $photoHandler = $helper->getHandler('Photos');
+    $photosHandler = $helper->getHandler('Photos');
 
-    return $photoHandler->getCount($criteria);
+    return $photosHandler->getCount($criteria);
 }
 
 // Returns the number of whole photos included in a Category
@@ -805,9 +805,9 @@ function myalbum_get_photo_total_sum_from_cats($cids, $criteria = null)
         $criteria = new \CriteriaCompo($criteria);
     }
     $criteria->add(new \Criteria('cid', '(' . implode(',', $cids) . ',0)', 'IN'));
-    $photoHandler = $helper->getHandler('Photos');
+    $photosHandler = $helper->getHandler('Photos');
 
-    return $photoHandler->getCount($criteria);
+    return $photosHandler->getCount($criteria);
 }
 
 // Update a photo

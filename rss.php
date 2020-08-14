@@ -106,7 +106,7 @@ if (!$GLOBALS['xoopsTpl']->is_cached('db:' . $GLOBALS['mydirname'] . '_rss.tpl')
             $criteria = new \CriteriaCompo(new \Criteria('status', '0', '>'));
         } else {
             $criteria = new \CriteriaCompo(new \Criteria('status', '0', '>'));
-            $criteria->add(new \Criteria('`submitter`', $uid));
+            $criteria->add(new \Criteria('submitter', $uid));
         }
     } else {
         $criteria = new \CriteriaCompo(new \Criteria('status', '0', '>'));

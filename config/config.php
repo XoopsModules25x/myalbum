@@ -34,8 +34,12 @@ return (object)[
     ],
     'uploadFolders'  => [
         XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/batch',
         XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/category',
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/photos',
         XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/screenshots',
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/thumbs',
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/watermarks',
         //XOOPS_UPLOAD_PATH . '/flags'
     ],
     'copyBlankFiles' => [

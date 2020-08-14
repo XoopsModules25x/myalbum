@@ -146,7 +146,7 @@ if ('edit' === $disp && $cid > 0) {
     }
 
     // Waiting Admission
-    $criteria       = new \Criteria('`status`', '0');
+    $criteria       = new \Criteria('status', '0');
     $waiting        = $photosHandler->getCount($criteria);
     $link_admission = $waiting > 0 ? sprintf(_AM_CAT_FMT_NEEDADMISSION, $waiting) : '';
 

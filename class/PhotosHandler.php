@@ -73,7 +73,7 @@ class PhotosHandler extends \XoopsPersistableObjectHandler
                 // Trigger Notification
                 /** @var \XoopsNotificationHandler $notificationHandler */
                 $notificationHandler = \xoops_getHandler('notification');
-                $criteria            = new \Criteria('`lid`', "('" . \implode("','", $ids) . "')", 'IN');
+                $criteria            = new \Criteria('lid', "('" . \implode("','", $ids) . "')", 'IN');
                 $photos              = $this->getObjects($criteria, true);
                 foreach ($photos as $lid => $photo) {
                     $notificationHandler->triggerEvent(
@@ -150,7 +150,7 @@ class PhotosHandler extends \XoopsPersistableObjectHandler
         $textHandler = $helper->getHandler('Text');
         /** @var CommentsHandler $commentsHandler */
         $commentsHandler = $helper->getHandler('Comments');
-        $criteria        = new \Criteria('`lid`', $photo->getVar('lid'));
+        $criteria        = new \Criteria('lid', $photo->getVar('lid'));
         $votedataHandler->deleteAll($criteria, $force);
         $textHandler->deleteAll($criteria, $force);
 
