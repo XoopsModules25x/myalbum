@@ -1,5 +1,5 @@
 <h3 style='text-align:left;'><{$admin_title}></h3>
-<{if $smarty.get.mes}><p><span style='color:blue;'>(<{$smarty.get.mes}>)</span></p><{/if}>
+<{if $smarty.get.mes|default:false}><p><span style='color:blue;'>(<{$smarty.get.mes}>)</span></p><{/if}>
 <table width='95%' border='0' cellpadding='4' cellspacing='0'>
     <tr>
         <td>
@@ -27,7 +27,7 @@
                         <th><{$smarty.const._AM_TH_CATEGORIES}></th>
                         <th><{$smarty.const._ALBM_ACTION}></th>
                     </tr>
-                    <{foreach item=photo from=$photos key=lid}>
+                    <{foreach item=photo from=$photos|default:null key=lid}>
                         <tr class="<{cycle values='even,odd'}>">
                             <td><input type='checkbox' name='ids[]' value='<{$photo.photo.lid}>'></td>
                             <td><img src='<{$thumbs_url}>/<{$photo.photo.lid}>.<{$photo.photo.ext}>'></td>
