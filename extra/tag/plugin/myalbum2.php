@@ -21,7 +21,8 @@
  * @param mixed $items
  */
 
-
+use XoopsModules\Tag\Helper;
+use XoopsModules\Tag\Utility;
 
 /**
  * Get item fields:
@@ -65,7 +66,7 @@ function myalbum2_tag_iteminfo(&$items)
                 'uid'     => $item_obj->getVar('submitter'),
                 'link'    => "photo.php?lid={$item_id}&cid=" . $item_obj->getVar('cid'),
                 'time'    => $item_obj->getVar('date'),
-                'tags'    => \XoopsModules\Tag\Utility::tag_parse_tag($item_obj->getVar('tags', 'n')),
+                'tags'    => Utility::tag_parse_tag($item_obj->getVar('tags', 'n')),
                 'content' => $GLOBALS['myts']->displayTarea($text->getVar('description'), 1, 1, 1, 1, 1, 1),
             ];
         }
@@ -81,7 +82,7 @@ function myalbum2_tag_iteminfo(&$items)
 function myalbum2_tag_synchronization($mid)
 {
     $itemHandler = $helper->getHandler('Photos', 'myalbum2');
-    $linkHandler = \XoopsModules\Tag\Helper::getInstance()->getHandler('Link'); //@var \XoopsModules\Tag\Handler $tagHandler
+    $linkHandler = Helper::getInstance()->getHandler('Link'); //@var \XoopsModules\Tag\Handler $tagHandler
 
     /* clear tag-item links */
     if (version_compare($GLOBALS['xoopsDB']->getServerVersion(), '4.1.0', 'ge')):
