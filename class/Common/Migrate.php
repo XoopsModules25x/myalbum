@@ -29,7 +29,7 @@ class Migrate extends \Xmf\Database\Migrate
 
     /**
      * Migrate constructor.
-     * @param Common\Configurator $configurator
+     * @param Common\Configurator|null $configurator
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */

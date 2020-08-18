@@ -82,9 +82,9 @@ class MediaUploader
      * @param string $uploadDir
      * @param array  $allowedMimeTypes
      * @param int    $maxFileSize
-     * @param int    $maxWidth
-     * @param int    $maxHeight
-     * @param array  $allowedExtensions
+     * @param int|null    $maxWidth
+     * @param int|null    $maxHeight
+     * @param array|null  $allowedExtensions
      *
      * @internal param int $cmodvalue
      */
@@ -116,7 +116,7 @@ class MediaUploader
      * Fetch the uploaded file
      *
      * @param string $media_name Name of the file field
-     * @param int    $index      Index of the file (if more than one uploaded under that name)
+     * @param int|null    $index      Index of the file (if more than one uploaded under that name)
      *
      * @return bool
      **/

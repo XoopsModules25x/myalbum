@@ -768,7 +768,7 @@ class Utility extends Common\SysUtility
 
     /**
      * @param                                       $cids
-     * @param \CriteriaElement|\CriteriaCompo $criteria
+     * @param \CriteriaElement|\CriteriaCompo|null $criteria
      *
      * @return mixed
      */
