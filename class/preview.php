@@ -2,6 +2,8 @@
 
 namespace XoopsModules\Myalbum;
 
+use XoopsModules\Myalbum\Utility;
+
 /**
  * Class MyalbumPreview
  */
@@ -137,7 +139,7 @@ class Preview extends \XoopsObject
         // Summarize description
         if (\is_object($text)) {
             if ($summary) {
-                $description = \extractSummary($text->getVar('description'));
+                $description = Utility::extractSummary($text->getVar('description'));
             } else {
                 $description = $text->getVar('description');
             }

@@ -44,7 +44,7 @@ $modversion = [
     'name'                => _ALBM_MYALBUM_NAME . $myalbum_number,
     'description'         => _ALBM_MYALBUM_DESC,
     'official'            => 0, //1 indicates supported by XOOPS Dev Team, 0 means 3rd party supported
-    'author'              => 'GIJoe, http://xoops.peak.ne.jp<br>Updates: Wishcraft=Simon Roberts, montuy337513 alias black_beard',
+    'author'              => 'GIJoe, http://xoops.peak.ne.jp<br>Updates: Wishcraft=Simon Roberts, montuy337513 alias black_beard, Mamba, Goffy',
     'credits'             => 'Original: Daniel Branco<br>(http://bluetopia.homeip.net)<br>Kazumi Ono<br>(http://www.mywebaddons.com/)<br>Wishcraft=Simon Roberts<br>Chronolabs Co-op.(http://www.chronolabs.coop/)<br>The XOOPS Project, Chronolabs Co-op - http://www.chronolabs.coop/',
     'author_mail'         => '',
     'author_website_url'  => 'https://xoops.org',

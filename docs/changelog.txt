@@ -2,6 +2,7 @@
 <hr>
 - namespaces (mamba)
 - class autoloading (mamba)
+- fixed several bugs (goffy)
 
 3.08 Beta 1            NOT RELEASED
 =================================

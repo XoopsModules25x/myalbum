@@ -126,14 +126,14 @@ if ('edit' === $disp && $cid > 0) {
         $cat_tree_array[$child->getVar('cid')] = $child->toArray();
         $live_cids[$child->getVar('cid')]      = $child->getVar('cid');
     }
-    $criteria = new \CriteriaCompo(new \Criteria('`pid`', '(' . implode(',', $live_cids) . ')', 'NOT IN'));
+    $criteria = new \CriteriaCompo(new \Criteria('pid', '(' . implode(',', $live_cids) . ')', 'NOT IN'));
     if (false !== $catHandler->getCount($criteria)) {
         $GLOBALS['xoopsDB']->queryF('UPDATE ' . $GLOBALS['xoopsDB']->prefix($table_cat) . " SET pid='0' " . $criteria->renderWhere());
         redirect_header('dashboard.php', 0, 'A Ghost Category found.');
     }
 
     // Waiting Admission
-    $criteria       = new \Criteria('`status`', '0');
+    $criteria       = new \Criteria('status', '0');
     $waiting        = $photosHandler->getCount($criteria);
     $link_admission = $waiting > 0 ? sprintf(_AM_CAT_FMT_NEEDADMISSION, $waiting) : '';
 

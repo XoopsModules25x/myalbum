@@ -44,15 +44,15 @@ if (Request::hasVar('submit', 'POST')) {
 
     if (0 != $ratinguser) {
         // Check if Photo POSTER is voting
-        $criteria = new \CriteriaCompo(new \Criteria('`lid`', $lid, '='));
-        $criteria->add(new \Criteria('`submitter`', $ratinguser));
+        $criteria = new \CriteriaCompo(new \Criteria('lid', $lid, '='));
+        $criteria->add(new \Criteria('submitter', $ratinguser));
 
         if ($photosHandler->getCount($criteria)) {
             $helper->redirect('index.php', 4, _ALBM_CANTVOTEOWN);
         }
 
-        $criteria = new \CriteriaCompo(new \Criteria('`lid`', $lid, '='));
-        $criteria->add(new \Criteria('`ratinguser`', $ratinguser));
+        $criteria = new \CriteriaCompo(new \Criteria('lid', $lid, '='));
+        $criteria->add(new \Criteria('ratinguser', $ratinguser));
 
         // Check if REG user is trying to vote twice.
         if ($votedataHandler->getCount($criteria)) {
@@ -61,9 +61,9 @@ if (Request::hasVar('submit', 'POST')) {
     } else {
         // Check if ANONYMOUS user is trying to vote more than once per day.
         $yesterday = (time() - (86400 * $anonwaitdays));
-        $criteria  = new \CriteriaCompo(new \Criteria('`ratingtimestamp`', $yesterday, '>'));
-        $criteria->add(new \Criteria('`ratinguser`', 0));
-        $criteria->add(new \Criteria('`ratinghostname`', $ip));
+        $criteria  = new \CriteriaCompo(new \Criteria('ratingtimestamp', $yesterday, '>'));
+        $criteria->add(new \Criteria('ratinguser', 0));
+        $criteria->add(new \Criteria('ratinghostname', $ip));
         // Check if REG user is trying to vote twice.
         if ($votedataHandler->getCount($criteria)) {
             $helper->redirect('index.php', 4, _ALBM_VOTEONCE2);

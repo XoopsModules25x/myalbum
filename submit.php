@@ -12,7 +12,8 @@ use XoopsModules\Myalbum\{
     PhotosHandler,
     Preview,
     TextHandler,
-    Utility
+    Utility,
+    MediaUploader
 };
 /** @var Helper $helper */
 /** @var CategoryHandler $catHandler */
@@ -21,8 +22,11 @@ use XoopsModules\Myalbum\{
 
 //use XoopsModules\Tag\Helper; //TODO
 
+global $global_perms;
+
 $lid = '';
 require_once __DIR__ . '/header.php';
+require_once __DIR__ . '/include/get_perms.php';
 
 $catHandler = $helper->getHandler('Category');
 $photosHandler = $helper->getHandler('Photos');
