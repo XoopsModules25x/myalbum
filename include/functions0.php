@@ -209,7 +209,9 @@ function myalbum_create_thumb($src_path, $node, $ext)
 
     if (PIPEID_IMAGICK == $myalbum_imagingpipe) {
         return myalbum_create_thumbs_by_imagick($src_path, $node, $ext);
-    } elseif (PIPEID_NETPBM == $myalbum_imagingpipe) {
+    }
+
+    if (PIPEID_NETPBM == $myalbum_imagingpipe) {
         return myalbum_create_thumbs_by_netpbm($src_path, $node, $ext);
     }
 
@@ -967,7 +969,9 @@ function myalbum_get_cat_options(
                 $cat['next_key']    = $target['next_key'];
                 $target['next_key'] = $key;
                 break;
-            } elseif (--$loop_check < 0) {
+            }
+
+            if (--$loop_check < 0) {
                 $cat['depth']       = 1;
                 $cat['next_key']    = $target['next_key'];
                 $target['next_key'] = $key;

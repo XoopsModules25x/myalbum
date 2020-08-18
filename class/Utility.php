@@ -987,7 +987,9 @@ class Utility extends Common\SysUtility
                     $cat['next_key']    = $target['next_key'];
                     $target['next_key'] = $key;
                     break;
-                } elseif ($target['next_key'] < 0) {
+                }
+
+                if ($target['next_key'] < 0) {
                     $cat_backup = &$cat;
                     \array_splice($cats, $key, 1);
                     \array_push($cats, $cat_backup);
