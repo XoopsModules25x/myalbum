@@ -1,0 +1,18 @@
+-
+    cid: '1'
+    pid: '0'
+    title: Landscapes
+    imgurl: 'http://'
+    weight: '0'
+    depth: '0'
+    description: null
+    allowed_ext: jpg|jpeg|gif|png
+-
+    cid: '2'
+    pid: '0'
+    title: 'Water & Sun'
+    imgurl: 'http://'
+    weight: '0'
+    depth: '0'
+    description: null
+    allowed_ext: jpg|jpeg|gif|png

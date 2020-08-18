@@ -1,12 +1,30 @@
 <?php
 
 // for older files
+use Xmf\Request;
+use XoopsModules\Myalbum\{
+    CategoryHandler,
+    CommentsHandler,
+    Helper,
+    PhotosHandler,
+    TextHandler,
+    VotedataHandler,
+    Utility
+};
+
+/** @var Helper $helper */
+/** @var CategoryHandler $catHandler */
+/** @var PhotosHandler $photosHandler */
+/** @var TextHandler $textHandler */
+/** @var CommentsHandler $commentsHandler */
+/** @var VotedataHandler $votedataHandler */
+
 function myalbum_header()
 {
     global $mod_url, $moduleDirName;
 
-    $tpl = new XoopsTpl();
-    $tpl->assign(array('mod_url' => $mod_url));
+    $tpl = new \XoopsTpl();
+    $tpl->assign(['mod_url' => $mod_url]);
     $tpl->display("db:{$moduleDirName }_header.tpl");
 }
 
@@ -15,8 +33,8 @@ function myalbum_footer()
 {
     global $mod_copyright, $moduleDirName;
 
-    $tpl = new XoopsTpl();
-    $tpl->assign(array('mod_copyright' => $mod_copyright));
+    $tpl = new \XoopsTpl();
+    $tpl->assign(['mod_copyright' => $mod_copyright]);
     $tpl->display("db:{$moduleDirName }_footer.tpl");
 }
 
@@ -35,11 +53,11 @@ function myalbum_get_name_from_uid($uid)
         $poster        = $memberHandler->getUser($uid);
 
         if (is_object($poster)) {
-            if ($myalbum_nameoruname === 'uname') {
+            if ('uname' === $myalbum_nameoruname) {
                 $name = $poster->uname();
             } else {
-                $name = htmlspecialchars($poster->name());
-                if ($name == '') {
+                $name = htmlspecialchars($poster->name(), ENT_QUOTES | ENT_HTML5);
+                if ('' == $name) {
                     $name = $poster->uname();
                 }
             }
@@ -66,18 +84,20 @@ function myalbum_get_array_for_photo_assign($photo, $summary = false)
     global $photos_url, $thumbs_url, $thumbs_dir, $mod_url, $mod_path;
     global $myalbum_makethumb, $myalbum_thumbsize, $myalbum_popular, $myalbum_newdays, $myalbum_normal_exts;
 
-    $photosHandler   = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
-    $textHandler     = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
-    $catHandler      = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
-    $votedataHandler = xoops_getModuleHandler('votedata', $GLOBALS['mydirname']);
-    $commentsHandler = xoops_getModuleHandler('comments', $GLOBALS['mydirname']);
+    $helper = Helper::getInstance();
+
+    $photosHandler   = $helper->getHandler('Photos');
+    $textHandler     = $helper->getHandler('Text');
+    $catHandler      = $helper->getHandler('Category');
+    $votedataHandler = $helper->getHandler('Votedata');
+    $commentsHandler = $helper->getHandler('Comments');
 
     extract($photo->toArray(true));
     $text = $textHandler->get($photo->getVar('lid'));
     $cat  = $catHandler->get($photo->getVar('cid'));
     $ext  = $photo->vars['ext']['value'];
 
-    if (in_array(strtolower($ext), $myalbum_normal_exts)) {
+    if (in_array(mb_strtolower($ext), $myalbum_normal_exts)) {
         $imgsrc_thumb    = $photo->getThumbsURL();
         $imgsrc_photo    = $photo->getPhotoURL();
         $ahref_photo     = $photo->getPhotoURL();
@@ -86,7 +106,7 @@ function myalbum_get_array_for_photo_assign($photo, $summary = false)
         // Width of thumb
         $width_spec = "width='$myalbum_thumbsize'";
         if ($myalbum_makethumb) {
-            list($width, $height, $type) = getimagesize("$thumbs_dir/$lid.$ext");
+            [$width, $height, $type] = getimagesize("$thumbs_dir/$lid.$ext");
             // if thumb images was made, 'width' and 'height' will not set.
             if ($width <= $myalbum_thumbsize) {
                 $width_spec = '';
@@ -102,7 +122,7 @@ function myalbum_get_array_for_photo_assign($photo, $summary = false)
 
     // Voting stats
     if ($rating > 0) {
-        if ($votes == 1) {
+        if (1 == $votes) {
             $votestring = _ALBM_ONEVOTE;
         } else {
             $votestring = sprintf(_ALBM_NUMVOTES, $votes);
@@ -121,7 +141,7 @@ function myalbum_get_array_for_photo_assign($photo, $summary = false)
     // Summarize description
     if (is_object($text)) {
         if ($summary) {
-            $description = extractSummary($text->getVar('description'));
+            $description = Utility::extractSummary($text->getVar('description'));
         } else {
             $description = $text->getVar('description');
         }
@@ -129,7 +149,7 @@ function myalbum_get_array_for_photo_assign($photo, $summary = false)
         $description = '';
     }
 
-    if (!empty($_POST['preview'])) {
+    if (Request::hasVar('preview', 'POST')) {
         $description = $GLOBALS['myts']->stripSlashesGPC($_POST['desc_text']);
         $title       = $GLOBALS['myts']->stripSlashesGPC($_POST['title']);
     }
@@ -138,10 +158,10 @@ function myalbum_get_array_for_photo_assign($photo, $summary = false)
         require_once XOOPS_ROOT_PATH . '/modules/tag/include/tagbar.php';
         $tagbar = tagBar($lid, $cid);
     } else {
-        $tagbar = array();
+        $tagbar = [];
     }
 
-    return array(
+    return [
         'tagbar'          => $tagbar,
         'lid'             => $lid,
         'cid'             => $cid,
@@ -168,13 +188,13 @@ function myalbum_get_array_for_photo_assign($photo, $summary = false)
         'info_votes'      => $info_votes,
         'comments'        => $comments,
         'is_normal_image' => $is_normal_image,
-        'is_newphoto'     => $date > time() - 86400 * $myalbum_newdays && $status == 1,
-        'is_updatedphoto' => $date > time() - 86400 * $myalbum_newdays && $status == 2,
+        'is_newphoto'     => $date > time() - 86400 * $myalbum_newdays && 1 == $status,
+        'is_updatedphoto' => $date > time() - 86400 * $myalbum_newdays && 2 == $status,
         'is_popularphoto' => $hits >= $myalbum_popular,
         'info_morephotos' => sprintf(_ALBM_MOREPHOTOS, $submitter_name),
         'cat_title'       => $GLOBALS['myts']->htmlSpecialChars($cat_title),
-        'status'          => $status
-    );
+        'status'          => $status,
+    ];
 }
 
 // Get photo's array to assign into template (light version)
@@ -190,23 +210,25 @@ function myalbum_get_array_for_photo_assign_light($photo, $summary = false)
     global $photos_url, $thumbs_url, $thumbs_dir;
     global $myalbum_makethumb, $myalbum_thumbsize, $myalbum_normal_exts;
 
-    $photosHandler   = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
-    $textHandler     = xoops_getModuleHandler('text', $GLOBALS['mydirname']);
-    $catHandler      = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
-    $votedataHandler = xoops_getModuleHandler('votedata', $GLOBALS['mydirname']);
-    $commentsHandler = xoops_getModuleHandler('comments', $GLOBALS['mydirname']);
+    $helper = Helper::getInstance();
+
+    $photosHandler   = $helper->getHandler('Photos');
+    $textHandler     = $helper->getHandler('Text');
+    $catHandler      = $helper->getHandler('Category');
+    $votedataHandler = $helper->getHandler('Votedata');
+    $commentsHandler = $helper->getHandler('Comments');
 
     extract($photo->toArray(true));
     $text = $textHandler->get($photo->getVar('lid'));
     $cat  = $catHandler->get($photo->getVar('cid'));
 
-    if (in_array(strtolower($ext), $myalbum_normal_exts)) {
+    if (in_array(mb_strtolower($ext), $myalbum_normal_exts)) {
         $imgsrc_thumb    = $photo->getThumbsURL();
         $imgsrc_photo    = $photo->getPhotoURL();
         $is_normal_image = true;
         // Width of thumb
         $width_spec = "width='$myalbum_thumbsize'";
-        if ($myalbum_makethumb && $ext !== 'gif') {
+        if ($myalbum_makethumb && 'gif' !== $ext) {
             // if thumb images was made, 'width' and 'height' will not set.
             $width_spec = '';
         }
@@ -221,10 +243,10 @@ function myalbum_get_array_for_photo_assign_light($photo, $summary = false)
         require_once XOOPS_ROOT_PATH . '/modules/tag/include/tagbar.php';
         $tagbar = tagBar($lid, $cid);
     } else {
-        $tagbar = array();
+        $tagbar = [];
     }
 
-    return array(
+    return [
         'tagbar'          => $tagbar,
         'lid'             => $lid,
         'cid'             => $cid,
@@ -244,8 +266,8 @@ function myalbum_get_array_for_photo_assign_light($photo, $summary = false)
         'rank'            => floor($rating - 0.001),
         'votes'           => $votes,
         'comments'        => $comments,
-        'is_normal_image' => $is_normal_image
-    );
+        'is_normal_image' => $is_normal_image,
+    ];
 }
 
 // get list of sub categories in header space
@@ -257,55 +279,56 @@ function myalbum_get_array_for_photo_assign_light($photo, $summary = false)
  */
 function myalbum_get_sub_categories($parent_id, $cattree)
 {
-    $ret      = array();
-    $criteria = new Criteria('`status`', '0', '>');
-    $criterib = new Criteria('`pid`', $parent_id, '=');
+    $ret      = [];
+    $criteria = new \Criteria('status', '0', '>');
+    $criterib = new \Criteria('pid', $parent_id, '=');
     $criterib->setSort('cid');
     $criterib->setOrder('DESC');
 
-    $catHandler = xoops_getModuleHandler('cat', $GLOBALS['mydirname']);
+    $helper = Helper::getInstance();
+    $catHandler = $helper->getHandler('Category');
 
     $cats = $catHandler->getObjects($criterib, true);
 
     foreach ($cats as $cid => $cat) {
         extract($cat->toArray());
         // Show first child of this category
-        $subcat = array();
+        $subcat = [];
         $arr    = $GLOBALS['cattree']->getFirstChild($cid);
         foreach ($arr as $child) {
-            $subcat[] = array(
+            $subcat[] = [
                 'cid'              => $child->getVar('cid'),
                 'title'            => $child->getVar('title'),
                 'weight'           => $child->getVar('weight'),
                 'photo_small_sum'  => myalbum_get_photo_small_sum_from_cat($child->getVar('cid'), $criteria),
-                'number_of_subcat' => count($GLOBALS['cattree']->getFirstChild($child->getVar('cid')))
-            );
+                'number_of_subcat' => count($GLOBALS['cattree']->getFirstChild($child->getVar('cid'))),
+            ];
         }
 
         // Category's banner default
-        if ($imgurl === 'http://') {
+        if ('http://' === $imgurl) {
             $imgurl = '';
         }
 
         // Total sum of photos
-        $cids = array();
-        foreach ($GLOBALS['cattree']->getAllChild($cid, array()) as $children) {
+        $cids = [];
+        foreach ($GLOBALS['cattree']->getAllChild($cid, []) as $children) {
             $cids[] = $children->getVar('cid');
         }
 
-        array_push($cids, $cid);
+        $cids[] = $cid;
 
         $photo_total_sum = myalbum_get_photo_total_sum_from_cats($cids, $criteria);
 
-        $ret[] = array(
+        $ret[] = [
             'cid'             => $cid,
             'imgurl'          => $GLOBALS['myts']->htmlSpecialChars($imgurl),
             'photo_small_sum' => myalbum_get_photo_small_sum_from_cat($cid, $criteria),
             'photo_total_sum' => $photo_total_sum,
             'title'           => $title,
             'weight'          => $weight,
-            'subcategories'   => $subcat
-        );
+            'subcategories'   => $subcat,
+        ];
     }
 
     return $ret;
@@ -321,15 +344,14 @@ function myalbum_get_img_attribs_for_preview($preview_name)
 {
     global $photos_url, $mod_url, $mod_path, $myalbum_normal_exts, $myalbum_thumbsize;
 
-    $ext = substr(strrchr($preview_name, '.'), 1);
+    $ext = mb_substr(mb_strrchr($preview_name, '.'), 1);
 
-    if (in_array(strtolower($ext), $myalbum_normal_exts)) {
-        return array("$photos_url/$preview_name", "width='$myalbum_thumbsize'", "$photos_url/$preview_name");
-    } else {
-        if (file_exists("$mod_path/assets/images/icons/$ext.gif")) {
-            return array("$mod_url/assets/images/icons/mp3.gif", '', "$photos_url/$preview_name");
-        } else {
-            return array("$mod_url/assets/images/icons/default.gif", '', "$photos_url/$preview_name");
-        }
+    if (in_array(mb_strtolower($ext), $myalbum_normal_exts)) {
+        return ["$photos_url/$preview_name", "width='$myalbum_thumbsize'", "$photos_url/$preview_name"];
     }
+    if (file_exists("$mod_path/assets/images/icons/$ext.gif")) {
+        return ["$mod_url/assets/images/icons/mp3.gif", '', "$photos_url/$preview_name"];
+    }
+
+    return ["$mod_url/assets/images/icons/default.gif", '', "$photos_url/$preview_name"];
 }

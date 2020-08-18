@@ -1,4 +1,5 @@
 <?php
+
 // Module Info
 if (defined('FOR_XOOPS_LANG_CHECKER') || !defined('MYALBUM_MI_LOADED')) {
     define('MYALBUM_MI_LOADED', 1);
@@ -75,14 +76,14 @@ if (defined('FOR_XOOPS_LANG_CHECKER') || !defined('MYALBUM_MI_LOADED')) {
     define('_ALBM_TEXT_SMNAME4', 'My Photos');
     // Names of admin menu items
     define('_ALBM_MYALBUM_ADMENU0', 'Submitted Photos');
-    define('_ALBM_MYALBUM_ADMENU1', 'Photo Management');
-    define('_ALBM_MYALBUM_ADMENU2', 'Add/Edit Categories');
-    define('_ALBM_MYALBUM_ADMENU_GPERM', 'Global Permissions');
+    define('_ALBM_MYALBUM_ADMENU1', 'Photos Mgmt');
+    define('_ALBM_MYALBUM_ADMENU2', 'Categories');
+    define('_ALBM_MYALBUM_ADMENU_GPERM', 'Permissions');
     define('_ALBM_MYALBUM_ADMENU3', 'Check Confs&Envs');
     define('_ALBM_MYALBUM_ADMENU4', 'Batch Register');
     define('_ALBM_MYALBUM_ADMENU5', 'Rebuild Thumbnails');
-    define('_ALBM_MYALBUM_ADMENU_IMPORT', 'Import Images');
-    define('_ALBM_MYALBUM_ADMENU_EXPORT', 'Export Images');
+    define('_ALBM_MYALBUM_ADMENU_IMPORT', 'Import');
+    define('_ALBM_MYALBUM_ADMENU_EXPORT', 'Export');
     define('_ALBM_MYALBUM_ADMENU_MYBLOCKSADMIN', 'Blocks&Groups Admin');
     // Text for notifications
     define('_MI_MYALBUM_GLOBAL_NOTIFY', 'Global');

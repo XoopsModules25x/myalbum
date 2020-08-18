@@ -1,19 +1,23 @@
 <?php
 
-if( ! defined( 'XOOPS_ROOT_PATH' ) ) exit ;
+defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
-$mydirname = basename( dirname( dirname( __FILE__ ) ) ) ;
-if( ! preg_match( '/^(\D+)(\d*)$/' , $mydirname , $regs ) ) echo ( "invalid dirname: " . htmlspecialchars( $mydirname ) ) ;
-$mydirnumber = $regs[2] === '' ? '' : intval( $regs[2] ) ;
+$mydirname = basename(dirname(__DIR__));
+if (!preg_match('/^(\D+)(\d*)$/', $mydirname, $regs)) {
+    echo('invalid dirname: ' . htmlspecialchars($mydirname, ENT_QUOTES | ENT_HTML5));
+}
+$mydirnumber = '' === $regs[2] ? '' : (int)$regs[2];
 
-eval( '
+eval(
+    '
 
-function b_sitemap_'.$mydirname.'(){
-	$xoopsDB = Database::getInstance();
+function b_sitemap_' . $mydirname . '(){
+    $xoopsDB = \XoopsDatabaseFactory::getDatabaseConnection();
 
-    $block = sitemap_get_categoires_map($xoopsDB->prefix("myalbum'.$mydirnumber.'_cat"), "cid", "pid", "title", "viewcat.php?cid=", "title");
+    $block = sitemap_get_categories_map($xoopsDB->prefix(\'myalbum' . $mydirnumber . '_cat\'), \'cid\', \'pid\', \'title\', \'viewcat.php?cid=\', \'title\');
 
-	return $block;
+    return $block;
 }
 
-' ) ;
+'
+);

@@ -4,41 +4,53 @@
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
+use Xmf\Module\Admin;
+use XoopsModules\Myalbum\{
+    CategoryHandler,
+    Forms,
+    Helper,
+    PhotosHandler,
+    TextHandler
+};
+/** @var Admin $adminObject */
+/** @var Helper $helper */
+
+
 require_once __DIR__ . '/admin_header.php';
 
 // GET vars
-$pos = empty($_GET['pos']) ? 0 : (int)$_GET['pos'];
-$num = empty($_GET['num']) ? 10 : (int)$_GET['num'];
+$pos = \Xmf\Request::getInt('pos', 0, 'GET');
+$num = \Xmf\Request::getInt('num', 10, 'GET');
 $txt = empty($_GET['txt']) ? '' : $GLOBALS['myts']->stripSlashesGPC(trim($_GET['txt']));
 
-if (!empty($_POST['action']) && $_POST['action'] === 'admit' && isset($_POST['ids']) && is_array($_POST['ids'])) {
-    /** @var MyalbumPhotosHandler $photosHandler */
-    $photosHandler = xoops_getModuleHandler('photos');
+if (!empty($_POST['action']) && 'admit' === $_POST['action'] && isset($_POST['ids']) && is_array($_POST['ids'])) {
+    /** @var  PhotosHandler $photosHandler */
+    $photosHandler = $helper->getHandler('Photos');
     @$photosHandler->setStatus($_POST['ids'], 1);
     redirect_header('admission.php', 2, _ALBM_AM_ADMITTING);
-} elseif (!empty($_POST['action']) && $_POST['action'] === 'delete' && isset($_POST['ids']) && is_array($_POST['ids'])) {
-
+} elseif (!empty($_POST['action']) && 'delete' === $_POST['action'] && isset($_POST['ids']) && is_array($_POST['ids'])) {
     // remove records
 
     // Double check for anti-CSRF
-    if (!xoopsSecurity::checkReferer()) {
-        die('XOOPS_URL is not included in your REFERER');
+        $xsecurity = new \XoopsSecurity();
+    if (!$xsecurity->checkReferer()) {
+        exit('XOOPS_URL is not included in your REFERER');
     }
-    /** @var MyalbumPhotosHandler $photosHandler */
-    $photosHandler = xoops_getModuleHandler('photos');
+    /** @var  PhotosHandler $photosHandler */
+    $photosHandler = $helper->getHandler('Photos');
     @$photosHandler->deletePhotos($_POST['ids']);
 
     redirect_header('admission.php', 2, _ALBM_DELETINGPHOTO);
 }
-/** @var MyalbumPhotosHandler $photosHandler */
-$photosHandler = xoops_getModuleHandler('photos');
+/** @var  PhotosHandler $photosHandler */
+$photosHandler = $helper->getHandler('Photos');
 
 // extracting by free word
-$criteria = new CriteriaCompo(new Criteria('`status`', '0', '<='));
-if ($txt !== '') {
+$criteria = new \CriteriaCompo(new \Criteria('status', '0', '<='));
+if ('' !== $txt) {
     $keywords = explode(' ', $txt);
     foreach ($keywords as $keyword) {
-        $criteria->add(new Criteria('CONCAT( l.title , l.ext )', '%' . $keyword . '%', 'LIKE'), 'AND');
+        $criteria->add(new \Criteria('CONCAT( l.title , l.ext )', '%' . $keyword . '%', 'LIKE'), 'AND');
     }
 }
 xoops_cp_header();
@@ -57,11 +69,11 @@ $GLOBALS['xoopsTpl']->assign('pos', $pos);
 $numrows = $photosHandler->getCount($criteria);
 
 // Page Navigation
-$nav      = new XoopsPageNav($numrows, $num, $pos, 'pos', "num=$num&txt=" . urlencode($txt));
+$nav      = new \XoopsPageNav($numrows, $num, $pos, 'pos', "num=$num&txt=" . urlencode($txt));
 $nav_html = $nav->renderNav(10);
 $GLOBALS['xoopsTpl']->assign('nav_html', $nav_html);
 
-$criteria = new Criteria('`status`', '0', '<=');
+$criteria = new \Criteria('status', '0', '<=');
 $criteria->setStart($pos);
 $criteria->setLimit($num);
 

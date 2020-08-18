@@ -21,7 +21,7 @@
                         </td>
                     </tr>
                 </table>
-                <{if count( $subcategories ) > 0 }>
+                <{if $subcategories|is_array && count($subcategories) > 0}>
                     <hr>
                     <{include file="db:myalbum2_categories.tpl"}>
                 <{/if}>

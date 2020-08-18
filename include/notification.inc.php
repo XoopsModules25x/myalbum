@@ -11,21 +11,20 @@
 
 /**
  * @copyright    {@link https://xoops.org/ XOOPS Project}
- * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @license      {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @package
  * @since
  * @author       XOOPS Development Team
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+
 
 $moduleDirName = basename(dirname(__DIR__));
-if (!preg_match('/^myalbum\d*$/', $moduleDirName)) {
-    die('invalid dirname of myalbum: ' . htmlspecialchars($moduleDirName));
+if (!preg_match('/^Myalbum\d*$/', $moduleDirName)) {
+    exit('invalid dirname of myalbum: ' . htmlspecialchars($moduleDirName, ENT_QUOTES | ENT_HTML5));
 }
 
-eval('function ' . $moduleDirName . '_notify_iteminfo($not_category, $item_id)
-{
+eval('function ' . $moduleDirName . '_notify_iteminfo($not_category, $item_id){
     global $xoopsModule, $xoopsModuleConfig, $xoopsConfig , $xoopsDB ;
 
     if (empty($xoopsModule) || $xoopsModule->getVar("dirname") != "' . $moduleDirName . '" ) {
@@ -35,7 +34,7 @@ eval('function ' . $moduleDirName . '_notify_iteminfo($not_category, $item_id)
         $config = $configHandler->getConfigsByCat(0,$module->getVar("mid"));
     } else {
         $module =& $xoopsModule;
-        $config =& $xoopsModuleConfig;
+        $config = $xoopsModuleConfig;
     }
     $mod_url = XOOPS_URL . "/modules/" . $module->getVar("dirname") ;
 
@@ -44,21 +43,20 @@ eval('function ' . $moduleDirName . '_notify_iteminfo($not_category, $item_id)
         $item["url"] = "";
     } elseif ($not_category == "category") {
         // Assume we have a valid cid
-        $sql = "SELECT title FROM ".$xoopsDB->prefix("' . $moduleDirName . '_cat")." WHERE cid=\'$item_id\'";
+        $sql = "SELECT title FROM ".$xoopsDB->prefix("' . $moduleDirName . '";
         $rs = $xoopsDB->query( $sql ) ;
         list( $title ) = $xoopsDB->fetchRow( $rs ) ;
-        $item["name"] = $title ;
-        $item["url"] = "$mod_url/viewcat.php?cid=$item_id" ;
-    } elseif ($not_category == "photo") {
+        $item[\'name\'] = $title ;
+        $item[\'url\'] = "$mod_url/viewcat.php?cid=$item_id" ;
+    } elseif ($not_category == \'photo\') {
         // Assume we have a valid event_id
-        $sql = "SELECT title FROM ".$xoopsDB->prefix("' . $moduleDirName . '_photos")." WHERE lid=\'$item_id\'";
+        $sql = \'SELECT title FROM \'.$xoopsDB->prefix(\'' . $moduleDirName . '";
         $rs = $xoopsDB->query( $sql ) ;
         list( $title ) = $xoopsDB->fetchRow( $rs ) ;
-        $item["name"] = $title ;
-        $item["url"] = "$mod_url/photo.php?lid=$item_id" ;
+        $item[\'name\'] = $title ;
+        $item[\'url\'] = "$mod_url/photo.php?lid=$item_id" ;
     }
 
     return $item;
-}
-
-');
+}');
+?>

@@ -59,7 +59,7 @@ line 28:
 ---------------------------------------------------
 include __DIR__ . '/mainfile.php';
 include __DIR__ . '/modules/myalbum/imagemanager.php';  // add this line
-if (!isset($HTTP_GET_VARS['target']) && !isset($HTTP_POST_VARS['target'])) {
+if (!isset($HTTP_GET_VARS['target']) && !isset($_POST['target'])) {
     exit();
 }
 ---------------------------------------------------

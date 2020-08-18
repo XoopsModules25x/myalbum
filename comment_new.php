@@ -11,24 +11,32 @@
 
 /**
  * @copyright    {@link https://xoops.org/ XOOPS Project}
- * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @license      {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @package
  * @since
  * @author       XOOPS Development Team
  */
 
-include __DIR__ . '/../../mainfile.php';
-include __DIR__ . '/include/read_configs.php';
+use Xmf\Request;
+use XoopsModules\Myalbum\{
+    Helper
+};
+/** @var Helper $helper */
 
-$lid = empty($_GET['com_itemid']) ? 0 : (int)$_GET['com_itemid'];
+require_once dirname(__DIR__, 2) . '/mainfile.php';
+require_once __DIR__ . '/include/read_configs.php';
+
+$helper = Helper::getInstance();
+
+$lid = Request::getInt('com_itemid', 0, 'GET');
 if ($lid > 0) {
-    $photosHandler  = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+    $photosHandler  = $helper->getHandler('Photos');
     $photo          = $photosHandler->get($lid);
     $com_replytitle = $photo->getVar('title');
 
     if (!is_object($photo)) {
-        die('invalid lid');
+        exit('invalid lid');
     }
 
-    include XOOPS_ROOT_PATH . '/include/comment_new.php';
+    require_once XOOPS_ROOT_PATH . '/include/comment_new.php';
 }

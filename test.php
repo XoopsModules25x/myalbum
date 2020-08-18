@@ -1,4 +1,5 @@
 <?php
+
 $global_perms = 0;
 for ($n = 0; $n < 270; ++$n) {
     echo $global_perms;

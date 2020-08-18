@@ -94,7 +94,7 @@ of photos using the avatar upload code.
  The demo site is http://datsun1200.com and the development site is
 http://xoopsforge.sourceforge.net/xf/project/?myalbum
 
- The Licence is GPL (http://www.gnu.org/licenses/gpl.html).
+ The Licence is GPL (https://www.gnu.org/licenses/gpl.html).
 
 Features:
  - XOOPS based code

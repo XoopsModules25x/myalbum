@@ -11,12 +11,11 @@
 
 /**
  * @copyright    {@link https://xoops.org/ XOOPS Project}
- * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @license      {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @package
  * @since
  * @author       XOOPS Development Team
  */
-
-include __DIR__ . '/../../mainfile.php';
-include __DIR__ . '/include/read_configs.php';
-include XOOPS_ROOT_PATH . '/include/comment_reply.php';
+require_once dirname(__DIR__, 2) . '/mainfile.php';
+require_once __DIR__ . '/include/read_configs.php';
+require_once XOOPS_ROOT_PATH . '/include/comment_reply.php';

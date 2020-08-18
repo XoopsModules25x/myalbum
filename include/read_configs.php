@@ -1,23 +1,21 @@
 <?php
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
-
 $GLOBALS['mydirname'] = basename(dirname(__DIR__));
 if (preg_match('/^myalbum(\d*)$/', $GLOBALS['mydirname'], $regs)) {
     $GLOBALS['myalbum_number'] = $regs[1];
 } else {
-    die('invalid dirname of myalbum: ' . htmlspecialchars($GLOBALS['mydirname']));
+    exit('invalid dirname of myalbum: ' . htmlspecialchars($GLOBALS['mydirname'], ENT_QUOTES | ENT_HTML5));
 }
 
 global $xoopsConfig, $xoopsDB, $xoopsUser;
-/** @var XoopsModuleHandler $moduleHandler */
+/** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($GLOBALS['mydirname']);
 
 // module information
 $GLOBALS['mod_url']       = XOOPS_URL . "/modules/{$GLOBALS['mydirname']}";
 $GLOBALS['mod_path']      = XOOPS_ROOT_PATH . "/modules/{$GLOBALS['mydirname']}";
-$GLOBALS['mod_copyright'] = "<a href='https://xoops.org/'><strong>myAlbum-P " . $module->getInfo('version') . " by XOOPS</strong></a>";
+$GLOBALS['mod_copyright'] = "<a href='https://xoops.org/'><strong>myAlbum-P " . $module->getInfo('version') . ' by XOOPS</strong></a>';
 
 // global language file
 xoops_loadLanguage('myalbum_constants', $GLOBALS['mydirname']);
@@ -55,14 +53,14 @@ if ($GLOBALS['myalbum_addposts'] < 0) {
 
 // Path to Main Photo & Thumbnail ;
 if (isset($GLOBALS['myalbum_photospath'])) {
-    if (ord($GLOBALS['myalbum_photospath']) != 0x2f) {
+    if (0x2f != ord($GLOBALS['myalbum_photospath'])) {
         $GLOBALS['myalbum_photospath'] = DS . $GLOBALS['myalbum_photospath'];
     }
 } else {
     $GLOBALS['myalbum_photospath'] = '/uploads/photos/';
 }
 if (isset($GLOBALS['myalbum_thumbspath'])) {
-    if (ord($GLOBALS['myalbum_thumbspath']) != 0x2f) {
+    if (0x2f != ord($GLOBALS['myalbum_thumbspath'])) {
         $GLOBALS['myalbum_thumbspath'] = DS . $GLOBALS['myalbum_thumbspath'];
     }
 } else {
@@ -101,7 +99,7 @@ if (isset($GLOBALS['myalbum_imagingpipe'])) {
     }
 }
 // Normal Extensions of Image
-$GLOBALS['myalbum_normal_exts'] = array('jpg', 'jpeg', 'gif', 'png');
+$GLOBALS['myalbum_normal_exts'] = ['jpg', 'jpeg', 'gif', 'png'];
 
 // Allowed extensions & MIME types
 if (empty($GLOBALS['myalbum_allowedexts'])) {
@@ -110,7 +108,7 @@ if (empty($GLOBALS['myalbum_allowedexts'])) {
     $GLOBALS['array_allowed_exts'] = explode('|', $GLOBALS['myalbum_allowedexts']);
 }
 if (empty($GLOBALS['myalbum_allowedmime'])) {
-    $GLOBALS['array_allowed_mimetypes'] = array();
+    $GLOBALS['array_allowed_mimetypes'] = [];
 } else {
     $GLOBALS['array_allowed_mimetypes'] = explode('|', $GLOBALS['myalbum_allowedmime']);
 }

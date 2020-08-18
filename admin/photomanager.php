@@ -4,72 +4,78 @@
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
+use XoopsModules\Myalbum\{
+    Utility
+};
+use Xmf\Module\Admin;
+use Xmf\Request;
+
 require_once __DIR__ . '/admin_header.php';
 
 // GPCS vars
 $max_col = 4;
-$cid     = empty($_GET['cid']) ? 0 : (int)$_GET['cid'];
-$pos     = empty($_GET['pos']) ? 0 : (int)$_GET['pos'];
-$num     = empty($_GET['num']) ? 20 : (int)$_GET['num'];
+$cid     = Request::getInt('cid', 0, 'GET');
+$pos     = Request::getInt('pos', 0, 'GET');
+$num     = Request::getInt('num', 20, 'GET');
 $txt     = empty($_GET['txt']) ? '' : $GLOBALS['myts']->stripSlashesGPC(trim($_GET['txt']));
 
 // Database actions
-if (!empty($_POST['action']) && $_POST['action'] === 'delete' && isset($_POST['ids']) && is_array($_POST['ids'])) {
-
+if (!empty($_POST['action']) && 'delete' === $_POST['action'] && isset($_POST['ids']) && is_array($_POST['ids'])) {
     // remove records
 
     // Double check for anti-CSRF
-    if (!xoopsSecurity::checkReferer()) {
-        die('XOOPS_URL is not included in your REFERER');
+        $xsecurity = new \XoopsSecurity();
+    if (!$xsecurity->checkReferer()) {
+        exit('XOOPS_URL is not included in your REFERER');
     }
 
     foreach ($_POST['ids'] as $lid) {
-        $criteria = new Criteria('lid', (int)$lid);
-        MyalbumUtility::deletePhotos($criteria);
+        $criteria = new \Criteria('lid', (int)$lid);
+        Utility::deletePhotos($criteria);
     }
     redirect_header("photomanager.php?num=$num&cid=$cid", 2, _ALBM_DELETINGPHOTO);
-} elseif (isset($_POST['update']) && isset($_POST['ids']) && is_array($_POST['ids'])) {
-
+} elseif (Request::hasVar('update', 'POST') && isset($_POST['ids']) && is_array($_POST['ids'])) {
     // batch update
 
     // Double check for anti-CSRF
-    if (!xoopsSecurity::checkReferer()) {
-        die('XOOPS_URL is not included in your REFERER');
+        $xsecurity = new \XoopsSecurity();
+    if (!$xsecurity->checkReferer()) {
+        exit('XOOPS_URL is not included in your REFERER');
     }
 
     // set clause for text table
-    if (!empty($_POST['new_desc_text'])) {
-        $set_for_text = "description='" . $GLOBALS['myts']->makeTareaData4Save($_POST['new_desc_text']) . "'";
+    if (Request::hasVar('new_desc_text', 'POST')) {
+        $set_for_text = "description='" . $GLOBALS['myts']->addSlashes($_POST['new_desc_text']) . "'";
     }
 
     // set clause for photos table
     $set = '';
 
     // new_title
-    if (!empty($_POST['new_title'])) {
-        $set .= "title='" . $GLOBALS['myts']->makeTboxData4Save($_POST['new_title']) . "',";
+    if (Request::hasVar('new_title', 'POST')) {
+        $set .= "title='" . $GLOBALS['myts']->addSlashes($_POST['new_title']) . "',";
     }
 
     // new_cid
-    if (!empty($_POST['new_cid'])) {
-        $set .= "cid='" . (int)$_POST['new_cid'] . "',";
+    if (Request::hasVar('new_cid', 'POST')) {
+        $set .= "cid='" . Request::getInt('new_cid', 0, 'POST') . "',";
     }
 
     // new_submitter
-    if (!empty($_POST['new_submitter'])) {
-        $set .= "submitter='" . (int)$_POST['new_submitter'] . "',";
+    if (Request::hasVar('new_submitter', 'POST')) {
+        $set .= "submitter='" . Request::getInt('new_submitter', 0, 'POST') . "',";
     }
 
     // new_post_date
-    if (!empty($_POST['new_post_date'])) {
+    if (Request::hasVar('new_post_date', 'POST')) {
         $new_date = strtotime($_POST['new_post_date']);
-        if ($new_date != -1) {
+        if (-1 != $new_date) {
             $set .= "date='$new_date',";
         }
     }
 
     if ($set) {
-        $set = substr($set, 0, -1);
+        $set = mb_substr($set, 0, -1);
     }
 
     // $whr clause
@@ -77,7 +83,7 @@ if (!empty($_POST['action']) && $_POST['action'] === 'delete' && isset($_POST['i
     foreach ($_POST['ids'] as $lid) {
         $whr .= (int)$lid . ',';
     }
-    $whr = substr($whr, 0, -1) . ')';
+    $whr = mb_substr($whr, 0, -1) . ')';
 
     if ($set) {
         $xoopsDB->query('UPDATE ' . $GLOBALS['xoopsDB']->prefix($table_photos) . " SET $set WHERE $whr");
@@ -93,12 +99,12 @@ if (!empty($_POST['action']) && $_POST['action'] === 'delete' && isset($_POST['i
 $whr = '1 ';
 
 // Limitation by category's id
-if ($cid != 0) {
+if (0 != $cid) {
     $whr .= "AND l.cid=$cid ";
 }
 
 // Search by free word
-if ($txt != '') {
+if ('' != $txt) {
     $keywords = explode(' ', $txt);
     foreach ($keywords as $keyword) {
         $whr .= "AND (CONCAT( l.title , l.ext , c.title ) LIKE '%" . addslashes($keyword) . "%') ";
@@ -107,11 +113,11 @@ if ($txt != '') {
 
 // Query
 $rs = $xoopsDB->query('SELECT count(l.lid) FROM ' . $GLOBALS['xoopsDB']->prefix($table_photos) . ' l LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix($table_cat) . " c ON l.cid=c.cid WHERE $whr");
-list($numrows) = $xoopsDB->fetchRow($rs);
+[$numrows] = $xoopsDB->fetchRow($rs);
 $prs = $xoopsDB->query('SELECT l.lid, l.title, l.submitter, l.ext, l.res_x, l.res_y, l.status FROM ' . $GLOBALS['xoopsDB']->prefix($table_photos) . ' l LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix($table_cat) . " c ON l.cid=c.cid WHERE $whr ORDER BY l.lid DESC LIMIT $pos,$num");
 
 // Page Navigation
-$nav      = new XoopsPageNav($numrows, $num, $pos, 'pos', "num=$num&cid=$cid&txt=" . urlencode($txt));
+$nav      = new \XoopsPageNav($numrows, $num, $pos, 'pos', "num=$num&cid=$cid&txt=" . urlencode($txt));
 $nav_html = $nav->renderNav(10);
 
 // Information of page navigating
@@ -133,22 +139,22 @@ foreach ($numbers as $number) {
     $num_options .= "<option value='$number' $selected>" . sprintf(_ALBM_FMT_PHOTONUM, $number) . "</option>\n";
 }
 
-MyalbumUtility::getCategoryOptions();
+Utility::getCategoryOptions();
 
 // Options for Selecting a category
-$cat_options            = MyalbumUtility::getCategoryOptions('title', $cid, '--', '----');
-$cat_options_for_update = MyalbumUtility::getCategoryOptions('title', 0, '--', _AM_OPT_NOCHANGE);
+$cat_options            = Utility::getCategoryOptions('title', $cid, '--', '----');
+$cat_options_for_update = Utility::getCategoryOptions('title', 0, '--', _AM_OPT_NOCHANGE);
 
 // Options for Selecting a user
 $user_options = "<option value='0'>" . _AM_OPT_NOCHANGE . "</option>\n";
 $urs          = $xoopsDB->query('SELECT uid,uname FROM ' . $xoopsDB->prefix('users') . ' ORDER BY uname');
-while (false !== (list($uid, $uname) = $xoopsDB->fetchRow($urs))) {
+while (list($uid, $uname) = $xoopsDB->fetchRow($urs)) {
     $user_options .= "<option value='$uid'>" . htmlspecialchars($uname, ENT_QUOTES) . "</option>\n";
 }
 
 // Start of outputting
 xoops_cp_header();
-$adminObject = \Xmf\Module\Admin::getInstance();
+$adminObject = Admin::getInstance();
 $adminObject->displayNavigation(basename(__FILE__));
 //myalbum_adminMenu(basename(__FILE__), 2);
 
@@ -159,7 +165,7 @@ if (!is_object($xoopsModule)) {
 echo "<h3 style='text-align:left;'>" . sprintf(_AM_H3_FMT_PHOTOMANAGER, $xoopsModule->name()) . "</h3>\n";
 
 echo "
-<p><span style='color:blue;'>" . (isset($_GET['mes']) ? $_GET['mes'] : '') . "</span></p>
+<p><span style='color:blue;'>" . ($_GET['mes'] ?? '') . "</span></p>
 <form action='' method='GET' style='margin-bottom:0;'>
   <table border='0' cellpadding='0' cellspacing='0' style='width:100%;'>
     <tr>
@@ -192,10 +198,10 @@ echo "
 
 // list part
 $col = 0;
-while (false !== (list($lid, $title, $submitter, $ext, $w, $h, $status) = $xoopsDB->fetchRow($prs))) {
-    $title = $GLOBALS['myts']->htmlspecialchars($title);
+while (list($lid, $title, $submitter, $ext, $w, $h, $status) = $xoopsDB->fetchRow($prs)) {
+    $title = $GLOBALS['myts']->htmlSpecialChars($title);
 
-    if (in_array(strtolower($ext), $myalbum_normal_exts)) {
+    if (in_array(mb_strtolower($ext), $myalbum_normal_exts)) {
         $imgsrc_thumb = "$thumbs_url/$lid.$ext";
         $ahref_photo  = "$photos_url/$lid.$ext";
         $widthheight  = $w > $h ? "width='$myalbum_thumbsize'" : "height='$myalbum_thumbsize'";
@@ -210,7 +216,7 @@ while (false !== (list($lid, $title, $submitter, $ext, $w, $h, $status) = $xoops
     $editbutton     = "<a href='" . XOOPS_URL . "/modules/$moduleDirName/editphoto.php?lid=$lid' target='_blank'><img src='" . $pathIcon16 . "/edit.png'  border='0' alt='" . _ALBM_EDITTHISPHOTO . "' title='" . _ALBM_EDITTHISPHOTO . "'></a>  ";
     $deadlinkbutton = is_readable("$photos_dir/{$lid}.{$ext}") ? '' : "<img src='" . XOOPS_URL . "/modules/$moduleDirName/assets/images/deadlink.gif' border='0' alt='" . _ALBM_AM_DEADLINKMAINPHOTO . "' title='" . _ALBM_AM_DEADLINKMAINPHOTO . "'>";
 
-    if ($col == 0) {
+    if (0 == $col) {
         echo "\t<tr>\n";
     }
 

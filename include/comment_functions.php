@@ -1,5 +1,14 @@
 <?php
 
+
+use XoopsModules\Myalbum\{
+    Helper,
+    PhotosHandler
+};
+
+/** @var Helper $helper */
+/** @var  PhotosHandler $photosHandler */
+
 if (!defined('MYALBUM_COMMENT_FUNCTIONS_INCLUDED')) {
     define('MYALBUM_COMMENT_FUNCTIONS_INCLUDED', 1);
 
@@ -13,8 +22,8 @@ if (!defined('MYALBUM_COMMENT_FUNCTIONS_INCLUDED')) {
      */
     function myalbum_comments_update($lid, $total_num)
     {
-        /** @var MyalbumPhotosHandler $photosHandler */
-        $photosHandler = xoops_getModuleHandler('photos', $GLOBALS['mydirname']);
+        $helper = Helper::getInstance();
+        $photosHandler = $helper->getHandler('Photos');
         $photo         = $photosHandler->get($lid);
         $photo->setVar('comments', $total_num);
 
