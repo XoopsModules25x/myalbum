@@ -406,8 +406,9 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
      * @param bool              $visible
      * @param string            $side
      * @param int               $bcachetime
+     * @param int               $bmodule
      */
-    function setOrder($bid, $title, $weight, $visible, $side, $bcachetime)
+    function setOrder($bid, $title, $weight, $visible, $side, $bcachetime, $bmodule)
     {
         $myblock = new XoopsBlock($bid);
         $myblock->setVar('title', $title);
