@@ -196,7 +196,7 @@ $subcount              = 1;
 $GLOBALS['global_perms'] = 0;
 // Fin de l'ajout
 require_once __DIR__ . '/include/get_perms.php';
-if ($GLOBALS['global_perms'] & 1) { // GPERM_INSERTABLE
+if ((int)$GLOBALS['global_perms'] & 1) { // GPERM_INSERTABLE
     $modversion['sub'][$subcount]['name']  = _ALBM_TEXT_SMNAME1;
     $modversion['sub'][$subcount++]['url'] = 'submit.php';
     $modversion['sub'][$subcount]['name']  = _ALBM_TEXT_SMNAME4;
@@ -204,7 +204,7 @@ if ($GLOBALS['global_perms'] & 1) { // GPERM_INSERTABLE
 }
 $modversion['sub'][$subcount]['name']  = _ALBM_TEXT_SMNAME2;
 $modversion['sub'][$subcount++]['url'] = 'topten.php?hit=1';
-if ($GLOBALS['global_perms'] & 256) { // GPERM_RATEVIEW
+if ((int)$GLOBALS['global_perms'] & 256) { // GPERM_RATEVIEW
     $modversion['sub'][$subcount]['name']  = _ALBM_TEXT_SMNAME3;
     $modversion['sub'][$subcount++]['url'] = 'topten.php?rate=1';
 }
