@@ -5,6 +5,7 @@
 // ------------------------------------------------------------------------- //
 
 use Xmf\Module\Admin;
+use Xmf\Request;
 use XoopsModules\Myalbum\{
     CategoryHandler,
     Forms,
@@ -19,16 +20,16 @@ use XoopsModules\Myalbum\{
 require_once __DIR__ . '/admin_header.php';
 
 // GET vars
-$pos = \Xmf\Request::getInt('pos', 0, 'GET');
-$num = \Xmf\Request::getInt('num', 10, 'GET');
-$txt = empty($_GET['txt']) ? '' : $GLOBALS['myts']->stripSlashesGPC(trim($_GET['txt']));
+$pos = Request::getInt('pos', 0, 'GET');
+$num = Request::getInt('num', 10, 'GET');
+$txt = Request::getText('txt', '', 'GET');
 
-if (!empty($_POST['action']) && 'admit' === $_POST['action'] && isset($_POST['ids']) && is_array($_POST['ids'])) {
+if ('admit' === Request::getCmd('action', '', 'POST') && isset($_POST['ids']) && is_array($_POST['ids'])) {
     /** @var  PhotosHandler $photosHandler */
     $photosHandler = $helper->getHandler('Photos');
     @$photosHandler->setStatus($_POST['ids'], 1);
     redirect_header('admission.php', 2, _ALBM_AM_ADMITTING);
-} elseif (!empty($_POST['action']) && 'delete' === $_POST['action'] && isset($_POST['ids']) && is_array($_POST['ids'])) {
+} elseif ('delete' === Request::getCmd('action', '', 'POST') && isset($_POST['ids']) && is_array($_POST['ids'])) {
     // remove records
 
     // Double check for anti-CSRF

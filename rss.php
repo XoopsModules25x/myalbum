@@ -23,14 +23,14 @@ if ($num < 1) {
     $num = 10;
 }
 $pos  = Request::getInt('pos', 0, 'GET');
-$view = Request::getString('view', $myalbum_viewcattype, 'GET');
+$view = Request::getString('view', $helper->getConfig('myalbum_viewcattype'), 'GET');
 
 $photosHandler = $helper->getHandler('Photos');
 $textHandler = $helper->getHandler('Text');
 $catHandler = $helper->getHandler('Category');
-if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
+if ($helper->getConfig('htaccess')) {
     if (0 == $cid) {
-        $url = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/rss,' . $cid . ',' . $uid . ',' . $num . ',' . $pos . ',' . $view . $GLOBALS['myalbumModuleConfig']['endofrss'];
+        $url = XOOPS_URL . '/' . $helper->getConfig('baseurl') . '/rss,' . $cid . ',' . $uid . ',' . $num . ',' . $pos . ',' . $view . $helper->getConfig('endofrss');
     } else {
         $cat = $catHandler->get($cid);
         $url = $cat->getRSSURL($uid, $num, $pos, $view);

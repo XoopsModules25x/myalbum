@@ -20,8 +20,8 @@ require_once __DIR__ . '/header.php';
 $hit  = Request::getInt('hit', 0, 'GET');
 $rate = Request::getInt('rate', 0, 'GET');
 
-if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
-    $url = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/top,' . $hit . ',' . $rate . '.html';
+if ($helper->getConfig('htaccess')) {
+    $url = XOOPS_URL . '/' . $helper->getConfig('baseurl') . '/top,' . $hit . ',' . $rate . '.html';
     if (!mb_strpos($url, $_SERVER['REQUEST_URI'])) {
         header('HTTP/1.1 301 Moved Permanently');
         header('Location: ' . $url);

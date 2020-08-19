@@ -12,6 +12,7 @@ class Forms extends \XoopsObject
      */
     public static function getAdminFormAdmission()
     {
+        $helper = Helper::getInstance();
         // Make form objects
         $form       = new \XoopsThemeForm(\_ALBM_PHOTOBATCHUPLOAD, 'batchupload', 'batch.php');
         $title_text = new \XoopsFormText('', 'title', 50, 255, $GLOBALS['title4edit']);
@@ -36,7 +37,7 @@ class Forms extends \XoopsObject
         $html_configs['cols']   = 60;
         $html_configs['width']  = '100%';
         $html_configs['height'] = '400px';
-        $html_configs['editor'] = $GLOBALS['myalbumModuleConfig']['editor'];
+        $html_configs['editor'] = $helper->getConfig('editor');
         $desc_tarea             = new \XoopsFormEditor(\_ALBM_PHOTODESC, $html_configs['name'], $html_configs);
         $submit_button          = new \XoopsFormButton('', 'submit', _SUBMIT, 'submit');
         $form->addElement($titleTray);
@@ -238,6 +239,7 @@ class Forms extends \XoopsObject
      */
     public static function getUserFormSubmit($caller, $photo, $lid)
     {
+        $helper = Helper::getInstance();
         // Show the form
         \extract($GLOBALS['myalbumModuleConfig']);
         $form        = new \XoopsThemeForm(\_ALBM_PHOTOUPLOAD, 'uploadphoto', "submit.php?caller=$caller");
@@ -263,7 +265,7 @@ class Forms extends \XoopsObject
         $html_configs['cols']   = 60;
         $html_configs['width']  = '100%';
         $html_configs['height'] = '400px';
-        $html_configs['editor'] = $GLOBALS['myalbumModuleConfig']['editor'];
+        $html_configs['editor'] = $helper->getConfig('editor');
         $desc_tarea             = new \XoopsFormEditor(\_ALBM_PHOTODESC, $html_configs['name'], $html_configs);
 
         $file_form = new \XoopsFormFile(\_ALBM_SELECTFILE, 'photofile', $myalbum_fsize);
@@ -298,7 +300,7 @@ class Forms extends \XoopsObject
         $form->addElement($size_label);
         $form->addElement($title_text);
         $form->addElement($desc_tarea);
-        if ($GLOBALS['myalbumModuleConfig']['tag']) {
+        if ($helper->getConfig('tag')) {
             $form->addElement(new \XoopsModules\Tag\FormTag('tags', 35, 255, $lid));
         }
         $form->addElement($cat_select);

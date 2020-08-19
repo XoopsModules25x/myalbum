@@ -34,10 +34,10 @@ $configHandler                  = xoops_getHandler('config');
 $GLOBALS['myalbumModule']       = $moduleHandler->getByDirname($GLOBALS['mydirname']);
 $GLOBALS['myalbumModuleConfig'] = $configHandler->getConfigList($GLOBALS['myalbumModule']->getVar('mid'));
 $GLOBALS['myalbum_mid']         = $GLOBALS['myalbumModule']->getVar('mid');
-$GLOBALS['photos_dir']          = XOOPS_ROOT_PATH . $GLOBALS['myalbumModuleConfig']['myalbum_photospath'];
-$GLOBALS['thumbs_dir']          = XOOPS_ROOT_PATH . $GLOBALS['myalbumModuleConfig']['myalbum_thumbspath'];
-$GLOBALS['photos_url']          = XOOPS_URL . $GLOBALS['myalbumModuleConfig']['myalbum_photospath'];
-$GLOBALS['thumbs_url']          = XOOPS_URL . $GLOBALS['myalbumModuleConfig']['myalbum_thumbspath'];
+$GLOBALS['photos_dir']          = XOOPS_ROOT_PATH . $helper->getConfig('myalbum_photospath');
+$GLOBALS['thumbs_dir']          = XOOPS_ROOT_PATH . $helper->getConfig('myalbum_thumbspath');
+$GLOBALS['photos_url']          = XOOPS_URL . $helper->getConfig('myalbum_photospath');
+$GLOBALS['thumbs_url']          = XOOPS_URL . $helper->getConfig('myalbum_thumbspath');
 
 xoops_load('pagenav');
 xoops_load('xoopslists');
@@ -90,7 +90,7 @@ if (\Xmf\Request::hasVar('lid', 'GET')) {
     $submitter = $GLOBALS['xoopsUser']->getVar('uid');
 }
 
-if ($GLOBALS['myalbumModuleConfig']['tag']) {
+if ($helper->getConfig('tag')) {
     require_once $GLOBALS['xoops']->path('modules/tag/include/formtag.php');
 }
 

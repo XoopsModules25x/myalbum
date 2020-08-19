@@ -22,19 +22,19 @@ require_once __DIR__ . '/header.php';
 // GET variables
 $cid = Request::getInt('cid', 0, 'GET');
 $uid = Request::getInt('uid', 0, 'GET');
-$num = Request::getInt('num', (int)$myalbum_perpage, 'GET');
+$num = Request::getInt('num', (int)$helper->getConfig('myalbum_perpage'), 'GET');
 if ($num < 1) {
     $num = 10;
 }
 $pos  = Request::getInt('pos', 0, 'GET');
-$view = $_GET['view'] ?? $myalbum_viewcattype;
+$view = $_GET['view'] ?? $helper->getConfig('myalbum_viewcattype');
 
 $photosHandler = $helper->getHandler('Photos');
 $catHandler    = $helper->getHandler('Category');
 
-if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
+if ($helper->getConfig('htaccess')) {
     if (0 == $cid) {
-        $url = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/cat,' . $cid . ',' . $uid . ',' . $num . ',' . $pos . ',' . $view . '.html';
+        $url = XOOPS_URL . '/' . $helper->getConfig('baseurl') . '/cat,' . $cid . ',' . $uid . ',' . $num . ',' . $pos . ',' . $view . '.html';
     } else {
         $cat = $catHandler->get($cid);
         $url = $cat->getURL($uid, $num, $pos, $view);
@@ -49,10 +49,10 @@ if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
 
 // Orders
 require_once $helper->path('include/photo_orders.php');
-if (Request::hasVar('orderby', 'GET') && isset($myalbum_orders[$_GET['orderby']])) {
-    $orderby = $_GET['orderby'];
-} elseif (isset($myalbum_orders[$myalbum_defaultorder])) {
-    $orderby = $myalbum_defaultorder;
+if (Request::hasVar('orderby', 'GET')) {
+    $orderby = Request::getString('orderby', '', 'GET');
+} elseif (isset($myalbum_orders[$helper->getConfig('myalbum_defaultorder')])) {
+    $orderby = $helper->getConfig('myalbum_defaultorder');
 } else {
     //$orderby = 'titleA';
     $orderby = 'cidD';

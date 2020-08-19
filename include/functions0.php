@@ -91,7 +91,7 @@ function mysqli_get_sql_set($cols)
         [$field, $lang, $essential] = explode(':', $types);
 
         // Undefined col is regarded as ''
-        $data = empty($_POST[$col]) ? '' : $GLOBALS['myts']->stripSlashesGPC($_POST[$col]);
+        $data = Request::getString($col, '', 'POST');
 
         // Check if essential
         if ($essential && !$data) {

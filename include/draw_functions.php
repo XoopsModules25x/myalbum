@@ -150,11 +150,11 @@ function myalbum_get_array_for_photo_assign($photo, $summary = false)
     }
 
     if (Request::hasVar('preview', 'POST')) {
-        $description = $GLOBALS['myts']->stripSlashesGPC($_POST['desc_text']);
-        $title       = $GLOBALS['myts']->stripSlashesGPC($_POST['title']);
+        $description = Request::getText('desc_text', '', 'POST');
+        $title       = Request::getString('title', '', 'POST');
     }
 
-    if ($GLOBALS['myalbumModuleConfig']['tag']) {
+    if ($helper->getConfig('tag')) {
         require_once XOOPS_ROOT_PATH . '/modules/tag/include/tagbar.php';
         $tagbar = tagBar($lid, $cid);
     } else {
@@ -239,7 +239,7 @@ function myalbum_get_array_for_photo_assign_light($photo, $summary = false)
         $width_spec      = '';
     }
 
-    if ($GLOBALS['myalbumModuleConfig']['tag']) {
+    if ($helper->getConfig('tag')) {
         require_once XOOPS_ROOT_PATH . '/modules/tag/include/tagbar.php';
         $tagbar = tagBar($lid, $cid);
     } else {

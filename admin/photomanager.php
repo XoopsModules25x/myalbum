@@ -17,10 +17,10 @@ $max_col = 4;
 $cid     = Request::getInt('cid', 0, 'GET');
 $pos     = Request::getInt('pos', 0, 'GET');
 $num     = Request::getInt('num', 20, 'GET');
-$txt     = empty($_GET['txt']) ? '' : $GLOBALS['myts']->stripSlashesGPC(trim($_GET['txt']));
+$txt     = Request::getText('txt', '', 'GET');
 
 // Database actions
-if (!empty($_POST['action']) && 'delete' === $_POST['action'] && isset($_POST['ids']) && is_array($_POST['ids'])) {
+if ('delete' === Request::getCmd('action', '', 'POST')  && isset($_POST['ids']) && is_array($_POST['ids'])) {
     // remove records
 
     // Double check for anti-CSRF

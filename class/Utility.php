@@ -7,6 +7,7 @@ namespace XoopsModules\Myalbum;
 //                        <http://www.peak.ne.jp>                           //
 // ------------------------------------------------------------------------- //
 
+use Xmf\Request;
 use XoopsModules\Myalbum\{
     Common
 };
@@ -39,7 +40,7 @@ class Utility extends Common\SysUtility
             [$field, $lang, $essential] = \explode(':', $types);
 
             // Undefined col is regarded as ''
-            $data = empty($_POST[$col]) ? '' : $GLOBALS['myts']->stripSlashesGPC($_POST[$col]);
+            $data = Request::getString($col, '', 'POST');
 
             // Check if essential
             if ($essential && !$data) {

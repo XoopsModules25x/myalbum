@@ -5,6 +5,7 @@
 // ------------------------------------------------------------------------- //
 
 use Xmf\Module\Admin;
+use Xmf\Request;
 use XoopsModules\Myalbum\{
     CategoryHandler,
     Forms,
@@ -19,13 +20,13 @@ use XoopsModules\Myalbum\{
 require_once __DIR__ . '/admin_header.php';
 
 // GPCS vars
-$GLOBALS['submitter'] = \Xmf\Request::getInt('submitter', $my_uid, 'POST');
+$GLOBALS['submitter'] = Request::getInt('submitter', $my_uid, 'POST');
 
-$cid = \Xmf\Request::getInt('cid', 0);
+$cid = Request::getInt('cid', 0);
 
-$GLOBALS['dir4edit']   = isset($_POST['dir']) ? $GLOBALS['myts']->htmlSpecialChars($_POST['dir']) : '';
-$GLOBALS['title4edit'] = isset($_POST['title']) ? $GLOBALS['myts']->htmlSpecialChars($_POST['title']) : '';
-$GLOBALS['desc4edit']  = isset($_POST['desc']) ? $GLOBALS['myts']->htmlSpecialChars($_POST['desc']) : '';
+$GLOBALS['dir4edit']   = Request::getString('dir', '', 'POST');
+$GLOBALS['title4edit'] = Request::getString('title', '', 'POST');
+$GLOBALS['desc4edit']  = Request::getText('desc', '', 'POST');
 
 // reject Not Admin
 if (!$isadmin) {
@@ -43,11 +44,11 @@ $photosHandler = $helper->getHandler('Photos');
 /** @var  TextHandler $textHandler */
 $textHandler = $helper->getHandler('Text');
 
-if (\Xmf\Request::hasVar('submit', 'POST') && '' !== $_POST['submit']) {
+if (Request::hasVar('submit', 'POST') && '' !== $_POST['submit']) {
     ob_start();
 
     // Check Directory
-    $dir = $GLOBALS['myts']->stripSlashesGPC($_POST['dir']);
+    $dir = Request::getString('dir', '', 'POST');
     if (empty($dir) || !is_dir($dir)) {
         if (0x2f !== ord($dir)) {
             $dir = "/$dir";
@@ -68,10 +69,10 @@ if (\Xmf\Request::hasVar('submit', 'POST') && '' !== $_POST['submit']) {
         $dir = mb_substr($dir, 0, -1);
     }
 
-    $title4save = $GLOBALS['myts']->htmlSpecialChars(\Xmf\Request::getString('title'));
-    $desc4save  = $GLOBALS['myts']->addSlashes(\Xmf\Request::getString('desc'));
+    $title4save = $GLOBALS['myts']->htmlSpecialChars(Request::getString('title'));
+    $desc4save  = $GLOBALS['myts']->addSlashes(Request::getString('desc'));
 
-    $date = strtotime($_POST['post_date']);
+    $date = strtotime(Request::getString('post_date', '', 'POST')); //strtotime($_POST['post_date']);
     if (-1 == $date) {
         $date = time();
     }
@@ -96,9 +97,9 @@ if (\Xmf\Request::hasVar('submit', 'POST') && '' !== $_POST['submit']) {
 
         if (is_readable($file_path) && in_array(mb_strtolower($ext), $array_allowed_exts)) {
             if (!in_array(mb_strtolower($ext), $myalbum_normal_exts)) {
-                list($w, $h) = getimagesize($file_path);
+                [$w, $h] = getimagesize($file_path);
             } else {
-                list($w, $h) = [0, 0];
+                [$w, $h] = [0, 0];
             }
             $photo = $photosHandler->create();
             $photo->setVar('cid', $cid);

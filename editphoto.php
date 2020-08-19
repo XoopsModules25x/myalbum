@@ -140,21 +140,21 @@ if (!empty($_POST['submit'])) {
     // Check if file uploaded
     if ('' != $_FILES[$field]['tmp_name'] && 'none' !== $_FILES[$field]['tmp_name']) {
         xoops_load('xoopsmediauploader');
-        if ($GLOBALS['myalbumModuleConfig']['myalbum_canresize']) {
+        if ($helper->getConfig('myalbum_canresize')) {
             $uploader = new \XoopsMediaUploader(
                 $GLOBALS['photos_dir'],
-                explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']),
-                $GLOBALS['myalbumModuleConfig']['myalbum_fsize'],
+                explode('|', $helper->getConfig('myalbum_allowedmime')),
+                $helper->getConfig('myalbum_fsize'),
                 null,
                 null
             );
         } else {
             $uploader = new \XoopsMediaUploader(
                 $GLOBALS['photos_dir'],
-                explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']),
-                $GLOBALS['myalbumModuleConfig']['myalbum_fsize'],
-                $GLOBALS['myalbumModuleConfig']['myalbum_width'],
-                $GLOBALS['myalbumModuleConfig']['myalbum_height']
+                explode('|', $helper->getConfig('myalbum_allowedmime')),
+                $helper->getConfig('myalbum_fsize'),
+                $helper->getConfig('myalbum_width'),
+                $helper->getConfig('myalbum_height')
             );
         }
 
@@ -171,8 +171,8 @@ if (!empty($_POST['submit'])) {
                 $_POST['title'] = $uploader->getMediaName();
             }
 
-            $title     = $GLOBALS['myts']->stripSlashesGPC($_POST['title']);
-            $desc_text = $GLOBALS['myts']->stripSlashesGPC($_POST['desc_text']);
+            $title     = Request::getString('title', '', 'POST');
+            $desc_text = Request::getText('desc_text', '', 'POST');
             $date      = time();
             $tmp_name  = $uploader->getSavedFileName();
             $ext       = mb_substr(mb_strrchr($tmp_name, '.'), 1);
@@ -201,11 +201,11 @@ if (!empty($_POST['submit'])) {
     if ('' === trim($_POST['title'])) {
         $_POST['title'] = 'no title';
     }
-    $title     = $GLOBALS['myts']->stripSlashesGPC($_POST['title']);
-    $desc_text = $GLOBALS['myts']->stripSlashesGPC($_POST['desc_text']);
+    $title     = Request::getString('title', '', 'POST');
+    $desc_text = Request::getText('desc_text', '', 'POST');
     $cid       = Request::getInt('cid', 0, 'POST');
     $ext       = $_POST['ext'];
-    if ($GLOBALS['myalbumModuleConfig']['tag']) {
+    if ($helper->getConfig('tag')) {
         /** @var \XoopsModules\Tag\TagHandler $tagHandler */
         $tagHandler = Helper::getInstance()->getHandler('Tag'); // xoops_getModuleHandler('tag', 'tag');
         $tagHandler->updateByItem($_POST['tags'], $lid, $GLOBALS['myalbumModule']->getVar('dirname'), $cid);
@@ -254,7 +254,7 @@ $html_configs['rows']   = 35;
 $html_configs['cols']   = 60;
 $html_configs['width']  = '100%';
 $html_configs['height'] = '400px';
-$html_configs['editor'] = $GLOBALS['myalbumModuleConfig']['editor'];
+$html_configs['editor'] = $helper->getConfig('editor');
 $desc_tarea             = new \XoopsFormEditor(_ALBM_PHOTODESC, $html_configs['name'], $html_configs);
 
 $file_form = new \XoopsFormFile(_ALBM_SELECTFILE, 'photofile', $myalbum_fsize);
@@ -291,7 +291,7 @@ $form->addElement($title_text);
 $form->addElement($desc_tarea);
 $form->addElement($catTray);
 $form->addElement($file_form);
-if ($GLOBALS['myalbumModuleConfig']['tag']) {
+if ($helper->getConfig('tag')) {
     $form->addElement(new FormTag('tags', 35, 255, $lid));
 }
 if ($myalbum_canrotate) {

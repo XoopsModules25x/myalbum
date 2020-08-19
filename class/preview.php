@@ -148,11 +148,11 @@ class Preview extends \XoopsObject
         }
 
         if (\Xmf\Request::hasVar('preview', 'POST')) {
-            $description = $GLOBALS['myts']->stripSlashesGPC($_POST['desc_text']);
-            $title       = $GLOBALS['myts']->stripSlashesGPC($_POST['title']);
+            $description = Request::getText('desc_text', '', 'POST');
+            $title       = Request::getString('title', '', 'POST');
         }
 
-        if ($GLOBALS['myalbumModuleConfig']['tag']) {
+        if ($helper->getConfig('tag')) {
             require_once XOOPS_ROOT_PATH . '/modules/tag/include/tagbar.php';
             $tagbar = \tagBar($lid, $cid);
         } else {
@@ -209,6 +209,8 @@ class Preview extends \XoopsObject
         global $photos_url, $thumbs_url, $thumbs_dir;
         global $myalbum_makethumb, $myalbum_thumbsize, $myalbum_normal_exts;
 
+        $helper = Helper::getInstance();
+
         /** @var PhotosHandler $photosHandler */
         $photosHandler = $helper->getHandler('Photos');
         /** @var TextHandler $textHandler */
@@ -241,7 +243,7 @@ class Preview extends \XoopsObject
             $width_spec      = '';
         }
 
-        if ($GLOBALS['myalbumModuleConfig']['tag']) {
+        if ($helper->getConfig('tag')) {
             require_once XOOPS_ROOT_PATH . '/modules/tag/include/tagbar.php';
             $tagbar = \tagBar($lid, $cid);
         } else {

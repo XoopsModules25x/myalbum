@@ -27,8 +27,8 @@ $photosHandler = $helper->getHandler('Photos');
 $num = Request::getInt('num', $myalbum_newphotos, 'GET');
 $pos = Request::getInt('pos', 0, 'GET');
 
-if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
-    $url = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/index,' . $num . ',' . $pos . $GLOBALS['myalbumModuleConfig']['endofurl'];
+if ($helper->getConfig('htaccess')) {
+    $url = XOOPS_URL . '/' . $helper->getConfig('baseurl') . '/index,' . $num . ',' . $pos . $helper->getConfig('endofurl');
     if (!mb_strpos($url, $_SERVER['REQUEST_URI'])) {
         header('HTTP/1.1 301 Moved Permanently');
         header('Location: ' . $url);
@@ -46,7 +46,7 @@ if (!isset($cat) || !is_object($cat)) {
     $cat = $catHandler->create();
 }
 // Fin de modification
-$GLOBALS['xoopsTpl']->assign('rss', $cat->getRSSURL(0, $num, $pos, $myalbum_viewcattype));
+$GLOBALS['xoopsTpl']->assign('rss', $cat->getRSSURL(0, $num, $pos, $helper->getConfig('myalbum_viewcattype')));
 $GLOBALS['xoopsTpl']->assign('xoConfig', $GLOBALS['myalbumModuleConfig']);
 $GLOBALS['xoopsTpl']->assign('mydirname', $GLOBALS['mydirname']);
 

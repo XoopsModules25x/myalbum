@@ -144,21 +144,21 @@ if (!empty($_POST['submit'])) {
         $helper->redirect('submit.php', 2, _ALBM_FILEERROR);
     } else {
         xoops_load('xoopsmediauploader');
-        if (isset($GLOBALS['myalbumModuleConfig']['myalbum_canresize'])
-            && $GLOBALS['myalbumModuleConfig']['myalbum_canresize']) {
+        if (isset($helper->getConfig('myalbum_canresize'))
+            && $helper->getConfig('myalbum_canresize')) {
             $uploader = new \XoopsMediaUploader(
                 $GLOBALS['photos_dir'],
-                explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']),
-                $GLOBALS['myalbumModuleConfig']['myalbum_fsize'],
+                explode('|', $helper->getConfig('myalbum_allowedmime')),
+                $helper->getConfig('myalbum_fsize'),
                 null,
                 null);
         } else {
             $uploader = new \XoopsMediaUploader(
                 $GLOBALS['photos_dir'],
-                explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']),
-                $GLOBALS['myalbumModuleConfig']['myalbum_fsize'],
-                $GLOBALS['myalbumModuleConfig']['myalbum_width'],
-                $GLOBALS['myalbumModuleConfig']['myalbum_height']
+                explode('|', $helper->getConfig('myalbum_allowedmime')),
+                $helper->getConfig('myalbum_fsize'),
+                $helper->getConfig('myalbum_width'),
+                $helper->getConfig('myalbum_height')
             );
         }
 
@@ -186,8 +186,8 @@ if (!empty($_POST['submit'])) {
         redirect_header('submit.php', 2, _ALBM_FILEREADERROR);
     }
 
-    $title     = $GLOBALS['myts']->stripSlashesGPC($_POST['title']);
-    $desc_text = $GLOBALS['myts']->stripSlashesGPC($_POST['desc_text']);
+    $title     = Request::getString('title', '', 'POST');
+    $desc_text = Request::getText('desc_text', '', 'POST');
     $date      = time();
     $fileparts = explode('.', $tmp_name);
     $ext       = $fileparts[count($fileparts) - 1];
@@ -207,7 +207,7 @@ if (!empty($_POST['submit'])) {
     $newid     = $photosHandler->insert($photo_obj, true);
     $photo_obj = $photosHandler->get($newid);
 
-    if ($GLOBALS['myalbumModuleConfig']['tag']) {
+    if ($helper->getConfig('tag')) {
         /** @var TagTagHandler $tagHandler */
         $tagHandler = Helper::getInstance()->getHandler('Tag'); // xoops_getModuleHandler('tag', 'tag');
         $tagHandler->updateByItem($_POST['tags'], $newid, $GLOBALS['myalbumModule']->getVar('dirname'), $cid);
@@ -282,28 +282,28 @@ if ('imagemanager' === $caller) {
 
 // Preview
 if ('imagemanager' !== $caller && !empty($_POST['preview'])) {
-    $photo['description'] = $GLOBALS['myts']->stripSlashesGPC($_POST['desc_text']);
-    $photo['title']       = $GLOBALS['myts']->stripSlashesGPC($_POST['title']);
+    $photo['description'] = Request::getText('desc_text', '', 'POST');
+    $photo['title']       = Request::getString('title', '', 'POST');
     $photo['cid']         = Request::getInt('cid', 0, 'POST');
 
     $field = $_POST['xoops_upload_file'][0];
     if (is_readable($_FILES[$field]['tmp_name'])) {
         // new preview
-        if ($GLOBALS['myalbumModuleConfig']['myalbum_canresize']) {
+        if ($helper->getConfig('myalbum_canresize')) {
             $uploader = new \XoopsMediaUploader(
                 $GLOBALS['photos_dir'],
-                explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']),
-                $GLOBALS['myalbumModuleConfig']['myalbum_fsize'],
+                explode('|', $helper->getConfig('myalbum_allowedmime')),
+                $helper->getConfig('myalbum_fsize'),
                 null,
                 null
             );
         } else {
             $uploader = new \XoopsMediaUploader(
                 $GLOBALS['photos_dir'],
-                explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']),
-                $GLOBALS['myalbumModuleConfig']['myalbum_fsize'],
-                $GLOBALS['myalbumModuleConfig']['myalbum_width'],
-                $GLOBALS['myalbumModuleConfig']['myalbum_height']
+                explode('|', $helper->getConfig('myalbum_allowedmime')),
+                $helper->getConfig('myalbum_fsize'),
+                $helper->getConfig('myalbum_width'),
+                $helper->getConfig('myalbum_height')
             );
         }
         $uploader->setPrefix('tmp_');
@@ -353,11 +353,11 @@ if ('imagemanager' !== $caller && !empty($_POST['preview'])) {
     ];
 }
 
-if ($GLOBALS['myalbumModuleConfig']['htaccess']) {
+if ($helper->getConfig('htaccess')) {
     if (Request::hasVar('cid', 'GET') && isset($_GET['title'])) {
-        $url = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/' . $_GET['title'] . '/submit,' . $_GET['cid'] . '.html';
+        $url = XOOPS_URL . '/' . $helper->getConfig('baseurl') . '/' . $_GET['title'] . '/submit,' . $_GET['cid'] . '.html';
     } else {
-        $url = XOOPS_URL . '/' . $GLOBALS['myalbumModuleConfig']['baseurl'] . '/submit.html';
+        $url = XOOPS_URL . '/' . $helper->getConfig('baseurl') . '/submit.html';
     }
     if (!mb_strpos($url, $_SERVER['REQUEST_URI'])) {
         header('HTTP/1.1 301 Moved Permanently');
