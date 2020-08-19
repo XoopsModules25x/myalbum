@@ -52,7 +52,7 @@ function xoops_module_install_' . $moduleDirName . '( $module )
 /*
 function xoops_module_install_myalbum(\XoopsModule $xoopsModule)
 {
-    require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+    require_once dirname(__DIR__, 3) . '/mainfile.php';
 
     xoops_loadLanguage('admin', $xoopsModule->getVar('dirname'));
     xoops_loadLanguage('modinfo', $xoopsModule->getVar('dirname'));
