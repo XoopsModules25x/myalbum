@@ -256,7 +256,7 @@ function myalbum_create_thumbs_by_gd($src_path, $node, $ext)
     $bundled_2 = false;
     if (!$myalbum_forcegd2 && function_exists('gd_info')) {
         $gd_info = gd_info();
-        if (str_starts_with($gd_info['GD Version'], 'bundled (2')) {
+        if (0 === mb_strpos($gd_info['GD Version'], 'bundled (2')) {
             $bundled_2 = true;
         }
     }

@@ -211,7 +211,7 @@ class Utility extends Common\SysUtility
         if (!$GLOBALS[$moduleDirName . '_forcegd2'] && \function_exists('gd_info')) {
             $gd_info = gd_info();
             // if (substr($gd_info['GD Version'], 0, 10) === 'bundled (2') {
-            if (str_starts_with($gd_info['GD Version'], 'bundled (2')) {
+            if (0 === mb_strpos($gd_info['GD Version'], 'bundled (2')) {
                 $bundled_2 = true;
             }
         }
@@ -695,7 +695,7 @@ class Utility extends Common\SysUtility
         $ret        = 0;
         $prefix_len = mb_strlen($prefix);
         while (false !== ($file = \readdir($dir))) {
-            if (str_starts_with($file, $prefix)) {
+            if (0 === mb_strpos($file, $prefix)) {
                 if (@\unlink("$dir_path/$file")) {
                     ++$ret;
                 }
