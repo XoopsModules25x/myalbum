@@ -45,34 +45,34 @@
                         <div align="center">
                             <{$lang_sortby}>&nbsp;&nbsp;
                             <{$lang_title}> (
-                            <a href="viewcat.php?cid=<{$category_id}>&amp;uid=<{$uid}>&amp;orderby=titleA">
+                            <a href="viewcat.php?cid=<{$category_id}>&amp;uid=<{$uid|default:false}>&amp;orderby=titleA">
                                 <img src="assets/images/up.gif" border="0" align="middle" alt="">
                             </a>
-                            <a href="viewcat.php?cid=<{$category_id}>&amp;uid=<{$uid}>&amp;orderby=titleD">
+                            <a href="viewcat.php?cid=<{$category_id}>&amp;uid=<{$uid|default:false}>&amp;orderby=titleD">
                                 <img src="assets/images/down.gif" border="0" align="middle" alt="">
                             </a>)&nbsp;
                             <{$lang_date}> (
-                            <a href="viewcat.php?cid=<{$category_id}>&amp;uid=<{$uid}>&amp;orderby=dateA">
+                            <a href="viewcat.php?cid=<{$category_id}>&amp;uid=<{$uid|default:false}>&amp;orderby=dateA">
                                 <img src="assets/images/up.gif" border="0" align="middle" alt="">
                             </a>
-                            <a href="viewcat.php?cid=<{$category_id}>&amp;uid=<{$uid}>&amp;orderby=dateD">
+                            <a href="viewcat.php?cid=<{$category_id}>&amp;uid=<{$uid|default:false}>&amp;orderby=dateD">
                                 <img src="assets/images/down.gif" border="0" align="middle" alt="">
                             </a>)&nbsp;
                             <{if $canrateview }>
                                 <{$lang_rating}> (
-                                <a href="viewcat.php?cid=<{$category_id}>&amp;uid=<{$uid}>&amp;orderby=ratingA">
+                                <a href="viewcat.php?cid=<{$category_id}>&amp;uid=<{$uid|default:false}>&amp;orderby=ratingA">
                                     <img src="assets/images/up.gif" border="0" align="middle" alt="">
                                 </a>
-                                <a href="viewcat.php?cid=<{$category_id}>&amp;uid=<{$uid}>&amp;orderby=ratingD">
+                                <a href="viewcat.php?cid=<{$category_id}>&amp;uid=<{$uid|default:false}>&amp;orderby=ratingD">
                                     <img src="assets/images/down.gif" border="0" align="middle" alt="">
                                 </a>
                                 )&nbsp;
                             <{/if}>
                             <{$lang_popularity}> (
-                            <a href="viewcat.php?cid=<{$category_id}>&amp;uid=<{$uid}>&amp;orderby=hitsA">
+                            <a href="viewcat.php?cid=<{$category_id}>&amp;uid=<{$uid|default:false}>&amp;orderby=hitsA">
                                 <img src="assets/images/up.gif" border="0" align="middle" alt="">
                             </a>
-                            <a href="viewcat.php?cid=<{$category_id}>&amp;uid=<{$uid}>&amp;orderby=hitsD">
+                            <a href="viewcat.php?cid=<{$category_id}>&amp;uid=<{$uid|default:false}>&amp;orderby=hitsD">
                                 <img src="assets/images/down.gif" border="0" align="middle" alt="">
                             </a>)
                             <br>

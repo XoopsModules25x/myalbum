@@ -52,11 +52,11 @@ require_once $helper->path('include/photo_orders.php');
 if (Request::hasVar('orderby', 'GET') && isset($myalbum_orders[$_GET['orderby']])) {
     $orderby = $_GET['orderby'];
 } elseif (isset($myalbum_orders[$myalbum_defaultorder])) {
-        $orderby = $myalbum_defaultorder;
-    } else {
-        //$orderby = 'titleA';
-        $orderby = 'cidD';
-    }
+    $orderby = $myalbum_defaultorder;
+} else {
+    //$orderby = 'titleA';
+    $orderby = 'cidD';
+}
 
 
 if ('table' === $view) {
