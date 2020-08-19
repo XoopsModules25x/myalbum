@@ -12,8 +12,7 @@ use XoopsModules\Myalbum\{
     PhotosHandler,
     Preview,
     TextHandler,
-    Utility,
-    MediaUploader
+    Utility
 };
 /** @var Helper $helper */
 /** @var CategoryHandler $catHandler */
@@ -146,15 +145,19 @@ if (!empty($_POST['submit'])) {
     } else {
         if (isset($GLOBALS['myalbumModuleConfig']['myalbum_canresize'])
             && $GLOBALS['myalbumModuleConfig']['myalbum_canresize']) {
-            $uploader = new MediaUploader($GLOBALS['photos_dir'], explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']), $GLOBALS['myalbumModuleConfig']['myalbum_fsize'], null, null, explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedexts']));
+            $uploader = new \XoopsMediaUploader(
+                $GLOBALS['photos_dir'],
+                explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']),
+                $GLOBALS['myalbumModuleConfig']['myalbum_fsize'],
+                null,
+                null);
         } else {
-            $uploader = new MediaUploader(
+            $uploader = new \XoopsMediaUploader(
                 $GLOBALS['photos_dir'],
                 explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']),
                 $GLOBALS['myalbumModuleConfig']['myalbum_fsize'],
                 $GLOBALS['myalbumModuleConfig']['myalbum_width'],
-                $GLOBALS['myalbumModuleConfig']['myalbum_height'],
-                explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedexts'])
+                $GLOBALS['myalbumModuleConfig']['myalbum_height']
             );
         }
 
@@ -286,15 +289,20 @@ if ('imagemanager' !== $caller && !empty($_POST['preview'])) {
     if (is_readable($_FILES[$field]['tmp_name'])) {
         // new preview
         if ($GLOBALS['myalbumModuleConfig']['myalbum_canresize']) {
-            $uploader = new MediaUploader($GLOBALS['photos_dir'], explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']), $GLOBALS['myalbumModuleConfig']['myalbum_fsize'], null, null, explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedexts']));
+            $uploader = new \XoopsMediaUploader(
+                $GLOBALS['photos_dir'],
+                explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']),
+                $GLOBALS['myalbumModuleConfig']['myalbum_fsize'],
+                null,
+                null
+            );
         } else {
-            $uploader = new MediaUploader(
+            $uploader = new \XoopsMediaUploader(
                 $GLOBALS['photos_dir'],
                 explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']),
                 $GLOBALS['myalbumModuleConfig']['myalbum_fsize'],
                 $GLOBALS['myalbumModuleConfig']['myalbum_width'],
-                $GLOBALS['myalbumModuleConfig']['myalbum_height'],
-                explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedexts'])
+                $GLOBALS['myalbumModuleConfig']['myalbum_height']
             );
         }
         $uploader->setPrefix('tmp_');

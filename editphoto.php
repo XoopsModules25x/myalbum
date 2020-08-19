@@ -140,15 +140,20 @@ if (!empty($_POST['submit'])) {
     // Check if file uploaded
     if ('' != $_FILES[$field]['tmp_name'] && 'none' !== $_FILES[$field]['tmp_name']) {
         if ($GLOBALS['myalbumModuleConfig']['myalbum_canresize']) {
-            $uploader = new MediaUploader($GLOBALS['photos_dir'], explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']), $GLOBALS['myalbumModuleConfig']['myalbum_fsize'], null, null, explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedexts']));
+            $uploader = new \XoopsMediaUploader(
+                $GLOBALS['photos_dir'],
+                explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']),
+                $GLOBALS['myalbumModuleConfig']['myalbum_fsize'],
+                null,
+                null
+            );
         } else {
-            $uploader = new MediaUploader(
+            $uploader = new \XoopsMediaUploader(
                 $GLOBALS['photos_dir'],
                 explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedmime']),
                 $GLOBALS['myalbumModuleConfig']['myalbum_fsize'],
                 $GLOBALS['myalbumModuleConfig']['myalbum_width'],
-                $GLOBALS['myalbumModuleConfig']['myalbum_height'],
-                explode('|', $GLOBALS['myalbumModuleConfig']['myalbum_allowedexts'])
+                $GLOBALS['myalbumModuleConfig']['myalbum_height']
             );
         }
 
