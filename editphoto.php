@@ -139,6 +139,7 @@ if (!empty($_POST['submit'])) {
 
     // Check if file uploaded
     if ('' != $_FILES[$field]['tmp_name'] && 'none' !== $_FILES[$field]['tmp_name']) {
+        xoops_load('xoopsmediauploader');
         if ($GLOBALS['myalbumModuleConfig']['myalbum_canresize']) {
             $uploader = new \XoopsMediaUploader(
                 $GLOBALS['photos_dir'],

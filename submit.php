@@ -143,6 +143,7 @@ if (!empty($_POST['submit'])) {
         // Fail to upload (wrong file name etc.)
         $helper->redirect('submit.php', 2, _ALBM_FILEERROR);
     } else {
+        xoops_load('xoopsmediauploader');
         if (isset($GLOBALS['myalbumModuleConfig']['myalbum_canresize'])
             && $GLOBALS['myalbumModuleConfig']['myalbum_canresize']) {
             $uploader = new \XoopsMediaUploader(
