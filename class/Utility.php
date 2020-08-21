@@ -1107,7 +1107,7 @@ class Utility extends Common\SysUtility
             '!',
             '`',
             '~',
-            ' ',
+            ' ',
             '',
             '¡',
             '¦',
@@ -1143,9 +1143,7 @@ class Utility extends Common\SysUtility
             default:
                 return urldecode($return_data);
             case '-':
-
                 return urlencode($return_data);
-                break;
         }
     }
 }
