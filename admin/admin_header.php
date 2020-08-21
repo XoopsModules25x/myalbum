@@ -33,6 +33,7 @@ $GLOBALS['myts'] = \MyTextSanitizer::getInstance();
 
 /** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler                  = xoops_getHandler('module');
+/** @var \XoopsConfigHandler $configHandler */
 $configHandler                  = xoops_getHandler('config');
 $GLOBALS['myalbumModule']       = $moduleHandler->getByDirname($GLOBALS['mydirname']);
 $GLOBALS['myalbumModuleConfig'] = $configHandler->getConfigList($GLOBALS['myalbumModule']->getVar('mid'));
@@ -88,7 +89,7 @@ $GLOBALS['xoopsTpl']->assign('pathImageAdmin', $GLOBALS['myalbumImageAdmin']);
 if (\Xmf\Request::hasVar('lid', 'GET')) {
     $lid    = \Xmf\Request::getInt('lid', 0, 'GET');
     $result = $GLOBALS['xoopsDB']->query("SELECT submitter FROM $table_photos where lid=$lid", 0);
-    list($submitter) = $GLOBALS['xoopsDB']->fetchRow($result);
+    [$submitter] = $GLOBALS['xoopsDB']->fetchRow($result);
 } else {
     $submitter = $GLOBALS['xoopsUser']->getVar('uid');
 }

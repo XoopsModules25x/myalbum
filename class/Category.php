@@ -49,6 +49,7 @@ class Category extends \XoopsObject
         $moduleDirName = \basename(\dirname(__DIR__));
         /** @var \XoopsModuleHandler $moduleHandler */
         $moduleHandler = \xoops_getHandler('module');
+        /** @var \XoopsConfigHandler $configHandler */
         $configHandler = \xoops_getHandler('config');
         if (!isset($GLOBALS['myalbumModule'])) {
             $GLOBALS['myalbumModule'] = $moduleHandler->getByDirname($moduleDirName);
@@ -88,6 +89,7 @@ class Category extends \XoopsObject
         $moduleDirName = \basename(\dirname(__DIR__));
         /** @var \XoopsModuleHandler $moduleHandler */
         $moduleHandler = \xoops_getHandler('module');
+        /** @var \XoopsConfigHandler $configHandler */
         $configHandler = \xoops_getHandler('config');
         if (!isset($GLOBALS['myalbumModule'])) {
             $GLOBALS['myalbumModule'] = $moduleHandler->getByDirname($moduleDirName);
@@ -96,7 +98,7 @@ class Category extends \XoopsObject
 //            $GLOBALS['myalbumModuleConfig'] = $configHandler->getConfigList($GLOBALS['myalbumModule']->getVar('mid'));
 //        }
         if ($helper->getConfig('htaccess')) {
-            return XOOPS_URL . '/' . $helper->getConfig('baseurl') . '/' . xoops_sef($this->getVar('title')) . '/rss,' . $cid . ',' . $uid . ',' . $num . ',' . $pos . ',' . $view . $helper->getConfig('endofrss');
+            return XOOPS_URL . '/' . $helper->getConfig('baseurl') . '/' . Utility::xoops_sef($this->getVar('title')) . '/rss,' . $cid . ',' . $uid . ',' . $num . ',' . $pos . ',' . $view . $helper->getConfig('endofrss');
         }
 
         return Helper::getInstance()->url() . 'rss.php?cid=' . $this->getVar('cid') . '&uid=' . $uid . '&num=' . $num . '&pos=' . $pos . '&view=' . $view;

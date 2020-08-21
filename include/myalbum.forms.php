@@ -1,7 +1,7 @@
 <?php
 
-use XoopsModules\Myalbum\{
-    Helper
+use XoopsModules\Myalbum\{Helper,
+    GroupPermForm
 };
 
 /**
@@ -13,14 +13,14 @@ function myalbum_admin_form_admission()
     // Make form objects
     $form       = new \XoopsThemeForm(_ALBM_PHOTOBATCHUPLOAD, 'batchupload', 'batch.php');
     $title_text = new \XoopsFormText('', 'title', 50, 255, $GLOBALS['title4edit']);
-    $titleTray = new \XoopsFormElementTray(_AM_TH_TITLE, '<br><br>');
+    $titleTray  = new \XoopsFormElementTray(_AM_TH_TITLE, '<br><br>');
     $titleTray->addElement($title_text);
     $titleTray->addElement(new \XoopsFormLabel('', _ALBM_BATCHBLANK));
     //$cat_select       = new \XoopsFormLabel(_AM_TH_CATEGORIES, $GLOBALS['cattree']->makeSelBox('cid', 'title', '--', null, false));
     $cat_select       = $GLOBALS['cattree']->makeSelectElement('cid', 'title', '--', null, false, 0, '', \_AM_TH_CATEGORIES);
     $submitter_select = new \XoopsFormSelectUser(_AM_TH_SUBMITTER, 'submitter', false, $GLOBALS['submitter']);
     $date_text        = new \XoopsFormText(_AM_TH_DATE, 'post_date', 20, 20, formatTimestamp(time(), _ALBM_DTFMT_YMDHI));
-    $dirTray         = new \XoopsFormElementTray(_ALBM_TEXT_DIRECTORY, '<br><br>');
+    $dirTray          = new \XoopsFormElementTray(_ALBM_TEXT_DIRECTORY, '<br><br>');
     $dir_text         = new \XoopsFormText(_ALBM_PHOTOPATH, 'dir', 50, 255, $GLOBALS['dir4edit']);
     $dirTray->addElement($dir_text);
     $dirTray->addElement(new \XoopsFormLabel(_ALBM_DESC_PHOTOPATH));
@@ -102,7 +102,7 @@ function myalbum_admin_form_groups()
         GPERM_RATEVOTE | GPERM_RATEVIEW      => _ALBM_GPERM_G_RATEVOTE,
     ];
 
-    $form = new Myalbum\GroupPermForm('', $xoopsModule->mid(), 'myalbum_global', _AM_ALBM_GROUPPERM_GLOBALDESC);
+    $form = new GroupPermForm('', $xoopsModule->mid(), 'myalbum_global', _AM_ALBM_GROUPPERM_GLOBALDESC);
     foreach ($global_perms_array as $perm_id => $perm_name) {
         $form->addItem($perm_id, $perm_name);
     }
@@ -284,7 +284,7 @@ function myalbum_user_form_submit($caller, $photo, $lid)
     $submit_button  = new \XoopsFormButton('', 'submit', _SUBMIT, 'submit');
     $preview_button = new \XoopsFormButton('', 'preview', _PREVIEW, 'submit');
     $reset_button   = new \XoopsFormButton('', 'reset', _CANCEL, 'reset');
-    $submitTray    = new \XoopsFormElementTray('');
+    $submitTray     = new \XoopsFormElementTray('');
     if ('imagemanager' !== $caller) {
         $submitTray->addElement($preview_button);
     }

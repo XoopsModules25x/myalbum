@@ -2,10 +2,11 @@
 
 namespace XoopsModules\Myalbum;
 
+use Xmf\Request;
 use XoopsModules\Myalbum\Utility;
 
 /**
- * Class MyalbumPreview
+ * Class Preview
  */
 class Preview extends \XoopsObject
 {
@@ -147,7 +148,7 @@ class Preview extends \XoopsObject
             $description = '';
         }
 
-        if (\Xmf\Request::hasVar('preview', 'POST')) {
+        if (Request::hasVar('preview', 'POST')) {
             $description = Request::getText('desc_text', '', 'POST');
             $title       = Request::getString('title', '', 'POST');
         }

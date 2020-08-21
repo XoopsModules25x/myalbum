@@ -1060,4 +1060,93 @@ class Utility extends Common\SysUtility
 
         return \trim($ret);
     }
+
+    /**
+     * @param        $datab
+     * @param string $char
+     * @return string
+     */
+    public static function xoops_sef($datab, $char = '-')
+    {
+        $datab             = urldecode(mb_strtolower($datab));
+        $datab             = urlencode($datab);
+        $datab             = str_replace(urlencode('æ'), 'ae', $datab);
+        $datab             = str_replace(urlencode('ø'), 'oe', $datab);
+        $datab             = str_replace(urlencode('å'), 'aa', $datab);
+        $replacement_chars = [
+            ' ',
+            '|',
+            '=',
+            '\\',
+            '/',
+            '+',
+            '-',
+            '_',
+            '{',
+            '}',
+            ']',
+            '[',
+            '\'',
+            '"',
+            ';',
+            ':',
+            '?',
+            '>',
+            '<',
+            '.',
+            ',',
+            ')',
+            '(',
+            '*',
+            '&',
+            '^',
+            '%',
+            '$',
+            '#',
+            '@',
+            '!',
+            '`',
+            '~',
+            ' ',
+            '',
+            '¡',
+            '¦',
+            '§',
+            '¨',
+            '©',
+            'ª',
+            '«',
+            '¬',
+            '®',
+            '­',
+            '¯',
+            '°',
+            '±',
+            '²',
+            '³',
+            '´',
+            'µ',
+            '¶',
+            '·',
+            '¸',
+            '¹',
+            'º',
+            '»',
+            '¼',
+            '½',
+            '¾',
+            '¿',
+        ];
+        $return_data       = str_replace($replacement_chars, $char, urldecode($datab));
+        #print $return_data."<BR><BR>";
+        switch ($char) {
+            default:
+                return urldecode($return_data);
+                break;
+            case '-':
+
+                return urlencode($return_data);
+                break;
+        }
+    }
 }
