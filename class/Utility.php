@@ -1142,7 +1142,6 @@ class Utility extends Common\SysUtility
         switch ($char) {
             default:
                 return urldecode($return_data);
-                break;
             case '-':
 
                 return urlencode($return_data);

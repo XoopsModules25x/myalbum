@@ -22,7 +22,7 @@ class Comments extends \XoopsObject
         $this->initVar('com_pid', \XOBJ_DTYPE_INT, 0, false);
         $this->initVar('com_modid', \XOBJ_DTYPE_INT, null, false);
         $this->initVar('com_icon', \XOBJ_DTYPE_OTHER, null, false);
-        $this->initVar('com_title', \XOBJ_DTYPE_TXTBOX, null, true, 255, true);
+        $this->initVar('com_title', \XOBJ_DTYPE_TXTBOX, null, true, 255);
         $this->initVar('com_text', \XOBJ_DTYPE_TXTAREA, null, true, null, true);
         $this->initVar('com_created', \XOBJ_DTYPE_INT, 0, false);
         $this->initVar('com_modified', \XOBJ_DTYPE_INT, 0, false);
