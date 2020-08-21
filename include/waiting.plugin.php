@@ -4,15 +4,11 @@
 
 $moduleDirName = basename(dirname(__DIR__));
 
-eval(
-    '
-
-function b_waiting_' . $moduleDirName . '(){
+eval('function b_waiting_' . $moduleDirName . '(){
     return b_waiting_myalbum_base( \'' . $moduleDirName . '\' ) ;
 }
 
-'
-);
+');
 
 if (!function_exists('b_waiting_myalbum_base')) {
     /**
@@ -23,6 +19,7 @@ if (!function_exists('b_waiting_myalbum_base')) {
     function b_waiting_myalbum_base($moduleDirName)
     {
         $xoopsDB = \XoopsDatabaseFactory::getDatabaseConnection();
+        $ret     = [];
         $block   = [];
 
         // get $mydirnumber
@@ -38,6 +35,9 @@ if (!function_exists('b_waiting_myalbum_base')) {
             $block['lang_linkname'] = _PI_WAITING_WAITINGS;
         }
 
-        return $block;
+        $ret[] = $block;
+
+        return $ret;
     }
 }
+?>

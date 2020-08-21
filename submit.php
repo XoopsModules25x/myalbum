@@ -26,6 +26,7 @@ global $global_perms;
 $lid = '';
 require_once __DIR__ . '/header.php';
 require_once __DIR__ . '/include/get_perms.php';
+xoops_load('xoopsmediauploader');
 
 $catHandler = $helper->getHandler('Category');
 $photosHandler = $helper->getHandler('Photos');
@@ -143,9 +144,8 @@ if (!empty($_POST['submit'])) {
         // Fail to upload (wrong file name etc.)
         $helper->redirect('submit.php', 2, _ALBM_FILEERROR);
     } else {
-        xoops_load('xoopsmediauploader');
-        if (isset($helper->getConfig('myalbum_canresize'))
-            && $helper->getConfig('myalbum_canresize')) {
+        if (isset($GLOBALS['myalbumModuleConfig']['myalbum_canresize'])
+            && $GLOBALS['myalbumModuleConfig']['myalbum_canresize']) {
             $uploader = new \XoopsMediaUploader(
                 $GLOBALS['photos_dir'],
                 explode('|', $helper->getConfig('myalbum_allowedmime')),
@@ -289,7 +289,7 @@ if ('imagemanager' !== $caller && !empty($_POST['preview'])) {
     $field = $_POST['xoops_upload_file'][0];
     if (is_readable($_FILES[$field]['tmp_name'])) {
         // new preview
-        if ($helper->getConfig('myalbum_canresize')) {
+        if ($GLOBALS['myalbumModuleConfig']['myalbum_canresize']) {
             $uploader = new \XoopsMediaUploader(
                 $GLOBALS['photos_dir'],
                 explode('|', $helper->getConfig('myalbum_allowedmime')),

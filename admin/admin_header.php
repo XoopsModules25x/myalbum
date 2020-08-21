@@ -12,9 +12,13 @@ require dirname(__DIR__) . '/preloads/autoloader.php';
 
 $moduleDirName = basename(dirname(__DIR__));
 require_once dirname(__DIR__, 3) . '/include/cp_header.php';
+
+$helper = Helper::getInstance();
+$adminObject = Admin::getInstance();
+
 //require_once dirname(__DIR__) . '/include/functions.php';
-require_once dirname(__DIR__) . '/include/read_configs.php';
-require  dirname(__DIR__) . '/include/common.php';
+require_once $helper->path('include/read_configs.php');
+require  $helper->path( 'include/common.php');
 
 if (!defined('_CHARSET')) {
     define('_CHARSET', 'UTF-8');
@@ -25,8 +29,7 @@ if (!defined('_CHARSET_ISO')) {
 
 $GLOBALS['myts'] = \MyTextSanitizer::getInstance();
 
-$helper = Helper::getInstance();
-$adminObject = Admin::getInstance();
+
 
 /** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler                  = xoops_getHandler('module');

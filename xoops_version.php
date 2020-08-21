@@ -38,7 +38,7 @@ $_SESSION['myalbum_mydirname'] = $moduleDirName;
 // ------------------- Informations ------------------- //
 $modversion = [
     'version'             => 3.09,
-    'module_status'       => 'Alpha 1',
+    'module_status'       => 'Beta 1',
     'release_date'        => '2020/08/12', //yyyy/mm/dd
     //    'release'             => '2015-04-04',
     'name'                => _ALBM_MYALBUM_NAME . $myalbum_number,
