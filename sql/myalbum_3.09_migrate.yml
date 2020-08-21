@@ -1,0 +1,48 @@
+myalbum_cat:
+    options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4'
+    keys:
+        depth:
+            columns: depth
+            unique: false
+        pid:
+            columns: pid
+            unique: false
+        PRIMARY:
+            columns: cid
+            unique: true
+        weight:
+            columns: weight
+            unique: false
+myalbum_photos:
+    options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4'
+    keys:
+        cid:
+            columns: cid
+            unique: false
+        PRIMARY:
+            columns: lid
+            unique: true
+        status:
+            columns: status
+            unique: false
+        title:
+            columns: 'title (40)'
+            unique: false
+myalbum_text:
+    options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4'
+    keys:
+        lid:
+            columns: lid
+            unique: false
+myalbum_votedata:
+    options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4'
+    keys:
+        PRIMARY:
+            columns: ratingid
+            unique: true
+        ratinghostname:
+            columns: ratinghostname
+            unique: false
+        ratinguser:
+            columns: ratinguser
+            unique: false
