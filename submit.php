@@ -142,7 +142,10 @@ if (!empty($_POST['submit'])) {
         }
     } elseif ('' == $_FILES[$field]['tmp_name']) {
         // Fail to upload (wrong file name etc.)
-        $helper->redirect('submit.php', 2, _ALBM_FILEERROR);
+        require_once XOOPS_ROOT_PATH . '/header.php';
+        echo _ALBM_FILEERROR;
+        require_once XOOPS_ROOT_PATH . '/footer.php';
+        exit;
     } else {
         if (isset($GLOBALS['myalbumModuleConfig']['myalbum_canresize'])
             && $GLOBALS['myalbumModuleConfig']['myalbum_canresize']) {
