@@ -130,10 +130,6 @@ class PhotosHandler extends \XoopsPersistableObjectHandler
             $photo = $this->get($photo);
         }
 
-        if (!\is_a($photo, 'Photos')) {
-            return false;
-        }
-
         \xoops_comment_delete($GLOBALS['myalbum_mid'], $photo->getVar('lid'));
         \xoops_notification_deletebyitem($GLOBALS['myalbum_mid'], 'photo', $photo->getVar('lid'));
 
