@@ -32,8 +32,9 @@ if (Request::hasVar('op', 'GET')) {
 
 /**
  * @param $lid
+ * @param $cid
  */
-function deleteImage($lid)
+function deleteImage($lid, $cid)
 {
     global $global_perms;
     $helper = Helper::getInstance();
@@ -57,12 +58,16 @@ function deleteImage($lid)
 
     $photosHandler->delete($photo_obj);
 
-    redirect_header('index.php', 2, _ALBM_DBUPDATED);
+    if ($cid > 0) {
+        redirect_header('viewcat.php?cid=' . $cid, 2, _ALBM_DBUPDATED);
+    } else {
+        redirect_header('index.php', 2, _ALBM_DBUPDATED);
+    }
 }
 
 switch ($op) {
     case 'delete':
-        deleteImage($lid);
+        deleteImage($lid, $cid);
         break;
     case 'default':
     default:

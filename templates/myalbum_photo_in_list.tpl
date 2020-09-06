@@ -39,7 +39,7 @@
 
             <{* DELETE ICON *}>
             <{if $photo.can_delete}>
-                <a href='<{$mod_url}>/photo.php?lid=<{$photo.lid}>&op=delete'>
+                <a href='<{$mod_url}>/photo.php?lid=<{$photo.lid}>&op=delete&cid=<{$photo.cid}>'>
                     <img src='<{xoModuleIcons16 delete.png}>' border='0' alt='<{$lang_deletethisphoto}>'
                          title='<{$lang_deletethisphoto}>'>
                 </a>

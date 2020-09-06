@@ -8,6 +8,7 @@
 - qualifier import (mamba)
 - redundant 'else' keyword
 - replaced MediaUploader with XoopsMediaUploader-
+- fixed bugs with deleting photo (djsherren/goffy)
 
 3.08 Beta 1            NOT RELEASED
 =================================
