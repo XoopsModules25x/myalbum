@@ -58,8 +58,7 @@ if ($myalbum_makethumb && !is_dir($thumbs_dir)) {
 if (!empty($_POST['submit'])) {
     ob_start();
 
-    $result         = $xoopsDB->query('SELECT lid , ext , res_x , res_y FROM ' . $GLOBALS['xoopsDB']->prefix($table_photos) . " ORDER BY lid LIMIT $start , $size")
-                      || exit('DB Error');
+    $result         = $xoopsDB->query('SELECT lid , ext , res_x , res_y FROM ' . $GLOBALS['xoopsDB']->prefix($table_photos) . " ORDER BY lid LIMIT $start , $size");
     $record_counter = 0;
     while (list($lid, $ext, $w, $h) = $xoopsDB->fetchRow($result)) {
         ++$record_counter;
