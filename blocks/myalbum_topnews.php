@@ -26,7 +26,7 @@ if (!defined('MYALBUM_BLOCK_TOPNEWS_INCLUDED')) {
         $cat_limit_recursive = empty($options[4]) ? 0 : 1;
         $cols                = empty($options[6]) ? 1 : (int)$options[6];
 
-        require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/read_configs.php";
+        require XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/read_configs.php";
 
         // Category limitation
         if ($cat_limitation) {

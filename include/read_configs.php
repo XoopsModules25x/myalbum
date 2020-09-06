@@ -50,8 +50,8 @@ if (empty($GLOBALS['xoopsUser'])) {
 }
 
 // Value Check
-if (isset($GLOBALS['myalbum_addposts'])) {
-    $GLOBALS['myalbum_addposts'] = (int)$GLOBALS['myalbum_addposts'];
+if (isset($myalbum_addposts)) {
+    $GLOBALS['myalbum_addposts'] = (int)$myalbum_addposts;
 } else {
     $GLOBALS['myalbum_addposts'] = 0;
 }
@@ -60,30 +60,30 @@ if ($GLOBALS['myalbum_addposts'] < 0) {
 }
 
 // Path to Main Photo & Thumbnail ;
-if (isset($GLOBALS['myalbum_photospath'])) {
-    if (0x2f != ord($GLOBALS['myalbum_photospath'])) {
-        $GLOBALS['myalbum_photospath'] = DS . $GLOBALS['myalbum_photospath'];
+if (isset($myalbum_photospath)) {
+    if (0x2f != ord($myalbum_photospath)) {
+        $GLOBALS['myalbum_photospath'] = DS . $myalbum_photospath;
+    } else {
+        $GLOBALS['myalbum_photospath'] = $myalbum_photospath;
     }
-} else {
-    $GLOBALS['myalbum_photospath'] = '/uploads/photos/';
 }
-if (isset($GLOBALS['myalbum_thumbspath'])) {
-    if (0x2f != ord($GLOBALS['myalbum_thumbspath'])) {
-        $GLOBALS['myalbum_thumbspath'] = DS . $GLOBALS['myalbum_thumbspath'];
+if (isset($myalbum_thumbspath)) {
+    if (0x2f != ord($myalbum_thumbspath)) {
+        $GLOBALS['myalbum_thumbspath'] = DS . $myalbum_thumbspath;
+    } else {
+        $GLOBALS['myalbum_thumbspath'] = $myalbum_thumbspath;
     }
-} else {
-    $GLOBALS['myalbum_thumbspath'] = '/uploads/thumbs/';
 }
 $photos_dir = XOOPS_ROOT_PATH . $GLOBALS['myalbum_photospath'];
 $photos_url = XOOPS_URL . $GLOBALS['myalbum_photospath'];
-if (isset($GLOBALS['myalbum_makethumb'])) {
+//if (isset($GLOBALS['myalbum_makethumb'])) {
     $thumbs_dir = XOOPS_ROOT_PATH . $GLOBALS['myalbum_thumbspath'];
     $thumbs_url = XOOPS_URL . $GLOBALS['myalbum_thumbspath'];
-} else {
-    $thumbs_dir = $photos_dir;
-    $thumbs_url = $photos_url;
-}
-
+// } else {
+    // $thumbs_dir = $photos_dir;
+    // $thumbs_url = $photos_url;
+// }
+$GLOBALS['thumbs_url'] = $thumbs_url;
 // DB table name
 $GLOBALS['table_photos']   = "{$GLOBALS['mydirname']}_photos";
 $GLOBALS['table_cat']      = "{$GLOBALS['mydirname']}_cat";
@@ -91,6 +91,12 @@ $GLOBALS['table_text']     = "{$GLOBALS['mydirname']}_text";
 $GLOBALS['table_votedata'] = "{$GLOBALS['mydirname']}_votedata";
 $GLOBALS['table_comments'] = 'xoopscomments';
 
+if (!isset($GLOBALS['myalbum_imagingpipe'])) {
+    $GLOBALS['myalbum_imagingpipe'] = $myalbum_imagingpipe;
+}
+if (!isset($GLOBALS['myalbum_forcegd2'])) {
+    $GLOBALS['myalbum_forcegd2'] = $myalbum_forcegd2;
+}
 // Pipe environment check
 if (isset($GLOBALS['myalbum_imagingpipe'])) {
     if ($GLOBALS['myalbum_imagingpipe'] || function_exists('imagerotate')) {
@@ -110,10 +116,16 @@ if (isset($GLOBALS['myalbum_imagingpipe'])) {
 $GLOBALS['myalbum_normal_exts'] = ['jpg', 'jpeg', 'gif', 'png'];
 
 // Allowed extensions & MIME types
+if (!isset($GLOBALS['myalbum_allowedexts'])) {
+    $GLOBALS['myalbum_allowedexts'] = $myalbum_allowedexts;
+}
 if (empty($GLOBALS['myalbum_allowedexts'])) {
     $GLOBALS['array_allowed_exts'] = $GLOBALS['myalbum_normal_exts'];
 } else {
     $GLOBALS['array_allowed_exts'] = explode('|', $GLOBALS['myalbum_allowedexts']);
+}
+if (!isset($GLOBALS['myalbum_allowedmime'])) {
+    $GLOBALS['myalbum_allowedmime'] = $myalbum_allowedmime;
 }
 if (empty($GLOBALS['myalbum_allowedmime'])) {
     $GLOBALS['array_allowed_mimetypes'] = [];

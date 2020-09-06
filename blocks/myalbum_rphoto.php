@@ -27,7 +27,7 @@ if (!defined('MYALBUM_BLOCK_RPHOTO_INCLUDED')) {
         $cycle               = empty($options[5]) ? 60 : (int)$options[5];
         $cols                = empty($options[6]) ? 1 : (int)$options[6];
 
-        require_once XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/read_configs.php";
+        require XOOPS_ROOT_PATH . "/modules/$moduleDirName/include/read_configs.php";
 
         // Category limitation
         if ($cat_limitation) {
@@ -116,6 +116,7 @@ if (!defined('MYALBUM_BLOCK_RPHOTO_INCLUDED')) {
         $block['cols']    = $cols;
 
         return $block;
+
     }
 
     /**
