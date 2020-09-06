@@ -11,6 +11,7 @@
 - fixed bugs with deleting photo (djsherren/goffy)
 - fixed bugs with recreation thumbs (djsherren/goffy)
 - fixed bugs with missing error info 'too big' (djsherren/goffy)
+- fixed bugs with invalid thumb url (djsherren/goffy)
 
 3.08 Beta 1            NOT RELEASED
 =================================
