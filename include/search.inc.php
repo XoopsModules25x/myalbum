@@ -34,18 +34,18 @@ function myalbum_search($keywords, $andor, $limit, $offset, $userid)
         switch (mb_strtolower($andor)) {
             case 'and':
                 foreach ($keywords as $keyword) {
-                    $whr .= "CONCAT(l.title,\' \',t.description) LIKE \'%$keyword%\' AND ";
+                    $whr .= "CONCAT(l.title,' ',t.description) LIKE '%$keyword%' AND ";
                 }
                 $whr = mb_substr($whr, 0, -5);
                 break;
             case 'or':
                 foreach ($keywords as $keyword) {
-                    $whr .= "CONCAT(l.title,\' \',t.description) LIKE \'%$keyword%\' OR ";
+                    $whr .= "CONCAT(l.title,' ',t.description) LIKE '%$keyword%' OR ";
                 }
                 $whr = mb_substr($whr, 0, -4);
                 break;
             default:
-                $whr .= "CONCAT(l.title,\'  \',t.description) LIKE \'%{$keywords[0]}%\'";
+                $whr .= "CONCAT(l.title,' ',t.description) LIKE '%{$keywords[0]}%'";
                 break;
         }
         $whr .= ')';

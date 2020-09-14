@@ -12,6 +12,7 @@
 - fixed bugs with recreation thumbs (djsherren/goffy)
 - fixed bugs with missing error info 'too big' (djsherren/goffy)
 - fixed bugs with invalid thumb url (djsherren/goffy)
+- fixed bugs in search (wdc/goffy)
 
 3.08 Beta 1            NOT RELEASED
 =================================
