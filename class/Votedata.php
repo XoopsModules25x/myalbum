@@ -25,7 +25,7 @@ class Votedata extends \XoopsObject
         $this->initVar('lid', \XOBJ_DTYPE_INT, null, false);
         $this->initVar('ratinguser', \XOBJ_DTYPE_INT, null, false);
         $this->initVar('rating', \XOBJ_DTYPE_INT, null, false);
-        $this->initVar('ratinghostname', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('ratinghostname', \XOBJ_DTYPE_TXTBOX, null, false);
         $this->initVar('ratingtimestamp', \XOBJ_DTYPE_INT, null, false);
     }
 }
