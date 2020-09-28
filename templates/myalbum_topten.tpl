@@ -34,8 +34,7 @@
                             <{foreach item=photo from=$ranking.photo}>
                                 <tr>
                                     <td class="even"><{$photo.rank}></td>
-                                    <td class="odd" align="left"><a
-                                                href='photo.php?cid=<{$photo.cid}>&amp;lid=<{$photo.lid}>'><{$photo.title}></a>
+                                    <td class="odd" align="left"><a href='photo.php?cid=<{$photo.cid}>&amp;lid=<{$photo.lid}>'><{$photo.title}></a>
                                     </td>
                                     <td class="even" align="left"><{$photo.category}></td>
                                     <{if $canrateview }>
