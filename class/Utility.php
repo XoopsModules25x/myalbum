@@ -740,6 +740,7 @@ class Utility extends Common\SysUtility
         $photosHandler = Helper::getInstance()->getHandler('Photos');
         $photo         = $photosHandler->get($lid);
         $photo->setVar('rating', $finalrating);
+        $photo->setVar('votes' , $votesDB);
         $photosHandler->insert($photo, true) or exit('Error: DB update rating.');
     }
 
