@@ -102,11 +102,12 @@ if ($myalbum_makethumb && !is_writable($thumbs_dir)) {
 
 if (!empty($_POST['submit'])) {
     // anti-CSRF
-        $xsecurity = new \XoopsSecurity();
+    $xsecurity = new \XoopsSecurity();
     if (!$xsecurity->checkReferer()) {
         exit('XOOPS_URL is not included in your REFERER');
     }
 
+    $my_uid = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->uid() : 0;
     $submitter = $my_uid;
     $photo_obj = $photosHandler->create();
     $cid       = Request::getInt('cid', 0, 'POST');
